@@ -129,3 +129,33 @@ epa_loadAnnual <- function(
   return(monitor)
 
 }
+
+# ===== DEBUGGING ==============================================================
+
+if ( FALSE ) {
+
+  year <- 2015
+  parameterCode <- 88101
+  baseUrl <- NULL
+  baseDir <- "~/Data/monitoring"
+
+
+
+  monitor <- epa_loadAnnual(
+    year = year,
+    parameterCode = parameterCode,
+    baseUrl = baseUrl,
+    baseDir = baseDir
+  )
+
+  example_88101 <-
+    monitor <- epa_loadAnnual(
+      year = 2015,
+      parameterCode = 88101,
+      baseUrl = NULL,
+      baseDir = "~/Data/monitoring"
+    ) %>%
+    monitor_filterMeta(stateCode %in% c("WA", "OR", "ID")) %>%
+    monitor_filterDate(20150601, 20151101)
+
+}

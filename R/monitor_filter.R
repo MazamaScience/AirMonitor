@@ -1,27 +1,27 @@
 #' @export
 #'
-#' @title General purpose metadata filtering for \emph{monitor} objects
+#' @title General purpose data filtering for \emph{monitor} objects
 #'
 #' @param monitor \emph{monitor} object.
 #' @param ... Logical predicates defined in terms of the variables in
-#' \code{monitor$meta}.
+#' \code{monitor$data}.
 #'
-#' @description A generalized metadata filter for \emph{monitor} objects to
-#' choose rows/cases where conditions are true.  Multiple conditions are
+#' @description A generalized data filter for \emph{monitor} objects to
+#' choose rows/cases where conditions are true.  Multiple conditions should be
 #' combined with \code{&} or separated by a comma. Only rows where the condition
 #' evaluates to TRUE are kept. Rows where the condition evaluates to \code{NA}
 #' are dropped.
 #'
-#' @note Filtering is done on variables in \code{monitor$meta}.
+#' @note Filtering is done on variables in \code{monitor$data}.
 #'
 #' @return A subset of the incoming \code{monitor}.
 #'
-#' @seealso \link{monitor_filter}
 #' @seealso \link{monitor_filterDate}
 #' @seealso \link{monitor_filterDatetime}
+#' @seealso \link{monitor_filterMeta}
 #'
 
-monitor_filterMeta <- function(
+monitor_filter <- function(
   monitor,
   ...
 ) {
@@ -42,9 +42,15 @@ monitor_filterMeta <- function(
     }
   }
 
+  if ( monitor_isEmpty(monitor) )
+    stop("Parameter 'monitor' has no data.")
+
+  # Remove any duplicate data records
+  monitor <- monitor_distinct(monitor)
+
   # ----- Call MazamaTimeSeries function ---------------------------------------
 
-  monitor <- MazamaTimeSeries::mts_filterMeta(monitor, ...)
+  monitor <- MazamaTimeSeries::mts_filter(monitor, ...)
   class(monitor) <- union("monitor", class(monitor))
 
   # ----- Return ---------------------------------------------------------------

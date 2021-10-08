@@ -14,10 +14,13 @@ BugReports: https://github.com/pnwairfire/AirMonitorIngest/issues
 Depends:
     R (>= 3.5.0)
 Imports:
+    dplyr,
+    leaflet,
     magrittr,
     MazamaCoreUtils,
     MazamaTimeSeries,
-    rlang
+    rlang,
+    stringr
 Suggests:
     knitr,
     lubridate,
@@ -26,5 +29,6 @@ Suggests:
     rmarkdown,
     roxygen2
 Encoding: UTF-8
+LazyData: true
 VignetteBuilder: knitr
 RoxygenNote: 7.1.2
