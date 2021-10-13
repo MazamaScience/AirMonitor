@@ -1,8 +1,8 @@
 #' @export
 #'
-#' @title Datetime filtering for \code{monitor} objects
+#' @title Datetime filtering for \code{mts_monitor} objects
 #'
-#' @param monitor \emph{monitor} object.
+#' @param monitor \emph{mts_monitor} object.
 #' @param startdate Desired start datetime (ISO 8601).
 #' @param enddate Desired end datetime (ISO 8601).
 #' @param timezone Olson timezone used to interpret dates.
@@ -14,7 +14,7 @@
 #'   \code{\link[lubridate]{ceiling_date}} to the \code{enddate} rather than
 #'   \code{\link[lubridate]{floor_date}}
 #'
-#' @description Subsets a \code{monitor} object by datetime. This function
+#' @description Subsets a \code{mts_monitor} object by datetime. This function
 #' allows for sub-day filtering as opposed to \code{monitor_filterDate()} which
 #' always filters to day-boundaries.
 #'
@@ -28,10 +28,10 @@
 #' \enumerate{
 #' \item{get timezone from \code{startdate} if it is \code{POSIXct}}
 #' \item{use passed in \code{timezone}}
-#' \item{get timezone from \code{monitor}}
+#' \item{get timezone from \code{mts_monitor}}
 #' }
 #'
-#' @return A subset of the given \emph{monitor} object.
+#' @return A subset of the given \emph{mts_monitor} object.
 #'
 #' @seealso \link{monitor_filter}
 #' @seealso \link{monitor_filterDate}
@@ -56,7 +56,7 @@ monitor_filterDatetime <- function(
   MazamaCoreUtils::stopIfNull(enddate)
 
   if ( !monitor_isValid(monitor) )
-    stop("Parameter 'monitor' is not a valid 'monitor' object.")
+    stop("Parameter 'monitor' is not a valid 'mts_monitor' object.")
 
   if ( monitor_isEmpty(monitor) )
     stop("Parameter 'monitor' has no data.")
@@ -74,7 +74,7 @@ monitor_filterDatetime <- function(
       ceilingEnd = ceilingEnd
     )
 
-  class(monitor) <- union("monitor", class(monitor))
+  class(monitor) <- union("mts_monitor", class(monitor))
 
   # ----- Return ---------------------------------------------------------------
 

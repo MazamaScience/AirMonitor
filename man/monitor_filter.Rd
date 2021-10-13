@@ -2,21 +2,21 @@
 % Please edit documentation in R/monitor_filter.R
 \name{monitor_filter}
 \alias{monitor_filter}
-\title{General purpose data filtering for \emph{monitor} objects}
+\title{General purpose data filtering for \emph{mts_monitor} objects}
 \usage{
 monitor_filter(monitor, ...)
 }
 \arguments{
-\item{monitor}{\emph{monitor} object.}
+\item{monitor}{\emph{mts_monitor} object.}
 
 \item{...}{Logical predicates defined in terms of the variables in
 \code{monitor$data}.}
 }
 \value{
-A subset of the incoming \code{monitor}.
+A subset of the incoming \code{mts_monitor}.
 }
 \description{
-A generalized data filter for \emph{monitor} objects to
+A generalized data filter for \emph{mts_monitor} objects to
 choose rows/cases where conditions are true.  Multiple conditions should be
 combined with \code{&} or separated by a comma. Only rows where the condition
 evaluates to TRUE are kept. Rows where the condition evaluates to \code{NA}

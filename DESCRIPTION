@@ -20,7 +20,8 @@ Imports:
     MazamaCoreUtils,
     MazamaTimeSeries,
     rlang,
-    stringr
+    stringr,
+    tidyselect
 Suggests:
     knitr,
     lubridate,

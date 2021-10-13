@@ -2,32 +2,32 @@
 % Please edit documentation in R/monitor_combine.R
 \name{monitor_combine}
 \alias{monitor_combine}
-\title{Combine multiple \code{monitor} objects}
+\title{Combine multiple \code{mts_monitor} objects}
 \usage{
 monitor_combine(...)
 }
 \arguments{
-\item{...}{Any number of valid emph{monitor} objects.}
+\item{...}{Any number of valid emph{mts_monitor} objects.}
 }
 \value{
-A combined \code{monitor} object.
+A combined \code{mts_monitor} object.
 }
 \description{
-Create a combined \emph{monitor} from any number of \emph{monitor}
-objects or from a list of \emph{monitor} objects. The resulting \emph{monitor}
+Create a combined \emph{mts_monitor} from any number of \emph{mts_monitor}
+objects or from a list of \emph{mts_monitor} objects. The resulting \emph{mts_monitor}
 object with contain all \code{deviceDeploymentIDs} found in any incoming
-\emph{monitor} and will have a regular time axis covering the the entire range
+\emph{mts_monitor} and will have a regular time axis covering the the entire range
 of incoming data.
 
-If incoming time ranges are non-contiguous, the resulting \emph{monitor} will
+If incoming time ranges are non-contiguous, the resulting \emph{mts_monitor} will
 have gaps filled with \code{NA} values.
 
-An error is generated if the incoming \emph{monitor} objects have
+An error is generated if the incoming \emph{mts_monitor} objects have
 non-identical metadata for the same \code{deviceDeploymentID}.
 }
 \note{
 Data are combined with a "latest is best" sensibility where any
-data overlaps exist. Incoming \emph{monitor} objects are ordered based on the
-time stamp of their last record. Any data records found in a "later" \emph{monitor}
-will overwrite data associated with an "earlier" \emph{monitor}.
+data overlaps exist. Incoming \emph{mts_monitor} objects are ordered based on the
+time stamp of their last record. Any data records found in a "later" \emph{mts_monitor}
+will overwrite data associated with an "earlier" \emph{mts_monitor}.
 }

@@ -1,8 +1,8 @@
 #' @export
 #'
-#' @title Date filtering for \emph{monitor} objects
+#' @title Date filtering for \emph{mts_monitor} objects
 #'
-#' @param monitor \emph{monitor} object.
+#' @param monitor \emph{mts_monitor} object.
 #' @param startdate Desired start datetime (ISO 8601).
 #' @param enddate Desired end datetime (ISO 8601).
 #' @param timezone Olson timezone used to interpret dates.
@@ -14,7 +14,7 @@
 #'   \code{\link[lubridate]{ceiling_date}} to the \code{enddate} rather than
 #'   \code{\link[lubridate]{floor_date}}
 #'
-#' @description Subsets a \emph{monitor} object by date. This function
+#' @description Subsets a \emph{mts_monitor} object by date. This function
 #' always filters to day-boundaries. For sub-day filtering, use
 #' \code{monitor_filterDatetime()}.
 #'
@@ -32,7 +32,7 @@
 #' \enumerate{
 #' \item{get timezone from \code{startdate} if it is \code{POSIXct}}
 #' \item{use passed in \code{timezone}}
-#' \item{get timezone from \code{monitor}}
+#' \item{get timezone from \code{mts_monitor}}
 #' }
 #'
 #' @note The returned data will run from the beginning of \code{startdate} until
@@ -41,7 +41,7 @@
 #' \code{enddate} is less than 24 hours after \code{startdate}. In that case, a
 #' single day is returned.
 #'
-#' @return A subset of the given \emph{monitor} object.
+#' @return A subset of the given \emph{mts_monitor} object.
 #'
 #' @seealso \link{monitor_filter}
 #' @seealso \link{monitor_filterDatetime}
@@ -65,7 +65,7 @@ monitor_filterDate <- function(
 
   result <- try({
     if ( !monitor_isValid(monitor) )
-      stop("First argument is not a valid 'monitor' object.")
+      stop("First argument is not a valid 'mts_monitor' object.")
   }, silent = TRUE)
 
   if ( class(result) %in% "try-error" ) {
@@ -91,7 +91,7 @@ monitor_filterDate <- function(
       ceilingEnd = ceilingEnd
     )
 
-  class(monitor) <- union("monitor", class(monitor))
+  class(monitor) <- union("mts_monitor", class(monitor))
 
   # ----- Return ---------------------------------------------------------------
 

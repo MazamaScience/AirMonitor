@@ -4,21 +4,21 @@
 \alias{monitor_extractDataFrame}
 \alias{monitor_extractData}
 \alias{monitor_extractMeta}
-\title{Extract dataframes from \emph{monitor} objects}
+\title{Extract dataframes from \emph{mts_monitor} objects}
 \usage{
 monitor_extractData(monitor)
 
 monitor_extractMeta(monitor)
 }
 \arguments{
-\item{monitor}{\emph{monitor} object to extract dataframe from.}
+\item{monitor}{\emph{mts_monitor} object to extract dataframe from.}
 }
 \value{
-A dataframe from the given \emph{monitor} object
+A dataframe from the given \emph{mts_monitor} object
 }
 \description{
 These functions are convenient wrappers for extracting the dataframes that
-comprise a \emph{monitor} object. These functions are designed to be useful when
+comprise a \emph{mts_monitor} object. These functions are designed to be useful when
 manipulating data in a pipeline chain using \code{\%>\%}.
 
 Below is a table showing equivalent operations for each function.

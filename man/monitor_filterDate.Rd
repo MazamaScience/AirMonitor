@@ -2,7 +2,7 @@
 % Please edit documentation in R/monitor_filterDate.R
 \name{monitor_filterDate}
 \alias{monitor_filterDate}
-\title{Date filtering for \emph{monitor} objects}
+\title{Date filtering for \emph{mts_monitor} objects}
 \usage{
 monitor_filterDate(
   monitor = NULL,
@@ -15,7 +15,7 @@ monitor_filterDate(
 )
 }
 \arguments{
-\item{monitor}{\emph{monitor} object.}
+\item{monitor}{\emph{mts_monitor} object.}
 
 \item{startdate}{Desired start datetime (ISO 8601).}
 
@@ -34,10 +34,10 @@ monitor_filterDate(
 \code{\link[lubridate]{floor_date}}}
 }
 \value{
-A subset of the given \emph{monitor} object.
+A subset of the given \emph{mts_monitor} object.
 }
 \description{
-Subsets a \emph{monitor} object by date. This function
+Subsets a \emph{mts_monitor} object by date. This function
 always filters to day-boundaries. For sub-day filtering, use
 \code{monitor_filterDatetime()}.
 
@@ -55,7 +55,7 @@ Timezone determination precedence assumes that if you are passing in
 \enumerate{
 \item{get timezone from \code{startdate} if it is \code{POSIXct}}
 \item{use passed in \code{timezone}}
-\item{get timezone from \code{monitor}}
+\item{get timezone from \code{mts_monitor}}
 }
 }
 \note{

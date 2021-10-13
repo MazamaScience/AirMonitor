@@ -7,37 +7,48 @@
 monitor_leaflet(
   monitor,
   slice = get("max"),
+  radius = 10,
+  opacity = 0.7,
   maptype = "terrain",
   extraVars = NULL,
+  jitter = 5e-04,
   ...
 )
 }
 \arguments{
-\item{monitor}{\emph{monitor} object.}
+\item{monitor}{\emph{mts_monitor} object.}
 
-\item{slice}{Either a time index or a function used to collapse the time axis
--- defautls to \code{get('max')}}
+\item{slice}{Either a formatted time string, a time index or a function used
+to collapse the time axis.}
+
+\item{radius}{radius of monitor circles}
+
+\item{opacity}{opacity of monitor circles}
 
 \item{maptype}{optional name of leaflet ProviderTiles to use, e.g. "terrain"}
 
-\item{extraVars}{Character vector of addition \code{locationTbl} column names
+\item{extraVars}{Character vector of additional column names from \code{monitor$meta}
 to be shown in leaflet popups.}
+
+\item{jitter}{Amount to use to slightly adjust locations so that multiple
+monitors at the same location can be seen. Use zero or \code{NA} to see
+precise locations.}
 
 \item{...}{Additional arguments passed to \code{leaflet::addCircleMarker()}.}
 }
 \value{
-Invisbly returns a leaflet map of class "leaflet".
+Invisibly returns a leaflet map of class "leaflet".
 }
 \description{
 This function creates interactive maps that will be displayed in RStudio's
 'Viewer' tab. The \code{slice} argument is used to collapse a
-\emph{monitor} timeseries into a single value. If \code{slice} is an
+\emph{mts_monitor} timeseries into a single value. If \code{slice} is an
 integer, that row index will be selected from the \code{monitor$data}
 dataframe. If \code{slice} is a function (unquoted), that function will be
 applied to the timeseries with the argument \code{na.rm=TRUE} (e.g.
 \code{max(..., na.rm=TRUE)}).
 
-If \code{slice} is a user defined function it will be used with argument
+If \code{slice} is a user defined function, it will be used with argument
 \code{na.rm=TRUE} to collapse the time dimension. Thus, user defined
 functions must accept \code{na.rm} as an argument.
 }

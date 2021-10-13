@@ -2,15 +2,15 @@
 % Please edit documentation in R/utils-monitor.R
 \name{monitor_isEmpty}
 \alias{monitor_isEmpty}
-\title{Test for an empty \emph{monitor} object}
+\title{Test for an empty \emph{mts_monitor} object}
 \usage{
 monitor_isEmpty(monitor)
 }
 \arguments{
-\item{monitor}{\emph{monitor} object}
+\item{monitor}{\emph{mts_monitor} object}
 }
 \value{
-Invisibly returns \code{TRUE} if no data exist in \code{monitor}, \code{FALSE} otherwise.
+Invisibly returns \code{TRUE} if no data exist in \code{mts_monitor}, \code{FALSE} otherwise.
 }
 \description{
 Convenience function for

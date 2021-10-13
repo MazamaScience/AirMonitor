@@ -2,14 +2,14 @@
 % Please edit documentation in R/utils-monitor.R
 \name{monitor_check}
 \alias{monitor_check}
-\title{Check an \emph{monitor} object for validity.}
+\title{Check an \emph{mts_monitor} object for validity.}
 \usage{
 monitor_check(monitor)
 }
 \arguments{
-\item{monitor}{\emph{monitor} objet.}
+\item{monitor}{\emph{mts_monitor} objet.}
 }
 \description{
-Checks on the validity of an \emph{monitor} object. If any test
+Checks on the validity of an \emph{mts_monitor} object. If any test
 fails, this function will stop with a warning message.
 }

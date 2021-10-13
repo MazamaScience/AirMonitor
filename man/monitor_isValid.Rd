@@ -2,21 +2,21 @@
 % Please edit documentation in R/utils-monitor.R
 \name{monitor_isValid}
 \alias{monitor_isValid}
-\title{Test \emph{monitor} object for correct structure}
+\title{Test \emph{mts_monitor} object for correct structure}
 \usage{
 monitor_isValid(monitor = NULL, verbose = FALSE)
 }
 \arguments{
-\item{monitor}{\emph{monitor} object}
+\item{monitor}{\emph{mts_monitor} object}
 
 \item{verbose}{Logical specifying whether to produce detailed warning messages.}
 }
 \value{
-\code{TRUE} if \code{monitor} has the correct structure,
+\code{TRUE} if \code{mts_monitor} has the correct structure,
 \code{FALSE} otherwise.
 }
 \description{
-The \code{monitor} is checked for the presence of core
+The \code{mts_monitor} is checked for the presence of core
 \code{meta} and \code{data} columns.
 
 Core \code{meta} columns include:

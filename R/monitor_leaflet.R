@@ -2,33 +2,36 @@
 #'
 #' @title Leaflet interactive map of monitor locations
 #'
-#' @param monitor \emph{monitor} object.
-#' @param slice Either a time index or a function used to collapse the time axis
-#'   -- defautls to \code{get('max')}
+#' @param monitor \emph{mts_monitor} object.
+#' @param slice Either a formatted time string, a time index or a function used
+#' to collapse the time axis.
 # @param breaks set of breaks used to assign colors
 # @param colors a set of colors for different levels of air quality data
 #   determined by \code{breaks}
 # @param labels a set of text labels, one for each color
 # @param legendTitle legend title
-# @param radius radius of monitor circles
-# @param opacity opacity of monitor circles
+#' @param radius radius of monitor circles
+#' @param opacity opacity of monitor circles
 #' @param maptype optional name of leaflet ProviderTiles to use, e.g. "terrain"
 # @param popupInfo a vector of column names from monitor$meta to be shown in
 #   a popup window
-#' @param extraVars Character vector of addition \code{locationTbl} column names
+#' @param extraVars Character vector of additional column names from \code{monitor$meta}
 #' to be shown in leaflet popups.
+#' @param jitter Amount to use to slightly adjust locations so that multiple
+#' monitors at the same location can be seen. Use zero or \code{NA} to see
+#' precise locations.
 #' @param ... Additional arguments passed to \code{leaflet::addCircleMarker()}.
 #'
 #' @description
 #' This function creates interactive maps that will be displayed in RStudio's
 #' 'Viewer' tab. The \code{slice} argument is used to collapse a
-#' \emph{monitor} timeseries into a single value. If \code{slice} is an
+#' \emph{mts_monitor} timeseries into a single value. If \code{slice} is an
 #' integer, that row index will be selected from the \code{monitor$data}
 #' dataframe. If \code{slice} is a function (unquoted), that function will be
 #' applied to the timeseries with the argument \code{na.rm=TRUE} (e.g.
 #' \code{max(..., na.rm=TRUE)}).
 #'
-#' If \code{slice} is a user defined function it will be used with argument
+#' If \code{slice} is a user defined function, it will be used with argument
 #' \code{na.rm=TRUE} to collapse the time dimension. Thus, user defined
 #' functions must accept \code{na.rm} as an argument.
 #'
@@ -48,7 +51,7 @@
 #' \url{https://leaflet-extras.github.io/leaflet-providers/} for a list of
 #' "provider tiles" to use as the background map.
 #'
-#' @return Invisbly returns a leaflet map of class "leaflet".
+#' @return Invisibly returns a leaflet map of class "leaflet".
 #'
 
 monitor_leaflet <- function(
@@ -58,10 +61,11 @@ monitor_leaflet <- function(
   #  colors = AQI$colors,
   #  labels = AQI$names,
   #  legendTitle = "Max AQI Level",
-  #  radius = 10,
-  #  opacity = 0.7,
+  radius = 10,
+  opacity = 0.7,
   maptype = "terrain",
   extraVars = NULL,
+  jitter = 5e-4,
   ...
 ) {
 
@@ -78,6 +82,10 @@ monitor_leaflet <- function(
     }
   }
 
+  if ( is.null(jitter) || is.na(jitter) ) {
+    jitter <- 0
+  }
+
   # ----- Initialize defaults --------------------------------------------------
 
   # TODO:  Decide what to do with these:
@@ -89,8 +97,6 @@ monitor_leaflet <- function(
   colors <- AQI_colors
   labels <- AQI_names
   legendTitle <- "Max AQI Level"
-  radius <- 10
-  opacity <- 0.7
 
   # ----- Create the 'slice' values --------------------------------------------
 
@@ -124,6 +130,14 @@ monitor_leaflet <- function(
     popupWhen <-
       strftime(firstTimeAtMax, "on %B %d at %H:00", tz = "UTC", usetz = TRUE)
 
+    # TODO:  Idea for local time not working yet.
+
+    # popupWhen <- vector("character", length(firstTimeAtMax))
+    # for ( i in seq_len(firstTimeAtMax) ) {
+    #   popupWhen[i] <-
+    #     strftime(firstTimeAtMax[i], "on %B %d, %Y at %H:00", tz = monitor$meta$timezone[i], usetz = TRUE)
+    # }
+
     popupWhen[is.na(popupWhen)] <- ""
 
 
@@ -132,11 +146,30 @@ monitor_leaflet <- function(
     popupValue <- as.numeric(dplyr::slice(monitor$data, slice)[-1])
 
     popupWhen <-
-      strftime(monitor$data$datetime[slice], "on %B %d at %H:00", tz = "UTC", usetz = TRUE)
+      strftime(monitor$data$datetime[slice], "on %B %d, %Y at %H:00", tz = "UTC", usetz = TRUE)
 
   } else {
 
-    stop("improper use of slice parameter")
+    result <- try({
+      sliceTime <- MazamaCoreUtils::parseDatetime(slice, timezone = "UTC")
+    }, silent = TRUE)
+
+    if ( "try-error" %in% class(result) ) {
+
+      stop("improper use of slice parameter")
+
+    } else {
+
+      # Now proceed as if slice were an integer
+
+      slice <- which(monitor$data$datetime == sliceTime)
+
+      popupValue <- as.numeric(dplyr::slice(monitor$data, slice)[-1])
+
+      popupWhen <-
+        strftime(monitor$data$datetime[slice], "on %B %d, %Y at %H:00", tz = "UTC", usetz = TRUE)
+
+    }
 
   }
 
@@ -154,8 +187,6 @@ monitor_leaflet <- function(
       colors <- AQI_colors
       labels <- AQI_names
       legendTitle <- 'AQI Level'
-      value <- round(popupValue, 1)
-      unit <- '\U00B5g/m3'
     })
 
   } else {
@@ -241,8 +272,18 @@ monitor_leaflet <- function(
   # Filter out missing location data
   monitor$meta <-
     monitor$meta %>%
-    dplyr::filter(!is.na(.data$latitude)) %>%
-    dplyr::filter(!is.na(.data$longitude))
+    dplyr::filter(!is.na(.data$longitude)) %>%
+    dplyr::filter(!is.na(.data$latitude))
+
+  # Spread out locations if requested
+  if ( jitter > 0 ) {
+    monitor$meta <-
+      monitor$meta %>%
+      dplyr::mutate(
+        longitude = jitter(.data$longitude, amount = 5e-4),
+        latitude = jitter(.data$latitude, amount = 5e-4)
+      )
+  }
 
   # Convert maptype to a character string that addProviderTiles can read
   if ( missing(maptype) || maptype == "terrain") {

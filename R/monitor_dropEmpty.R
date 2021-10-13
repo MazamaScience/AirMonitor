@@ -1,29 +1,18 @@
 #' @export
+#' @importFrom rlang .data
 #'
-#' @title General purpose data filtering for \emph{mts_monitor} objects
+#' @title Drop device deployments with all missing data
 #'
 #' @param monitor \emph{mts_monitor} object.
-#' @param ... Logical predicates defined in terms of the variables in
-#' \code{monitor$data}.
 #'
-#' @description A generalized data filter for \emph{mts_monitor} objects to
-#' choose rows/cases where conditions are true.  Multiple conditions should be
-#' combined with \code{&} or separated by a comma. Only rows where the condition
-#' evaluates to TRUE are kept. Rows where the condition evaluates to \code{NA}
-#' are dropped.
-#'
-#' @note Filtering is done on variables in \code{monitor$data}.
+#' @description The incoming \emph{mts_monitor} object is subset to include
+#' device deployments with valid data.
 #'
 #' @return A subset of the incoming \code{mts_monitor}.
 #'
-#' @seealso \link{monitor_filterDate}
-#' @seealso \link{monitor_filterDatetime}
-#' @seealso \link{monitor_filterMeta}
-#'
 
-monitor_filter <- function(
-  monitor,
-  ...
+monitor_dropEmpty <- function(
+  monitor
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -48,9 +37,21 @@ monitor_filter <- function(
   # Remove any duplicate data records
   monitor <- monitor_distinct(monitor)
 
-  # ----- Call MazamaTimeSeries function ---------------------------------------
+  # ----- Select monitors with data --------------------------------------------
 
-  monitor <- MazamaTimeSeries::mts_filter(monitor, ...)
+  any_finite <- function(x) any(is.finite(x))
+
+  # https://stackoverflow.com/questions/62459736/how-do-i-use-tidyselect-where-in-a-custom-package
+  monitor$data <-
+    monitor$data %>%
+    dplyr::select(tidyselect::vars_select_helpers$where(any_finite))
+
+  ids <- names(monitor$data)[-1]
+
+  monitor <-
+    monitor %>%
+    MazamaTimeSeries::mts_filterMeta(.data$deviceDeploymentID %in% ids)
+
   class(monitor) <- union("mts_monitor", class(monitor))
 
   # ----- Return ---------------------------------------------------------------

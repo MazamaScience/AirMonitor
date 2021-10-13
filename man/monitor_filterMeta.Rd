@@ -2,21 +2,21 @@
 % Please edit documentation in R/monitor_filterMeta.R
 \name{monitor_filterMeta}
 \alias{monitor_filterMeta}
-\title{General purpose metadata filtering for \emph{monitor} objects}
+\title{General purpose metadata filtering for \emph{mts_monitor} objects}
 \usage{
 monitor_filterMeta(monitor, ...)
 }
 \arguments{
-\item{monitor}{\emph{monitor} object.}
+\item{monitor}{\emph{mts_monitor} object.}
 
 \item{...}{Logical predicates defined in terms of the variables in
 \code{monitor$meta}.}
 }
 \value{
-A subset of the incoming \code{monitor}.
+A subset of the incoming \code{mts_monitor}.
 }
 \description{
-A generalized metadata filter for \emph{monitor} objects to
+A generalized metadata filter for \emph{mts_monitor} objects to
 choose rows/cases where conditions are true.  Multiple conditions are
 combined with \code{&} or separated by a comma. Only rows where the condition
 evaluates to TRUE are kept. Rows where the condition evaluates to \code{NA}

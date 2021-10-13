@@ -2,20 +2,20 @@
 % Please edit documentation in R/monitor_trimDate.R
 \name{monitor_trimDate}
 \alias{monitor_trimDate}
-\title{Trim a \emph{monitor} object to full days}
+\title{Trim a \emph{mts_monitor} object to full days}
 \usage{
 monitor_trimDate(monitor = NULL, timezone = NULL)
 }
 \arguments{
-\item{monitor}{\emph{monitor} object.}
+\item{monitor}{\emph{mts_monitor} object.}
 
 \item{timezone}{Olson timezone used to interpret dates.}
 }
 \value{
-A subset of the given \emph{monitor} object.
+A subset of the given \emph{mts_monitor} object.
 }
 \description{
-Trims the date range of a \emph{monitor} object to local time date
+Trims the date range of a \emph{mts_monitor} object to local time date
 boundaries which are \emph{within} the range of data. This has the effect
 of removing partial-day data records at the start and end of the timeseries
 and is useful when calculating full-day statistics.

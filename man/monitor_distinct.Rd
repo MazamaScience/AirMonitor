@@ -7,10 +7,10 @@
 monitor_distinct(monitor)
 }
 \arguments{
-\item{monitor}{\emph{monitor} object}
+\item{monitor}{\emph{mts_monitor} object}
 }
 \value{
-A \emph{monitor} object with no duplicated data records.
+A \emph{mts_monitor} object with no duplicated data records.
 }
 \description{
 Two successive steps are used to guarantee that the
