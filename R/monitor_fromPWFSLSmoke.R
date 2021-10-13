@@ -1,4 +1,5 @@
 #' @export
+#' @importFrom dplyr all_of
 #'
 #' @title Convert a ws_monitor object from the PWFSLSmoke package
 #'
@@ -8,7 +9,7 @@
 #'
 #' @description A **PWFSLSMoke** package \emph{ws_monitor} object is enhanced
 #' and modified so that it becomes a valid \emph{mts_monitor} object. This is
-#' a lossless operation and can be reversed with \coce{monitor_toPWFSLSmoke()}.
+#' a lossless operation and can be reversed with \code{monitor_toPWFSLSmoke()}.
 #'
 #'
 
@@ -29,25 +30,41 @@ monitor_fromPWFSLSmoke <- function(
   # NOTE:      [1] "longitude"   "latitude"    "elevation"   "timezone"    "countryCode"
   # NOTE:      [6] "stateCode"
 
-  commonColumns <- intersect(names(ws_monitor$meta), names(example_88101$meta))
-  requiredColumns <- names(example_88101$meta)[1:15]
+  commonColumns <- intersect(names(ws_monitor$meta), coreMetadataNames)
+  missingColumns <- setdiff(coreMetadataNames, names(ws_monitor$meta))
 
-  # > setdiff(requiredColumns, commonColumns)
-  # [1] "deviceDeploymentID" "deviceID"           "locationID"         "locationName"
-  # [5] "county"             "houseNumber"        "street"             "city"
-  # [9] "zip"
-
-# TODO:  Put this in a separate monitor_fromPWFSLSmoke() function
+  # > commonColumns
+  # [1] "longitude"   "latitude"    "elevation"   "timezone"    "countryCode"
+  # [6] "stateCode"
+  # > missingColumns
+  # [1] "deviceDeploymentID" "deviceID"           "pollutant"
+  # [4] "units"              "locationID"         "locationName"
 
   meta <-
     ws_monitor$meta %>%
 
-    # Add locationID
+    # Add locationID, deviceID, pollutant and units
     dplyr::mutate(
-      locationID = MazamaLocationUtils::location_createID(.data$longitude, .data$latitude),
-      deviceID = .data$monitorID
-    ) %>%
+      locationID = MazamaCoreUtils::createLocationID(.data$longitude, .data$latitude),
+      deviceID = .data$monitorID,
+      pollutant = "PM2.5",
+      units = "ug/m3"
+    )
 
+  # Fix deviceID:
+  #   for AirNow data, deviceID = monitorID minus the "_01"
+  #   for AIRSIS/WRCC, deviceID = unitID
+
+  mask <- (meta$pwfslDataIngestSource == "AIRNOW")
+  meta$deviceID[mask] <- stringr::str_replace(meta$deviceID[mask], "_01$", "")
+  mask <- (meta$pwfslDataIngestSource == "AIRSIS")
+  meta$deviceID[mask] <- meta$instrumentID[mask]
+  mask <- (meta$pwfslDataIngestSource == "WRCC")
+  meta$deviceID[mask] <- meta$instrumentID[mask]
+
+  # Other core metadata
+  meta <-
+    meta %>%
     dplyr::mutate(
       deviceDeploymentID = paste0(.data$locationID, "_", .data$deviceID),
       locationName = .data$siteName,
@@ -58,87 +75,28 @@ monitor_fromPWFSLSmoke <- function(
       zip = as.character(NA)
     )
 
-  pwfslColumns <- setdiff(names(meta), requiredColumns)
-  newColumns <- c(requiredColumns, pwfslColumns)
+  # Reorganize the columns
+  pwfslColumns <- setdiff(names(meta), coreMetadataNames)
+  newColumns <- c(coreMetadataNames, pwfslColumns)
 
   meta <-
-    meta %>% dplyr::select(all_of(newColumns))
+    meta %>%
+    dplyr::select(all_of(newColumns))
 
+  # * data -----
 
+  # Guarantee columns are in the correct order
 
-  if ( is.null(baseUrl) && is.null(baseDir) )
-    stop("one of 'baseUrl' or 'baseDir' must be defined")
+  oldColumnNames <- c('datetime', meta$monitorID)
+  newColumnNames <- c('datetime', meta$deviceDeploymentID)
 
-  # Parameter code
-  validParameterCodes <- c(
-    # "44201",
-    # "42401",
-    # "42101",
-    # "42602",
-    "88101",
-    "88502"
-    # "81102",
-    # "SPEC",
-    # "WIND",
-    # "TEMP",
-    # "PRESS",
-    # "RH_DP",
-    # "HAPS",
-    # "VOCS",
-    # "NONOxNOy"
-  )
+  data <-
+    ws_monitor$data %>%
+    dplyr::select(all_of(oldColumnNames))
 
-  parameterCode <- as.character(parameterCode)
-  if ( !parameterCode %in% validParameterCodes ) {
-    stop(sprintf(
-      "data for parameterCode '%s' has not been processed",
-      parameterCode
-    ))
-  }
+  names(data) <- newColumnNames
 
-  year <- as.numeric(year)
-
-  lastYear <- lubridate::now(tzone = "UTC") %>% lubridate::year() - 1
-
-  if ( parameterCode == "88101" ) {
-    parameter <- "PM2.5"
-    if ( !year %in% 2008:lastYear) {
-      stop(sprintf(
-        "No EPA data available for parameter code %s in year %i",
-        parameterCode, year)
-      )
-    }
-  } else if  ( parameterCode == "88502" ) {
-    parameter <- "PM2.5"
-    if ( !year %in% 1998:lastYear) {
-      stop(sprintf(
-        "No EPA data available for parameter code %s in year %i",
-        parameterCode, year)
-      )
-    }
-  }
-
-  # ----- Load data ------------------------------------------------------------
-
-  # Create file name and path according to the AirMonitorIngest scheme
-
-  if ( is.null(baseUrl) ) {
-    dataUrl <- NULL
-  } else {
-    dataUrl <- file.path(baseUrl, "epa_aqs", parameterCode, year)
-  }
-
-  if ( is.null(baseDir) ) {
-    dataDir <- NULL
-  } else {
-    dataDir <- file.path(baseDir, "epa_aqs", parameterCode, year)
-  }
-
-  metaFileName <- sprintf("epa_aqs_%s_%s_meta.rda", parameterCode, year)
-  dataFileName <- sprintf("epa_aqs_%s_%s_data.rda", parameterCode, year)
-
-  meta <- MazamaCoreUtils::loadDataFile(metaFileName, dataUrl, dataDir)
-  data <- MazamaCoreUtils::loadDataFile(dataFileName, dataUrl, dataDir)
+  # ----- Create new mts_monitor -----------------------------------------------
 
   monitor <- list(meta = meta, data = data)
 
@@ -146,7 +104,7 @@ monitor_fromPWFSLSmoke <- function(
 
   # ----- Return ---------------------------------------------------------------
 
-  MazamaTimeSeries::mts_check(monitor)
+  monitor_check(monitor)
 
   return(monitor)
 
@@ -156,28 +114,9 @@ monitor_fromPWFSLSmoke <- function(
 
 if ( FALSE ) {
 
-  year <- 2015
-  parameterCode <- 88101
-  baseUrl <- NULL
-  baseDir <- "~/Data/monitoring"
+  ws_monitor <- PWFSLSmoke::monitor_loadLatest()
 
+  monitor <- monitor_fromPWFSLSmoke(ws_monitor)
 
-
-  monitor <- epa_loadAnnual(
-    year = year,
-    parameterCode = parameterCode,
-    baseUrl = baseUrl,
-    baseDir = baseDir
-  )
-
-  example_88101 <-
-    monitor <- epa_loadAnnual(
-      year = 2015,
-      parameterCode = 88101,
-      baseUrl = NULL,
-      baseDir = "~/Data/monitoring"
-    ) %>%
-    monitor_filterMeta(stateCode %in% c("WA", "OR", "ID")) %>%
-    monitor_filterDate(20150601, 20151101)
 
 }

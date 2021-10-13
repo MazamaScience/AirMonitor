@@ -44,7 +44,7 @@ coreMetadataNames <- c(
 #' @format A vector of character strings
 #' @description Character string identifiers of recognized pollutants.
 
-coreMetadataNames <- c(
+pollutantNames <- c(
   "OZONE",
   "SO2",
   "CO",
