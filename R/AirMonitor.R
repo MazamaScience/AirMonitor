@@ -24,22 +24,27 @@ coreMetadataNames <- c(
   "deviceID",                 # -- device unique identifier
   "deviceType",               # -- non-standardized identifier for the type of device (e.g. EBAM, ESAM, PA, ...)
   "deviceDescription",        # -- human readable details
-  "deviceExtra",              # -- JSON blob of extra device information
+  "deviceExtra",              # -- extra device information (e.g. as JSON)
   "pollutant",                # -- one of pollutantNames below
   "units",                    # -- one of ???# TODO: sort out units standardization
-  "locationID",               # from MazamaLocationUtils
-  "locationName",             # from MazamaLocationUtils
-  "longitude",                # from MazamaLocationUtils
-  "latitude",                 # from MazamaLocationUtils
-  "elevation",                # from MazamaLocationUtils
-  "countryCode",              # from MazamaLocationUtils
-  "stateCode",                # from MazamaLocationUtils
-  "timezone",                 # from MazamaLocationUtils
   "dataIngestSource",         # -- non-standardized identifier for the data source (e.g. AIRNOW, WRCC, ...)
   "dataIngestURL",            # -- top level URL
   "dataIngestUnitID",         # -- unique identifier used to extract the data
-  "dataIngestExtra",          # -- JSON blob of extra information required for data ingest
-  "dataIngestDescription"     # -- human readable details
+  "dataIngestExtra",          # -- extra data ingest information (e.g. as JSON)
+  "dataIngestDescription",    # -- human readable details
+  "locationID",               # -- from MazamaLocationUtils
+  "locationName",             # -- from MazamaLocationUtils
+  "longitude",                # -- from MazamaLocationUtils
+  "latitude",                 # -- from MazamaLocationUtils
+  "elevation",                # -- from MazamaLocationUtils
+  "countryCode",              # -- from MazamaLocationUtils
+  "stateCode",                # -- from MazamaLocationUtils
+  "county",                   # -- from MazamaLocationUtils
+  "timezone",                 # -- from MazamaLocationUtils
+  "houseNumber",              # -- from MazamaLocationUtils
+  "street",                   # -- from MazamaLocationUtils
+  "city",                     # -- from MazamaLocationUtils
+  "zip"                       # -- from MazamaLocationUtils
 )
 
 
