@@ -71,7 +71,20 @@ monitor_isValid <- function(
     return(invisible(FALSE))
   }
 
-  return(invisible(MazamaTimeSeries::mts_isValid(monitor, verbose)))
+  # Check that it is a valid 'mts' object
+  MazamaTimeSeries::mts_check(monitor)
+
+  # Test for metadata
+  missingNames <- setdiff(coreMetadataNames, names(monitor$meta))
+  if ( length(missingNames) > 0 ) {
+    msg(sprintf(
+      "monitor$meta is missing columns: %s",
+      paste0(missingNames, collapse = ", ")
+    ))
+    return(invisible(FALSE))
+  }
+
+  return(invisible(TRUE))
 
 }
 

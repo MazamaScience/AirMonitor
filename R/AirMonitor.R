@@ -15,15 +15,18 @@ NULL
 #' @name coreMetadataNames
 #' @title Names of standard metadata columns
 #' @format A vector of character strings
-#' @description Character string identifiers of the required \code{monitor$meta} columns.
-#' These represent metadata columns that must exist in a valid \emph{mts_monitor}
-#' object. Any number of additional columns may also be present.
+#' @description Vector of names of the required \code{monitor$meta} columns.
+#' These represent metadata columns that must exist in every valid
+#' \emph{mts_monitor} object. Any number of additional columns may also be present.
 
 coreMetadataNames <- c(
-  "deviceDeploymentID",
-  "deviceID",
-  "pollutant",
-  "units",
+  "deviceDeploymentID",       # -- timeseries unique identifier
+  "deviceID",                 # -- device unique identifier
+  "deviceType",               # -- non-standardized identifier for the type of device (e.g. EBAM, ESAM, PA, ...)
+  "deviceDescription",        # -- human readable details
+  "deviceExtra",              # -- JSON blob of extra device information
+  "pollutant",                # -- one of pollutantNames below
+  "units",                    # -- one of ???# TODO: sort out units standardization
   "locationID",               # from MazamaLocationUtils
   "locationName",             # from MazamaLocationUtils
   "longitude",                # from MazamaLocationUtils
@@ -31,7 +34,12 @@ coreMetadataNames <- c(
   "elevation",                # from MazamaLocationUtils
   "countryCode",              # from MazamaLocationUtils
   "stateCode",                # from MazamaLocationUtils
-  "timezone"                  # from MazamaLocationUtils
+  "timezone",                 # from MazamaLocationUtils
+  "dataIngestSource",         # -- non-standardized identifier for the data source (e.g. AIRNOW, WRCC, ...)
+  "dataIngestURL",            # -- top level URL
+  "dataIngestUnitID",         # -- unique identifier used to extract the data
+  "dataIngestExtra",          # -- JSON blob of extra information required for data ingest
+  "dataIngestDescription"     # -- human readable details
 )
 
 

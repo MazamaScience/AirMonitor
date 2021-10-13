@@ -114,6 +114,8 @@ monitor_fromPWFSLSmoke <- function(
 
 if ( FALSE ) {
 
+  library(AirMonitor)
+
   ws_monitor <- PWFSLSmoke::monitor_loadLatest()
 
   monitor <- monitor_fromPWFSLSmoke(ws_monitor)

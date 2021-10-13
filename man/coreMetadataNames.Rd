@@ -11,9 +11,9 @@ A vector of character strings
 coreMetadataNames
 }
 \description{
-Character string identifiers of the required \code{monitor$meta} columns.
-These represent metadata columns that must exist in a valid \emph{mts_monitor}
-object. Any number of additional columns may also be present.
+Vector of names of the required \code{monitor$meta} columns.
+These represent metadata columns that must exist in every valid
+\emph{mts_monitor} object. Any number of additional columns may also be present.
 }
 \details{
 coreMetadataNames
