@@ -86,17 +86,35 @@ monitor_leaflet <- function(
     jitter <- 0
   }
 
-  # ----- Initialize defaults --------------------------------------------------
+  # ----- Pollutant dependent AQI ----------------------------------------------
 
-  # TODO:  Decide what to do with these:
+  # See: https://aqs.epa.gov/aqsweb/documents/codetables/aqi_breakpoints.html
 
-  AQI_breaks_24 <- c(-Inf, 12.0, 35.5, 55.5, 150.5, 250.5, Inf)
-  AQI_colors <- c("#00E400", "#FFFF00", "#FF7E00", "#FF0000", "#8F3F97", "#7E0023")
-  AQI_names <- c("Good", "Moderate", "USG", "Unhealthy", "Very Unhealthy", "Hazardous")
+  pollutant <- sort(unique(monitor$meta$pollutant))
+  if ( length(pollutant) > 1 ) {
+    pollutantString <- paste0(pollutant, collapse = ", ")
+    stop(sprintf("Multiple pollutants found: %s", pollutantString))
+  }
+
+  if ( pollutant == "CO" ) {
+    AQI_breaks_24 <- c(-Inf, 4.5, 9.5, 12.5, 15.5, 30.5, Inf)
+    AQI_colors <- c("#00E400", "#FFFF00", "#FF7E00", "#FF0000", "#8F3F97", "#7E0023")
+    AQI_names <- c("Good", "Moderate", "USG", "Unhealthy", "Very Unhealthy", "Hazardous")
+    legendTitle <- "Max CO AQI Level"
+    units <- "ppm"
+    digits <- 1
+  } else if ( pollutant == "PM2.5" ) {
+    AQI_breaks_24 <- c(-Inf, 12.0, 35.5, 55.5, 150.5, 250.5, Inf)
+    AQI_colors <- c("#00E400", "#FFFF00", "#FF7E00", "#FF0000", "#8F3F97", "#7E0023")
+    AQI_names <- c("Good", "Moderate", "USG", "Unhealthy", "Very Unhealthy", "Hazardous")
+    legendTitle <- "Max PM2.5 AQI Level"
+    units <- "\U00B5g/m3"
+    digits <- 0
+  }
+
   breaks <- AQI_breaks_24
   colors <- AQI_colors
   labels <- AQI_names
-  legendTitle <- "Max AQI Level"
 
   # ----- Create the 'slice' values --------------------------------------------
 
@@ -186,7 +204,6 @@ monitor_leaflet <- function(
       cols <- colorFunc(popupValue)
       colors <- AQI_colors
       labels <- AQI_names
-      legendTitle <- 'AQI Level'
     })
 
   } else {
@@ -220,7 +237,7 @@ monitor_leaflet <- function(
 
   popupText <- paste0(
     "<b>", monitor$meta$locationName, "</b><br>",
-    "<b>", round(popupValue), " \U00B5g/m3</b> ", popupWhen, "<br><br>",
+    "<b>", round(popupValue, digits), " ", units, "</b> ", popupWhen, "<br><br>",
     monitor$meta$deviceDeploymentID, "<br>",
     "locationID = ", monitor$meta$locationID, "<br>"
   )

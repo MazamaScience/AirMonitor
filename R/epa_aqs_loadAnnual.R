@@ -16,7 +16,7 @@
 #' \enumerate{
 # #' \item{44201}{ -- Ozone}
 # #' \item{42401}{ -- SO2}
-# #' \item{42101}{ -- CO}
+#' \item{42101}{ -- CO}
 # #' \item{42602}{ -- NO2}
 #' \item{88101}{ -- PM2.5 FRM/FEM Mass (begins in 2008)}
 #' \item{88502}{ -- PM2.5 non FRM/FEM Mass (begins in 1998)}
@@ -32,7 +32,7 @@
 #' }
 #'
 
-epa_loadAnnual <- function(
+epa_aqs_loadAnnual <- function(
   year = NULL,
   parameterCode = NULL,
   baseUrl = NULL,
@@ -51,7 +51,7 @@ epa_loadAnnual <- function(
   validParameterCodes <- c(
     # "44201",
     # "42401",
-    # "42101",
+    "42101",
     # "42602",
     "88101",
     "88502"
@@ -78,15 +78,23 @@ epa_loadAnnual <- function(
 
   lastYear <- lubridate::now(tzone = "UTC") %>% lubridate::year() - 1
 
-  if ( parameterCode == "88101" ) {
-    parameter <- "PM2.5"
-    if ( !year %in% 2008:lastYear) {
+  if ( parameterCode == "42101" ) {
+    parameter <- "CO"
+    if ( !year %in% 1980:lastYear) {
       stop(sprintf(
         "No EPA data available for parameter code %s in year %i",
         parameterCode, year)
       )
     }
-  } else if  ( parameterCode == "88502" ) {
+    } else if ( parameterCode == "88101" ) {
+      parameter <- "PM2.5"
+      if ( !year %in% 2008:lastYear) {
+        stop(sprintf(
+          "No EPA data available for parameter code %s in year %i",
+          parameterCode, year)
+        )
+      }
+    } else if  ( parameterCode == "88502" ) {
     parameter <- "PM2.5"
     if ( !year %in% 1998:lastYear) {
       stop(sprintf(
@@ -149,7 +157,7 @@ if ( FALSE ) {
   )
 
   example_88101 <-
-    monitor <- epa_loadAnnual(
+    monitor <- epa_aqs_loadAnnual(
       year = 2015,
       parameterCode = 88101,
       baseUrl = NULL,
