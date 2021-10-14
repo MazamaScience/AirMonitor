@@ -2,7 +2,7 @@
 
 #' @encoding UTF-8
 #' @title Example EPA AQS 88101 dataset
-#' @format A tibble with 16584 rows and 44 columns of data.
+#' @format A \emph{mts_monitor} object with 16584 rows and 44 columns of data.
 #' @description The \code{example_88101} dataset provides a quickly loadable
 #' version of a \emph{mts_monitor} object for practicing and code examples.
 #'
@@ -17,7 +17,7 @@
 #'
 #' \preformatted{
 #' example_88101 <-
-#'   monitor <- epa_aqs_loadAnnual(
+#'   epa_aqs_loadAnnual(
 #'     year = 2015,
 #'     parameterCode = 88101,
 #'     baseUrl = NULL,
@@ -30,3 +30,36 @@
 #' }
 #'
 "example_88101"
+
+#' @encoding UTF-8
+#' @title Carmel Valley example dataset
+#' @title Carmel Valley Example Dataset
+#' @format A \emph{mts_monitor} object with 600 rows and 2 columns of data.
+#' @description The \code{Carmel_Valley} dataset provides a quickly loadable
+#' version of a \emph{mts_monitor} object for practicing and code examples.
+#'
+#' @details
+#' In August of 2016, the Soberanes fire in California burned along the Big Sur
+#' coast. It was at the time the most expensive wildifre in US history. This
+#' dataset contains PM2.5 monitoring data for the monitor in Carmel Valley which
+#' shows heavy smoke as well as strong diurnal cycles associated with sea
+#' breezes. Data are stored as a \emph{mts_monitor} object and are used in some
+#' examples in the package documentation.
+#'
+#' This dataset was generated on 2021-10-14 by running:
+#'
+#' \preformatted{
+#' Carmel_Valley <-
+#'   epa_aqs_loadAnnual(
+#'     year = 2016,
+#'     parameterCode = 88101,
+#'     baseUrl = NULL,
+#'     baseDir = "~/Data/monitoring"
+#'   ) %>%
+#'   monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_060530002_03") %>%
+#'   monitor_filterDate(20160722, 20160815)
+#'
+#' save(Carmel_Valley, file = "data/Carmel_Valley.rda")
+#' }
+#'
+"Carmel_Valley"

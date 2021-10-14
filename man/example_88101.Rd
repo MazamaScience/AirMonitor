@@ -6,7 +6,7 @@
 \alias{example_88101}
 \title{Example EPA AQS 88101 dataset}
 \format{
-A tibble with 16584 rows and 44 columns of data.
+A \emph{mts_monitor} object with 16584 rows and 44 columns of data.
 }
 \usage{
 example_88101
@@ -26,7 +26,7 @@ This dataset was generated on 2021-10-07 by running:
 
 \preformatted{
 example_88101 <-
-  monitor <- epa_aqs_loadAnnual(
+  epa_aqs_loadAnnual(
     year = 2015,
     parameterCode = 88101,
     baseUrl = NULL,
