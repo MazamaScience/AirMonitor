@@ -2,7 +2,7 @@
 
 export("%>%")
 export(coreMetadataNames)
-export(epa_loadAnnual)
+export(epa_aqs_loadAnnual)
 export(monitor_check)
 export(monitor_combine)
 export(monitor_distinct)

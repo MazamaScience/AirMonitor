@@ -17,7 +17,7 @@
 #'
 #' \preformatted{
 #' example_88101 <-
-#'   monitor <- epa_loadAnnual(
+#'   monitor <- epa_aqs_loadAnnual(
 #'     year = 2015,
 #'     parameterCode = 88101,
 #'     baseUrl = NULL,

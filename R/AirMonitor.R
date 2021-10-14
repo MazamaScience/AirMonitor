@@ -20,31 +20,34 @@ NULL
 #' \emph{mts_monitor} object. Any number of additional columns may also be present.
 
 coreMetadataNames <- c(
+  # Specific to AirMonitor
   "deviceDeploymentID",       # -- timeseries unique identifier
   "deviceID",                 # -- device unique identifier
-  "deviceType",               # -- non-standardized identifier for the type of device (e.g. EBAM, ESAM, PA, ...)
-  "deviceDescription",        # -- human readable details
-  "deviceExtra",              # -- extra device information (e.g. as JSON)
-  "pollutant",                # -- one of pollutantNames below
-  "units",                    # -- one of ???# TODO: sort out units standardization
-  "dataIngestSource",         # -- non-standardized identifier for the data source (e.g. AIRNOW, WRCC, ...)
+  "deviceType",               # -- internally-standardized identifier for the type of device (e.g. EBAM, ESAM, PA, ...)
+  "deviceDescription",        # -- human readable device details
+  "deviceExtra",              # -- extra device information (possibly as JSON)
+  "pollutant",                # -- one of "OZONE|CO|NO2|PM2.5|PM10"
+  "units",                    # -- one of "PPM|PPB|MILLIGRAMS|MICROGRAMS"
+  "dataIngestSource",         # -- internally-standardized identifier for the data source (e.g. AIRNOW, WRCC, ...)
   "dataIngestURL",            # -- top level URL
-  "dataIngestUnitID",         # -- unique identifier used to extract the data
-  "dataIngestExtra",          # -- extra data ingest information (e.g. as JSON)
-  "dataIngestDescription",    # -- human readable details
-  "locationID",               # -- from MazamaLocationUtils
-  "locationName",             # -- from MazamaLocationUtils
-  "longitude",                # -- from MazamaLocationUtils
-  "latitude",                 # -- from MazamaLocationUtils
-  "elevation",                # -- from MazamaLocationUtils
-  "countryCode",              # -- from MazamaLocationUtils
-  "stateCode",                # -- from MazamaLocationUtils
-  "county",                   # -- from MazamaLocationUtils
-  "timezone",                 # -- from MazamaLocationUtils
-  "houseNumber",              # -- from MazamaLocationUtils
-  "street",                   # -- from MazamaLocationUtils
-  "city",                     # -- from MazamaLocationUtils
-  "zip"                       # -- from MazamaLocationUtils
+  "dataIngestUnitID",         # -- unique identifier used to extract data from the URL
+  "dataIngestExtra",          # -- extra data ingest information (possibly as JSON)
+  "dataIngestDescription",    # -- human readable data ingest details
+
+  # Defined in MazamaLocationUtils
+  "locationID",               # -- location unique identifier
+  "locationName",             # -- human readable location name
+  "longitude",                # --
+  "latitude",                 # --
+  "elevation",                # --
+  "countryCode",              # -- ISO 3166-1 alpha-2
+  "stateCode",                # -- ISO 3166-2 alpha-2
+  "county",                   # --
+  "timezone",                 # -- Olson time zone
+  "houseNumber",              # --
+  "street",                   # --
+  "city",                     # --
+  "zip"                       # --
 )
 
 

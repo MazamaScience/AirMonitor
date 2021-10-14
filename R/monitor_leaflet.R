@@ -3,8 +3,8 @@
 #' @title Leaflet interactive map of monitor locations
 #'
 #' @param monitor \emph{mts_monitor} object.
-#' @param slice Either a formatted time string, a time index or a function used
-#' to collapse the time axis.
+#' @param slice Either a formatted time string, a time index, the name of a
+#' (potentially user defined) function used to collapse the time axis.
 # @param breaks set of breaks used to assign colors
 # @param colors a set of colors for different levels of air quality data
 #   determined by \code{breaks}
@@ -56,11 +56,7 @@
 
 monitor_leaflet <- function(
   monitor,
-  slice = get("max"),
-  #  breaks = AQI$breaks_24,
-  #  colors = AQI$colors,
-  #  labels = AQI$names,
-  #  legendTitle = "Max AQI Level",
+  slice = "max",
   radius = 10,
   opacity = 0.7,
   maptype = "terrain",
@@ -73,7 +69,11 @@ monitor_leaflet <- function(
 
   monitor_check(monitor)
 
-  if ( is.null(slice) ) slice <- get("max")
+  if ( monitor_isEmpty(monitor) )
+    stop("monitor object has no data")
+
+  MazamaCoreUtils::setIfNull(slice, "max")
+  MazamaCoreUtils::setIfNull(maptype, "terrain")
 
   if ( !is.null(extraVars) ) {
     unrecognizedVars <- setdiff(extraVars, names(monitor$meta))
@@ -90,24 +90,24 @@ monitor_leaflet <- function(
 
   # See: https://aqs.epa.gov/aqsweb/documents/codetables/aqi_breakpoints.html
 
-  pollutant <- sort(unique(monitor$meta$pollutant))
+  pollutant <- toupper(unique(monitor$meta$pollutant))
   if ( length(pollutant) > 1 ) {
     pollutantString <- paste0(pollutant, collapse = ", ")
-    stop(sprintf("Multiple pollutants found: %s", pollutantString))
+    stop(sprintf("multiple pollutants found: %s", pollutantString))
   }
 
   if ( pollutant == "CO" ) {
     AQI_breaks_24 <- c(-Inf, 4.5, 9.5, 12.5, 15.5, 30.5, Inf)
     AQI_colors <- c("#00E400", "#FFFF00", "#FF7E00", "#FF0000", "#8F3F97", "#7E0023")
     AQI_names <- c("Good", "Moderate", "USG", "Unhealthy", "Very Unhealthy", "Hazardous")
-    legendTitle <- "Max CO AQI Level"
+    legendTitle <- "CO AQI Level"
     units <- "ppm"
     digits <- 1
   } else if ( pollutant == "PM2.5" ) {
     AQI_breaks_24 <- c(-Inf, 12.0, 35.5, 55.5, 150.5, 250.5, Inf)
     AQI_colors <- c("#00E400", "#FFFF00", "#FF7E00", "#FF0000", "#8F3F97", "#7E0023")
     AQI_names <- c("Good", "Moderate", "USG", "Unhealthy", "Very Unhealthy", "Hazardous")
-    legendTitle <- "Max PM2.5 AQI Level"
+    legendTitle <- "PM2.5 AQI Level"
     units <- "\U00B5g/m3"
     digits <- 0
   }
@@ -118,76 +118,108 @@ monitor_leaflet <- function(
 
   # ----- Create the 'slice' values --------------------------------------------
 
-  if ( class(slice) == "function" ) {
+  if ( is.numeric(slice) ) {
 
-    # NOTE:  min/max will warn and return Inf/-Inf when all data are missing
-    # NOTE:  while mean returns NaN so we need to suppress warnings and replace
-    # NOTE: all those non-finite values with NA.
+    # * slice = number -----
 
-    suppressWarnings({
-      popupValue <-
-        apply(monitor$data[,-1], 2, slice, na.rm = TRUE, simplify = TRUE)
-    })
+    if ( slice < 1 || slice > nrow(monitor$data) )
+      stop(sprintf("slice = %d is outside the range 1:%d", slice, nrow(monitor$data)))
 
-    popupValue[!is.finite(popupValue)] <- NA
-
-    # Can't find a good dplyr way to get the time of each max so we roll our own
-
-    suppressWarnings({
-
-      dataBrick <- monitor$data[, -1]
-      sliceValueBrick <- matrix(rep(popupValue, nrow(dataBrick)), nrow = nrow(dataBrick), byrow = TRUE)
-      logicalBrick <- dataBrick == sliceValueBrick
-      logicalBrick[is.na(logicalBrick)] <- FALSE
-      firstRowAtMax <- apply(logicalBrick, 2, function(x) { min(which(x), na.rm = TRUE) },  simplify = TRUE)
-      firstRowAtMax[!is.finite(firstRowAtMax)] <- NA
-      firstTimeAtMax <- monitor$data$datetime[firstRowAtMax]
-
-    })
-
-    popupWhen <-
-      strftime(firstTimeAtMax, "on %B %d at %H:00", tz = "UTC", usetz = TRUE)
-
-    # TODO:  Idea for local time not working yet.
-
-    # popupWhen <- vector("character", length(firstTimeAtMax))
-    # for ( i in seq_len(firstTimeAtMax) ) {
-    #   popupWhen[i] <-
-    #     strftime(firstTimeAtMax[i], "on %B %d, %Y at %H:00", tz = monitor$meta$timezone[i], usetz = TRUE)
-    # }
-
-    popupWhen[is.na(popupWhen)] <- ""
-
-
-  } else if ( is.numeric(slice) ) {
+    slice <- round(slice)
 
     popupValue <- as.numeric(dplyr::slice(monitor$data, slice)[-1])
 
     popupWhen <-
       strftime(monitor$data$datetime[slice], "on %B %d, %Y at %H:00", tz = "UTC", usetz = TRUE)
 
-  } else {
+  } else if ( is.character(slice) ) {
 
-    result <- try({
-      sliceTime <- MazamaCoreUtils::parseDatetime(slice, timezone = "UTC")
-    }, silent = TRUE)
+    # * slice = character -----
 
-    if ( "try-error" %in% class(result) ) {
+    if ( exists(slice) && (class(get(slice)) == "function") ) {
 
-      stop("improper use of slice parameter")
+      # ** slice = function -----
+
+      FUN <- get(slice)
+
+      # NOTE:  min/max will warn and return Inf/-Inf when all data are missing
+      # NOTE:  while mean returns NaN so we need to suppress warnings and replace
+      # NOTE: all those non-finite values with NA.
+
+      suppressWarnings({
+        popupValue <-
+          apply(monitor$data[,-1], 2, FUN, na.rm = TRUE, simplify = TRUE)
+      })
+
+      popupValue[!is.finite(popupValue)] <- NA
+
+      popupWhen <- ""
+
+      legendTitle <- sprintf("%s %s", stringr::str_to_title(slice), legendTitle)
+
+      if ( slice == "max" ) {
+
+        # Can't find a good dplyr way to get the first occurrance of each value so we roll our own
+
+        suppressWarnings({
+
+          dataBrick <- monitor$data[, -1]
+          sliceValueBrick <- matrix(rep(popupValue, nrow(dataBrick)), nrow = nrow(dataBrick), byrow = TRUE)
+          logicalBrick <- dataBrick == sliceValueBrick
+          logicalBrick[is.na(logicalBrick)] <- FALSE
+          firstRowAtMax <- apply(logicalBrick, 2, function(x) { min(which(x), na.rm = TRUE) },  simplify = TRUE)
+          firstRowAtMax[!is.finite(firstRowAtMax)] <- NA
+          firstTimeAtMax <- monitor$data$datetime[firstRowAtMax]
+
+        })
+
+        popupWhen <-
+          strftime(firstTimeAtMax, "on %B %d at %H:00", tz = "UTC", usetz = TRUE)
+
+        # TODO:  Idea for local time not working yet.
+
+        # popupWhen <- vector("character", length(firstTimeAtMax))
+        # for ( i in seq_len(firstTimeAtMax) ) {
+        #   popupWhen[i] <-
+        #     strftime(firstTimeAtMax[i], "on %B %d, %Y at %H:00", tz = monitor$meta$timezone[i], usetz = TRUE)
+        # }
+
+        popupWhen[is.na(popupWhen)] <- ""
+
+      } # END of slice == "max"
 
     } else {
 
-      # Now proceed as if slice were an integer
+      # ** slice = datetime -----
 
-      slice <- which(monitor$data$datetime == sliceTime)
+      result <- try({
+        sliceTime <- MazamaCoreUtils::parseDatetime(slice, timezone = "UTC")
+      }, silent = TRUE)
 
-      popupValue <- as.numeric(dplyr::slice(monitor$data, slice)[-1])
+      if ( "try-error" %in% class(result) ) {
 
-      popupWhen <-
-        strftime(monitor$data$datetime[slice], "on %B %d, %Y at %H:00", tz = "UTC", usetz = TRUE)
+        stop("improper use of slice parameter")
 
-    }
+      } else {
+
+        # Now proceed as if slice were an integer
+
+        slice <- which(monitor$data$datetime == sliceTime)
+
+        popupValue <- as.numeric(dplyr::slice(monitor$data, slice)[-1])
+
+        popupWhen <-
+          strftime(monitor$data$datetime[slice], "on %B %d, %Y at %H:00", tz = "UTC", usetz = TRUE)
+
+      }
+
+    } # END slice = character
+
+  } else {
+
+    # * slice = neither -----
+
+    stop("improper use of slice parameter")
 
   }
 
@@ -239,7 +271,11 @@ monitor_leaflet <- function(
     "<b>", monitor$meta$locationName, "</b><br>",
     "<b>", round(popupValue, digits), " ", units, "</b> ", popupWhen, "<br><br>",
     monitor$meta$deviceDeploymentID, "<br>",
-    "locationID = ", monitor$meta$locationID, "<br>"
+    "locationID = ", monitor$meta$locationID, "<br>",
+    "deviceID = ", monitor$meta$deviceID, "<br><br>",
+    monitor$meta$county, " County, ", monitor$meta$stateCode, "<br>",
+    "timezone = ", monitor$meta$timezone, "<br>",
+    "longitude = ", monitor$meta$longitude, ", ", "latitude = ", monitor$meta$latitude, "<br>"
   )
 
   # Add extra vars

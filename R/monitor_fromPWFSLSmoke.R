@@ -33,22 +33,44 @@ monitor_fromPWFSLSmoke <- function(
   commonColumns <- intersect(names(ws_monitor$meta), coreMetadataNames)
   missingColumns <- setdiff(coreMetadataNames, names(ws_monitor$meta))
 
-  # > commonColumns
+  # > print(commonColumns, width = 75)
   # [1] "longitude"   "latitude"    "elevation"   "timezone"    "countryCode"
   # [6] "stateCode"
-  # > missingColumns
-  # [1] "deviceDeploymentID" "deviceID"           "pollutant"
-  # [4] "units"              "locationID"         "locationName"
+  # > print(missingColumns, width = 75)
+  # [1] "deviceDeploymentID"    "deviceID"
+  # [3] "deviceType"            "deviceDescription"
+  # [5] "deviceExtra"           "pollutant"
+  # [7] "units"                 "locationID"
+  # [9] "locationName"          "county"
+  # [11] "houseNumber"           "street"
+  # [13] "city"                  "zip"
+  # [15] "dataIngestSource"      "dataIngestURL"
+  # [17] "dataIngestUnitID"      "dataIngestExtra"
+  # [19] "dataIngestDescription"
 
   meta <-
     ws_monitor$meta %>%
 
-    # Add locationID, deviceID, pollutant and units
+    # Rename some columns
+    dplyr::rename(
+      deviceID = .data$monitorID,
+      deviceType = .data$monitorType,
+      locationName = .data$siteName,
+      county = .data$countyName,
+      dataIngestSource = .data$pwfslDataIngestSource,
+      dataIngestUnitID = .data$telemetryUnitID
+    ) %>%
+
+    # Other core monitoring metadata
     dplyr::mutate(
       locationID = MazamaCoreUtils::createLocationID(.data$longitude, .data$latitude),
-      deviceID = .data$monitorID,
       pollutant = "PM2.5",
-      units = "ug/m3"
+      units = "MICROGRAMS",
+      deviceDescription = as.character(NA),
+      deviceExtra = as.character(NA),
+      dataIngestURL = as.character(NA),
+      dataIngestExtra = as.character(NA),
+      dataIngestDescription = as.character(NA)
     )
 
   # Fix deviceID:
@@ -62,13 +84,11 @@ monitor_fromPWFSLSmoke <- function(
   mask <- (meta$pwfslDataIngestSource == "WRCC")
   meta$deviceID[mask] <- meta$instrumentID[mask]
 
-  # Other core metadata
+  # Other core location metadata
   meta <-
     meta %>%
     dplyr::mutate(
       deviceDeploymentID = paste0(.data$locationID, "_", .data$deviceID),
-      locationName = .data$siteName,
-      county = .data$countyName,
       houseNumber = as.character(NA),
       street = as.character(NA),
       city = as.character(NA),
@@ -87,7 +107,7 @@ monitor_fromPWFSLSmoke <- function(
 
   # Guarantee columns are in the correct order
 
-  oldColumnNames <- c('datetime', meta$monitorID)
+  oldColumnNames <- c('datetime', meta$deviceID)
   newColumnNames <- c('datetime', meta$deviceDeploymentID)
 
   data <-

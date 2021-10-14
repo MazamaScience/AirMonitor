@@ -26,7 +26,7 @@ This dataset was generated on 2021-10-07 by running:
 
 \preformatted{
 example_88101 <-
-  monitor <- epa_loadAnnual(
+  monitor <- epa_aqs_loadAnnual(
     year = 2015,
     parameterCode = 88101,
     baseUrl = NULL,

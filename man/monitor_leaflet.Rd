@@ -6,7 +6,7 @@
 \usage{
 monitor_leaflet(
   monitor,
-  slice = get("max"),
+  slice = "max",
   radius = 10,
   opacity = 0.7,
   maptype = "terrain",
@@ -18,8 +18,8 @@ monitor_leaflet(
 \arguments{
 \item{monitor}{\emph{mts_monitor} object.}
 
-\item{slice}{Either a formatted time string, a time index or a function used
-to collapse the time axis.}
+\item{slice}{Either a formatted time string, a time index, the name of a
+(potentially user defined) function used to collapse the time axis.}
 
 \item{radius}{radius of monitor circles}
 
