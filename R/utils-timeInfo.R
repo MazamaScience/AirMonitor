@@ -32,11 +32,11 @@ if ( FALSE ) {
     ## month, day, timezone, and dlstime rows, or a POSIXct time
     ## --------------------------------------------------------------------
     ncrds <- nrow(crds)
-    nTimes <- ifelse(is(dateTime, "POSIXct"), length(dateTime), nrow(dateTime))
+    nTimes <- ifelse(lubridate::is.POSIXct(dateTime), length(dateTime), nrow(dateTime))
     if (ncrds == 1 && nTimes > 1) {
         crds <- crds[rep(1, nTimes), ]
     } else if (ncrds > 1 && nTimes == 1) {
-        dateTime <- if (is(dateTime, "POSIXct")) {
+        dateTime <- if (lubridate::is.POSIXct(dateTime)) {
             dateTime[rep(1, ncrds)]
         } else dateTime[rep(1, ncrds), ]
     } else if (ncrds != nTimes) {
@@ -52,8 +52,6 @@ if ( FALSE ) {
     POSIXct.out=FALSE
 ) {
 
-    # crdsmtx <- matrix(c(coordinates(crds)[, 1],
-    #                     coordinates(crds)[, 2]), ncol=2)
     crdsmtx <- matrix(c(crds[, 1],
                         crds[, 2]), ncol=2)
     eq.ll <- .balanceCrdsTimes(crdsmtx, dateTime)
@@ -83,8 +81,6 @@ if ( FALSE ) {
     dateTime,
     POSIXct.out=FALSE
 ) {
-    # crdsmtx <- matrix(c(coordinates(crds)[, 1],
-    #                     coordinates(crds)[, 2]), ncol=2)
     crdsmtx <- matrix(c(crds[, 1],
                         crds[, 2]), ncol=2)
     eq.ll <- .balanceCrdsTimes(crdsmtx, dateTime)

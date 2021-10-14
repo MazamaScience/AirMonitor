@@ -43,6 +43,8 @@
 #' @export
 #'
 #' @examples
+#' library(AirMonitor)
+#'
 #' carmel <-
 #'   Carmel_Valley %>%
 #'   monitor_filterDate(20160801, 20160810)
@@ -64,8 +66,8 @@
 #' carmel_night <- list(meta = carmel$meta, data = data_night)
 #'
 #' # Plot them
-#' monitor_timeseriesPlot(carmel_day, shadedNight = TRUE, pch = 8, col = 'goldenrod')
-#' monitor_timeseriesPlot(carmel_night, pch = 16, col = 'darkblue', add = TRUE)
+#' plot(carmel_day$data, pch = 8, col = 'goldenrod')
+#' points(carmel_night$data, pch = 16, col = 'darkblue')
 
 timeInfo <- function(
   time = NULL,
