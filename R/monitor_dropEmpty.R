@@ -5,8 +5,8 @@
 #'
 #' @param monitor \emph{mts_monitor} object.
 #'
-#' @description The incoming \emph{mts_monitor} object is subset to include
-#' device deployments with valid data.
+#' @description The incoming \emph{mts_monitor} object is subset to retain
+#' only device deployments with valid data.
 #'
 #' @return A subset of the incoming \code{mts_monitor}.
 #'

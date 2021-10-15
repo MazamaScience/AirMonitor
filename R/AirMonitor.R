@@ -69,3 +69,43 @@ pollutantNames <- c(
   "PM10"
 )
 
+# ----- State codes -----------------------------------------------------------
+
+#' CONUS state codes
+#'
+#' @export
+#' @docType data
+#' @name CONUS
+#' @title CONUS State Codes
+#' @format A vector with 49 elements
+#' @description
+#' State codes for the 48 contiguous states +DC that make up the CONtinental US
+
+CONUS <- c(
+       "AL","AZ","AR","CA","CO","CT","DE","FL","GA",
+       "ID","IL","IN","IA","KS","KY","LA","ME","MD",
+  "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+  "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+  "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
+  "DC"
+)
+
+#' US state codes
+#'
+#' @export
+#' @docType data
+#' @name US_52
+#' @title US State Codes
+#' @format A vector with 52 elements
+#' @description
+#' State codes for the 50 states +DC +PR (Puerto Rico)
+
+US_52 <- c(
+  "AK","AL","AZ","AR","CA","CO","CT","DE","FL","GA",
+  "HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
+  "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+  "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+  "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
+  "DC","PR"
+)
+

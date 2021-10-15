@@ -13,6 +13,6 @@ monitor_dropEmpty(monitor)
 A subset of the incoming \code{mts_monitor}.
 }
 \description{
-The incoming \emph{mts_monitor} object is subset to include
-device deployments with valid data.
+The incoming \emph{mts_monitor} object is subset to retain
+only device deployments with valid data.
 }

@@ -1,3 +1,157 @@
+#' @title Create Timeseries Plot
+#'
+#' @description
+#' Creates a time series plot of PM2.5 data from a \emph{mts_monitor} object.
+#' By default, points are plotted as semi-transparent squares. All data values
+#' are plotted from all monitors found in the \emph{mts_monitor} object.
+#'
+#' Reasonable defaults are chosen for annotations and plot characteristic.
+#' Users can override any defaults by passing in parameters accepted by
+#' \code{graphics::plot.default}.
+#'
+#' @param monitor \emph{mts_monitor} object.
+# #' @param localTime Logical specifying whether \code{tlim} is in local time or
+# #'   UTC.
+# #' @param shadedNight Add nighttime shading.
+# #' @param style Custom styling, one of \code{"aqidots"}.
+#' @param add Logical specifying whether to add to the current plot.
+# #' @param gridPos Position of grid lines either "over", "under" ("" for no grid
+# #'   lines).
+# #' @param gridCol Grid line color.
+# #' @param gridLwd Grid line width.
+# #' @param gridLty Grid line type.
+# #' @param dayLwd Day marker line width.
+# #' @param hourLwd Hour marker line width.
+# #' @param hourInterval Interval for grid (max = 12).
+#' @param ... Additional arguments to be passed to \code{graphics::plot.default()}.
+#'
+#' @import graphics
+#' @importFrom grDevices adjustcolor
+#' @export
+#'
+monitor_timeseriesPlot <- function(
+  monitor,
+  add = FALSE,
+  ...
+) {
+
+  # ----- Validate parameters --------------------------------------------------
+
+  monitor_check(monitor)
+
+  monitor <- monitor_dropEmpty(monitor)
+
+  # ----- Defaults -------------------------------------------------------------
+
+  meta <- monitor$meta
+  data <- monitor$data
+
+  # * time axis -----
+
+  # Identify timezone(s)
+  timezone <- monitor_bestTimezone(monitor)
+
+  # Pull out time data
+  datetime <- lubridate::with_tz(data$datetime, tzone = timezone)
+
+  # * argsList -----
+
+  argsList <- list(...)
+
+  argsList$x <- datetime
+  argsList$y <- data[, 2]
+
+  # set range for plotting
+  if ( !("ylim" %in% names(argsList)) ) {
+    ymin <- min(data[, -1], na.rm = TRUE)
+    ymax <- max(data[, -1], na.rm = TRUE)
+    buffer <- 0.04 * (ymax - ymin) # Standard R buffer around min/max
+    argsList$ylim <- c(ymin - buffer, ymax + buffer)
+  }
+
+  if ( !("xlab" %in% names(argsList)) ) {
+    if ( timezone == "UTC" ) {
+      argsList$xlab <- "UTC"
+    } else {
+      argsList$xlab <- "Local Time"
+    }
+  }
+
+  if ( !("ylab" %in% names(argsList)) ) {
+    argsList$ylab <- sprintf("%s (%s)", meta$pollutant[1], meta$units[1])
+  }
+
+  if ( !("main" %in% names(argsList)) ) {
+    argsList$main <- paste0("Hourly ", meta$pollutant[1])
+  }
+
+  # * argsListBlank -----
+
+  argsListBlank <- argsList
+
+  argsListBlank$col <- "transparent"
+  argsListBlank$axes <- FALSE
+  argsListBlank$main <- NULL
+
+  # ----- Base plot ------------------------------------------------------------
+
+  # Base plot for background
+  if ( !add ) {
+
+    # Create blank plot
+    do.call(plot, argsListBlank)
+
+    # # Shaded Night
+    # if ( shadedNight ) {
+    #   lat <- mean(mon$meta$latitude)
+    #   lon <- mean(mon$meta$longitude)
+    #   timeInfo <- PWFSLSmoke::timeInfo(datetime, lon, lat, timezone)
+    #   addShadedNight(timeInfo)
+    # }
+
+    # Put a box around the plot area
+    box()
+
+    # Add axes
+    axis(2, las = 1)
+
+    # TODO: better x axis smarts, e.g. keep from saying "Monday, Tuesday" etc...
+    axis.POSIXct(1, datetime)
+
+  }
+
+  # ----- Overlay data ---------------------------------------------------------
+
+  # Set opacity based on total number of valid measurements
+  dims <- dim(as.matrix(data[, -1]))
+  naCount <- length(which(is.na(data[, -1])))
+  size <- dims[1] * dims[2] - naCount
+  opacity <- min(1 / log2(size), 0.9)
+
+  if ( !"col" %in% names(argsList) ) {
+    baseColor <- "black"
+  } else {
+    baseColor <- argsList$col
+  }
+
+  for ( id in meta$deviceDeploymentID ) {
+    argsList$y <- data[[id]] # same as data[, id]
+    argsList$col <- adjustcolor(baseColor, alpha.f = opacity)
+    argsList$pch <- 15 # squares draw faster than circles
+    # Add the points
+    do.call(points, argsList)
+  }
+
+
+}
+
+
+
+# ==============================================================================
+# ==============================================================================
+# ==============================================================================
+
+
 #' #' @title Create Timeseries Plot
 #' #'
 #' #' @description
