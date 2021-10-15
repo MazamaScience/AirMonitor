@@ -32,3 +32,19 @@ Carmel_Valley %>%
 
 # TODO:  Try out the CO data from the Carmel Valley event
 
+Salinas_CO <-
+  epa_aqs_loadAnnual(2016, 42101, baseDir = "~/Data/monitoring") %>%
+  monitor_filterDate(20160801, 20160810, timezone = "America/Los_Angeles") %>%
+  monitor_filterMeta(deviceDeploymentID == "c9fe9c3c096b858a_060531003_01")
+
+Los_FLores_Canyon <-
+  epa_aqs_loadAnnual(2016, 42101, baseDir = "~/Data/monitoring") %>%
+  monitor_filterDate(20160614, 20160623, timezone = "America/Los_Angeles") %>%
+  monitor_filterMeta(deviceDeploymentID == "8e3f33bcad43c1e2_060831025_01")
+
+monitor_timeseriesPlot(Los_FLores_Canyon, shadedNight = TRUE, col = 'black', opacity = 0.5)
+addAQILines(pollutant = "CO")
+addAQIStackedBar(pollutant = "CO")
+addAQILegend(pollutant = "CO")
+
+

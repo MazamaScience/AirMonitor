@@ -132,7 +132,12 @@ monitor_timeseriesPlot <- function(
     dims <- dim(as.matrix(data[, -1]))
     naCount <- length(which(is.na(data[, -1])))
     validCount <- dims[1] * dims[2] - naCount
-    opacity <- min(1 / log2(validCount), 0.9)
+    if ( validCount < 200 ) opacity <- 0.9
+    else if ( validCount < 500 ) opacity <- 0.7
+    else if ( validCount < 1000 ) opacity <- 0.5
+    else if ( validCount < 2000 ) opacity <- 0.3
+    else if ( validCount < 5000 ) opacity <- 0.2
+    else opacity <- 0.15
   }
 
   for ( id in meta$deviceDeploymentID ) {

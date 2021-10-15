@@ -33,6 +33,9 @@ addAQILegend <- function(
 
   argsList <- list(...)
 
+  argsList$x = x
+  argsList$y = y
+
   if ( ("col" %in% names(argsList)) ) {
     argsList$col <- col
   } else {
