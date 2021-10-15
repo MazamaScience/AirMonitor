@@ -1,28 +1,22 @@
 #' @title Create Timeseries Plot
 #'
 #' @description
-#' Creates a time series plot of PM2.5 data from a \emph{mts_monitor} object.
+#' Creates a time series plot of data from a \emph{mts_monitor} object.
 #' By default, points are plotted as semi-transparent squares. All data values
 #' are plotted from all monitors found in the \emph{mts_monitor} object.
 #'
-#' Reasonable defaults are chosen for annotations and plot characteristic.
+#' Reasonable defaults are chosen for annotations and plot characteristics.
 #' Users can override any defaults by passing in parameters accepted by
 #' \code{graphics::plot.default}.
 #'
 #' @param monitor \emph{mts_monitor} object.
 # #' @param localTime Logical specifying whether \code{tlim} is in local time or
 # #'   UTC.
-# #' @param shadedNight Add nighttime shading.
-# #' @param style Custom styling, one of \code{"aqidots"}.
+#' @param shadedNight Logical specifying whether to add nighttime shading.
 #' @param add Logical specifying whether to add to the current plot.
-# #' @param gridPos Position of grid lines either "over", "under" ("" for no grid
-# #'   lines).
-# #' @param gridCol Grid line color.
-# #' @param gridLwd Grid line width.
-# #' @param gridLty Grid line type.
-# #' @param dayLwd Day marker line width.
-# #' @param hourLwd Hour marker line width.
-# #' @param hourInterval Interval for grid (max = 12).
+#' @param opacity Opacity to use for points. By default, an opacity is chosen based
+#' on the number of points so that trends are highlighted while outliers diminish
+#' in visual importance as the number of points increases.
 #' @param ... Additional arguments to be passed to \code{graphics::plot.default()}.
 #'
 #' @import graphics
@@ -31,7 +25,9 @@
 #'
 monitor_timeseriesPlot <- function(
   monitor,
+  shadedNight = FALSE,
   add = FALSE,
+  opacity = NULL,
   ...
 ) {
 
@@ -41,12 +37,10 @@ monitor_timeseriesPlot <- function(
 
   monitor <- monitor_dropEmpty(monitor)
 
-  # ----- Defaults -------------------------------------------------------------
-
   meta <- monitor$meta
   data <- monitor$data
 
-  # * time axis -----
+  # ----- Time axis ------------------------------------------------------------
 
   # Identify timezone(s)
   timezone <- monitor_bestTimezone(monitor)
@@ -54,14 +48,15 @@ monitor_timeseriesPlot <- function(
   # Pull out time data
   datetime <- lubridate::with_tz(data$datetime, tzone = timezone)
 
-  # * argsList -----
+  # ----- argsList -------------------------------------------------------------
 
   argsList <- list(...)
 
   argsList$x <- datetime
   argsList$y <- data[, 2]
 
-  # set range for plotting
+  # * Plot limits -----
+
   if ( !("ylim" %in% names(argsList)) ) {
     ymin <- min(data[, -1], na.rm = TRUE)
     ymax <- max(data[, -1], na.rm = TRUE)
@@ -69,21 +64,32 @@ monitor_timeseriesPlot <- function(
     argsList$ylim <- c(ymin - buffer, ymax + buffer)
   }
 
+  # * Annotations -----
+
+  middleDatetime <- datetime[round(length(datetime)/2)]
+  year <- MazamaCoreUtils::timeStamp(middleDatetime, timezone, unit = "year")
+
   if ( !("xlab" %in% names(argsList)) ) {
     if ( timezone == "UTC" ) {
       argsList$xlab <- "UTC"
     } else {
-      argsList$xlab <- "Local Time"
+      argsList$xlab <- paste0(year, "  (local time)")
     }
   }
 
-  if ( !("ylab" %in% names(argsList)) ) {
+  if ( !("ylab" %in% names(argsList)) )
     argsList$ylab <- sprintf("%s (%s)", meta$pollutant[1], meta$units[1])
-  }
 
-  if ( !("main" %in% names(argsList)) ) {
+  if ( !("main" %in% names(argsList)) )
     argsList$main <- paste0("Hourly ", meta$pollutant[1])
-  }
+
+  # * Plot style -----
+
+  if ( !("pch" %in% names(argsList)) )
+    argsList$pch <- 15
+
+  if ( !"col" %in% names(argsList) )
+    argsList$col <- "black"
 
   # * argsListBlank -----
 
@@ -91,7 +97,6 @@ monitor_timeseriesPlot <- function(
 
   argsListBlank$col <- "transparent"
   argsListBlank$axes <- FALSE
-  argsListBlank$main <- NULL
 
   # ----- Base plot ------------------------------------------------------------
 
@@ -101,13 +106,13 @@ monitor_timeseriesPlot <- function(
     # Create blank plot
     do.call(plot, argsListBlank)
 
-    # # Shaded Night
-    # if ( shadedNight ) {
-    #   lat <- mean(mon$meta$latitude)
-    #   lon <- mean(mon$meta$longitude)
-    #   timeInfo <- PWFSLSmoke::timeInfo(datetime, lon, lat, timezone)
-    #   addShadedNight(timeInfo)
-    # }
+    # Shaded Night
+    if ( shadedNight ) {
+      lat <- mean(meta$latitude)
+      lon <- mean(meta$longitude)
+      timeInfo <- timeInfo(datetime, lon, lat, timezone)
+      addShadedNight(timeInfo)
+    }
 
     # Put a box around the plot area
     box()
@@ -122,22 +127,18 @@ monitor_timeseriesPlot <- function(
 
   # ----- Overlay data ---------------------------------------------------------
 
-  # Set opacity based on total number of valid measurements
-  dims <- dim(as.matrix(data[, -1]))
-  naCount <- length(which(is.na(data[, -1])))
-  size <- dims[1] * dims[2] - naCount
-  opacity <- min(1 / log2(size), 0.9)
-
-  if ( !"col" %in% names(argsList) ) {
-    baseColor <- "black"
-  } else {
-    baseColor <- argsList$col
+  if ( is.null(opacity) ) {
+    # Set opacity based on total number of valid measurements
+    dims <- dim(as.matrix(data[, -1]))
+    naCount <- length(which(is.na(data[, -1])))
+    validCount <- dims[1] * dims[2] - naCount
+    opacity <- min(1 / log2(validCount), 0.9)
   }
 
   for ( id in meta$deviceDeploymentID ) {
     argsList$y <- data[[id]] # same as data[, id]
-    argsList$col <- adjustcolor(baseColor, alpha.f = opacity)
-    argsList$pch <- 15 # squares draw faster than circles
+    argsList$col <- adjustcolor(argsList$col, alpha.f = opacity)
+    ###argsList$pch <- 15 # squares draw faster than circles
     # Add the points
     do.call(points, argsList)
   }

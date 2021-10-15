@@ -4,21 +4,23 @@
 \alias{monitor_timeseriesPlot}
 \title{Create Timeseries Plot}
 \usage{
-monitor_timeseriesPlot(monitor, add = FALSE, ...)
+monitor_timeseriesPlot(monitor, shadedNight = FALSE, add = FALSE, ...)
 }
 \arguments{
 \item{monitor}{\emph{mts_monitor} object.}
+
+\item{shadedNight}{Logical specifying whether to add nighttime shading.}
 
 \item{add}{Logical specifying whether to add to the current plot.}
 
 \item{...}{Additional arguments to be passed to \code{graphics::plot.default()}.}
 }
 \description{
-Creates a time series plot of PM2.5 data from a \emph{mts_monitor} object.
+Creates a time series plot of data from a \emph{mts_monitor} object.
 By default, points are plotted as semi-transparent squares. All data values
 are plotted from all monitors found in the \emph{mts_monitor} object.
 
-Reasonable defaults are chosen for annotations and plot characteristic.
+Reasonable defaults are chosen for annotations and plot characteristics.
 Users can override any defaults by passing in parameters accepted by
 \code{graphics::plot.default}.
 }
