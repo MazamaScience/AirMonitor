@@ -2,15 +2,22 @@
 % Please edit documentation in R/addAQILines.R
 \name{addAQILines}
 \alias{addAQILines}
-\title{Add AQI Lines to a Plot}
+\title{Add AQI lines to a plot}
 \usage{
-addAQILines(...)
+addAQILines(
+  pollutant = c("PM2.5", "CO"),
+  palette = c("EPA", "subdued", "deuteranopia"),
+  ...
+)
 }
 \arguments{
+\item{pollutant}{EPA AQS criteria pollutant.}
+
+\item{palette}{Named color palette to use for AQI categories.}
+
 \item{...}{additional arguments to be passed to \code{abline()}}
 }
 \description{
-This function is a convenience for:
-
-\code{abline(h = AQI$breaks_24, col = AQI$colors)}
+Draws AQI lines across a plot at the levels appropriate for
+\code{pollutant}.
 }

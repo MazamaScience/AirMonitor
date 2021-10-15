@@ -3,7 +3,7 @@
 \docType{data}
 \name{CONUS}
 \alias{CONUS}
-\title{CONUS State Codes}
+\title{CONUS state codes}
 \format{
 A vector with 49 elements
 }
@@ -11,7 +11,7 @@ A vector with 49 elements
 CONUS
 }
 \description{
-State codes for the 48 contiguous states +DC that make up the CONtinental US
+State codes for the 48 contiguous states +DC that make up the CONtinental US.
 }
 \details{
 CONUS state codes

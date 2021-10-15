@@ -3,7 +3,7 @@
 \docType{data}
 \name{US_52}
 \alias{US_52}
-\title{US State Codes}
+\title{US state codes}
 \format{
 A vector with 52 elements
 }

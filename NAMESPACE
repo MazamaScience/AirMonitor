@@ -3,6 +3,8 @@
 export("%>%")
 export(CONUS)
 export(US_52)
+export(US_AQI)
+export(addAQILegend)
 export(addAQILines)
 export(addAQIStackedBar)
 export(addShadedNight)

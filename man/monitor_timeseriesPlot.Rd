@@ -4,7 +4,13 @@
 \alias{monitor_timeseriesPlot}
 \title{Create Timeseries Plot}
 \usage{
-monitor_timeseriesPlot(monitor, shadedNight = FALSE, add = FALSE, ...)
+monitor_timeseriesPlot(
+  monitor,
+  shadedNight = FALSE,
+  add = FALSE,
+  opacity = NULL,
+  ...
+)
 }
 \arguments{
 \item{monitor}{\emph{mts_monitor} object.}
@@ -12,6 +18,10 @@ monitor_timeseriesPlot(monitor, shadedNight = FALSE, add = FALSE, ...)
 \item{shadedNight}{Logical specifying whether to add nighttime shading.}
 
 \item{add}{Logical specifying whether to add to the current plot.}
+
+\item{opacity}{Opacity to use for points. By default, an opacity is chosen based
+on the number of points so that trends are highlighted while outliers diminish
+in visual importance as the number of points increases.}
 
 \item{...}{Additional arguments to be passed to \code{graphics::plot.default()}.}
 }

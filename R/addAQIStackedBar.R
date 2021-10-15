@@ -1,9 +1,10 @@
 #' @export
-#' @title Create Stacked AQI Bar
+#' @title Create stacked AQI bar
 #' @param pollutant EPA AQS criteria pollutant.
 #' @param width Width of the bar as a fraction of the width of the plot area.
 #' @param height Height of the bar as a fraction of the height of the plot area.
 #' @param pos Position of the stacked bar relative to the plot.
+#' @param palette Named color palette to use for AQI categories.
 #' @description Draws a stacked bar indicating AQI levels on one side of a plot
 #' @return Stacked AQI Bar
 
@@ -11,11 +12,13 @@ addAQIStackedBar <- function(
   pollutant = c("PM2.5", "CO"),
   width = .01,
   height = 1,
-  pos = c("left", "right")
+  pos = c("left", "right"),
+  palette = c("EPA", "subdued", "deuteranopia")
 ) {
 
   pollutant <- match.arg(pollutant)
   pos <- match.arg(pos)
+  palette <- match.arg(palette)
 
   usr <- par("usr")
 
@@ -27,18 +30,19 @@ addAQIStackedBar <- function(
     r <- usr[1] + width*(usr[2] - usr[1])
   }
 
-  # for (i in 1:6) {
-  #   rect(
-  #     xleft = l,
-  #     ybottom = min(max(0,AQI$breaks_24[i]), height*usr[4]),
-  #     xright = r,
-  #     ytop = min(AQI$breaks_24[i+1], height*usr[4]),
-  #     col = AQI$colors[i],
-  #     xpd = NA,
-  #     border = NA
-  #   )
-  # }
+  breaks <- US_AQI[[paste0("breaks_", pollutant)]]
+  colors <- US_AQI[[paste0("colors_", palette)]]
 
-  warning("Not functioning yet.")
+  for (i in 1:6) {
+    rect(
+      xleft = l,
+      ybottom = min(max(0, breaks[i]), height*usr[4]),
+      xright = r,
+      ytop = min(breaks[i + 1], height*usr[4]),
+      col = colors[i],
+      xpd = NA,
+      border = NA
+    )
+  }
 
 }

@@ -2,13 +2,14 @@
 % Please edit documentation in R/addAQIStackedBar.R
 \name{addAQIStackedBar}
 \alias{addAQIStackedBar}
-\title{Create Stacked AQI Bar}
+\title{Create stacked AQI bar}
 \usage{
 addAQIStackedBar(
   pollutant = c("PM2.5", "CO"),
   width = 0.01,
   height = 1,
-  pos = c("left", "right")
+  pos = c("left", "right"),
+  palette = c("EPA", "subdued", "deuteranopia")
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ addAQIStackedBar(
 \item{height}{Height of the bar as a fraction of the height of the plot area.}
 
 \item{pos}{Position of the stacked bar relative to the plot.}
+
+\item{palette}{Named color palette to use for AQI categories.}
 }
 \value{
 Stacked AQI Bar

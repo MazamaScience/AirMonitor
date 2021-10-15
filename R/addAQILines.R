@@ -1,14 +1,27 @@
 #' @export
-#' @title Add AQI Lines to a Plot
+#' @title Add AQI lines to a plot
+#' @param pollutant EPA AQS criteria pollutant.
+#' @param palette Named color palette to use for AQI categories.
 #' @param ... additional arguments to be passed to \code{abline()}
-#' @description This function is a convenience for:
-#'
-#' \code{abline(h = AQI$breaks_24, col = AQI$colors)}
+#' @description Draws AQI lines across a plot at the levels appropriate for
+#' \code{pollutant}.
 
-addAQILines <- function(...) {
+addAQILines <- function(
+  pollutant = c("PM2.5", "CO"),
+  palette = c("EPA", "subdued", "deuteranopia"),
+  ...
+) {
 
-  ###graphics::abline(h = AQI$breaks_24, col = AQI$colors, ...)
+  pollutant <- match.arg(pollutant)
+  palette <- match.arg(palette)
 
-  warning("Not functioning yet.")
+  breaks <- US_AQI[[paste0("breaks_", pollutant)]]
+  colors <- US_AQI[[paste0("colors_", palette)]]
+
+  graphics::abline(
+    h = breaks,
+    col = colors,
+    ...
+  )
 
 }
