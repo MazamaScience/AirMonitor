@@ -103,6 +103,15 @@ monitor_leaflet <- function(
     legendTitle <- "CO AQI Level"
     units <- "ppm"
     digits <- 1
+  } else if ( pollutant == "OZONE" ) {
+    # TODO:  Sort out how to make this work everywhere, paying attention to the
+    # TODO:  ability to use custom breaks and colors below (Do we keep that?)
+    AQI_breaks_24 <- US_AQI[[paste0("breaks_", pollutant)]]
+    AQI_colors <- US_AQI[[paste0("colors_", "EPA")]]
+    AQI_names <- US_AQI$names_eng
+    legendTitle <- "Ozone AQI Level"
+    units <- "ppm"
+    digits <- 2
   } else if ( pollutant == "PM2.5" ) {
     AQI_breaks_24 <- c(-Inf, 12.0, 35.5, 55.5, 150.5, 250.5, Inf)
     AQI_colors <- c("#00E400", "#FFFF00", "#FF7E00", "#FF0000", "#8F3F97", "#7E0023")

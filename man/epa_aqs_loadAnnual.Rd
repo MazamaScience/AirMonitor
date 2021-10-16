@@ -29,6 +29,7 @@ EPA data.
 
 EPA parameter codes include:
 \enumerate{
+\item{44201}{ -- Ozone}
 \item{42101}{ -- CO}
 \item{88101}{ -- PM2.5 FRM/FEM Mass (begins in 2008)}
 \item{88502}{ -- PM2.5 non FRM/FEM Mass (begins in 1998)}

@@ -7,7 +7,7 @@
 #' \code{pollutant}.
 
 addAQILines <- function(
-  pollutant = c("PM2.5", "CO"),
+  pollutant = c("PM2.5", "CO", "OZONE"),
   palette = c("EPA", "subdued", "deuteranopia"),
   ...
 ) {

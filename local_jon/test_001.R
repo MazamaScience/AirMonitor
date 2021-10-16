@@ -47,4 +47,15 @@ addAQILines(pollutant = "CO")
 addAQIStackedBar(pollutant = "CO")
 addAQILegend(pollutant = "CO")
 
+LFC_Ozone <-
+  epa_aqs_loadAnnual(2016, 44201, baseDir = "~/Data/monitoring") %>%
+  monitor_filterDate(20160614, 20160623, timezone = "America/Los_Angeles") %>%
+  monitor_filterMeta(deviceDeploymentID == "8e3f33bcad43c1e2_060831025_01")
+
+monitor_timeseriesPlot(Los_FLores_Canyon, shadedNight = TRUE, col = 'black', opacity = 0.5)
+addAQILines(pollutant = "CO")
+addAQIStackedBar(pollutant = "CO")
+addAQILegend(pollutant = "CO")
+
+
 

@@ -9,7 +9,7 @@
 #' @return Stacked AQI Bar
 
 addAQIStackedBar <- function(
-  pollutant = c("PM2.5", "CO"),
+  pollutant = c("PM2.5", "CO", "OZONE"),
   width = .01,
   height = 1,
   pos = c("left", "right"),

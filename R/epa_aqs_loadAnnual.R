@@ -14,7 +14,7 @@
 #'
 #' EPA parameter codes include:
 #' \enumerate{
-# #' \item{44201}{ -- Ozone}
+#' \item{44201}{ -- Ozone}
 # #' \item{42401}{ -- SO2}
 #' \item{42101}{ -- CO}
 # #' \item{42602}{ -- NO2}
@@ -49,7 +49,7 @@ epa_aqs_loadAnnual <- function(
 
   # Parameter code
   validParameterCodes <- c(
-    # "44201",
+    "44201",
     # "42401",
     "42101",
     # "42602",
@@ -86,15 +86,23 @@ epa_aqs_loadAnnual <- function(
         parameterCode, year)
       )
     }
-    } else if ( parameterCode == "88101" ) {
-      parameter <- "PM2.5"
-      if ( !year %in% 2008:lastYear) {
-        stop(sprintf(
-          "No EPA data available for parameter code %s in year %i",
-          parameterCode, year)
-        )
-      }
-    } else if  ( parameterCode == "88502" ) {
+  } else if ( parameterCode == "44201" ) {
+    parameter <- "OZONE"
+    if ( !year %in% 1980:lastYear) {
+      stop(sprintf(
+        "No EPA data available for parameter code %s in year %i",
+        parameterCode, year)
+      )
+    }
+  } else if ( parameterCode == "88101" ) {
+    parameter <- "PM2.5"
+    if ( !year %in% 2008:lastYear) {
+      stop(sprintf(
+        "No EPA data available for parameter code %s in year %i",
+        parameterCode, year)
+      )
+    }
+  } else if  ( parameterCode == "88502" ) {
     parameter <- "PM2.5"
     if ( !year %in% 1998:lastYear) {
       stop(sprintf(

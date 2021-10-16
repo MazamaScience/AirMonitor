@@ -7,7 +7,7 @@
 addAQILegend(
   x = "topright",
   y = NULL,
-  pollutant = c("PM2.5", "CO"),
+  pollutant = c("PM2.5", "CO", "OZONE"),
   palette = c("EPA", "subdued", "deuteranopia"),
   languageCode = c("eng", "spa"),
   ...
