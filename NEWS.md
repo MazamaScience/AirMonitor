@@ -2,8 +2,7 @@
 
 * Improvements to `monitor_leaflet()`.
 * Improvements to `monitor_timeseriesPlot()`.
-* Added ephemerides calculations borrowed from **maptools* and
-added the `monitor_timeInfo()` function.
+* Added `monitor_timeInfo()` function.
 * Added `CONUS` and `US_52` collections of state codes.
 * Added utility function: `monitor_bestTimezone()`.
 * Added support for EPA `CO`, `OZONE` and `PM10` data.

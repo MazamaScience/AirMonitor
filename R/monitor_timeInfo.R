@@ -83,12 +83,13 @@ monitor_timeInfo <- function(
 
   # ----- Return ---------------------------------------------------------------
 
-  timeInfo <- timeInfo(
-    monitor$data$datetime,
-    monitor$meta$longitude,
-    monitor$meta$latitude,
-    monitor$meta$timezone
-  )
+  timeInfo <-
+    MazamaTimeSeries::timeInfo(
+      monitor$data$datetime,
+      monitor$meta$longitude,
+      monitor$meta$latitude,
+      monitor$meta$timezone
+    )
 
   return(timeInfo)
 

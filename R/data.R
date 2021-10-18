@@ -33,7 +33,6 @@
 
 #' @encoding UTF-8
 #' @title Carmel Valley example dataset
-#' @title Carmel Valley Example Dataset
 #' @format A \emph{mts_monitor} object with 600 rows and 2 columns of data.
 #' @description The \code{Carmel_Valley} dataset provides a quickly loadable
 #' version of a \emph{mts_monitor} object for practicing and code examples.
