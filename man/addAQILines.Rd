@@ -5,7 +5,7 @@
 \title{Add AQI lines to a plot}
 \usage{
 addAQILines(
-  pollutant = c("PM2.5", "CO", "OZONE", "OZONE"),
+  pollutant = c("PM2.5", "CO", "OZONE", "PM10"),
   palette = c("EPA", "subdued", "deuteranopia"),
   ...
 )
