@@ -7,8 +7,9 @@
 epa_aqs_loadAnnual(
   year = NULL,
   parameterCode = NULL,
-  baseUrl = NULL,
-  baseDir = NULL
+  archiveBaseUrl = NULL,
+  archiveBaseDir = NULL,
+  QC_negativeValues = c("zero", "na", "ignore")
 )
 }
 \arguments{
@@ -16,9 +17,11 @@ epa_aqs_loadAnnual(
 
 \item{parameterCode}{EPA AQS Parameter Code.}
 
-\item{baseUrl}{Base URL for annual EPA AQS data files.}
+\item{archiveBaseUrl}{Base URL for annual EPA AQS data files.}
 
-\item{baseDir}{Local base directory for annual EPA AQS data files.}
+\item{archiveBaseDir}{Local base directory for annual EPA AQS data files.}
+
+\item{QC_negativeValues}{Type of QC to apply to negative values.}
 }
 \value{
 A \emph{mts_monitor} object with EPA AQS data.
@@ -33,5 +36,25 @@ EPA parameter codes include:
 \item{42101}{ -- CO}
 \item{88101}{ -- PM2.5 FRM/FEM Mass (begins in 2008)}
 \item{88502}{ -- PM2.5 non FRM/FEM Mass (begins in 1998)}
+\item{81102}{ -- PM10 Mass (begins in 1988)}
 }
 }
+\section{QC}{
+
+EPA AQS hourly files are highly vetted but may still have some problems. One
+particular issue is the presence of \emph{aphysical}, negative values. (There
+is no such thing as a negative concentration.) These are most likely the
+result of instrument drift and could potentially be carefully adjusted if
+additional, enegineering-level raw data were available.
+
+But in the context of large collections of aggregated data, we must take a
+coarser appraoch. Three types of corrections are available through the
+\code{QC_negativeValues} parameter:
+
+\itemize{
+\item{\code{"zero"} -- replace negative values with 0}
+\item{\code{"na"} -- replace negative values with \code{NA}}
+\item{\code{"ignore"} -- do not replace negative values}
+}
+}
+

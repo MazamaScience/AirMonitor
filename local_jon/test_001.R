@@ -13,10 +13,10 @@ monitor %>%
 
 monitor %>%
   monitor_filterMeta(stateCode == "CA") %>%
-  monitor_leaflet(slice = "2021-10-04 14:00:00")
+  monitor_leaflet(slice = "2021-10-12 14:00:00")
 
 monitor %>%
-  monitor_filterMeta(deviceDeploymentID == "b26a39afa6492133_lon_.118.804_lat_36.029_arb3.2004") %>%
+  monitor_select("e9fbd3040bbaaea8_060652002_01") %>%
   monitor_extractData() %>%
   plot(type = 'l')
 
@@ -33,29 +33,32 @@ Carmel_Valley %>%
 # TODO:  Try out the CO data from the Carmel Valley event
 
 Salinas_CO <-
-  epa_aqs_loadAnnual(2016, 42101, baseDir = "~/Data/monitoring") %>%
+  epa_aqs_loadAnnual(2016, 42101, archiveBaseDir = "~/Data/monitoring") %>%
   monitor_filterDate(20160801, 20160810, timezone = "America/Los_Angeles") %>%
   monitor_filterMeta(deviceDeploymentID == "c9fe9c3c096b858a_060531003_01")
 
+monitor_timeseriesPlot(Salinas_CO, shadedNight = TRUE)
+
 Los_FLores_Canyon <-
-  epa_aqs_loadAnnual(2016, 42101, baseDir = "~/Data/monitoring") %>%
+  epa_aqs_loadAnnual(2016, 42101, archiveBaseDir = "~/Data/monitoring") %>%
   monitor_filterDate(20160614, 20160623, timezone = "America/Los_Angeles") %>%
   monitor_filterMeta(deviceDeploymentID == "8e3f33bcad43c1e2_060831025_01")
 
 monitor_timeseriesPlot(Los_FLores_Canyon, shadedNight = TRUE, col = 'black', opacity = 0.5)
-addAQILines(pollutant = "CO")
-addAQIStackedBar(pollutant = "CO")
-addAQILegend(pollutant = "CO")
 
-LFC_Ozone <-
-  epa_aqs_loadAnnual(2016, 44201, baseDir = "~/Data/monitoring") %>%
+CA_Ozone <-
+  epa_aqs_loadAnnual(2016, 44201, archiveBaseDir = "~/Data/monitoring") %>%
   monitor_filterDate(20160614, 20160623, timezone = "America/Los_Angeles") %>%
-  monitor_filterMeta(deviceDeploymentID == "8e3f33bcad43c1e2_060831025_01")
+  monitor_filterMeta(stateCode == "CA")
 
-monitor_timeseriesPlot(Los_FLores_Canyon, shadedNight = TRUE, col = 'black', opacity = 0.5)
-addAQILines(pollutant = "CO")
-addAQIStackedBar(pollutant = "CO")
-addAQILegend(pollutant = "CO")
+monitor_leaflet(CA_Ozone)
 
+Upland <-
+  epa_aqs_loadAnnual(2016, 44201, archiveBaseDir = "~/Data/monitoring") %>%
+  monitor_select("1bec9c5ac76d6d07_060711004_02")
+
+monitor_timeseriesPlot(Upland, addAQI = FALSE)
+addAQIStackedBar(pollutant = "OZONE")
+addAQILines(pollutant = "OZONE")
 
 

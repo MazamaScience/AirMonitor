@@ -4,8 +4,9 @@
 #'
 #' @param year Desired year (integer or character representing YYYY).
 #' @param parameterCode EPA AQS Parameter Code.
-#' @param baseUrl Base URL for annual EPA AQS data files.
-#' @param baseDir Local base directory for annual EPA AQS data files.
+#' @param archiveBaseUrl Base URL for annual EPA AQS data files.
+#' @param archiveBaseDir Local base directory for annual EPA AQS data files.
+#' @param QC_negativeValues Type of QC to apply to negative values.
 #'
 #' @return A \emph{mts_monitor} object with EPA AQS data.
 #'
@@ -20,7 +21,7 @@
 # #' \item{42602}{ -- NO2}
 #' \item{88101}{ -- PM2.5 FRM/FEM Mass (begins in 2008)}
 #' \item{88502}{ -- PM2.5 non FRM/FEM Mass (begins in 1998)}
-# #' \item{81102}{ -- PM10 Mass}
+#' \item{81102}{ -- PM10 Mass (begins in 1988)}
 # #' \item{SPEC}{ -- PM2.5 Speciation}
 # #' \item{WIND}{ -- Wind}
 # #' \item{TEMP}{ -- Temperature}
@@ -31,12 +32,30 @@
 # #' \item{NONOxNOy}
 #' }
 #'
+#' @section QC:
+#' EPA AQS hourly files are highly vetted but may still have some problems. One
+#' particular issue is the presence of \emph{aphysical}, negative values. (There
+#' is no such thing as a negative concentration.) These are most likely the
+#' result of instrument drift and could potentially be carefully adjusted if
+#' additional, enegineering-level raw data were available.
+#'
+#' But in the context of large collections of aggregated data, we must take a
+#' coarser appraoch. Three types of corrections are available through the
+#' \code{QC_negativeValues} parameter:
+#'
+#' \itemize{
+#' \item{\code{"zero"} -- replace negative values with 0}
+#' \item{\code{"na"} -- replace negative values with \code{NA}}
+#' \item{\code{"ignore"} -- do not replace negative values}
+#' }
+#'
 
 epa_aqs_loadAnnual <- function(
   year = NULL,
   parameterCode = NULL,
-  baseUrl = NULL,
-  baseDir = NULL
+  archiveBaseUrl = NULL,
+  archiveBaseDir = NULL,
+  QC_negativeValues = c("zero", "na", "ignore")
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -44,8 +63,10 @@ epa_aqs_loadAnnual <- function(
   MazamaCoreUtils::stopIfNull(year)
   MazamaCoreUtils::stopIfNull(parameterCode)
 
-  if ( is.null(baseUrl) && is.null(baseDir) )
-    stop("one of 'baseUrl' or 'baseDir' must be defined")
+  QC_negativeValues <- match.arg(QC_negativeValues)
+
+  if ( is.null(archiveBaseUrl) && is.null(archiveBaseDir) )
+    stop("one of 'archiveBaseUrl' or 'archiveBaseDir' must be defined")
 
   # Parameter code
   validParameterCodes <- c(
@@ -54,8 +75,8 @@ epa_aqs_loadAnnual <- function(
     "42101",
     # "42602",
     "88101",
-    "88502"
-    # "81102",
+    "88502",
+    "81102"
     # "SPEC",
     # "WIND",
     # "TEMP",
@@ -110,22 +131,31 @@ epa_aqs_loadAnnual <- function(
         parameterCode, year)
       )
     }
+  } else if  ( parameterCode == "81102" ) {
+    parameter <- "PM10"
+    if ( !year %in% 1988:lastYear) {
+      stop(sprintf(
+        "No EPA data available for parameter code %s in year %i",
+        parameterCode, year)
+      )
+    }
   }
+
 
   # ----- Load data ------------------------------------------------------------
 
   # Create file name and path according to the AirMonitorIngest scheme
 
-  if ( is.null(baseUrl) ) {
+  if ( is.null(archiveBaseUrl) ) {
     dataUrl <- NULL
   } else {
-    dataUrl <- file.path(baseUrl, "epa_aqs", parameterCode, year)
+    dataUrl <- file.path(archiveBaseUrl, "epa_aqs", parameterCode, year)
   }
 
-  if ( is.null(baseDir) ) {
+  if ( is.null(archiveBaseDir) ) {
     dataDir <- NULL
   } else {
-    dataDir <- file.path(baseDir, "epa_aqs", parameterCode, year)
+    dataDir <- file.path(archiveBaseDir, "epa_aqs", parameterCode, year)
   }
 
   metaFileName <- sprintf("epa_aqs_%s_%s_meta.rda", parameterCode, year)
@@ -138,9 +168,17 @@ epa_aqs_loadAnnual <- function(
 
   monitor <- structure(monitor, class = c("mts_monitor", "mts", class(monitor)))
 
-  # ----- Return ---------------------------------------------------------------
-
   MazamaTimeSeries::mts_check(monitor)
+
+  # ----- Apply QC -------------------------------------------------------------
+
+  if ( QC_negativeValues == "zero" )
+    monitor <- monitor_replaceValues(monitor, data < 0, 0)
+
+  else if ( QC_negativeValues == "na" )
+    monitor <- monitor_replaceValues(monitor, data < 0, as.numeric(NA))
+
+  # ----- Return ---------------------------------------------------------------
 
   return(monitor)
 
@@ -151,25 +189,25 @@ epa_aqs_loadAnnual <- function(
 if ( FALSE ) {
 
   year <- 2015
-  parameterCode <- 88101
-  baseUrl <- NULL
-  baseDir <- "~/Data/monitoring"
+  parameterCode <- 81102
+  archiveBaseUrl <- NULL
+  archiveBaseDir <- "~/Data/monitoring"
 
 
 
   monitor <- epa_loadAnnual(
     year = year,
     parameterCode = parameterCode,
-    baseUrl = baseUrl,
-    baseDir = baseDir
+    archiveBaseUrl = archiveBaseUrl,
+    archiveBaseDir = archiveBaseDir
   )
 
-  example_88101 <-
+  example_81102 <-
     monitor <- epa_aqs_loadAnnual(
       year = 2015,
-      parameterCode = 88101,
-      baseUrl = NULL,
-      baseDir = "~/Data/monitoring"
+      parameterCode = 81102,
+      archiveBaseUrl = NULL,
+      archiveBaseDir = "~/Data/monitoring"
     ) %>%
     monitor_filterMeta(stateCode %in% c("WA", "OR", "ID")) %>%
     monitor_filterDate(20150601, 20151101)

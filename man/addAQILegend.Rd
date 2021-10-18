@@ -7,7 +7,7 @@
 addAQILegend(
   x = "topright",
   y = NULL,
-  pollutant = c("PM2.5", "CO", "OZONE"),
+  pollutant = c("PM2.5", "CO", "OZONE", "PM10"),
   palette = c("EPA", "subdued", "deuteranopia"),
   languageCode = c("eng", "spa"),
   ...
@@ -30,4 +30,9 @@ addAQILegend(
 This function is a convenience wrapper around
 \code{graphics::legend()}. It will show the AQI colors and
 names by default if \code{col} and \code{legend} are not specified.
+
+AQI categories are arranged with lower levels at the bottom of the legend
+to match the arrangement in the plot. This is different from the default
+"reading order" so you may wish to reverse the order of user supplied
+arguments with \code{rev()} .
 }

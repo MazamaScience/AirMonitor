@@ -8,6 +8,7 @@ monitor_timeseriesPlot(
   monitor,
   shadedNight = FALSE,
   add = FALSE,
+  addAQI = TRUE,
   opacity = NULL,
   ...
 )
@@ -18,6 +19,8 @@ monitor_timeseriesPlot(
 \item{shadedNight}{Logical specifying whether to add nighttime shading.}
 
 \item{add}{Logical specifying whether to add to the current plot.}
+
+\item{addAQI}{Logical specifying whether to add AQI levels and legend.}
 
 \item{opacity}{Opacity to use for points. By default, an opacity is chosen based
 on the number of points so that trends are highlighted while outliers diminish

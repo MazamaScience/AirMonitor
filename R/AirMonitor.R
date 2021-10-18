@@ -174,13 +174,17 @@ US_52 <- c(
 
 US_AQI <- list(
 
+  # NOTE:  We must have a default breaks with just the parameter name
   # Breaks for all supported parameters
   breaks_CO = c(-Inf, 4.5, 9.5, 12.5, 15.5, 30.5, Inf),
   breaks_NO2 = c(-Inf, 54, 101, 361, 650, 2501, Inf),
+  breaks_OZONE = c(-Inf, 0, .125, .165, .205, .405, Inf),        # Using OZONE_1hr
+  breaks_PM2.5 = c(-Inf, 12, 35.5, 55.5, 150.5, 250.5, Inf),     # Using PM2.5_24hr
+  breaks_PM10 = c(-Inf, 55, 155, 255, 355, 425, Inf),
+
+  # Special breaks
   breaks_OZONE_1hr = c(-Inf, 0, .125, .165, .205, .405, Inf),    # GOOD, MOD undefined at EPA
   breaks_OZONE_8hr = c(-Inf, .055, .071, .086, .106, .405, Inf), # HAZ undefined at EPA
-  breaks_PM2.5 = c(-Inf, 12, 35.5, 55.5, 150.5, 250.5, Inf),
-  breaks_PM10 = c(-Inf, 55, 155, 255, 355, 425, Inf),
 
   # Official EPA colors
   colors_EPA = c(

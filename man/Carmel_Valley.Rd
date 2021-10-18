@@ -30,8 +30,8 @@ Carmel_Valley <-
   epa_aqs_loadAnnual(
     year = 2016,
     parameterCode = 88101,
-    baseUrl = NULL,
-    baseDir = "~/Data/monitoring"
+    archiveBaseUrl = NULL,
+    archiveBaseDir = "~/Data/monitoring"
   ) %>%
   monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_060530002_03") %>%
   monitor_filterDate(20160722, 20160815)

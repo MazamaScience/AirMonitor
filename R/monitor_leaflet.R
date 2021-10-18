@@ -97,31 +97,30 @@ monitor_leaflet <- function(
   }
 
   if ( pollutant == "CO" ) {
-    AQI_breaks_24 <- c(-Inf, 4.5, 9.5, 12.5, 15.5, 30.5, Inf)
-    AQI_colors <- c("#00E400", "#FFFF00", "#FF7E00", "#FF0000", "#8F3F97", "#7E0023")
-    AQI_names <- c("Good", "Moderate", "USG", "Unhealthy", "Very Unhealthy", "Hazardous")
     legendTitle <- "CO AQI Level"
     units <- "ppm"
     digits <- 1
   } else if ( pollutant == "OZONE" ) {
-    # TODO:  Sort out how to make this work everywhere, paying attention to the
-    # TODO:  ability to use custom breaks and colors below (Do we keep that?)
-    AQI_breaks_24 <- US_AQI[[paste0("breaks_", pollutant)]]
-    AQI_colors <- US_AQI[[paste0("colors_", "EPA")]]
-    AQI_names <- US_AQI$names_eng
     legendTitle <- "Ozone AQI Level"
     units <- "ppm"
     digits <- 2
   } else if ( pollutant == "PM2.5" ) {
-    AQI_breaks_24 <- c(-Inf, 12.0, 35.5, 55.5, 150.5, 250.5, Inf)
-    AQI_colors <- c("#00E400", "#FFFF00", "#FF7E00", "#FF0000", "#8F3F97", "#7E0023")
-    AQI_names <- c("Good", "Moderate", "USG", "Unhealthy", "Very Unhealthy", "Hazardous")
     legendTitle <- "PM2.5 AQI Level"
+    units <- "\U00B5g/m3"
+    digits <- 0
+  } else if ( pollutant == "PM10" ) {
+    legendTitle <- "PM10 AQI Level"
     units <- "\U00B5g/m3"
     digits <- 0
   }
 
-  breaks <- AQI_breaks_24
+  AQI_breaks <- US_AQI[[paste0("breaks_", pollutant)]]
+  AQI_colors <- US_AQI[[paste0("colors_", "EPA")]]
+  AQI_names <- US_AQI$names_eng
+
+  # TODO:  Figure out how to allow custom breaks, colors and labels
+
+  breaks <- AQI_breaks
   colors <- AQI_colors
   labels <- AQI_names
 
@@ -235,12 +234,12 @@ monitor_leaflet <- function(
   # ----- Create colors and legend labels --------------------------------------
 
   # If the user didn't use custom breaks then use AQI names and colors
-  if ( all.equal(breaks, AQI_breaks_24) && all.equal(colors, AQI_colors) ) {
+  if ( all.equal(breaks, AQI_breaks) && all.equal(colors, AQI_colors) ) {
 
     # Ignore warnings from RColorBrewer as leaflet::colorBin does the right thing
     suppressWarnings({
       colorFunc <- leaflet::colorBin(AQI_colors,
-                                     bins = AQI_breaks_24,
+                                     bins = AQI_breaks,
                                      na.color = "#bbbbbb")
       cols <- colorFunc(popupValue)
       colors <- AQI_colors

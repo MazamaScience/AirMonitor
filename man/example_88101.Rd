@@ -29,8 +29,8 @@ example_88101 <-
   epa_aqs_loadAnnual(
     year = 2015,
     parameterCode = 88101,
-    baseUrl = NULL,
-    baseDir = "~/Data/monitoring"
+    archiveBaseUrl = NULL,
+    archiveBaseDir = "~/Data/monitoring"
   ) %>%
   monitor_filterMeta(stateCode %in% c("WA", "OR", "ID")) %>%
   monitor_filterDate(20150601, 20151101)

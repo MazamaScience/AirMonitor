@@ -5,7 +5,7 @@
 \title{Create stacked AQI bar}
 \usage{
 addAQIStackedBar(
-  pollutant = c("PM2.5", "CO", "OZONE"),
+  pollutant = c("PM2.5", "CO", "OZONE", "PM10"),
   width = 0.01,
   height = 1,
   pos = c("left", "right"),

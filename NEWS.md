@@ -1,11 +1,15 @@
 # AirMonitor 0.0.2
 
 * Improvements to `monitor_leaflet()`.
+* Improvements to `monitor_timeseriesPlot()`.
 * Added ephemerides calculations borrowed from **maptools* and
 added the `monitor_timeInfo()` function.
 * Added `CONUS` and `US_52` collections of state codes.
 * Added utility function: `monitor_bestTimezone()`.
-* Added support for EPA `CO` and `OZONE` data.
+* Added support for EPA `CO`, `OZONE` and `PM10` data.
+* Added `monitor_select()` for easier selection of monitors.
+* Added `monitor_replaceValues()`.
+* Added `QC_negativeValues` argument to `epa_aqs_loadAnnuyal()`
 
 # AirMonitor 0.0.1
 

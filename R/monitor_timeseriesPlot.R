@@ -14,6 +14,7 @@
 # #'   UTC.
 #' @param shadedNight Logical specifying whether to add nighttime shading.
 #' @param add Logical specifying whether to add to the current plot.
+#' @param addAQI Logical specifying whether to add AQI levels and legend.
 #' @param opacity Opacity to use for points. By default, an opacity is chosen based
 #' on the number of points so that trends are highlighted while outliers diminish
 #' in visual importance as the number of points increases.
@@ -27,15 +28,17 @@ monitor_timeseriesPlot <- function(
   monitor,
   shadedNight = FALSE,
   add = FALSE,
+  addAQI = TRUE,
   opacity = NULL,
   ...
 ) {
 
   # ----- Validate parameters --------------------------------------------------
 
-  monitor_check(monitor)
-
   monitor <- monitor_dropEmpty(monitor)
+
+  if ( ncol(monitor$data) < 2 )
+    stop("no valid data in 'monitor'")
 
   meta <- monitor$meta
   data <- monitor$data
@@ -59,6 +62,7 @@ monitor_timeseriesPlot <- function(
 
   if ( !("ylim" %in% names(argsList)) ) {
     ymin <- min(data[, -1], na.rm = TRUE)
+    ymin <- min(0, ymin)
     ymax <- max(data[, -1], na.rm = TRUE)
     buffer <- 0.04 * (ymax - ymin) # Standard R buffer around min/max
     argsList$ylim <- c(ymin - buffer, ymax + buffer)
@@ -80,8 +84,12 @@ monitor_timeseriesPlot <- function(
   if ( !("ylab" %in% names(argsList)) )
     argsList$ylab <- sprintf("%s (%s)", meta$pollutant[1], meta$units[1])
 
-  if ( !("main" %in% names(argsList)) )
-    argsList$main <- paste0("Hourly ", meta$pollutant[1])
+  if ( !("main" %in% names(argsList)) ) {
+    if ( nrow(meta) == 1 )
+      argsList$main <- sprintf("Hourly %s at %s", meta$pollutant[1], meta$locationName)
+    else
+      argsList$main <- paste0("Hourly ", meta$pollutant[1])
+  }
 
   # * Plot style -----
 
@@ -145,6 +153,14 @@ monitor_timeseriesPlot <- function(
     argsList$col <- adjustcolor(argsList$col, alpha.f = opacity)
     # Add the points
     do.call(points, argsList)
+  }
+
+  # ----- AQI ------------------------------------------------------------------
+
+  if ( addAQI ) {
+    addAQILines(meta$pollutant[1])
+    addAQIStackedBar(meta$pollutant[1])
+    addAQILegend("topright", pollutant = meta$pollutant[1])
   }
 
 
