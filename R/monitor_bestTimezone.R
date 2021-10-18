@@ -21,19 +21,11 @@ monitor_bestTimezone <- function(
 
   # ----- Find most common timezone --------------------------------------------
 
-  # Handle multiple timezones
-  timezoneCount <- length(unique(monitor$meta$timezone))
-
-  # Use table(timezone) to find the most common one
-  if ( timezoneCount == 1 ) {
-    timezone <- monitor$meta$timezone[1]
-  } else {
-    timezoneTable <- sort(table(monitor$meta$timezone), decreasing = TRUE)
-    timezone <- names(timezoneTable)[1]
-  }
+  timezoneTable <- sort(table(monitor$meta$timezone), decreasing = TRUE)
+  timezone <- names(timezoneTable)[1]
 
   if ( !timezone %in% OlsonNames() )
-    stop(sprintf("timezone '%s' is not a valid Olson timezone", timezone))
+    stop(sprintf("timezone '%s' is not a valid OlsonNames() timezone", timezone))
 
   # ----- Return ---------------------------------------------------------------
 

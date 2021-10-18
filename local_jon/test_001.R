@@ -30,7 +30,7 @@ Carmel_Valley %>%
     main = "Soberanes Fire -- Carmel Valey, CA"
   )
 
-# TODO:  Try out the CO data from the Carmel Valley event
+# ----- CO ---------------------------------------------------------------------
 
 Salinas_CO <-
   epa_aqs_loadAnnual(2016, 42101, archiveBaseDir = "~/Data/monitoring") %>%
@@ -45,6 +45,8 @@ Los_FLores_Canyon <-
   monitor_filterMeta(deviceDeploymentID == "8e3f33bcad43c1e2_060831025_01")
 
 monitor_timeseriesPlot(Los_FLores_Canyon, shadedNight = TRUE, col = 'black', opacity = 0.5)
+
+# ----- OZONE ------------------------------------------------------------------
 
 CA_Ozone <-
   epa_aqs_loadAnnual(2016, 44201, archiveBaseDir = "~/Data/monitoring") %>%
@@ -61,4 +63,19 @@ monitor_timeseriesPlot(Upland, addAQI = FALSE)
 addAQIStackedBar(pollutant = "OZONE")
 addAQILines(pollutant = "OZONE")
 
+# ----- PM10 -------------------------------------------------------------------
+
+CA_PM10 <-
+  epa_aqs_loadAnnual(2016, 81102, archiveBaseDir = "~/Data/monitoring") %>%
+  monitor_filterDate(20160614, 20160623, timezone = "America/Los_Angeles") %>%
+  monitor_filterMeta(stateCode == "CA")
+
+monitor_leaflet(CA_PM10)
+
+Los_FLores_Canyon <-
+  epa_aqs_loadAnnual(2016, 81102, archiveBaseDir = "~/Data/monitoring") %>%
+  monitor_filterDate(20160614, 20160623, timezone = "America/Los_Angeles") %>%
+  monitor_select("8e3f33bcad43c1e2_060831025_03")
+
+monitor_timeseriesPlot(Los_FLores_Canyon, shadedNight = TRUE)
 

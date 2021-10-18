@@ -8,7 +8,7 @@
 * Added support for EPA `CO`, `OZONE` and `PM10` data.
 * Added `monitor_select()` for easier selection of monitors.
 * Added `monitor_replaceValues()`.
-* Added `QC_negativeValues` argument to `epa_aqs_loadAnnuyal()`
+* Added `QC_negativeValues` argument to `epa_aqs_loadAnnual()`
 
 # AirMonitor 0.0.1
 

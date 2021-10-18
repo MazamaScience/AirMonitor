@@ -118,7 +118,7 @@ monitor_timeseriesPlot <- function(
     if ( shadedNight ) {
       lat <- mean(meta$latitude)
       lon <- mean(meta$longitude)
-      timeInfo <- timeInfo(datetime, lon, lat, timezone)
+      timeInfo <- MazamaTimeSeries::timeInfo(datetime, lon, lat, timezone)
       addShadedNight(timeInfo)
     }
 
