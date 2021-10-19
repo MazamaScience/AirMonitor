@@ -1,3 +1,9 @@
+# AirMonitor 0.0.3
+
+* Updated to expect `meta$countyName` rather than `meta$county`. This reflects
+changes in **MazamaLocationutils** and thus the _mts_monitor_ objects created
+by **AirMonitorIngest**.
+
 # AirMonitor 0.0.2
 
 * Improvements to `monitor_leaflet()`.

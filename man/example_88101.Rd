@@ -22,9 +22,11 @@ The example_88101 dataset contains EPA AQS ambient monitoring data for the
 Pacific Northwest from May 31 through November 01, 2015. All data are
 associated with Parameter Code 88101 -- PM2.5 FRM/FEM Mass.
 
-This dataset was generated on 2021-10-07 by running:
+This dataset was generated on 2021-10-19 by running:
 
 \preformatted{
+library(AirMonitor)
+
 example_88101 <-
   epa_aqs_loadAnnual(
     year = 2015,

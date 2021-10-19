@@ -281,7 +281,7 @@ monitor_leaflet <- function(
     monitor$meta$deviceDeploymentID, "<br>",
     "locationID = ", monitor$meta$locationID, "<br>",
     "deviceID = ", monitor$meta$deviceID, "<br><br>",
-    monitor$meta$county, " County, ", monitor$meta$stateCode, "<br>",
+    monitor$meta$countyName, " County, ", monitor$meta$stateCode, "<br>",
     "timezone = ", monitor$meta$timezone, "<br>",
     "longitude = ", monitor$meta$longitude, ", ", "latitude = ", monitor$meta$latitude, "<br>"
   )

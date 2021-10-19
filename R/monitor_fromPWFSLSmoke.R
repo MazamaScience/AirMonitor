@@ -34,19 +34,18 @@ monitor_fromPWFSLSmoke <- function(
   missingColumns <- setdiff(coreMetadataNames, names(ws_monitor$meta))
 
   # > print(commonColumns, width = 75)
-  # [1] "longitude"   "latitude"    "elevation"   "timezone"    "countryCode"
-  # [6] "stateCode"
+  #  [1] "longitude"   "latitude"    "elevation"   "timezone"    "countryCode"
+  #  [6] "stateCode"   "countyName"
   # > print(missingColumns, width = 75)
-  # [1] "deviceDeploymentID"    "deviceID"
-  # [3] "deviceType"            "deviceDescription"
-  # [5] "deviceExtra"           "pollutant"
-  # [7] "units"                 "locationID"
-  # [9] "locationName"          "county"
-  # [11] "houseNumber"           "street"
-  # [13] "city"                  "zip"
-  # [15] "dataIngestSource"      "dataIngestURL"
-  # [17] "dataIngestUnitID"      "dataIngestExtra"
-  # [19] "dataIngestDescription"
+  #  [1] "deviceDeploymentID"    "deviceID"
+  #  [3] "deviceType"            "deviceDescription"
+  #  [5] "deviceExtra"           "pollutant"
+  #  [7] "units"                 "dataIngestSource"
+  #  [9] "dataIngestURL"         "dataIngestUnitID"
+  # [11] "dataIngestExtra"       "dataIngestDescription"
+  # [13] "locationID"            "locationName"
+  # [15] "houseNumber"           "street"
+  # [17] "city"                  "zip"
 
   meta <-
     ws_monitor$meta %>%
@@ -56,7 +55,7 @@ monitor_fromPWFSLSmoke <- function(
       deviceID = .data$monitorID,
       deviceType = .data$monitorType,
       locationName = .data$siteName,
-      county = .data$countyName,
+      ###county = .data$countyName,
       dataIngestSource = .data$pwfslDataIngestSource,
       dataIngestUnitID = .data$telemetryUnitID
     ) %>%
@@ -65,7 +64,7 @@ monitor_fromPWFSLSmoke <- function(
     dplyr::mutate(
       locationID = MazamaCoreUtils::createLocationID(.data$longitude, .data$latitude),
       pollutant = "PM2.5",
-      units = "MICROGRAMS",
+      units = "UG/M3",
       deviceDescription = as.character(NA),
       deviceExtra = as.character(NA),
       dataIngestURL = as.character(NA),

@@ -23,9 +23,11 @@ shows heavy smoke as well as strong diurnal cycles associated with sea
 breezes. Data are stored as a \emph{mts_monitor} object and are used in some
 examples in the package documentation.
 
-This dataset was generated on 2021-10-14 by running:
+This dataset was generated on 2021-10-19 by running:
 
 \preformatted{
+library(AirMonitor)
+
 Carmel_Valley <-
   epa_aqs_loadAnnual(
     year = 2016,

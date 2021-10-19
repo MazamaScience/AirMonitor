@@ -13,9 +13,11 @@
 #' Pacific Northwest from May 31 through November 01, 2015. All data are
 #' associated with Parameter Code 88101 -- PM2.5 FRM/FEM Mass.
 #'
-#' This dataset was generated on 2021-10-07 by running:
+#' This dataset was generated on 2021-10-19 by running:
 #'
 #' \preformatted{
+#' library(AirMonitor)
+#'
 #' example_88101 <-
 #'   epa_aqs_loadAnnual(
 #'     year = 2015,
@@ -45,9 +47,11 @@
 #' breezes. Data are stored as a \emph{mts_monitor} object and are used in some
 #' examples in the package documentation.
 #'
-#' This dataset was generated on 2021-10-14 by running:
+#' This dataset was generated on 2021-10-19 by running:
 #'
 #' \preformatted{
+#' library(AirMonitor)
+#'
 #' Carmel_Valley <-
 #'   epa_aqs_loadAnnual(
 #'     year = 2016,

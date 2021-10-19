@@ -18,6 +18,11 @@ NULL
 #' @description Vector of names of the required \code{monitor$meta} columns.
 #' These represent metadata columns that must exist in every valid
 #' \emph{mts_monitor} object. Any number of additional columns may also be present.
+#'
+
+# NOTE:  AirNow units include:
+# NOTE:    "C", "DEGREES", "KNOTS", "M/S", "MILLIBAR", "MM",
+# NOTE:    "PERCENT", "PPB", "PPM", "UG/M3", "WATTS/M2"
 
 coreMetadataNames <- c(
   # Specific to AirMonitor
@@ -27,7 +32,7 @@ coreMetadataNames <- c(
   "deviceDescription",        # -- human readable device details
   "deviceExtra",              # -- extra device information (possibly as JSON)
   "pollutant",                # -- one of "OZONE|CO|NO2|PM2.5|PM10"
-  "units",                    # -- one of "PPM|PPB|MILLIGRAMS|MICROGRAMS"
+  "units",                    # -- one of "PPM|PPB|UG/M3"
   "dataIngestSource",         # -- internally-standardized identifier for the data source (e.g. AIRNOW, WRCC, ...)
   "dataIngestURL",            # -- top level URL
   "dataIngestUnitID",         # -- unique identifier used to extract data from the URL
@@ -42,7 +47,7 @@ coreMetadataNames <- c(
   "elevation",                # --
   "countryCode",              # -- ISO 3166-1 alpha-2
   "stateCode",                # -- ISO 3166-2 alpha-2
-  "county",                   # --
+  "countyName",               # --
   "timezone",                 # -- Olson time zone
   "houseNumber",              # --
   "street",                   # --
