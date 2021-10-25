@@ -301,33 +301,6 @@ monitor_leaflet <- function(
 
   monitor$meta$popupText <- popupText
 
-  # ----- Create map -----------------------------------------------------------
-
-  # Determine appropriate zoom level
-  lonRange <- range(monitor$meta$longitude, na.rm = TRUE)
-  latRange <- range(monitor$meta$latitude, na.rm = TRUE)
-  maxRange <- max(diff(lonRange), diff(latRange), na.rm = TRUE)
-
-  if (maxRange > 20) {
-    zoom <- 4
-  } else if (maxRange > 10) {
-    zoom <- 5
-  } else if (maxRange > 5) {
-    zoom <- 6
-  } else if (maxRange > 2) {
-    zoom <- 7
-  } else if (maxRange > 1) {
-    zoom <- 8
-  } else if (maxRange > 0.5) {
-    zoom <- 9
-  } else if (maxRange > 0.2) {
-    zoom <- 10
-  } else if (maxRange > 0.1) {
-    zoom <- 11
-  } else {
-    zoom <- 12
-  }
-
   # ----- Create leaflet map ---------------------------------------------------
 
   # Filter out missing location data
@@ -359,10 +332,14 @@ monitor_leaflet <- function(
     providerTiles <- maptype
   }
 
+  # Determine appropriate zoom level
+  lonRange <- range(monitor$meta$longitude, na.rm = TRUE)
+  latRange <- range(monitor$meta$latitude, na.rm = TRUE)
+
   # Create leaflet map
   leafletMap <-
     leaflet::leaflet(monitor$meta) %>%
-    leaflet::setView(lng = mean(lonRange), lat = mean(latRange), zoom = zoom) %>%
+    leaflet::fitBounds(lonRange[1], latRange[1], lonRange[2], latRange[2]) %>%
     leaflet::addProviderTiles(providerTiles) %>%
     leaflet::addCircleMarkers(
       lat = ~latitude,
