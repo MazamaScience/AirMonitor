@@ -146,15 +146,34 @@ airnow_loadLatest <- function(
 
   # ----- Apply QC -------------------------------------------------------------
 
-  if ( QC_negativeValues == "zero" )
+  if ( QC_negativeValues == "zero" ) {
+
     monitor <- monitor_replaceValues(monitor, data < 0, 0)
 
-  else if ( QC_negativeValues == "na" )
+  } else if ( QC_negativeValues == "na" ) {
+
     monitor <- monitor_replaceValues(monitor, data < 0, as.numeric(NA))
+
+  }
 
   # ----- Return ---------------------------------------------------------------
 
   return(monitor)
+
+
+}
+
+# ===== DEBUG ==================================================================
+
+if ( FALSE ) {
+
+
+  parameterName <- "PM2.5"
+  archiveBaseUrl <- "https://data-monitoring1.airfire.org/monitoring-v2"
+  archiveBaseDir <- NULL
+  QC_negativeValues = c("zero", "na", "ignore")
+
+
 
 
 }

@@ -4,6 +4,7 @@
 changes in **MazamaLocationutils** and thus the _mts_monitor_ objects created
 by **AirMonitorIngest**.
 * Added `airnow_loadlatest()`.
+* Fixed bug in `monitor_timeseriesPlot()`.
 
 # AirMonitor 0.0.2
 

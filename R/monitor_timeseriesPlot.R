@@ -56,7 +56,7 @@ monitor_timeseriesPlot <- function(
   argsList <- list(...)
 
   argsList$x <- datetime
-  argsList$y <- data[, 2]
+  argsList$y <- data %>% dplyr::pull(2)
 
   # * Plot limits -----
 
