@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pipe operator — %&gt;% • AirMonitor</title>
+<title>Datetime filtering for mts_monitor objects — monitor_filterDatetime • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,21 @@
 
 
 
-<meta property="og:title" content="Pipe operator — %&gt;%" />
-<meta property="og:description" content="See magrittr::%&amp;gt;% for details." />
+<meta property="og:title" content="Datetime filtering for mts_monitor objects — monitor_filterDatetime" />
+<meta property="og:description" content="Subsets a mts_monitor object by datetime. This function
+allows for sub-day filtering as opposed to monitor_filterDate() which
+always filters to day-boundaries.
+Datetimes can be anything that is understood by
+MazamaCoreUtils::parseDatetime(). For non-POSIXct values,
+the recommended format is &quot;YYYY-mm-dd HH:MM:SS&quot;.
+Timezone determination precedence assumes that if you are passing in
+POSIXct values then you know what you are doing.
+
+get timezone from startdate if it is POSIXct
+use passed in timezone
+get timezone from mts_monitor
+
+" />
 
 
 
@@ -111,33 +124,83 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pipe operator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pnwairfire/AirMonitorIngest/blob/master/R/utils-pipe.R'><code>R/utils-pipe.R</code></a></small>
-    <div class="hidden name"><code>pipe.Rd</code></div>
+    <h1>Datetime filtering for <code>mts_monitor</code> objects</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pnwairfire/AirMonitorIngest/blob/master/R/monitor_filterDatetime.R'><code>R/monitor_filterDatetime.R</code></a></small>
+    <div class="hidden name"><code>monitor_filterDatetime.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>See <code>magrittr::%&gt;%</code> for details.</p>
+    <p>Subsets a <code>mts_monitor</code> object by datetime. This function
+allows for sub-day filtering as opposed to <code><a href='monitor_filterDate.html'>monitor_filterDate()</a></code> which
+always filters to day-boundaries.</p>
+<p>Datetimes can be anything that is understood by
+<code><a href='https://rdrr.io/pkg/MazamaCoreUtils/man/parseDatetime.html'>MazamaCoreUtils::parseDatetime()</a></code>. For non-<code>POSIXct</code> values,
+the recommended format is <code>"YYYY-mm-dd HH:MM:SS"</code>.</p>
+<p>Timezone determination precedence assumes that if you are passing in
+<code>POSIXct</code> values then you know what you are doing.</p>
+<ol>
+<li><p>get timezone from <code>startdate</code> if it is <code>POSIXct</code></p></li>
+<li><p>use passed in <code>timezone</code></p></li>
+<li><p>get timezone from <code>mts_monitor</code></p></li>
+</ol>
+
     </div>
 
-    <pre class="usage"><span class='va'>lhs</span> <span class='op'>%&gt;%</span> <span class='va'>rhs</span></pre>
+    <pre class="usage"><span class='fu'>monitor_filterDatetime</span><span class='op'>(</span>
+  monitor <span class='op'>=</span> <span class='cn'>NULL</span>,
+  startdate <span class='op'>=</span> <span class='cn'>NULL</span>,
+  enddate <span class='op'>=</span> <span class='cn'>NULL</span>,
+  timezone <span class='op'>=</span> <span class='cn'>NULL</span>,
+  unit <span class='op'>=</span> <span class='st'>"sec"</span>,
+  ceilingStart <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  ceilingEnd <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>lhs</th>
-      <td><p>A value or the magrittr placeholder.</p></td>
+      <th>monitor</th>
+      <td><p><em>mts_monitor</em> object.</p></td>
     </tr>
     <tr>
-      <th>rhs</th>
-      <td><p>A function call using the magrittr semantics.</p></td>
+      <th>startdate</th>
+      <td><p>Desired start datetime (ISO 8601).</p></td>
+    </tr>
+    <tr>
+      <th>enddate</th>
+      <td><p>Desired end datetime (ISO 8601).</p></td>
+    </tr>
+    <tr>
+      <th>timezone</th>
+      <td><p>Olson timezone used to interpret dates.</p></td>
+    </tr>
+    <tr>
+      <th>unit</th>
+      <td><p>Units used to determine time at end-of-day.</p></td>
+    </tr>
+    <tr>
+      <th>ceilingStart</th>
+      <td><p>Logical instruction to apply
+<code><a href='https://lubridate.tidyverse.org/reference/round_date.html'>ceiling_date</a></code> to the <code>startdate</code> rather than
+<code><a href='https://lubridate.tidyverse.org/reference/round_date.html'>floor_date</a></code></p></td>
+    </tr>
+    <tr>
+      <th>ceilingEnd</th>
+      <td><p>Logical instruction to apply
+<code><a href='https://lubridate.tidyverse.org/reference/round_date.html'>ceiling_date</a></code> to the <code>enddate</code> rather than
+<code><a href='https://lubridate.tidyverse.org/reference/round_date.html'>floor_date</a></code></p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The result of calling `rhs(lhs)`.</p>
+    <p>A subset of the given <em>mts_monitor</em> object.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><a href='monitor_filterMeta.html'>monitor_filter</a></p>
+<p><a href='monitor_filterDate.html'>monitor_filterDate</a></p>
+<p><a href='monitor_filterMeta.html'>monitor_filterMeta</a></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Page not found (404) • AirMonitor</title>
+<title>Combine multiple mts_monitor objects — monitor_combine • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,13 +33,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Page not found (404)" />
+<meta property="og:title" content="Combine multiple mts_monitor objects — monitor_combine" />
+<meta property="og:description" content="Create a combined mts_monitor from any number of mts_monitor
+objects or from a list of mts_monitor objects. The resulting mts_monitor
+object with contain all deviceDeploymentIDs found in any incoming
+mts_monitor and will have a regular time axis covering the the entire range
+of incoming data.
+If incoming time ranges are non-contiguous, the resulting mts_monitor will
+have gaps filled with NA values.
+An error is generated if the incoming mts_monitor objects have
+non-identical metadata for the same deviceDeploymentID." />
 
 
 
@@ -58,7 +67,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -70,7 +79,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">AirMonitor</a>
+        <a class="navbar-link" href="../index.html">AirMonitor</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
@@ -78,16 +87,16 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="news/index.html">Changelog</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -108,23 +117,53 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Page not found (404)</h1>
+    <h1>Combine multiple <code>mts_monitor</code> objects</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pnwairfire/AirMonitorIngest/blob/master/R/monitor_combine.R'><code>R/monitor_combine.R</code></a></small>
+    <div class="hidden name"><code>monitor_combine.Rd</code></div>
     </div>
 
-Content not found. Please use links in the navbar.
+    <div class="ref-description">
+    <p>Create a combined <em>mts_monitor</em> from any number of <em>mts_monitor</em>
+objects or from a list of <em>mts_monitor</em> objects. The resulting <em>mts_monitor</em>
+object with contain all <code>deviceDeploymentIDs</code> found in any incoming
+<em>mts_monitor</em> and will have a regular time axis covering the the entire range
+of incoming data.</p>
+<p>If incoming time ranges are non-contiguous, the resulting <em>mts_monitor</em> will
+have gaps filled with <code>NA</code> values.</p>
+<p>An error is generated if the incoming <em>mts_monitor</em> objects have
+non-identical metadata for the same <code>deviceDeploymentID</code>.</p>
+    </div>
+
+    <pre class="usage"><span class='fu'>monitor_combine</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>...</th>
+      <td><p>Any number of valid emphmts_monitor objects.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A combined <code>mts_monitor</code> object.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>Data are combined with a "latest is best" sensibility where any
+data overlaps exist. Incoming <em>mts_monitor</em> objects are ordered based on the
+time stamp of their last record. Any data records found in a "later" <em>mts_monitor</em>
+will overwrite data associated with an "earlier" <em>mts_monitor</em>.</p>
 
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
-
 
 
       <footer>

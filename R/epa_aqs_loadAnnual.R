@@ -2,8 +2,8 @@
 #'
 #' @title Load annual EPA AQS monitoring data
 #'
-#' @param year Desired year (integer or character representing YYYY).
 #' @param parameterCode EPA AQS Parameter Code.
+#' @param year Desired year (integer or character representing YYYY).
 #' @param archiveBaseUrl Base URL for annual EPA AQS data files.
 #' @param archiveBaseDir Local base directory for annual EPA AQS data files.
 #' @param QC_negativeValues Type of QC to apply to negative values.
@@ -51,8 +51,8 @@
 #'
 
 epa_aqs_loadAnnual <- function(
-  year = NULL,
   parameterCode = NULL,
+  year = NULL,
   archiveBaseUrl = NULL,
   archiveBaseDir = NULL,
   QC_negativeValues = c("zero", "na", "ignore")
@@ -60,8 +60,8 @@ epa_aqs_loadAnnual <- function(
 
   # ----- Validate parameters --------------------------------------------------
 
-  MazamaCoreUtils::stopIfNull(year)
   MazamaCoreUtils::stopIfNull(parameterCode)
+  MazamaCoreUtils::stopIfNull(year)
 
   QC_negativeValues <- match.arg(QC_negativeValues)
 

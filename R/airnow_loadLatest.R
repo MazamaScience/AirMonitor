@@ -131,11 +131,10 @@ airnow_loadLatest <- function(
 
   data <-
     data %>%
-    dplyr::select(dplyr::all_of(c("datetime", meta$deviceDeploymentID))) %>%
-
-    # TODO: Shouldn't have to do this
-    dplyr::arrange(.data$datetime) %>%
-    dplyr::distinct(.data$datetime, .keep_all = TRUE)
+    dplyr::select(dplyr::all_of(c("datetime", meta$deviceDeploymentID))) ###%>%
+    # # TODO: Shouldn't have to do this
+    # dplyr::arrange(.data$datetime) %>%
+    # dplyr::distinct(.data$datetime, .keep_all = TRUE)
 
   # Create monitor objecet
   monitor <- list(meta = meta, data = data)
@@ -171,7 +170,7 @@ if ( FALSE ) {
   parameterName <- "PM2.5"
   archiveBaseUrl <- "https://data-monitoring1.airfire.org/monitoring-v2"
   archiveBaseDir <- NULL
-  QC_negativeValues = c("zero", "na", "ignore")
+  QC_negativeValues = "zero"
 
 
 

@@ -5,17 +5,17 @@
 \title{Load annual EPA AQS monitoring data}
 \usage{
 epa_aqs_loadAnnual(
-  year = NULL,
   parameterCode = NULL,
+  year = NULL,
   archiveBaseUrl = NULL,
   archiveBaseDir = NULL,
   QC_negativeValues = c("zero", "na", "ignore")
 )
 }
 \arguments{
-\item{year}{Desired year (integer or character representing YYYY).}
-
 \item{parameterCode}{EPA AQS Parameter Code.}
+
+\item{year}{Desired year (integer or character representing YYYY).}
 
 \item{archiveBaseUrl}{Base URL for annual EPA AQS data files.}
 

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>General purpose metadata filtering for monitor objects — monitor_filterMeta • AirMonitor</title>
+<title>General purpose metadata filtering for mts_monitor objects — monitor_filterMeta • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,12 +39,13 @@
 
 
 
-<meta property="og:title" content="General purpose metadata filtering for monitor objects — monitor_filterMeta" />
-<meta property="og:description" content="A generalized metadata filter for monitor objects to
+<meta property="og:title" content="General purpose metadata filtering for mts_monitor objects — monitor_filterMeta" />
+<meta property="og:description" content="A generalized metadata filter for mts_monitor objects to
 choose rows/cases where conditions are true.  Multiple conditions are
 combined with &amp;amp; or separated by a comma. Only rows where the condition
 evaluates to TRUE are kept. Rows where the condition evaluates to NA
-are dropped." />
+are dropped.
+`monitor_filter()` is just a convenient alias for `monitor_filterMeta()`." />
 
 
 
@@ -76,7 +77,7 @@ are dropped." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
 
@@ -115,27 +116,30 @@ are dropped." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>General purpose metadata filtering for <em>monitor</em> objects</h1>
+    <h1>General purpose metadata filtering for <em>mts_monitor</em> objects</h1>
     <small class="dont-index">Source: <a href='https://github.com/pnwairfire/AirMonitorIngest/blob/master/R/monitor_filterMeta.R'><code>R/monitor_filterMeta.R</code></a></small>
     <div class="hidden name"><code>monitor_filterMeta.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A generalized metadata filter for <em>monitor</em> objects to
+    <p>A generalized metadata filter for <em>mts_monitor</em> objects to
 choose rows/cases where conditions are true.  Multiple conditions are
 combined with <code>&amp;</code> or separated by a comma. Only rows where the condition
 evaluates to TRUE are kept. Rows where the condition evaluates to <code>NA</code>
 are dropped.</p>
+<p>`monitor_filter()` is just a convenient alias for `monitor_filterMeta()`.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_filterMeta</span><span class='op'>(</span><span class='va'>monitor</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>monitor_filterMeta</span><span class='op'>(</span><span class='va'>monitor</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='fu'>monitor_filter</span><span class='op'>(</span><span class='va'>monitor</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>monitor</th>
-      <td><p><em>monitor</em> object.</p></td>
+      <td><p><em>mts_monitor</em> object.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -146,10 +150,15 @@ are dropped.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A subset of the incoming <code>monitor</code>.</p>
+    <p>A subset of the incoming <code>mts_monitor</code>.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Filtering is done on variables in <code>monitor$meta</code>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>monitor_filter</p>
+<p><a href='monitor_filterDate.html'>monitor_filterDate</a></p>
+<p><a href='monitor_filterDatetime.html'>monitor_filterDatetime</a></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

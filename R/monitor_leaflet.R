@@ -167,7 +167,7 @@ monitor_leaflet <- function(
 
       if ( slice == "max" ) {
 
-        # Can't find a good dplyr way to get the first occurrance of each value so we roll our own
+        # Can't find a good dplyr way to get the first occurance of each value so we roll our own
 
         suppressWarnings({
 
@@ -230,6 +230,19 @@ monitor_leaflet <- function(
     stop("improper use of slice parameter")
 
   }
+
+  # ----- Order by popupValue --------------------------------------------------
+
+  # NOTE:  This step is required if you want to have higher valued locations
+  # NOTE:  plotted on top so that they aren't hidden by lower valued locations.
+
+  orderedIndices <- order(popupValue)
+
+  popupValue <- popupValue[orderedIndices]
+  popupWhen <- popupWhen[orderedIndices]
+
+  monitor$meta <- monitor$meta[orderedIndices,]
+  # monitor$data is no longer needed
 
   # ----- Create colors and legend labels --------------------------------------
 

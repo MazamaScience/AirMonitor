@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Pipe operator — %&gt;% • AirMonitor</title>
+<title>Leaflet interactive map of monitor locations — monitor_leaflet • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,17 @@
 
 
 
-<meta property="og:title" content="Pipe operator — %&gt;%" />
-<meta property="og:description" content="See magrittr::%&amp;gt;% for details." />
+<meta property="og:title" content="Leaflet interactive map of monitor locations — monitor_leaflet" />
+<meta property="og:description" content="This function creates interactive maps that will be displayed in RStudio's
+'Viewer' tab. The slice argument is used to collapse a
+mts_monitor timeseries into a single value. If slice is an
+integer, that row index will be selected from the monitor$data
+dataframe. If slice is a function (unquoted), that function will be
+applied to the timeseries with the argument na.rm=TRUE (e.g.
+max(..., na.rm=TRUE)).
+If slice is a user defined function, it will be used with argument
+na.rm=TRUE to collapse the time dimension. Thus, user defined
+functions must accept na.rm as an argument." />
 
 
 
@@ -111,33 +120,94 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Pipe operator</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pnwairfire/AirMonitorIngest/blob/master/R/utils-pipe.R'><code>R/utils-pipe.R</code></a></small>
-    <div class="hidden name"><code>pipe.Rd</code></div>
+    <h1>Leaflet interactive map of monitor locations</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pnwairfire/AirMonitorIngest/blob/master/R/monitor_leaflet.R'><code>R/monitor_leaflet.R</code></a></small>
+    <div class="hidden name"><code>monitor_leaflet.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>See <code>magrittr::%&gt;%</code> for details.</p>
+    <p>This function creates interactive maps that will be displayed in RStudio's
+'Viewer' tab. The <code>slice</code> argument is used to collapse a
+<em>mts_monitor</em> timeseries into a single value. If <code>slice</code> is an
+integer, that row index will be selected from the <code>monitor$data</code>
+dataframe. If <code>slice</code> is a function (unquoted), that function will be
+applied to the timeseries with the argument <code>na.rm=TRUE</code> (e.g.
+<code><a href='https://rdrr.io/r/base/Extremes.html'>max(..., na.rm=TRUE)</a></code>).</p>
+<p>If <code>slice</code> is a user defined function, it will be used with argument
+<code>na.rm=TRUE</code> to collapse the time dimension. Thus, user defined
+functions must accept <code>na.rm</code> as an argument.</p>
     </div>
 
-    <pre class="usage"><span class='va'>lhs</span> <span class='op'>%&gt;%</span> <span class='va'>rhs</span></pre>
+    <pre class="usage"><span class='fu'>monitor_leaflet</span><span class='op'>(</span>
+  <span class='va'>monitor</span>,
+  slice <span class='op'>=</span> <span class='st'>"max"</span>,
+  radius <span class='op'>=</span> <span class='fl'>10</span>,
+  opacity <span class='op'>=</span> <span class='fl'>0.7</span>,
+  maptype <span class='op'>=</span> <span class='st'>"terrain"</span>,
+  extraVars <span class='op'>=</span> <span class='cn'>NULL</span>,
+  jitter <span class='op'>=</span> <span class='fl'>5e-04</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>lhs</th>
-      <td><p>A value or the magrittr placeholder.</p></td>
+      <th>monitor</th>
+      <td><p><em>mts_monitor</em> object.</p></td>
     </tr>
     <tr>
-      <th>rhs</th>
-      <td><p>A function call using the magrittr semantics.</p></td>
+      <th>slice</th>
+      <td><p>Either a formatted time string, a time index, the name of a
+(potentially user defined) function used to collapse the time axis.</p></td>
+    </tr>
+    <tr>
+      <th>radius</th>
+      <td><p>radius of monitor circles</p></td>
+    </tr>
+    <tr>
+      <th>opacity</th>
+      <td><p>opacity of monitor circles</p></td>
+    </tr>
+    <tr>
+      <th>maptype</th>
+      <td><p>optional name of leaflet ProviderTiles to use, e.g. "terrain"</p></td>
+    </tr>
+    <tr>
+      <th>extraVars</th>
+      <td><p>Character vector of additional column names from <code>monitor$meta</code>
+to be shown in leaflet popups.</p></td>
+    </tr>
+    <tr>
+      <th>jitter</th>
+      <td><p>Amount to use to slightly adjust locations so that multiple
+monitors at the same location can be seen. Use zero or <code>NA</code> to see
+precise locations.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments passed to <code>leaflet::addCircleMarker()</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The result of calling `rhs(lhs)`.</p>
+    <p>Invisibly returns a leaflet map of class "leaflet".</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The <code>maptype</code> argument is mapped onto leaflet "ProviderTile" names.
+Current map types include:</p>
+<ol>
+<li><p>"roadmap" -- "OpenStreetMap"</p></li>
+<li><p>"satellite" -- "Esri.WorldImagery"</p></li>
+<li><p>"terrain" -- "Esri.WorldTopoMap"</p></li>
+<li><p>"toner" -- "Stamen.Toner"</p></li>
+</ol>
+
+<p>If a character string not listed above is provided, it will be used as the
+underlying map tile if available. See
+<a href='https://leaflet-extras.github.io/leaflet-providers/'>https://leaflet-extras.github.io/leaflet-providers/</a> for a list of
+"provider tiles" to use as the background map.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

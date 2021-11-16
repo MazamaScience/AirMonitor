@@ -2,9 +2,12 @@
 % Please edit documentation in R/monitor_filterMeta.R
 \name{monitor_filterMeta}
 \alias{monitor_filterMeta}
+\alias{monitor_filter}
 \title{General purpose metadata filtering for \emph{mts_monitor} objects}
 \usage{
 monitor_filterMeta(monitor, ...)
+
+monitor_filter(monitor, ...)
 }
 \arguments{
 \item{monitor}{\emph{mts_monitor} object.}
@@ -21,6 +24,8 @@ choose rows/cases where conditions are true.  Multiple conditions are
 combined with \code{&} or separated by a comma. Only rows where the condition
 evaluates to TRUE are kept. Rows where the condition evaluates to \code{NA}
 are dropped.
+
+`monitor_filter()` is just a convenient alias for `monitor_filterMeta()`.
 }
 \note{
 Filtering is done on variables in \code{monitor$meta}.

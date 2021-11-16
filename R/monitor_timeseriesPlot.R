@@ -55,7 +55,7 @@ monitor_timeseriesPlot <- function(
 
   argsList <- list(...)
 
-  argsList$x <- datetime
+  argsList$x <- data$datetime
   argsList$y <- data %>% dplyr::pull(2)
 
   # * Plot limits -----
@@ -96,8 +96,13 @@ monitor_timeseriesPlot <- function(
   if ( !("pch" %in% names(argsList)) )
     argsList$pch <- 15
 
-  if ( !"col" %in% names(argsList) )
-    argsList$col <- "black"
+  # NOTE:  Save the color outside of argsList so that opacity can be applied below
+
+  if ( "col" %in% names(argsList) ) {
+    my_col <- argsList$col
+  } else {
+    my_col <- "black"
+  }
 
   # * argsListBlank -----
 
@@ -150,7 +155,7 @@ monitor_timeseriesPlot <- function(
 
   for ( id in meta$deviceDeploymentID ) {
     argsList$y <- data[[id]] # same as data[, id]
-    argsList$col <- adjustcolor(argsList$col, alpha.f = opacity)
+    argsList$col <- adjustcolor(my_col, alpha.f = opacity)
     # Add the points
     do.call(points, argsList)
   }

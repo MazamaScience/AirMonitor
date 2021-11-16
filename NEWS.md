@@ -1,10 +1,11 @@
 # AirMonitor 0.0.3
 
+* `monitor_leaflet()` now always shows higher values on top.
+* Fixed bugs in `monitor_timeseriesPlot()`.
+* Added `airnow_loadlatest()`.
 * Updated to expect `meta$countyName` rather than `meta$county`. This reflects
 changes in **MazamaLocationutils** and thus the _mts_monitor_ objects created
 by **AirMonitorIngest**.
-* Added `airnow_loadlatest()`.
-* Fixed bug in `monitor_timeseriesPlot()`.
 
 # AirMonitor 0.0.2
 

@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
 
@@ -114,6 +114,33 @@
       <small>Source: <a href='https://github.com/pnwairfire/AirMonitorIngest/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="airmonitor-003" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.3">
+<a href="#airmonitor-003" class="anchor"></a>AirMonitor 0.0.3</h1>
+<ul>
+<li>
+<code><a href="../reference/monitor_leaflet.html">monitor_leaflet()</a></code> now always shows higher values on top.</li>
+<li>Fixed bugs in <code><a href="../reference/monitor_timeseriesPlot.html">monitor_timeseriesPlot()</a></code>.</li>
+<li>Added <code>airnow_loadlatest()</code>.</li>
+<li>Updated to expect <code>meta$countyName</code> rather than <code>meta$county</code>. This reflects changes in <strong>MazamaLocationutils</strong> and thus the <em>mts_monitor</em> objects created by <strong>AirMonitorIngest</strong>.</li>
+</ul>
+</div>
+    <div id="airmonitor-002" class="section level1">
+<h1 class="page-header" data-toc-text="0.0.2">
+<a href="#airmonitor-002" class="anchor"></a>AirMonitor 0.0.2</h1>
+<ul>
+<li>Improvements to <code><a href="../reference/monitor_leaflet.html">monitor_leaflet()</a></code>.</li>
+<li>Improvements to <code><a href="../reference/monitor_timeseriesPlot.html">monitor_timeseriesPlot()</a></code>.</li>
+<li>Added <code><a href="../reference/monitor_timeInfo.html">monitor_timeInfo()</a></code> function.</li>
+<li>Added <code>CONUS</code> and <code>US_52</code> collections of state codes.</li>
+<li>Added utility function: <code><a href="../reference/monitor_bestTimezone.html">monitor_bestTimezone()</a></code>.</li>
+<li>Added support for EPA <code>CO</code>, <code>OZONE</code> and <code>PM10</code> data.</li>
+<li>Added <code><a href="../reference/monitor_select.html">monitor_select()</a></code> for easier selection of monitors.</li>
+<li>Added <code><a href="../reference/monitor_replaceValues.html">monitor_replaceValues()</a></code>.</li>
+<li>Added <code>QC_negativeValues</code> argument to <code><a href="../reference/epa_aqs_loadAnnual.html">epa_aqs_loadAnnual()</a></code>
+</li>
+</ul>
+</div>
     <div id="airmonitor-001" class="section level1">
 <h1 class="page-header" data-toc-text="0.0.1">
 <a href="#airmonitor-001" class="anchor"></a>AirMonitor 0.0.1</h1>

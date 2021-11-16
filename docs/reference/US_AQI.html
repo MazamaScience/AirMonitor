@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Page not found (404) • AirMonitor</title>
+<title>US EPA AQI Index levels, names, colors and action text — US_AQI • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script>
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,13 +33,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="Page not found (404)" />
+<meta property="og:title" content="US EPA AQI Index levels, names, colors and action text — US_AQI" />
+<meta property="og:description" content="Official, US EPA AQI levels, names, colors and action text are provided in a
+list for easy coloring and labeling." />
 
 
 
@@ -58,7 +60,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -70,7 +72,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">AirMonitor</a>
+        <a class="navbar-link" href="../index.html">AirMonitor</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
       </span>
     </div>
@@ -78,16 +80,16 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="index.html">
+  <a href="../index.html">
     <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li>
-  <a href="news/index.html">Changelog</a>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -108,23 +110,91 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Page not found (404)</h1>
+    <h1>US EPA AQI Index levels, names, colors and action text</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pnwairfire/AirMonitorIngest/blob/master/R/AirMonitor.R'><code>R/AirMonitor.R</code></a></small>
+    <div class="hidden name"><code>US_AQI.Rd</code></div>
     </div>
 
-Content not found. Please use links in the navbar.
+    <div class="ref-description">
+    <p>Official, US EPA AQI levels, names, colors and action text are provided in a
+list for easy coloring and labeling.</p>
+    </div>
+
+    <pre class="usage"><span class='va'>US_AQI</span></pre>
+
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A list with named elements</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>AQI breaks and associated names and colors</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>The low end of each break category is used as the breakpoint.</p>
+    <h2 class="hasAnchor" id="breaks"><a class="anchor" href="#breaks"></a>Breaks</h2>
+
+    
+
+
+<p>Breakpoints are given in units reported for each parameter and include:</p><ul>
+<li><p><code>breaks_CO</code></p></li>
+<li><p><code>breaks_NO2</code></p></li>
+<li><p><code>breaks_OZONE_1hr</code></p></li>
+<li><p><code>breaks_OZONE_8hr</code></p></li>
+<li><p><code>breaks_PM2.5</code></p></li>
+<li><p><code>breaks_PM10</code></p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="colors"><a class="anchor" href="#colors"></a>Colors</h2>
+
+    
+
+
+<p>Several different color palettes are provided:</p><ul>
+<li><p><code>colors_EPA</code> -- offical EPA AQI colors</p></li>
+<li><p><code>colors_subdued</code> -- subdued colors fo use with leaflet maps</p></li>
+<li><p><code>colors_deuteranopia</code> -- color vision impaired colors</p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="names"><a class="anchor" href="#names"></a>Names</h2>
+
+    
+
+
+<p>Names of AQI categories are provided in several languages identified by the
+ISO 639-2 alpha-3 code:</p><ul>
+<li><p><code>names_eng</code></p></li>
+<li><p><code>names_spa</code></p></li>
+</ul>
+
+    <h2 class="hasAnchor" id="actions"><a class="anchor" href="#actions"></a>Actions</h2>
+
+    
+
+
+<p>Text for "actions to protect yourself" are provided provided for each
+category in several languages identified by the
+ISO 639-2 alpha-3 code:</p><ul>
+<li><p><code>actions_eng</code></p></li>
+<li><p><code>actions_spa</code></p></li>
+</ul>
+
+<p>Currently supported languages include English (eng) and Spanish (spa).</p>
+<p>AQI breaks are defined at
+<a href='https://aqs.epa.gov/aqsweb/documents/codetables/aqi_breakpoints.html'>https://aqs.epa.gov/aqsweb/documents/codetables/aqi_breakpoints.html</a>
+and are given in units appropriate for each pollutant.</p>
+<p>AQI colors are defined at <a href='https://docs.airnowapi.org/aq101'>https://docs.airnowapi.org/aq101</a></p>
 
   </div>
-
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
-
 
 
       <footer>

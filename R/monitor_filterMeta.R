@@ -12,6 +12,8 @@
 #' evaluates to TRUE are kept. Rows where the condition evaluates to \code{NA}
 #' are dropped.
 #'
+#' `monitor_filter()` is just a convenient alias for `monitor_filterMeta()`.
+#'
 #' @note Filtering is done on variables in \code{monitor$meta}.
 #'
 #' @return A subset of the incoming \code{mts_monitor}.
@@ -52,3 +54,11 @@ monitor_filterMeta <- function(
   return(monitor)
 
 }
+
+# ===== Alias ==================================================================
+
+# TODO:  Add examples to the alias
+
+#' @rdname monitor_filterMeta
+#' @export
+monitor_filter <- monitor_filterMeta

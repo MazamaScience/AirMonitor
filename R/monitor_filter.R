@@ -21,7 +21,7 @@
 #' @seealso \link{monitor_filterMeta}
 #'
 
-monitor_filter <- function(
+monitor_filterData <- function(
   monitor,
   ...
 ) {
