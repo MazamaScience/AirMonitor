@@ -1,28 +1,20 @@
 #' @export
 #' @importFrom rlang .data
 #'
-#' @title Select monitors within a \emph{mts_monitor} object
+#' @title Subset and reorder time series within an \emph{mts_monitor} object
 #'
 #' @param monitor \emph{mts_monitor} object.
 #' @param id Vector of \code{deviceDeploymentIDs}.
 #'
-#' @description Selects a subset of monitors within a \emph{mts_monitor} object.
-#' This function basically performs \code{dplyr::select()} on \code{monitor$data}
-#' and is more convenient than using \code{monitor_filterMeta()}. Compare;
+#' @description
+#' This function acts similarly to \code{dplyr::select()} working on
+#' \code{monitor$data}. The returned \emph{mts_monitor} object will contain only
+#' those time series identified by \code{id} in the order specified.
 #'
-#' \preformatted{
-#' ids <- c(... some colleciton of deviceDeploymentIDs ...)
+#' This can be helpful when using faceted plot functions based on \pkg{ggplot}
+#' such as those found in \pkg{AirMonitorPlots}.
 #'
-#' monitor %>%
-#'   monitor_filter(deviceDeploymentID %in% ids)
-#'
-#' monitor %>%
-#'   monitor_select(ids)
-#' }
-#'
-#' @note Filtering is done on variables in \code{monitor$meta}.
-#'
-#' @return A subset of the incoming \code{mts_monitor}.
+#' @return A reordered (subset) of the incoming \emph{mts_monitor} object.
 #'
 #' @seealso \link{monitor_filterMeta}
 #'
@@ -32,10 +24,30 @@ monitor_select <- function(
   id
 ) {
 
-  monitor <-
-    monitor %>%
-    monitor_filterMeta(.data$deviceDeploymentID %in% id)
+  # ----- Validate parameters --------------------------------------------------
 
-  return(monitor)
+  # NOTE:  Validate is handled by MazamaTimeSeries::mts_select()
+
+  # ----- Call MazamaTimeSeries function ---------------------------------------
+
+  monitor <-
+    MazamaTimeSeries::mts_select(
+      mts = monitor,
+      deviceDeploymentID = id
+    )
+
+  class(monitor) <- union("mts_monitor", class(monitor))
+
+  # ----- Return ---------------------------------------------------------------
+
+  return(invisible(monitor))
 
 }
+
+# ===== Alias ==================================================================
+
+# TODO:  Add examples to the alias
+
+#' @rdname monitor_select
+#' @export
+monitor_reorder <- monitor_select

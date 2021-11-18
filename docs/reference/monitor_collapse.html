@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • AirMonitor</title>
+<title>Collapse an mts_monitor object into a single time series — monitor_collapse • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,19 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Collapse an mts_monitor object into a single time series — monitor_collapse" />
+<meta property="og:description" content="Collapses data from all time series in mts_monitor into a
+single-time series mts_monitor object using the function provided in the
+FUN argument. The single-time series result will be located at the mean
+longitude and latitude unless longitude and latitude
+parameters are specified.
+Any columns of meta that are constant across all records will be retained in
+the returned mts_monitor meta.
+The core metadata associated with this location (e.g.
+countryCode, stateCode, timezone, ...) will be determined from
+the most common (or average) value found in mts$meta. This will be
+a reasonable assumption for the vast majority of intended use cases where
+data from multiple instruments in close proximity are averaged together." />
 
 
 
@@ -58,7 +70,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -110,60 +122,86 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/pnwairfire/AirMonitorIngest/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>Collapse an <code>mts_monitor</code> object into a single time series</h1>
+    <small class="dont-index">Source: <a href='https://github.com/pnwairfire/AirMonitorIngest/blob/master/R/monitor_collapse.R'><code>R/monitor_collapse.R</code></a></small>
+    <div class="hidden name"><code>monitor_collapse.Rd</code></div>
     </div>
 
-    <div id="airmonitor-004" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.4">
-<a href="#airmonitor-004" class="anchor"></a>AirMonitor 0.0.4</h1>
-<ul>
-<li>Added <code><a href="../reference/monitor_collapse.html">monitor_collapse()</a></code>, <code><a href="../reference/monitor_distance.html">monitor_distance()</a></code> and <code><a href="../reference/monitor_select.html">monitor_select()</a></code>.</li>
-<li>Renamed <code><a href="../reference/monitor_filterMeta.html">monitor_filter()</a></code> to <code><a href="../reference/monitor_filterData.html">monitor_filterData()</a></code> to be more explicit.</li>
-</ul>
-</div>
-    <div id="airmonitor-003" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.3">
-<a href="#airmonitor-003" class="anchor"></a>AirMonitor 0.0.3</h1>
-<ul>
-<li>
-<code><a href="../reference/monitor_leaflet.html">monitor_leaflet()</a></code> now always shows higher values on top.</li>
-<li>Fixed bugs in <code><a href="../reference/monitor_timeseriesPlot.html">monitor_timeseriesPlot()</a></code>.</li>
-<li>Added <code>airnow_loadlatest()</code>.</li>
-<li>Updated to expect <code>meta$countyName</code> rather than <code>meta$county</code>. This reflects changes in <strong>MazamaLocationutils</strong> and thus the <em>mts_monitor</em> objects created by <strong>AirMonitorIngest</strong>.</li>
-</ul>
-</div>
-    <div id="airmonitor-002" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.2">
-<a href="#airmonitor-002" class="anchor"></a>AirMonitor 0.0.2</h1>
-<ul>
-<li>Improvements to <code><a href="../reference/monitor_leaflet.html">monitor_leaflet()</a></code>.</li>
-<li>Improvements to <code><a href="../reference/monitor_timeseriesPlot.html">monitor_timeseriesPlot()</a></code>.</li>
-<li>Added <code><a href="../reference/monitor_timeInfo.html">monitor_timeInfo()</a></code> function.</li>
-<li>Added <code>CONUS</code> and <code>US_52</code> collections of state codes.</li>
-<li>Added utility function: <code><a href="../reference/monitor_bestTimezone.html">monitor_bestTimezone()</a></code>.</li>
-<li>Added support for EPA <code>CO</code>, <code>OZONE</code> and <code>PM10</code> data.</li>
-<li>Added <code><a href="../reference/monitor_select.html">monitor_select()</a></code> for easier selection of monitors.</li>
-<li>Added <code><a href="../reference/monitor_replaceValues.html">monitor_replaceValues()</a></code>.</li>
-<li>Added <code>QC_negativeValues</code> argument to <code><a href="../reference/epa_aqs_loadAnnual.html">epa_aqs_loadAnnual()</a></code>
-</li>
-</ul>
-</div>
-    <div id="airmonitor-001" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.1">
-<a href="#airmonitor-001" class="anchor"></a>AirMonitor 0.0.1</h1>
-<ul>
-<li>Initial setup.</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Collapses data from all time series in <code>mts_monitor</code> into a
+single-time series <em>mts_monitor</em> object using the function provided in the
+<code>FUN</code> argument. The single-time series result will be located at the mean
+longitude and latitude unless <code>longitude</code> and <code>latitude</code>
+parameters are specified.</p>
+<p>Any columns of meta that are constant across all records will be retained in
+the returned <em>mts_monitor</em> meta.</p>
+<p>The core metadata associated with this location (<em>e.g.</em>
+<code>countryCode, stateCode, timezone, ...</code>) will be determined from
+the most common (or average) value found in <code>mts$meta</code>. This will be
+a reasonable assumption for the vast majority of intended use cases where
+data from multiple instruments in close proximity are averaged together.</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>monitor_collapse</span><span class='op'>(</span>
+  <span class='va'>monitor</span>,
+  longitude <span class='op'>=</span> <span class='cn'>NULL</span>,
+  latitude <span class='op'>=</span> <span class='cn'>NULL</span>,
+  deviceID <span class='op'>=</span> <span class='st'>"generatedID"</span>,
+  FUN <span class='op'>=</span> <span class='va'>mean</span>,
+  na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>monitor</th>
+      <td><p><em>mts_monitor</em> object.</p></td>
+    </tr>
+    <tr>
+      <th>longitude</th>
+      <td><p>Longitude of the collapsed time series.</p></td>
+    </tr>
+    <tr>
+      <th>latitude</th>
+      <td><p>Latitude of the collapsed time series.</p></td>
+    </tr>
+    <tr>
+      <th>deviceID</th>
+      <td><p>Device identifier for the collapsed time series.</p></td>
+    </tr>
+    <tr>
+      <th>FUN</th>
+      <td><p>Function used to collapse multiple time series.</p></td>
+    </tr>
+    <tr>
+      <th>na.rm</th>
+      <td><p>Logical specifying whether NA values should be ignored when FUN
+is applied.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>additional arguments to be passed on to the <code><a href='https://rdrr.io/r/base/apply.html'>apply()</a></code> function.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A <em>mts_monitor</em> object representingn a single time series</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>After <code>FUN</code> is applied, values of <code>+/-Inf</code> and <code>NaN</code> are
+converted to <code>NA</code>. This is a convenience for the common case where
+<code>FUN = min/max</code> or <code>FUN = mean</code> and some of the time steps have all
+missing values. See the R documentation for <code>min</code> for an explanation.</p>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 

@@ -50,7 +50,7 @@ monitor_filterData <- function(
 
   # ----- Call MazamaTimeSeries function ---------------------------------------
 
-  monitor <- MazamaTimeSeries::mts_filter(monitor, ...)
+  monitor <- MazamaTimeSeries::mts_filterData(monitor, ...)
   class(monitor) <- union("mts_monitor", class(monitor))
 
   # ----- Return ---------------------------------------------------------------

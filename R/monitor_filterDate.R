@@ -43,7 +43,7 @@
 #'
 #' @return A subset of the given \emph{mts_monitor} object.
 #'
-#' @seealso \link{monitor_filter}
+#' @seealso \link{monitor_filterData}
 #' @seealso \link{monitor_filterDatetime}
 #' @seealso \link{monitor_filterMeta}
 #'

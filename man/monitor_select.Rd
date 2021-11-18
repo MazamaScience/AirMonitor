@@ -2,9 +2,12 @@
 % Please edit documentation in R/monitor_select.R
 \name{monitor_select}
 \alias{monitor_select}
-\title{Select monitors within a \emph{mts_monitor} object}
+\alias{monitor_reorder}
+\title{Subset and reorder time series within an \emph{mts_monitor} object}
 \usage{
 monitor_select(monitor, id)
+
+monitor_reorder(monitor, id)
 }
 \arguments{
 \item{monitor}{\emph{mts_monitor} object.}
@@ -12,25 +15,15 @@ monitor_select(monitor, id)
 \item{id}{Vector of \code{deviceDeploymentIDs}.}
 }
 \value{
-A subset of the incoming \code{mts_monitor}.
+A reordered (subset) of the incoming \emph{mts_monitor} object.
 }
 \description{
-Selects a subset of monitors within a \emph{mts_monitor} object.
-This function basically performs \code{dplyr::select()} on \code{monitor$data}
-and is more convenient than using \code{monitor_filterMeta()}. Compare;
+This function acts similarly to \code{dplyr::select()} working on
+\code{monitor$data}. The returned \emph{mts_monitor} object will contain only
+those time series identified by \code{id} in the order specified.
 
-\preformatted{
-ids <- c(... some colleciton of deviceDeploymentIDs ...)
-
-monitor %>%
-  monitor_filter(deviceDeploymentID %in% ids)
-
-monitor %>%
-  monitor_select(ids)
-}
-}
-\note{
-Filtering is done on variables in \code{monitor$meta}.
+This can be helpful when using faceted plot functions based on \pkg{ggplot}
+such as those found in \pkg{AirMonitorPlots}.
 }
 \seealso{
 \link{monitor_filterMeta}

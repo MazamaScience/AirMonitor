@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Select monitors within a mts_monitor object — monitor_select • AirMonitor</title>
+<title>Subset and reorder time series within an mts_monitor object — monitor_select • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,20 +39,12 @@
 
 
 
-<meta property="og:title" content="Select monitors within a mts_monitor object — monitor_select" />
-<meta property="og:description" content="Selects a subset of monitors within a mts_monitor object.
-This function basically performs dplyr::select() on monitor$data
-and is more convenient than using monitor_filterMeta(). Compare;
-
-ids &amp;lt;- c(... some colleciton of deviceDeploymentIDs ...)
-
-monitor &amp;lt;!-- %&amp;gt;% --&amp;gt;
-  monitor_filter(deviceDeploymentID &amp;lt;!-- %in% ids) --&amp;gt;
-
-monitor &amp;lt;!-- %&amp;gt;% --&amp;gt;
-  monitor_select(ids)
-
-" />
+<meta property="og:title" content="Subset and reorder time series within an mts_monitor object — monitor_select" />
+<meta property="og:description" content="This function acts similarly to dplyr::select() working on
+monitor$data. The returned mts_monitor object will contain only
+those time series identified by id in the order specified.
+This can be helpful when using faceted plot functions based on ggplot
+such as those found in AirMonitorPlots." />
 
 
 
@@ -84,7 +76,7 @@ monitor &amp;lt;!-- %&amp;gt;% --&amp;gt;
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.4</span>
       </span>
     </div>
 
@@ -123,28 +115,22 @@ monitor &amp;lt;!-- %&amp;gt;% --&amp;gt;
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Select monitors within a <em>mts_monitor</em> object</h1>
+    <h1>Subset and reorder time series within an <em>mts_monitor</em> object</h1>
     <small class="dont-index">Source: <a href='https://github.com/pnwairfire/AirMonitorIngest/blob/master/R/monitor_select.R'><code>R/monitor_select.R</code></a></small>
     <div class="hidden name"><code>monitor_select.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Selects a subset of monitors within a <em>mts_monitor</em> object.
-This function basically performs <code><a href='https://dplyr.tidyverse.org/reference/select.html'>dplyr::select()</a></code> on <code>monitor$data</code>
-and is more convenient than using <code><a href='monitor_filterMeta.html'>monitor_filterMeta()</a></code>. Compare;</p>
-<pre>
-ids &lt;- c(... some colleciton of deviceDeploymentIDs ...)
-
-monitor &lt;!-- %&gt;% --&gt;
-  monitor_filter(deviceDeploymentID &lt;!-- %in% ids) --&gt;
-
-monitor &lt;!-- %&gt;% --&gt;
-  monitor_select(ids)
-</pre>
-
+    <p>This function acts similarly to <code><a href='https://dplyr.tidyverse.org/reference/select.html'>dplyr::select()</a></code> working on
+<code>monitor$data</code>. The returned <em>mts_monitor</em> object will contain only
+those time series identified by <code>id</code> in the order specified.</p>
+<p>This can be helpful when using faceted plot functions based on <span class="pkg">ggplot</span>
+such as those found in <span class="pkg">AirMonitorPlots</span>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_select</span><span class='op'>(</span><span class='va'>monitor</span>, <span class='va'>id</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>monitor_select</span><span class='op'>(</span><span class='va'>monitor</span>, <span class='va'>id</span><span class='op'>)</span>
+
+<span class='fu'>monitor_reorder</span><span class='op'>(</span><span class='va'>monitor</span>, <span class='va'>id</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -161,10 +147,7 @@ monitor &lt;!-- %&gt;% --&gt;
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A subset of the incoming <code>mts_monitor</code>.</p>
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
-
-    <p>Filtering is done on variables in <code>monitor$meta</code>.</p>
+    <p>A reordered (subset) of the incoming <em>mts_monitor</em> object.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='monitor_filterMeta.html'>monitor_filterMeta</a></p></div>

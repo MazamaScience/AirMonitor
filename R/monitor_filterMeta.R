@@ -18,7 +18,7 @@
 #'
 #' @return A subset of the incoming \code{mts_monitor}.
 #'
-#' @seealso \link{monitor_filter}
+#' @seealso \link{monitor_filterData}
 #' @seealso \link{monitor_filterDate}
 #' @seealso \link{monitor_filterDatetime}
 #'

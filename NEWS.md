@@ -1,3 +1,8 @@
+# AirMonitor 0.0.4
+
+* Added `monitor_collapse()`, `monitor_distance()` and `monitor_select()`.
+* Renamed `monitor_filter()` to `monitor_filterData()` to be more explicit.
+
 # AirMonitor 0.0.3
 
 * `monitor_leaflet()` now always shows higher values on top.
