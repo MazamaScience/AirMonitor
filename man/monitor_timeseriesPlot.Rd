@@ -8,7 +8,8 @@ monitor_timeseriesPlot(
   monitor,
   shadedNight = FALSE,
   add = FALSE,
-  addAQI = TRUE,
+  addAQI = FALSE,
+  palette = c("EPA", "subdued", "deuteranopia"),
   opacity = NULL,
   ...
 )
@@ -21,6 +22,8 @@ monitor_timeseriesPlot(
 \item{add}{Logical specifying whether to add to the current plot.}
 
 \item{addAQI}{Logical specifying whether to add AQI levels and legend.}
+
+\item{palette}{Named color palette to use when adding AQI decorations.}
 
 \item{opacity}{Opacity to use for points. By default, an opacity is chosen based
 on the number of points so that trends are highlighted while outliers diminish

@@ -24,4 +24,7 @@ addAQILines <- function(
     ...
   )
 
+  # NOTE:  Most breaks begin with -Inf so we add a zero line here
+  abline(h = 0, col = colors[1])
+
 }

@@ -28,7 +28,7 @@ monitor_check <- function(monitor) {
 #' @description The \code{mts_monitor} is checked for the presence of core
 #' \code{meta} and \code{data} columns.
 #'
-#' Core \code{meta} columns include:
+#' Core \code{meta} columns include: (TODO:  complete this list)
 #'
 #' \itemize{
 #'   \item{\code{deviceDeploymentID} -- unique identifier (see \pkg{MazmaLocationUtils})}

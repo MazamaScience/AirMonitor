@@ -13,7 +13,7 @@ monitor_fromPWFSLSmoke(ws_monitor = NULL)
 A \emph{mts_monitor} object.
 }
 \description{
-A **PWFSLSMoke** package \emph{ws_monitor} object is enhanced
+A \pkg{PWFSLSmoke} package \emph{ws_monitor} object is enhanced
 and modified so that it becomes a valid \emph{mts_monitor} object. This is
 a lossless operation and can be reversed with \code{monitor_toPWFSLSmoke()}.
 }

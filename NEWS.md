@@ -1,7 +1,10 @@
 # AirMonitor 0.0.4
 
+* Added `AQSID` to `coreMetadataNames`.
+* Added `monitor_toCSV()`, `monitor_toPWFSLSmoke()`.
 * Added `monitor_collapse()`, `monitor_distance()` and `monitor_select()`.
 * Renamed `monitor_filter()` to `monitor_filterData()` to be more explicit.
+* Changed `monitor_timeseriesPlot()` default to `addAQI = FALSE`.
 
 # AirMonitor 0.0.3
 

@@ -7,7 +7,7 @@
 #'
 #' @return A \emph{mts_monitor} object.
 #'
-#' @description A **PWFSLSMoke** package \emph{ws_monitor} object is enhanced
+#' @description A \pkg{PWFSLSmoke} package \emph{ws_monitor} object is enhanced
 #' and modified so that it becomes a valid \emph{mts_monitor} object. This is
 #' a lossless operation and can be reversed with \code{monitor_toPWFSLSmoke()}.
 #'
@@ -21,21 +21,16 @@ monitor_fromPWFSLSmoke <- function(
 
   MazamaCoreUtils::stopIfNull(ws_monitor)
 
-  # ----- Harmonize data -------------------------------------------------------
-
-  # * meta -----
-
-  # NOTE:  Here are the commonalities:
-  # NOTE:    > intersect(names(ws_monitor$meta), names(example_88101$meta))
-  # NOTE:      [1] "longitude"   "latitude"    "elevation"   "timezone"    "countryCode"
-  # NOTE:      [6] "stateCode"
+  # ----- Create meta ----------------------------------------------------------
 
   commonColumns <- intersect(names(ws_monitor$meta), coreMetadataNames)
-  missingColumns <- setdiff(coreMetadataNames, names(ws_monitor$meta))
 
   # > print(commonColumns, width = 75)
-  #  [1] "longitude"   "latitude"    "elevation"   "timezone"    "countryCode"
-  #  [6] "stateCode"   "countyName"
+  # [1] "longitude"   "latitude"    "elevation"   "timezone"    "countryCode"
+  # [6] "stateCode"   "countyName"
+
+  missingColumns <- setdiff(coreMetadataNames, names(ws_monitor$meta))
+
   # > print(missingColumns, width = 75)
   #  [1] "deviceDeploymentID"    "deviceID"
   #  [3] "deviceType"            "deviceDescription"
@@ -46,6 +41,7 @@ monitor_fromPWFSLSmoke <- function(
   # [13] "locationID"            "locationName"
   # [15] "houseNumber"           "street"
   # [17] "city"                  "zip"
+  # [19] "AQSID"
 
   meta <-
     ws_monitor$meta %>%
@@ -55,7 +51,7 @@ monitor_fromPWFSLSmoke <- function(
       deviceID = .data$monitorID,
       deviceType = .data$monitorType,
       locationName = .data$siteName,
-      ###county = .data$countyName,
+      AQSID = .data$aqsID,
       dataIngestSource = .data$pwfslDataIngestSource,
       dataIngestUnitID = .data$telemetryUnitID
     ) %>%
@@ -102,7 +98,7 @@ monitor_fromPWFSLSmoke <- function(
     meta %>%
     dplyr::select(all_of(newColumns))
 
-  # * data -----
+  # ----- Create data ----------------------------------------------------------
 
   # Guarantee columns are in the correct order
 
@@ -115,7 +111,7 @@ monitor_fromPWFSLSmoke <- function(
 
   names(data) <- newColumnNames
 
-  # ----- Create new mts_monitor -----------------------------------------------
+  # ----- Create mts_monitor ---------------------------------------------------
 
   monitor <- list(meta = meta, data = data)
 
@@ -138,6 +134,10 @@ if ( FALSE ) {
   ws_monitor <- PWFSLSmoke::monitor_loadLatest()
 
   monitor <- monitor_fromPWFSLSmoke(ws_monitor)
+
+  monitor %>%
+    monitor_filter(stateCode == "IA") %>%
+    monitor_timeseriesPlot()
 
 
 }

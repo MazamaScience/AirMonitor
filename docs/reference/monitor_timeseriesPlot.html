@@ -98,7 +98,7 @@ graphics::plot.default." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/pnwairfire/AirMonitorIngest/">
+  <a href="https://github.com/MazamaScience/AirMonitor/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -117,7 +117,7 @@ graphics::plot.default." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create Timeseries Plot</h1>
-    <small class="dont-index">Source: <a href='https://github.com/pnwairfire/AirMonitorIngest/blob/master/R/monitor_timeseriesPlot.R'><code>R/monitor_timeseriesPlot.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/monitor_timeseriesPlot.R'><code>R/monitor_timeseriesPlot.R</code></a></small>
     <div class="hidden name"><code>monitor_timeseriesPlot.Rd</code></div>
     </div>
 
@@ -134,7 +134,8 @@ Users can override any defaults by passing in parameters accepted by
   <span class='va'>monitor</span>,
   shadedNight <span class='op'>=</span> <span class='cn'>FALSE</span>,
   add <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  addAQI <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  addAQI <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"EPA"</span>, <span class='st'>"subdued"</span>, <span class='st'>"deuteranopia"</span><span class='op'>)</span>,
   opacity <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
 <span class='op'>)</span></pre>
@@ -157,6 +158,10 @@ Users can override any defaults by passing in parameters accepted by
     <tr>
       <th>addAQI</th>
       <td><p>Logical specifying whether to add AQI levels and legend.</p></td>
+    </tr>
+    <tr>
+      <th>palette</th>
+      <td><p>Named color palette to use when adding AQI decorations.</p></td>
     </tr>
     <tr>
       <th>opacity</th>

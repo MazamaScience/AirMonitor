@@ -15,6 +15,7 @@
 #' @param shadedNight Logical specifying whether to add nighttime shading.
 #' @param add Logical specifying whether to add to the current plot.
 #' @param addAQI Logical specifying whether to add AQI levels and legend.
+#' @param palette Named color palette to use when adding AQI decorations.
 #' @param opacity Opacity to use for points. By default, an opacity is chosen based
 #' on the number of points so that trends are highlighted while outliers diminish
 #' in visual importance as the number of points increases.
@@ -28,12 +29,19 @@ monitor_timeseriesPlot <- function(
   monitor,
   shadedNight = FALSE,
   add = FALSE,
-  addAQI = TRUE,
+  addAQI = FALSE,
+  palette = c("EPA", "subdued", "deuteranopia"),
   opacity = NULL,
   ...
 ) {
 
   # ----- Validate parameters --------------------------------------------------
+
+  MazamaCoreUtils::stopIfNull(monitor)
+  MazamaCoreUtils::setIfNull(shadedNight, FALSE)
+  MazamaCoreUtils::setIfNull(add, FALSE)
+  MazamaCoreUtils::setIfNull(addAQI, FALSE)
+  palette <- match.arg(palette)
 
   monitor <- monitor_dropEmpty(monitor)
 
@@ -163,9 +171,9 @@ monitor_timeseriesPlot <- function(
   # ----- AQI ------------------------------------------------------------------
 
   if ( addAQI ) {
-    addAQILines(meta$pollutant[1])
-    addAQIStackedBar(meta$pollutant[1])
-    addAQILegend("topright", pollutant = meta$pollutant[1])
+    addAQILines(meta$pollutant[1], palette = palette)
+    addAQIStackedBar(meta$pollutant[1], palette = palette)
+    addAQILegend("topright", pollutant = meta$pollutant[1], palette = palette)
   }
 
 

@@ -52,7 +52,10 @@ coreMetadataNames <- c(
   "houseNumber",              # --
   "street",                   # --
   "city",                     # --
-  "zip"                       # --
+  "zip",                      # --
+
+  # Extras
+  "AQSID"                     # -- EPA AQS site identifier (widely used for North American air quality data)
 )
 
 

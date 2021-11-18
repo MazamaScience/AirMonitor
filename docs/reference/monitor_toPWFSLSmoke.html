@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert a ws_monitor object from the PWFSLSmoke package — monitor_fromPWFSLSmoke • AirMonitor</title>
+<title>Convert a mts_monitor object to a ws_monitor object for the PWFSLSmoke package — monitor_toPWFSLSmoke • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,10 @@
 
 
 
-<meta property="og:title" content="Convert a ws_monitor object from the PWFSLSmoke package — monitor_fromPWFSLSmoke" />
-<meta property="og:description" content="A PWFSLSmoke package ws_monitor object is enhanced
-and modified so that it becomes a valid mts_monitor object. This is
-a lossless operation and can be reversed with monitor_toPWFSLSmoke()." />
+<meta property="og:title" content="Convert a mts_monitor object to a ws_monitor object for the PWFSLSmoke package — monitor_toPWFSLSmoke" />
+<meta property="og:description" content="A mts_monitor object is modified so that it becomes
+a PWFSLSmoke package ws_monitor object. While some information
+will be lost, this operation can be reversed with monitor_fromPWFSLSmoke()." />
 
 
 
@@ -113,31 +113,36 @@ a lossless operation and can be reversed with monitor_toPWFSLSmoke()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert a ws_monitor object from the PWFSLSmoke package</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/monitor_fromPWFSLSmoke.R'><code>R/monitor_fromPWFSLSmoke.R</code></a></small>
-    <div class="hidden name"><code>monitor_fromPWFSLSmoke.Rd</code></div>
+    <h1>Convert a mts_monitor object to a ws_monitor object for the PWFSLSmoke package</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/monitor_toPWFSLSmoke.R'><code>R/monitor_toPWFSLSmoke.R</code></a></small>
+    <div class="hidden name"><code>monitor_toPWFSLSmoke.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>A <span class="pkg">PWFSLSmoke</span> package <em>ws_monitor</em> object is enhanced
-and modified so that it becomes a valid <em>mts_monitor</em> object. This is
-a lossless operation and can be reversed with <code><a href='monitor_toPWFSLSmoke.html'>monitor_toPWFSLSmoke()</a></code>.</p>
+    <p>A <em>mts_monitor</em> object is modified so that it becomes
+a <span class="pkg">PWFSLSmoke</span> package <em>ws_monitor</em> object. While some information
+will be lost, this operation can be reversed with <code><a href='monitor_fromPWFSLSmoke.html'>monitor_fromPWFSLSmoke()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_fromPWFSLSmoke</span><span class='op'>(</span>ws_monitor <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>monitor_toPWFSLSmoke</span><span class='op'>(</span>monitor <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>ws_monitor</th>
-      <td><p><em>ws_monitor</em> object</p></td>
+      <th>monitor</th>
+      <td><p><em>mts_monitor</em> object</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <em>mts_monitor</em> object.</p>
+    <p>A <span class="pkg">PWFSLSmoke</span> <em>ws_monitor</em> object.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>In order to avoid duplicated <code>monitorID</code> values in the returned
+<em>ws_monitor</em> object, the full <code>deviceDeploymentID</code> will be used
+as the <code>monitorID</code>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
