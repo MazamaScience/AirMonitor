@@ -45,5 +45,7 @@ ia2 %>% monitor_timeseriesPlot(addAQI = FALSE, pch = 1, col = 'blue', add = TRUE
 ia2n %>% monitor_timeseriesPlot(addAQI = FALSE, pch = 1, col = 'red', add = TRUE)
 
 # Basic plot
-a2 %>% monitor_filter(deviceID == 191032001) %>% monitor_timeseriesPlot()
+a2 %>%
+  monitor_filter(deviceID == 191032001) %>%
+  monitor_timeseriesPlot(addAQI = TRUE, palette = "deuteranopia")
 
