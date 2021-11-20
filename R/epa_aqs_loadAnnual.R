@@ -149,13 +149,13 @@ epa_aqs_loadAnnual <- function(
   if ( is.null(archiveBaseUrl) ) {
     dataUrl <- NULL
   } else {
-    dataUrl <- file.path(archiveBaseUrl, "epa_aqs", parameterCode, year)
+    dataUrl <- file.path(archiveBaseUrl, "epa_aqs", year, "data")
   }
 
   if ( is.null(archiveBaseDir) ) {
     dataDir <- NULL
   } else {
-    dataDir <- file.path(archiveBaseDir, "epa_aqs", parameterCode, year)
+    dataDir <- file.path(archiveBaseDir, "epa_aqs", year, "data")
   }
 
   metaFileName <- sprintf("epa_aqs_%s_%s_meta.rda", parameterCode, year)

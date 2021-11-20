@@ -1,3 +1,8 @@
+# AirMonitor 0.0.5
+
+* Guarantee that each "well known directory" path includes "/data" as the last
+level before the actual data files.
+
 # AirMonitor 0.0.4
 
 * Added `AQSID` to `coreMetadataNames`.

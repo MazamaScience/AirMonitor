@@ -107,13 +107,13 @@ airnow_loadLatest <- function(
   if ( is.null(archiveBaseUrl) ) {
     dataUrl <- NULL
   } else {
-    dataUrl <- file.path(archiveBaseUrl, "latest")
+    dataUrl <- file.path(archiveBaseUrl, "latest/data")
   }
 
   if ( is.null(archiveBaseDir) ) {
     dataDir <- NULL
   } else {
-    dataDir <- file.path(archiveBaseDir, "latest")
+    dataDir <- file.path(archiveBaseDir, "latest/data")
   }
 
   metaFileName <- sprintf("airnow_%s_latest_meta.rda", parameterName)
@@ -131,10 +131,7 @@ airnow_loadLatest <- function(
 
   data <-
     data %>%
-    dplyr::select(dplyr::all_of(c("datetime", meta$deviceDeploymentID))) ###%>%
-    # # TODO: Shouldn't have to do this
-    # dplyr::arrange(.data$datetime) %>%
-    # dplyr::distinct(.data$datetime, .keep_all = TRUE)
+    dplyr::select(dplyr::all_of(c("datetime", meta$deviceDeploymentID)))
 
   # Create monitor objecet
   monitor <- list(meta = meta, data = data)
