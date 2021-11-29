@@ -1,3 +1,7 @@
+# AirMonitor 0.0.6
+
+* Now depending on **MazamaTimeSeries** 0.1.1.
+
 # AirMonitor 0.0.5
 
 * Guarantee that each "well known directory" path includes "/data" as the last
