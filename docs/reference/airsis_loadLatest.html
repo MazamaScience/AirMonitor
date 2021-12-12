@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Check an mts_monitor object for validity. — monitor_check • AirMonitor</title>
+<title>Load most recent AIRSIS monitoring data — airsis_loadLatest • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,16 @@
 
 
 
-<meta property="og:title" content="Check an mts_monitor object for validity. — monitor_check" />
-<meta property="og:description" content="Checks on the validity of an mts_monitor object. If any test
-fails, this function will stop with a warning message." />
+<meta property="og:title" content="Load most recent AIRSIS monitoring data — airsis_loadLatest" />
+<meta property="og:description" content="Loads pre-generated .rda files containing the most recent
+AIRSIS data.
+If archiveDataDir is defined, data will be loaded from this local
+archive. Otherwise, data will be loaded from the monitoring data repository
+maintained by the USFS AirFire team.
+The files loaded by this function are updated multiple times an hour and
+contain data for the previous 10 days.
+For daily updates covering the most recent 45 days, use airsis_loadDaily().
+For data extended more than 45 days into the past, use airsis_loadAnnual()." />
 
 
 
@@ -112,27 +119,49 @@ fails, this function will stop with a warning message." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Check an <em>mts_monitor</em> object for validity.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/utils-monitor.R'><code>R/utils-monitor.R</code></a></small>
-    <div class="hidden name"><code>monitor_check.Rd</code></div>
+    <h1>Load most recent AIRSIS monitoring data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/airsis_loadLatest.R'><code>R/airsis_loadLatest.R</code></a></small>
+    <div class="hidden name"><code>airsis_loadLatest.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Checks on the validity of an <em>mts_monitor</em> object. If any test
-fails, this function will stop with a warning message.</p>
+    <p>Loads pre-generated .rda files containing the most recent
+AIRSIS data.</p>
+<p>If <code>archiveDataDir</code> is defined, data will be loaded from this local
+archive. Otherwise, data will be loaded from the monitoring data repository
+maintained by the USFS AirFire team.</p>
+<p>The files loaded by this function are updated multiple times an hour and
+contain data for the previous 10 days.</p>
+<p>For daily updates covering the most recent 45 days, use <code><a href='airsis_loadDaily.html'>airsis_loadDaily()</a></code>.</p>
+<p>For data extended more than 45 days into the past, use <code>airsis_loadAnnual()</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_check</span><span class='op'>(</span><span class='va'>monitor</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>airsis_loadLatest</span><span class='op'>(</span>
+  archiveBaseUrl <span class='op'>=</span> <span class='cn'>NULL</span>,
+  archiveBaseDir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  QC_negativeValues <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"zero"</span>, <span class='st'>"na"</span>, <span class='st'>"ignore"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>monitor</th>
-      <td><p><em>mts_monitor</em> objet.</p></td>
+      <th>archiveBaseUrl</th>
+      <td><p>Base URL for annual EPA AQS data files.</p></td>
+    </tr>
+    <tr>
+      <th>archiveBaseDir</th>
+      <td><p>Local base directory for annual EPA AQS data files.</p></td>
+    </tr>
+    <tr>
+      <th>QC_negativeValues</th>
+      <td><p>Type of QC to apply to negative values.</p></td>
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A <em>ws_monitor</em> object with AIRSIS data.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

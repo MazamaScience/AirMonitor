@@ -1,3 +1,12 @@
+# AirMonitor 0.0.8
+
+* Added `monitor_dailyStatistic()`.
+
+# AirMonitor 0.0.7
+
+* Added `airsis_loadLatest()`, `wrcc_loadLatest()`.
+* Added `~_loadDaily()`.
+
 # AirMonitor 0.0.6
 
 * Now depending on **MazamaTimeSeries** 0.1.1.

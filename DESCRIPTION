@@ -1,6 +1,6 @@
 Type: Package
 Package: AirMonitor
-Version: 0.0.6
+Version: 0.0.8
 Title: Air Quality Data Analysis
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre"))
@@ -19,7 +19,7 @@ Imports:
     lubridate,
     magrittr,
     MazamaCoreUtils (>= 0.4.10),
-    MazamaTimeSeries (>= 0.1.1),
+    MazamaTimeSeries (>= 0.1.2),
     readr,
     rlang,
     stringr,
