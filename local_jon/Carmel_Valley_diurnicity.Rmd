@@ -1,0 +1,295 @@
+---
+title: "Carmel Valley Wildfire Smoke 'Diurnicity'"
+author: "Jonathan Callahan"
+date: "2021-12-14"
+output: html_document
+---
+
+```{r setup, include = FALSE, fig.height = 5, fig.width = 8}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Background
+
+Recent conversations brought up concerns about using midnight as the
+day-boundary when calculating daily average PM 2.5 levels. In locations where
+the daily max occurs at night, daily average PM2.5 levels might be reduced
+by splitting the highest values between two days. (This is likely to occur
+in valley locations that act as pour points for down-valley drainage of
+smoke during nighttime smoldering.)
+
+This document presents a method for identifying days in an air quality time
+series that display strong diurnal cycles during periods of elevated smoke. 
+We will call this _diurnicity_ for the time being.
+
+Having identified days of interest, we then find the hour of the day at which
+a maximum value of PM 2.5 occurred so that we can assess whether a midnight
+day boundary will split high PM 2.5 values across two days. In a perfect world,
+our day boundaries would be shifted 12 hours from the time of each daily max.
+
+# Method
+
+During the Soberanes Fire in 2016, the air quality monitoring station in the 
+Carmel Valley showed very high levels of smoke and a very strong diurnal
+signal affected largely by land and sea breezes during otherwise calm weather.
+
+We will use the Carmel Valley monitoring data to develop an algorithm for
+detecting _diurnicity_.
+
+```{r load_data, echo = FALSE}
+library(AirMonitor)
+library(MazamaRollUtils)
+
+# ----- Download data ----------------------------------------------------------
+
+AirNow_2016 <-
+  PWFSLSmoke::airnow_loadAnnual(2016) %>%
+  monitor_fromPWFSLSmoke()
+```
+
+## Sobranes Fire
+
+The Soberanes fire began on July 22, 2016 and was not fully extinguished until
+October 12, 2016. The bulk of the smoke impacts in the Carmel Valley occurred
+in the first three weeks of the fire.
+
+The following plot shows the diurnal cycle of PM 2.5 measurement with individual
+measurements plotted by time-of-day along with averages of all measurements for
+each time-of-day. A strong diurnal signal is present with UNHEALTHY conditions
+(red on the AQI scale) many mornings and GOOD conditions most evenings.
+
+```{r daily_by_hour_plot, echo = FALSE, warning = FALSE}
+
+# ----- What does a diurnal signal look like -----------------------------------
+
+AirMonitor::Carmel_Valley %>%
+  monitor_toPWFSLSmoke() %>%
+  AirMonitorPlots::monitor_ggDailyByHour_archival(
+    title = "Carmel Valley -- Sobranes Fire"
+  )
+```
+
+## _"Diurnicity"_
+
+A simple metric to capture this diurnal signal during periods of strong
+health impacts can be calculated by first converting  PM 2.5 values to their
+equivalent AQI Level (GOOD = 1, MODERATE = 2, _etc._) and then using rolling 
+versions of _max_, _mean_ and _min_ functions.
+
+In vectorized pseudocode this would look like:
+
+```
+min <- roll_min(hourly_AQI_level)
+mean <- roll_mean(hourly_AQI_level)
+max <- roll_max(hourly_AQI_level)
+
+diurnicity <- 10 * mean * (max - min)
+```
+
+Each of `min`, `mean` and `max` will vary between 1 and 6. The factor of 10 is
+included so that _diurnicity_ will be visible when plotted on top of monitoring
+data.
+
+During the worst days of the Soberanes fire, daily averages were at the 
+UNHEALTHY level and the _diurnicity_ would evalute to: 
+
+```
+10 * 4 * (6 - 2) = 160
+```
+
+This new _diurnicity_ metric can be used to identify time periods of interest
+as seen in the following plots. Day-night shading is used to more easily 
+identify the diurnal cycle.
+
+A dashed line at `diurnicity = 20` suggests a threshold above which days can
+be considered to have a both PM 2.5 levels of concern and a strong diurnal cycle.
+
+```{r diurnicity_plot, echo = FALSE}
+
+# ----- "Diurnicity:  Carmel Valley --------------------------------------------
+
+Carmel_Valley <-
+  AirNow_2016 %>%
+  monitor_filter(AQSID == "060530002")
+
+timezone <- Carmel_Valley$meta$timezone
+t <- Carmel_Valley$data$datetime
+x <- Carmel_Valley$data[,2]
+
+a <- .bincode(x, breaks = US_AQI$breaks_PM2.5, right = FALSE)
+
+a_max <- roll_max(a, 24, align = "left", na.rm = TRUE)
+a_mean <- roll_mean(a, 24, align = "left", na.rm = TRUE)
+a_min <- roll_min(a, 24, align = "left", na.rm = TRUE)
+
+diurnicity <- 10 * a_mean * (a_max - a_min)
+
+layout(matrix(seq(1:4), ncol = 2, byrow = TRUE))
+par(mar = c(2, 4, 4, 2) + 0.1)
+
+for ( i in seq(0,6,2) ) {
+
+  startdate <- MazamaCoreUtils::parseDatetime(20160701, timezone = timezone) + lubridate::dweeks(i)
+  enddate <- startdate + lubridate::dweeks(2)
+
+  Carmel_Valley %>%
+    monitor_filterDate(startdate, enddate) %>%
+    monitor_timeseriesPlot(shadedNight = TRUE, pch = 15, cex = 0.5, ylim = c(0, 200), xlab = NULL)
+
+  addAQIStackedBar(palette = "deuteranopia")
+
+  # diurnicity ranges goes up to 20+ so multiply by 10 to plot
+  lines(t, diurnicity, lwd = 3, col = adjustcolor("coral", 0.5))
+  abline(h = 20, lty = "dashed")
+
+  legend(
+    "topright",
+    legend = "'diurnicity'",
+    lwd = 3,
+    col = adjustcolor("coral", 0.5)
+  )
+
+}
+
+par(mar = c(1, 4, 4, 2) + 0.1)
+layout(1)
+
+```
+
+## Hour of PM 2.5 Max during strong _diurnicity_
+
+Our overall goal is to identify those days with strong _diurnicity_ and to 
+determine when the maximum PM 2.5 value occurred on those days.
+
+We can identify "diurnal days" using the threshold suggested above. We can then
+calculate a rolling 24-hour maximum to identify the local time-of-day.
+Combining them, we can identify and then tabulate the time-of-day for all
+days with a strong diurnal signal.
+
+In vectorized pseudocode:
+
+```
+diurnal_day_mask <- diurnicity > 20
+24_hour_mask <- time == roll_max(time)
+```
+
+The following plots show how the masks identify the times we are interested in:
+
+```{r time_of_max, echo = FALSE}
+# ----- Carmel Valley July-August ----------------------------------------------
+
+Carmel_Valley_JA <-
+  Carmel_Valley %>%
+  monitor_filterDate(20160701, 20160901, timezone = "America/Los_Angeles")
+
+t_JA <- Carmel_Valley_JA$data$datetime
+x_JA <- Carmel_Valley_JA$data[,2]
+
+a_JA <- .bincode(x_JA, breaks = US_AQI$breaks_PM2.5, right = FALSE)
+
+a_JA_max <- roll_max(a_JA, 24, align = "left", na.rm = TRUE)
+a_JA_mean <- roll_mean(a_JA, 24, align = "left", na.rm = TRUE)
+a_JA_min <- roll_min(a_JA, 24, align = "left", na.rm = TRUE)
+
+diurnicity_JA <- 10 * a_JA_mean * (a_JA_max - a_JA_min)
+
+layout(matrix(seq(3)))
+par(mar = c(1, 4, 4, 2) + 0.1)
+
+# Annual w/ cutoff
+Carmel_Valley_JA %>%
+  monitor_timeseriesPlot(shadedNight = FALSE, pch = 15, cex = 1.0, ylim = c(0, 400), xlab = NULL)
+
+addAQIStackedBar(palette = "deuteranopia")
+
+# diurnicity ranges goes up to 20+ so multiply by 10 to plot
+lines(t_JA, diurnicity_JA, lwd = 3, col = adjustcolor("coral", 0.5))
+abline(h = 20, lty = "dashed")
+
+# Annual w/ all hours
+Carmel_Valley_JA %>%
+  monitor_timeseriesPlot(shadedNight = FALSE, pch = 15, cex = 0.8, ylim = c(0,400), xlab = NULL, main = "Times of High Diurnicity")
+
+diurnal_mask <- diurnicity_JA > 20
+points(t_JA[diurnal_mask], x_JA[diurnal_mask], pch = 15, cex = 0.8, col = 'red')
+
+addAQIStackedBar(palette = "deuteranopia")
+
+# Annual w/ all maxes
+Carmel_Valley_JA %>%
+  monitor_timeseriesPlot(shadedNight = FALSE, cex = 0.8, ylim = c(0, 400), xlab = NULL, main = "Hours of Max PM 2.5 during High Diurnicity")
+
+###points(t_JA[diurnal_mask], x_JA[diurnal_mask], pch = 15, cex = 0.8, col = adjustcolor('red', 0.5))
+
+rolling_max_mask <- x_JA == roll_max(x_JA, 24, align = "center", na.rm = TRUE)
+diurnal_max_mask <- diurnal_mask & rolling_max_mask
+
+points(t_JA[diurnal_max_mask], x_JA[diurnal_max_mask], pch = 1, cex = 1.0, lwd = 2, col = 'red')
+
+addAQIStackedBar(palette = "deuteranopia")
+
+par(mar = c(1, 4, 4, 2) + 0.1)
+layout(1)
+```
+
+## Time-of-day
+
+The times identified above can now be tabulated to see when the strong diurnal
+cycle typically peaks. In fact, we already know from the very first plot that 
+the peak occurs in the morning. But the algorithm we have just developed is very fast
+(it uses C++ rollling functions) and could be applied to all monitors over 
+multiple years to gain a statistical understanding of different categories of
+_diurnicity_.
+
+For Carmel Valley during the Soberanes fire, the hours of maximum PM2.5 during
+_diurnicity_ are seen below:
+
+```{r diurnicity_histogram, echo = FALSE}
+# ----- What hours are involved ------------------------------------------------
+
+diurnal_max_hour_of_day <-
+  t_JA[diurnal_max_mask] %>%
+  na.omit() %>%
+  lubridate::with_tz(timezone) %>%
+  lubridate::hour()
+
+hist(
+  diurnal_max_hour_of_day,
+  right = FALSE,
+  xlim = c(0, 24),
+  main = "Hour of Daily Max at Carmel Valley -- Soberanes Fire",
+  xlab = "Local time",
+  axes = FALSE
+)
+segments(0, 0, 24, 0)
+axis(1, at = c(0, 6, 12, 18, 24), labels = c("midnight", "6 AM", "noon", "6 PM", "midnight"))
+axis(2, las = 1)
+```
+
+# Next Steps
+
+## Identify all periods with _diurnicity_
+
+With this new metric in hand, it would be straightforward to run through 10 years
+worth of data for all AirNow monitoring stations and identify periods of strong
+_diurnicity_.
+
+## Determine phase of _diurnicity_
+
+As _diurnicity_ implies an almost sinusoidal signal, we should be able to use
+the time of the daily maximum to identify a "phase" fore each trace -- _i.e._ the rough
+time of day of the peak. I am imagining we could divide the day up into 3-hour
+chunks for this.
+
+## Cluster time series based on strength and phase of _diurnicity_
+
+If we find enough periods with strong _diurnicity_, we could use clustering or
+other machine learning techniques to potentially categorize different types of
+locations or different types of fire behavior.
+
+## Answer the question of best day-boundary
+
+A thorough analysis of all monitoring time series in the past decade should 
+give us a very good handle on whether midnight or some other time would make
+a good  day boundnary.
+
