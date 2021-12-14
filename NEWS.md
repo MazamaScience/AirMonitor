@@ -2,6 +2,8 @@
 
 * Added `monitor_dailyStatistic()`.
 * Added `monitor_dailyThreshold()`.
+* Added `monitor_dailyBarplot()`.
+* Added `aqiColors()`.
 
 # AirMonitor 0.0.7
 
