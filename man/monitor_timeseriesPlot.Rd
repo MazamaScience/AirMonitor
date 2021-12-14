@@ -2,10 +2,10 @@
 % Please edit documentation in R/monitor_timeseriesPlot.R
 \name{monitor_timeseriesPlot}
 \alias{monitor_timeseriesPlot}
-\title{Create Timeseries Plot}
+\title{Create timeseries plot}
 \usage{
 monitor_timeseriesPlot(
-  monitor,
+  monitor = NULL,
   shadedNight = FALSE,
   add = FALSE,
   addAQI = FALSE,

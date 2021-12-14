@@ -10,10 +10,10 @@
 
 addAQIStackedBar <- function(
   pollutant = c("PM2.5", "CO", "OZONE", "PM10"),
+  palette = c("EPA", "subdued", "deuteranopia"),
   width = .01,
   height = 1,
-  pos = c("left", "right"),
-  palette = c("EPA", "subdued", "deuteranopia")
+  pos = c("left", "right")
 ) {
 
   pollutant <- match.arg(pollutant)

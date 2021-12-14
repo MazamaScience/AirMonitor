@@ -1,8 +1,8 @@
 #' @export
 #'
-#' @title Create daily statistics for each monitor in an \code{monitor} object
+#' @title Create daily statistics for each monitor in an \emph{mts_monitor} object
 #'
-#' @param monitor \emph{monitor_monitor} object.
+#' @param monitor \emph{mts_monitor} object.
 #' @param FUN Function used to create daily statistics.
 #' @param na.rm Value passed on to \code{FUN}. If \code{FUN} does not use
 #' \code{na.rm}, this should be set to \code{NULL}.
@@ -13,13 +13,13 @@
 #' savings time as defined in the local timezone, "LST" uses "local standard time"
 #' all year round.
 #'
-#' @return A \emph{monitor} object containing daily statistical summaries.
+#' @return A \emph{mts_monitor} object containing daily statistical summaries.
 #'
 #' @description
 #' Daily statstics are calculated for each time series in \code{monitor$data}
 #' using \code{FUN} and any arguments passed in \code{...}.
 #'
-#' Because the returned \emph{monitor} object is defined on a daily axis in a
+#' Because the returned \emph{mts_monitor} object is defined on a daily axis in a
 #' specific time zone, it is important that the incoming \code{monitor} contain
 #' timeseries associated with a single time zone.
 #'
@@ -31,7 +31,7 @@
 #' 25 hour day.
 #'
 #' When \code{dayBoundary = "LST"}, the returned \code{monitor$data$datetime}
-#' time axis will be defined in "UTC" with times as they emph{appear} in standard
+#' time axis will be defined in "UTC" with times as they \emph{appear} in standard
 #' time in the local timezone. These days will be one hour off from clock
 #' time during DST but every day will consist of 24 hours.
 

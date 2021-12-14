@@ -1,4 +1,4 @@
-#' @title Create Timeseries Plot
+#' @title Create timeseries plot
 #'
 #' @description
 #' Creates a time series plot of data from a \emph{mts_monitor} object.
@@ -26,7 +26,7 @@
 #' @export
 #'
 monitor_timeseriesPlot <- function(
-  monitor,
+  monitor = NULL,
   shadedNight = FALSE,
   add = FALSE,
   addAQI = FALSE,

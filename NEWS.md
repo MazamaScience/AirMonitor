@@ -1,6 +1,7 @@
 # AirMonitor 0.0.8
 
 * Added `monitor_dailyStatistic()`.
+* Added `monitor_dailyThreshold()`.
 
 # AirMonitor 0.0.7
 

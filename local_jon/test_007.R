@@ -29,25 +29,18 @@ layout(1)
 
 # ----- Daily averages -----
 
-# #round dates down to week
-# df$week <- floor_date(df$date, "week")
-#
-# #find mean sales by week
-# df %>%
-#   group_by(week) %>%
-#   summarize(mean = mean(sales))
+daily_d2 <- monitor_dailyStatistic(
+  monitor = d2,
+  FUN = mean,
+  na.rm = TRUE,
+  minHours = 18,
+  dayBoundary = c("clock")
+)
 
-# See:  https://dplyr.tidyverse.org/articles/colwise.html
+head(daily_d2$data)
 
-d3_daily_data <-
-  d3$data %>%
-  dplyr::mutate(
-    day = lubridate::floor_date(.data$datetime, "day")
-  ) %>%
-  dplyr::select(-.data$datetime) %>%
-  dplyr::group_by(.data$day) %>%
-  dplyr::summarize(across(everything(), mean, na.rm = TRUE)) %>%
-  dplyr::mutate(across(everything(), function(x) { x[!is.finite(x)] <- NA; return(x) })) %>%
-  dplyr::rename(datetime = .data$day)
+# ----- Daily threshold -----
 
-
+Carmel_Valley %>%
+  monitor_dailyThreshold("very unhealthy") %>%
+  monitor_extractData()
