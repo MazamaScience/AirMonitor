@@ -96,9 +96,9 @@ monitor_timeseriesPlot <- function(
 
   if ( !("xlab" %in% names(argsList)) ) {
     if ( timezone == "UTC" ) {
-      argsList$xlab <- "UTC"
+      argsList$xlab <- paste0(year[1], "  (UTC)")
     } else {
-      argsList$xlab <- paste0(year, "  (local time)")
+      argsList$xlab <- paste0(year[1], "  (local time)")
     }
   }
 

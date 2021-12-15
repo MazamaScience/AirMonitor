@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Retain only distinct data records in monitor$data — monitor_distinct • AirMonitor</title>
+<title>Apply a function to mts_monitor time series — monitor_mutate • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,14 +39,11 @@
 
 
 
-<meta property="og:title" content="Retain only distinct data records in monitor$data — monitor_distinct" />
-<meta property="og:description" content="Two successive steps are used to guarantee that the
-datetime axis contains no repeated values:
-
-remove any duplicate records
-guarantee that rows are in datetime order
-
-" />
+<meta property="og:title" content="Apply a function to mts_monitor time series — monitor_mutate" />
+<meta property="og:description" content="This function functions similarly to dplyr::mutate() and applies
+FUN to each time series found in monitor. FUN must be a
+function that accepts a numeric vector as its first argument and returns a
+vector of the same length." />
 
 
 
@@ -117,35 +114,40 @@ guarantee that rows are in datetime order
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Retain only distinct data records in monitor$data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/utils-monitor.R'><code>R/utils-monitor.R</code></a></small>
-    <div class="hidden name"><code>monitor_distinct.Rd</code></div>
+    <h1>Apply a function to <em>mts_monitor</em> time series</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/monitor_mutate.R'><code>R/monitor_mutate.R</code></a></small>
+    <div class="hidden name"><code>monitor_mutate.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Two successive steps are used to guarantee that the
-<code>datetime</code> axis contains no repeated values:</p>
-<ol>
-<li><p>remove any duplicate records</p></li>
-<li><p>guarantee that rows are in <code>datetime</code> order</p></li>
-</ol>
-
+    <p>This function functions similarly to <code><a href='https://dplyr.tidyverse.org/reference/mutate.html'>dplyr::mutate()</a></code> and applies
+<code>FUN</code> to each time series found in <code>monitor</code>. <code>FUN</code> must be a
+function that accepts a numeric vector as its first argument and returns a
+vector of the same length.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_distinct</span><span class='op'>(</span><span class='va'>monitor</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>monitor_mutate</span><span class='op'>(</span>monitor <span class='op'>=</span> <span class='cn'>NULL</span>, FUN <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>monitor</th>
-      <td><p><em>mts_monitor</em> object</p></td>
+      <td><p><em>mts_monitor</em> object.</p></td>
+    </tr>
+    <tr>
+      <th>FUN</th>
+      <td><p>Function used to modify time series.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional arguments to be passed to <code>FUN</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <em>mts_monitor</em> object with no duplicated data records.</p>
+    <p>A modified <code>mts_monitor</code> object.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

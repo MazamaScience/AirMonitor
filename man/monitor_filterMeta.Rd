@@ -31,8 +31,6 @@ are dropped.
 Filtering is done on variables in \code{monitor$meta}.
 }
 \seealso{
-\link{monitor_filterData}
-
 \link{monitor_filterDate}
 
 \link{monitor_filterDatetime}

@@ -1,3 +1,10 @@
+# AirMonitor 0.0.9
+
+* Added `monitor_mutate()`.
+* Removed `monitor_filterData()` as too confusing because it returns an 
+irregular time axis. Anyone wanting to do this kind of work should be familiar 
+enough with **dplyr** to do it themselves.
+
 # AirMonitor 0.0.8
 
 * Added `monitor_dailyStatistic()`.

@@ -66,8 +66,6 @@ with \code{enddate} will be returned. The exception being when
 single day is returned.
 }
 \seealso{
-\link{monitor_filterData}
-
 \link{monitor_filterDatetime}
 
 \link{monitor_filterMeta}

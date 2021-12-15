@@ -55,8 +55,6 @@ Timezone determination precedence assumes that if you are passing in
 }
 }
 \seealso{
-\link{monitor_filterData}
-
 \link{monitor_filterDate}
 
 \link{monitor_filterMeta}
