@@ -4,6 +4,7 @@
 * Added `monitor_dailyThreshold()`.
 * Added `monitor_dailyBarplot()`.
 * Added `aqiColors()`.
+* Improvements to `monitor_timeseriesPlot()` and `monitor_dailyBarplot()`.
 
 # AirMonitor 0.0.7
 

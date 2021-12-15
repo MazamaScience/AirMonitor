@@ -10,8 +10,8 @@
 #' \code{graphics::plot.default}.
 #'
 #' @param monitor \emph{mts_monitor} object.
-# #' @param localTime Logical specifying whether \code{tlim} is in local time or
-# #'   UTC.
+#' @param id \code{deviceDeploymentID} for a single time series found in \code{monitor}.
+#' (Optional if \code{monitor} contains only a single time series.)
 #' @param shadedNight Logical specifying whether to add nighttime shading.
 #' @param add Logical specifying whether to add to the current plot.
 #' @param addAQI Logical specifying whether to add AQI levels and legend.
@@ -27,6 +27,7 @@
 #'
 monitor_timeseriesPlot <- function(
   monitor = NULL,
+  id = NULL,
   shadedNight = FALSE,
   add = FALSE,
   addAQI = FALSE,
@@ -42,6 +43,18 @@ monitor_timeseriesPlot <- function(
   MazamaCoreUtils::setIfNull(add, FALSE)
   MazamaCoreUtils::setIfNull(addAQI, FALSE)
   palette <- match.arg(palette)
+
+  # Subset 'monitor' to a single time series
+  if ( !is.null(id) ) {
+
+    if ( !id %in% monitor$meta$deviceDeploymentID )
+      stop("id = \"%s\" is not found in 'monitor'")
+
+    monitor <-
+      monitor %>%
+      monitor_filter(.data$deviceDeploymentID == !!id)
+
+  }
 
   monitor <- monitor_dropEmpty(monitor)
 
@@ -89,8 +102,17 @@ monitor_timeseriesPlot <- function(
     }
   }
 
-  if ( !("ylab" %in% names(argsList)) )
-    argsList$ylab <- sprintf("%s (%s)", meta$pollutant[1], meta$units[1])
+  # NOTE:  For mathematical notation in R see:
+  # NOTE:    https://magnusmetz.github.io/2013/04/mathematical-annotation-in-r/
+
+  if ( !("ylab" %in% names(argsList)) ) {
+    if ( meta$units == "UG/M3") {
+      # Most common case
+      argsList$ylab <- expression(paste(PM[2.5] * " (", mu, "g/m"^3, ")"))
+    } else {
+      argsList$ylab <- sprintf("%s (%s)", meta$pollutant[1], meta$units[1])
+    }
+  }
 
   if ( !("main" %in% names(argsList)) ) {
     if ( nrow(meta) == 1 )
@@ -121,8 +143,12 @@ monitor_timeseriesPlot <- function(
 
   # ----- Base plot ------------------------------------------------------------
 
+
   # Base plot for background
   if ( !add ) {
+
+    # Increase left margin to fit label
+    par(mar = c(5, 5, 4, 2) + 0.1)
 
     # Create blank plot
     do.call(plot, argsListBlank)
@@ -167,6 +193,11 @@ monitor_timeseriesPlot <- function(
     # Add the points
     do.call(points, argsList)
   }
+
+  # Reset margins
+  if ( !add )
+    par(mar = c(5, 4, 4, 2) + 0.1)
+
 
   # ----- AQI ------------------------------------------------------------------
 

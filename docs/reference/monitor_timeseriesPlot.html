@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create Timeseries Plot — monitor_timeseriesPlot • AirMonitor</title>
+<title>Create timeseries plot — monitor_timeseriesPlot • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,7 @@
 
 
 
-<meta property="og:title" content="Create Timeseries Plot — monitor_timeseriesPlot" />
+<meta property="og:title" content="Create timeseries plot — monitor_timeseriesPlot" />
 <meta property="og:description" content="Creates a time series plot of data from a mts_monitor object.
 By default, points are plotted as semi-transparent squares. All data values
 are plotted from all monitors found in the mts_monitor object.
@@ -116,7 +116,7 @@ graphics::plot.default." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create Timeseries Plot</h1>
+    <h1>Create timeseries plot</h1>
     <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/monitor_timeseriesPlot.R'><code>R/monitor_timeseriesPlot.R</code></a></small>
     <div class="hidden name"><code>monitor_timeseriesPlot.Rd</code></div>
     </div>
@@ -131,7 +131,8 @@ Users can override any defaults by passing in parameters accepted by
     </div>
 
     <pre class="usage"><span class='fu'>monitor_timeseriesPlot</span><span class='op'>(</span>
-  <span class='va'>monitor</span>,
+  monitor <span class='op'>=</span> <span class='cn'>NULL</span>,
+  id <span class='op'>=</span> <span class='cn'>NULL</span>,
   shadedNight <span class='op'>=</span> <span class='cn'>FALSE</span>,
   add <span class='op'>=</span> <span class='cn'>FALSE</span>,
   addAQI <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -146,6 +147,11 @@ Users can override any defaults by passing in parameters accepted by
     <tr>
       <th>monitor</th>
       <td><p><em>mts_monitor</em> object.</p></td>
+    </tr>
+    <tr>
+      <th>id</th>
+      <td><p><code>deviceDeploymentID</code> for a single time series found in <code>monitor</code>.
+(Optional if <code>monitor</code> contains only a single time series.)</p></td>
     </tr>
     <tr>
       <th>shadedNight</th>

@@ -7,6 +7,11 @@
 #' Users can override any defaults by passing in parameters accepted by
 #' \code{graphics::barplot}.
 #'
+#' @note
+#' The underlying axis for this plot is not a time axis so you cannot use this
+#' function to "add" bars on top of a \code{monitor_timeseriesPlot()}. See
+#' the \pkg{AirMonitorPlots} package for more flexibility in plotting.
+#'
 #' @param monitor \emph{mts_monitor} object.
 #' @param id \code{deviceDeploymentID} for a single time series found in \code{monitor}.
 #' (Optional if \code{monitor} contains only a single time series.)
@@ -58,9 +63,7 @@ monitor_dailyBarplot <- function(
 
   }
 
-  monitor <-
-    monitor %>%
-    monitor_dropEmpty()
+  monitor <- monitor_dropEmpty(monitor)
 
   if ( ncol(monitor$data) < 2 )
     stop("no valid data in 'monitor'")
@@ -75,7 +78,6 @@ monitor_dailyBarplot <- function(
       monitor = monitor,
       FUN = mean,
       na.rm = TRUE,
-      ...,
       minHours = minHours,
       dayBoundary = dayBoundary
     )
@@ -89,7 +91,11 @@ monitor_dailyBarplot <- function(
   timezone <- meta$timezone
 
   localTime <- data$datetime
+
   dailyAverage <- data %>% dplyr::pull(2)
+
+  if ( all(is.na(dailyAverage)) )
+    stop("not enough data to calculate daily averages")
 
   # ----- argsList -------------------------------------------------------------
 
@@ -101,12 +107,19 @@ monitor_dailyBarplot <- function(
 
   # X axis labeling is handled after the plot
 
+  # NOTE:  For mathematical notation in R see:
+  # NOTE:    https://magnusmetz.github.io/2013/04/mathematical-annotation-in-r/
+
   # Y axis labeling
-  argsList$ylab <- ifelse(
-    "ylab" %in% names(argsList),
-    argsList$ylab,
-    sprintf("%s (%s)", pollutant, units)
-  )
+  if ( !("ylab" %in% names(argsList)) ) {
+    if ( meta$units == "UG/M3") {
+      # Most common case
+      argsList$ylab <- expression(paste(PM[2.5] * " (", mu, "g/m"^3, ")"))
+    } else {
+      argsList$ylab <- sprintf("%s (%s)", meta$pollutant[1], meta$units[1])
+    }
+  }
+
 
   # Additional small tweaks
   argsList$las <- ifelse("las" %in% names(argsList), argsList$las, 1)
@@ -118,13 +131,24 @@ monitor_dailyBarplot <- function(
     sprintf("%s -- Daily Average %s", locationName, pollutant)
   )
 
+  # Subitle
+  argsList$sub <- ifelse(
+    "sub" %in% names(argsList),
+    argsList$sub,
+    strftime(localTime[1], format = "%Y", tz = timezone)
+  )
+
   # Explicitly declare defaults for use in creating the x axis
   argsList$axes <- ifelse("axes" %in% names(argsList), argsList$axes, TRUE)
   argsList$space <- ifelse("space" %in% names(argsList), argsList$space, 0.2)
   argsList$cex.names <-
-    ifelse("cex.names" %in% names(argsList), argsList$cex.names, par("cex.axis"))
+    ifelse("cex.names" %in% names(argsList), argsList$cex.names, par("cex.axis") * 0.8)
 
   # ----- Plotting -------------------------------------------------------------
+
+  # Increase left margin to fit label
+  if ( !add )
+    par(mar = c(5, 5, 4, 2) + 0.1)
 
   if ( addAQI ) {
     do.call(barplot, argsList)
@@ -162,6 +186,10 @@ monitor_dailyBarplot <- function(
     addAQILegend("topright", pollutant = pollutant, palette = palette)
   }
 
+  # Reset margins
+  if ( !add )
+    par(mar = c(5, 4, 4, 2) + 0.1)
+
 }
 
 # ===== DEBUG ==================================================================
@@ -176,7 +204,7 @@ if ( FALSE ) {
   palette = "EPA"
   opacity = NULL
   minHours = 18
-  dayBoundary = c("clock", "LST")
+  dayBoundary = "clock"
 
 
 

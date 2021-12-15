@@ -6,6 +6,7 @@
 \usage{
 monitor_timeseriesPlot(
   monitor = NULL,
+  id = NULL,
   shadedNight = FALSE,
   add = FALSE,
   addAQI = FALSE,
@@ -16,6 +17,9 @@ monitor_timeseriesPlot(
 }
 \arguments{
 \item{monitor}{\emph{mts_monitor} object.}
+
+\item{id}{\code{deviceDeploymentID} for a single time series found in \code{monitor}.
+(Optional if \code{monitor} contains only a single time series.)}
 
 \item{shadedNight}{Logical specifying whether to add nighttime shading.}
 

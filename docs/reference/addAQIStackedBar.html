@@ -122,10 +122,10 @@
 
     <pre class="usage"><span class='fu'>addAQIStackedBar</span><span class='op'>(</span>
   pollutant <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PM2.5"</span>, <span class='st'>"CO"</span>, <span class='st'>"OZONE"</span>, <span class='st'>"PM10"</span><span class='op'>)</span>,
+  palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"EPA"</span>, <span class='st'>"subdued"</span>, <span class='st'>"deuteranopia"</span><span class='op'>)</span>,
   width <span class='op'>=</span> <span class='fl'>0.01</span>,
   height <span class='op'>=</span> <span class='fl'>1</span>,
-  pos <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"right"</span><span class='op'>)</span>,
-  palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"EPA"</span>, <span class='st'>"subdued"</span>, <span class='st'>"deuteranopia"</span><span class='op'>)</span>
+  pos <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"right"</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -134,6 +134,10 @@
     <tr>
       <th>pollutant</th>
       <td><p>EPA AQS criteria pollutant.</p></td>
+    </tr>
+    <tr>
+      <th>palette</th>
+      <td><p>Named color palette to use for AQI categories.</p></td>
     </tr>
     <tr>
       <th>width</th>
@@ -146,10 +150,6 @@
     <tr>
       <th>pos</th>
       <td><p>Position of the stacked bar relative to the plot.</p></td>
-    </tr>
-    <tr>
-      <th>palette</th>
-      <td><p>Named color palette to use for AQI categories.</p></td>
     </tr>
     </table>
 

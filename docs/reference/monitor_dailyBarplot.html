@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create daily statistics for each monitor in an mts_monitor object — monitor_dailyStatistic • AirMonitor</title>
+<title>Create daily barplot — monitor_dailyBarplot • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,12 +39,11 @@
 
 
 
-<meta property="og:title" content="Create daily statistics for each monitor in an mts_monitor object — monitor_dailyStatistic" />
-<meta property="og:description" content="Daily statstics are calculated for each time series in monitor$data
-using FUN and any arguments passed in ....
-Because the returned mts_monitor object is defined on a daily axis in a
-specific time zone, it is important that the incoming monitor contain
-timeseries associated with a single time zone." />
+<meta property="og:title" content="Create daily barplot — monitor_dailyBarplot" />
+<meta property="og:description" content="Creates a daily barplot of data from a mts_monitor object.
+Reasonable defaults are chosen for annotations and plot characteristics.
+Users can override any defaults by passing in parameters accepted by
+graphics::barplot." />
 
 
 
@@ -115,23 +114,25 @@ timeseries associated with a single time zone." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create daily statistics for each monitor in an <em>mts_monitor</em> object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/monitor_dailyStatistic.R'><code>R/monitor_dailyStatistic.R</code></a></small>
-    <div class="hidden name"><code>monitor_dailyStatistic.Rd</code></div>
+    <h1>Create daily barplot</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/monitor_dailyBarplot.R'><code>R/monitor_dailyBarplot.R</code></a></small>
+    <div class="hidden name"><code>monitor_dailyBarplot.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Daily statstics are calculated for each time series in <code>monitor$data</code>
-using <code>FUN</code> and any arguments passed in <code>...</code>.</p>
-<p>Because the returned <em>mts_monitor</em> object is defined on a daily axis in a
-specific time zone, it is important that the incoming <code>monitor</code> contain
-timeseries associated with a single time zone.</p>
+    <p>Creates a daily barplot of data from a <em>mts_monitor</em> object.</p>
+<p>Reasonable defaults are chosen for annotations and plot characteristics.
+Users can override any defaults by passing in parameters accepted by
+<code><a href='https://rdrr.io/r/graphics/barplot.html'>graphics::barplot</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_dailyStatistic</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>monitor_dailyBarplot</span><span class='op'>(</span>
   monitor <span class='op'>=</span> <span class='cn'>NULL</span>,
-  FUN <span class='op'>=</span> <span class='va'>mean</span>,
-  na.rm <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  id <span class='op'>=</span> <span class='cn'>NULL</span>,
+  add <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  addAQI <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"EPA"</span>, <span class='st'>"subdued"</span>, <span class='st'>"deuteranopia"</span><span class='op'>)</span>,
+  opacity <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>,
   minHours <span class='op'>=</span> <span class='fl'>18</span>,
   dayBoundary <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"clock"</span>, <span class='st'>"LST"</span><span class='op'>)</span>
@@ -145,17 +146,29 @@ timeseries associated with a single time zone.</p>
       <td><p><em>mts_monitor</em> object.</p></td>
     </tr>
     <tr>
-      <th>FUN</th>
-      <td><p>Function used to create daily statistics.</p></td>
+      <th>id</th>
+      <td><p><code>deviceDeploymentID</code> for a single time series found in <code>monitor</code>.
+(Optional if <code>monitor</code> contains only a single time series.)</p></td>
     </tr>
     <tr>
-      <th>na.rm</th>
-      <td><p>Value passed on to <code>FUN</code>. If <code>FUN</code> does not use
-<code>na.rm</code>, this should be set to <code>NULL</code>.</p></td>
+      <th>add</th>
+      <td><p>Logical specifying whether to add to the current plot.</p></td>
+    </tr>
+    <tr>
+      <th>addAQI</th>
+      <td><p>Logical specifying whether to add AQI levels and legend.</p></td>
+    </tr>
+    <tr>
+      <th>palette</th>
+      <td><p>Named color palette to use when adding AQI decorations.</p></td>
+    </tr>
+    <tr>
+      <th>opacity</th>
+      <td><p>Opacity to use for bars.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Additional arguments to be passed to <code>FUN</code>.</p></td>
+      <td><p>Additional arguments to be passed to <code><a href='https://rdrr.io/r/graphics/barplot.html'>graphics::barplot()</a></code>.</p></td>
     </tr>
     <tr>
       <th>minHours</th>
@@ -170,20 +183,11 @@ all year round.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A <em>mts_monitor</em> object containing daily statistical summaries.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>When <code>dayBoundary = "clock"</code>, the returned <code>monitor$data$datetime</code>
-time axis will be defined in the local timezone (not "UTC") with days defined
-by midnight as it appears on a clock in that timezone. The transition from
-DST to standard time will result in a 23 hour day and standard to DST in a
-25 hour day.</p>
-<p>When <code>dayBoundary = "LST"</code>, the returned <code>monitor$data$datetime</code>
-time axis will be defined in "UTC" with times as they <em>appear</em> in standard
-time in the local timezone. These days will be one hour off from clock
-time during DST but every day will consist of 24 hours.</p>
+    <p>The underlying axis for this plot is not a time axis so you cannot use this
+function to "add" bars on top of a <code><a href='monitor_timeseriesPlot.html'>monitor_timeseriesPlot()</a></code>. See
+the <span class="pkg">AirMonitorPlots</span> package for more flexibility in plotting.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

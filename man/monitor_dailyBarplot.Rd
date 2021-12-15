@@ -46,3 +46,8 @@ Reasonable defaults are chosen for annotations and plot characteristics.
 Users can override any defaults by passing in parameters accepted by
 \code{graphics::barplot}.
 }
+\note{
+The underlying axis for this plot is not a time axis so you cannot use this
+function to "add" bars on top of a \code{monitor_timeseriesPlot()}. See
+the \pkg{AirMonitorPlots} package for more flexibility in plotting.
+}
