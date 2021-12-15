@@ -106,7 +106,7 @@ monitor_timeseriesPlot <- function(
   # NOTE:    https://magnusmetz.github.io/2013/04/mathematical-annotation-in-r/
 
   if ( !("ylab" %in% names(argsList)) ) {
-    if ( meta$units == "UG/M3") {
+    if ( meta$units[1] == "UG/M3") {
       # Most common case
       argsList$ylab <- expression(paste(PM[2.5] * " (", mu, "g/m"^3, ")"))
     } else {
