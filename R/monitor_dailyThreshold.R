@@ -57,7 +57,7 @@ monitor_dailyThreshold <- function(
 
   MazamaCoreUtils::stopIfNull(monitor)
   MazamaCoreUtils::stopIfNull(threshold)
-  MazamaCoreUtils::setIfNull(na.rm, TRUE)
+  na.rm <- MazamaCoreUtils::setIfNull(na.rm, TRUE)
   MazamaCoreUtils::stopIfNull(minHours)
   dayBoundary <- match.arg(dayBoundary)
 

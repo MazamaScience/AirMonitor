@@ -39,9 +39,9 @@ monitor_timeseriesPlot <- function(
   # ----- Validate parameters --------------------------------------------------
 
   MazamaCoreUtils::stopIfNull(monitor)
-  MazamaCoreUtils::setIfNull(shadedNight, FALSE)
-  MazamaCoreUtils::setIfNull(add, FALSE)
-  MazamaCoreUtils::setIfNull(addAQI, FALSE)
+  shadedNight <- MazamaCoreUtils::setIfNull(shadedNight, FALSE)
+  add <- MazamaCoreUtils::setIfNull(add, FALSE)
+  addAQI <- MazamaCoreUtils::setIfNull(addAQI, FALSE)
   palette <- match.arg(palette)
 
   # Subset 'monitor' to a single time series

@@ -72,8 +72,8 @@ monitor_leaflet <- function(
   if ( monitor_isEmpty(monitor) )
     stop("monitor object has no data")
 
-  MazamaCoreUtils::setIfNull(slice, "max")
-  MazamaCoreUtils::setIfNull(maptype, "terrain")
+  slice <- MazamaCoreUtils::setIfNull(slice, "max")
+  maptype <- MazamaCoreUtils::setIfNull(maptype, "terrain")
 
   if ( !is.null(extraVars) ) {
     unrecognizedVars <- setdiff(extraVars, names(monitor$meta))

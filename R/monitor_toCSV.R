@@ -42,8 +42,8 @@ monitor_toCSV <- function(
   # ----- Validate parameters --------------------------------------------------
 
   MazamaCoreUtils::stopIfNull(monitor)
-  MazamaCoreUtils::setIfNull(includeMeta, TRUE)
-  MazamaCoreUtils::setIfNull(includeData, TRUE)
+  includeMeta <- MazamaCoreUtils::setIfNull(includeMeta, TRUE)
+  includeMeta <- MazamaCoreUtils::setIfNull(includeData, TRUE)
 
   if ( !monitor_isValid(monitor) )
     stop("Parameter 'monitor' is not a valid 'mts_monitor' object.")

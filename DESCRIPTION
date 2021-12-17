@@ -19,7 +19,7 @@ Imports:
     lubridate,
     magrittr,
     MazamaCoreUtils (>= 0.4.10),
-    MazamaTimeSeries (>= 0.1.2),
+    MazamaTimeSeries (>= 0.1.3),
     readr,
     rlang,
     stringr,
