@@ -147,9 +147,6 @@ monitor_timeseriesPlot <- function(
   # Base plot for background
   if ( !add ) {
 
-    # Increase left margin to fit label
-    par(mar = c(5, 5, 4, 2) + 0.1)
-
     # Create blank plot
     do.call(plot, argsListBlank)
 
@@ -193,10 +190,6 @@ monitor_timeseriesPlot <- function(
     # Add the points
     do.call(points, argsList)
   }
-
-  # Reset margins
-  if ( !add )
-    par(mar = c(5, 4, 4, 2) + 0.1)
 
 
   # ----- AQI ------------------------------------------------------------------
