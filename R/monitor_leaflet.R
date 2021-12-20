@@ -182,7 +182,7 @@ monitor_leaflet <- function(
         })
 
         popupWhen <-
-          strftime(firstTimeAtMax, "on %B %d at %H:00", tz = "UTC", usetz = TRUE)
+          strftime(firstTimeAtMax, "on %B %d, %Y at %H:00", tz = "UTC", usetz = TRUE)
 
         # TODO:  Idea for local time not working yet.
 
