@@ -1,3 +1,7 @@
+# AirMonitor 0.1.0
+
+* Added `monitor_dygraph()`.
+
 # AirMonitor 0.0.9
 
 * Added `monitor_mutate()`.

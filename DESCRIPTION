@@ -1,6 +1,6 @@
 Type: Package
 Package: AirMonitor
-Version: 0.0.9
+Version: 0.1.0
 Title: Air Quality Data Analysis
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre"))
@@ -15,6 +15,7 @@ Depends:
     R (>= 3.5.0)
 Imports:
     dplyr,
+    dygraphs,
     leaflet,
     lubridate,
     magrittr,
@@ -23,7 +24,8 @@ Imports:
     readr,
     rlang,
     stringr,
-    tidyselect
+    tidyselect,
+    xts
 Suggests:
     knitr,
     markdown,
