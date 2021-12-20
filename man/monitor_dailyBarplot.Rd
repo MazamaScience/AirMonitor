@@ -24,7 +24,7 @@ monitor_dailyBarplot(
 
 \item{add}{Logical specifying whether to add to the current plot.}
 
-\item{addAQI}{Logical specifying whether to add AQI levels and legend.}
+\item{addAQI}{Logical specifying whether to add visual AQI decorations.}
 
 \item{palette}{Named color palette to use when adding AQI decorations.}
 

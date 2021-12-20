@@ -14,7 +14,7 @@
 #' (Optional if \code{monitor} contains only a single time series.)
 #' @param shadedNight Logical specifying whether to add nighttime shading.
 #' @param add Logical specifying whether to add to the current plot.
-#' @param addAQI Logical specifying whether to add AQI levels and legend.
+#' @param addAQI Logical specifying whether to add visual AQI decorations.
 #' @param palette Named color palette to use when adding AQI decorations.
 #' @param opacity Opacity to use for points. By default, an opacity is chosen based
 #' on the number of points so that trends are highlighted while outliers diminish
@@ -176,7 +176,8 @@ monitor_timeseriesPlot <- function(
     dims <- dim(as.matrix(data[, -1]))
     naCount <- length(which(is.na(data[, -1])))
     validCount <- dims[1] * dims[2] - naCount
-    if ( validCount < 200 ) opacity <- 0.9
+    if ( validCount < 2 ) opacity <- 1.0
+    else if ( validCount < 200 ) opacity <- 0.9
     else if ( validCount < 500 ) opacity <- 0.7
     else if ( validCount < 1000 ) opacity <- 0.5
     else if ( validCount < 2000 ) opacity <- 0.3
@@ -197,7 +198,6 @@ monitor_timeseriesPlot <- function(
   if ( addAQI ) {
     addAQILines(meta$pollutant[1], palette = palette)
     addAQIStackedBar(meta$pollutant[1], palette = palette)
-    addAQILegend("topright", pollutant = meta$pollutant[1], palette = palette)
   }
 
 

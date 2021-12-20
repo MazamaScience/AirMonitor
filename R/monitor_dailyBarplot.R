@@ -16,7 +16,7 @@
 #' @param id \code{deviceDeploymentID} for a single time series found in \code{monitor}.
 #' (Optional if \code{monitor} contains only a single time series.)
 #' @param add Logical specifying whether to add to the current plot.
-#' @param addAQI Logical specifying whether to add AQI levels and legend.
+#' @param addAQI Logical specifying whether to add visual AQI decorations.
 #' @param palette Named color palette to use when adding AQI decorations.
 #' @param opacity Opacity to use for bars.
 #' @param ... Additional arguments to be passed to \code{graphics::barplot()}.
@@ -146,10 +146,6 @@ monitor_dailyBarplot <- function(
 
   # ----- Plotting -------------------------------------------------------------
 
-  # Increase left margin to fit label
-  if ( !add )
-    par(mar = c(5, 5, 4, 2) + 0.1)
-
   if ( addAQI ) {
     do.call(barplot, argsList)
     addAQIStackedBar(pollutant = pollutant, palette = palette)
@@ -181,14 +177,6 @@ monitor_dailyBarplot <- function(
     axis(1, at = labels_x, labels = FALSE, lwd = 0, lwd.ticks = 1)
 
   }
-
-  if ( addAQI ) {
-    addAQILegend("topright", pollutant = pollutant, palette = palette)
-  }
-
-  # Reset margins
-  if ( !add )
-    par(mar = c(5, 4, 4, 2) + 0.1)
 
 }
 
