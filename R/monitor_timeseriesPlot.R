@@ -143,7 +143,6 @@ monitor_timeseriesPlot <- function(
 
   # ----- Base plot ------------------------------------------------------------
 
-
   # Base plot for background
   if ( !add ) {
 
@@ -156,6 +155,12 @@ monitor_timeseriesPlot <- function(
       lon <- mean(meta$longitude)
       timeInfo <- MazamaTimeSeries::timeInfo(datetime, lon, lat, timezone)
       addShadedNight(timeInfo)
+    }
+
+    # Add AQI decorations underneath
+    if ( addAQI ) {
+      addAQIStackedBar(pollutant = meta$pollutant[1], palette = palette)
+      addAQILines(pollutant = meta$pollutant[1], palette = palette)
     }
 
     # Put a box around the plot area
@@ -191,15 +196,6 @@ monitor_timeseriesPlot <- function(
     # Add the points
     do.call(points, argsList)
   }
-
-
-  # ----- AQI ------------------------------------------------------------------
-
-  if ( addAQI ) {
-    addAQILines(meta$pollutant[1], palette = palette)
-    addAQIStackedBar(meta$pollutant[1], palette = palette)
-  }
-
 
 }
 
