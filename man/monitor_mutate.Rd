@@ -17,7 +17,7 @@ monitor_mutate(monitor = NULL, FUN = NULL, ...)
 A modified \code{mts_monitor} object.
 }
 \description{
-This function functions similarly to \code{dplyr::mutate()} and applies
+This function works similarly to \code{dplyr::mutate()} and applies
 \code{FUN} to each time series found in \code{monitor}. \code{FUN} must be a
 function that accepts a numeric vector as its first argument and returns a
 vector of the same length.

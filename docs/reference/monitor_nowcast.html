@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Load daily WRCC monitoring data — wrcc_loadDaily • AirMonitor</title>
+<title>Apply NowCast algorithm to mts_monitor data — monitor_nowcast • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,16 +39,17 @@
 
 
 
-<meta property="og:title" content="Load daily WRCC monitoring data — wrcc_loadDaily" />
-<meta property="og:description" content="Loads pre-generated .rda files containing daily
-WRCC data.
-If archiveDataDir is defined, data will be loaded from this local
-archive. Otherwise, data will be loaded from the monitoring data repository
-maintained by the USFS AirFire team.
-The files loaded by this function are updated once per day and
-contain data for the previous 45 days.
-For the most recent data in the last 10 days, use wrcc_loadLatest().
-For data extended more than 45 days into the past, use wrcc_loadAnnual()." />
+<meta property="og:title" content="Apply NowCast algorithm to mts_monitor data — monitor_nowcast" />
+<meta property="og:description" content="A Nowcast algorithm is applied to the data in in the
+monitor object. The version argument specifies the minimum
+weight factor and number of hours to be used in the calculation.
+Available versions include:
+pm: hours = 12, weight = 0.5
+pmAsian: hours = 3, weight = 0.1
+ozone: hours = 8, weight = NA
+
+
+The default, version = &quot;pm&quot;, is appropriate for typical usage." />
 
 
 
@@ -119,49 +120,72 @@ For data extended more than 45 days into the past, use wrcc_loadAnnual()." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Load daily WRCC monitoring data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/wrcc_loadDaily.R'><code>R/wrcc_loadDaily.R</code></a></small>
-    <div class="hidden name"><code>wrcc_loadDaily.Rd</code></div>
+    <h1>Apply NowCast algorithm to <em>mts_monitor</em> data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/monitor_nowcast.R'><code>R/monitor_nowcast.R</code></a></small>
+    <div class="hidden name"><code>monitor_nowcast.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Loads pre-generated .rda files containing daily
-WRCC data.</p>
-<p>If <code>archiveDataDir</code> is defined, data will be loaded from this local
-archive. Otherwise, data will be loaded from the monitoring data repository
-maintained by the USFS AirFire team.</p>
-<p>The files loaded by this function are updated once per day and
-contain data for the previous 45 days.</p>
-<p>For the most recent data in the last 10 days, use <code><a href='wrcc_loadLatest.html'>wrcc_loadLatest()</a></code>.</p>
-<p>For data extended more than 45 days into the past, use <code>wrcc_loadAnnual()</code>.</p>
+    <p>A Nowcast algorithm is applied to the data in in the
+<code>monitor</code> object. The <code>version</code> argument specifies the minimum
+weight factor and number of hours to be used in the calculation.</p>
+<p>Available versions include:</p><ol>
+<li><p><code>pm</code>: hours = 12, weight = 0.5</p></li>
+<li><p><code>pmAsian</code>: hours = 3, weight = 0.1</p></li>
+<li><p><code>ozone</code>: hours = 8, weight = NA</p></li>
+</ol>
+
+<p>The default, <code>version = "pm"</code>, is appropriate for typical usage.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>wrcc_loadDaily</span><span class='op'>(</span>
-  archiveBaseUrl <span class='op'>=</span> <span class='cn'>NULL</span>,
-  archiveBaseDir <span class='op'>=</span> <span class='cn'>NULL</span>,
-  QC_negativeValues <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"zero"</span>, <span class='st'>"na"</span>, <span class='st'>"ignore"</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>monitor_nowcast</span><span class='op'>(</span>
+  <span class='va'>monitor</span>,
+  version <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pm"</span>, <span class='st'>"pmAsian"</span>, <span class='st'>"ozone"</span><span class='op'>)</span>,
+  includeShortTerm <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>archiveBaseUrl</th>
-      <td><p>Base URL for annual EPA AQS data files.</p></td>
+      <th>monitor</th>
+      <td><p><em>mts_monitor</em> object.</p></td>
     </tr>
     <tr>
-      <th>archiveBaseDir</th>
-      <td><p>Local base directory for annual EPA AQS data files.</p></td>
+      <th>version</th>
+      <td><p>Name of the type of nowcast algorithm to be used.</p></td>
     </tr>
     <tr>
-      <th>QC_negativeValues</th>
-      <td><p>Type of QC to apply to negative values.</p></td>
+      <th>includeShortTerm</th>
+      <td><p>Logical specifying whether to alcluate preliminary
+NowCast values starting with the 2nd hour.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <em>ws_monitor</em> object with WRCC data.</p>
+    <p>A modified <code>mts_monitor</code> object.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This function calculates the current hour's NowCast value based on the value
+for the given hour and the previous N-1 hours, where N is the number
+of hours appropriate for the <code>version</code> argument. For example, if
+<code>version = "pm"</code>, the NowCast value for Hour 12 is based on the data
+from hours 1-12.</p>
+<p>The function returns values when at least two of the previous three hours
+have data. NA's are returned for hours where this condition is not met.</p>
+<p>By default, the funtion will not return a valid value until the Nth hour.
+If <code>includeShortTerm = TRUE</code>, the function will return a valid value
+after only the 2nd hour (provided, of course, that both hours are valid).</p>
+<p>Calculated Nowcast values are truncated to the nearest .1 ug/m3 for 'pm' and
+nearest .001 ppm for 'ozone' regardless of the precision of the data in the
+incoming <em>mts_monitor</em> object.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://en.wikipedia.org/wiki/Nowcast_(Air_Quality_Index)'>https://en.wikipedia.org/wiki/Nowcast_(Air_Quality_Index)</a></p>
+<p><a href='https://aqicn.org/faq/2015-03-15/air-quality-nowcast-a-beginners-guide/'>https://aqicn.org/faq/2015-03-15/air-quality-nowcast-a-beginners-guide/</a></p>
+<p>https://forum.airnowtech.org/t/the-nowcast-for-ozone-and-pm/172</p>
+<p>https://forum.airnowtech.org/t/the-aqi-equation/169</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

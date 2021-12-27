@@ -13,11 +13,15 @@ monitor_replaceValues(monitor = NULL, filter = NULL, value = NULL)
 
 \item{value}{Numeric replacement value.}
 }
+\value{
+A modified \code{mts_monitor} object.
+}
 \description{
 Use an R expression to identify values for replacement.
 
 The \R{R} expression given in \code{filter} is used to identify elements
-in \code{monitor$data} that should be replaced.  Typical usage would include
+in \code{monitor$data} that should be replaced.  The \code{datetime} column
+will be retained unmodified. Typical usage would include
 
 \enumerate{
 \item{replacing negative values with 0}

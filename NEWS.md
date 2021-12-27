@@ -1,3 +1,7 @@
+# AirMonitor 0.1.1
+
+* Added `monitor_nowcast`.
+
 # AirMonitor 0.1.0
 
 * Added `monitor_dygraph()`.

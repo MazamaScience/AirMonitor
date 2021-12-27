@@ -9,7 +9,8 @@
 #' @description Use an R expression to identify values for replacement.
 #'
 #' The \R{R} expression given in \code{filter} is used to identify elements
-#' in \code{monitor$data} that should be replaced.  Typical usage would include
+#' in \code{monitor$data} that should be replaced.  The \code{datetime} column
+#' will be retained unmodified. Typical usage would include
 #'
 #' \enumerate{
 #' \item{replacing negative values with 0}
@@ -17,6 +18,9 @@
 #' }
 #'
 #' Expressions should use \code{data} for the left hand side of the comparison.
+#'
+#' @return A modified \code{mts_monitor} object.
+#'
 #' @examples
 #' library(AirMonitor)
 #'
@@ -45,7 +49,7 @@ monitor_replaceValues <- function(
 
   # NOTE:  Test this with: condition_call <- substitute(data < 0)
 
-  # Create a condition call, basically an expression that isn't run yet.
+  # Create a "condition call" -- basically, an expression that isn't run yet.
   condition_call <- substitute(filter)
   filterString <- paste(as.character(condition_call)[2],
                         as.character(condition_call)[1],

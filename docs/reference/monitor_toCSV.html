@@ -79,7 +79,7 @@ includeData = FALSE." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.9</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -222,9 +222,37 @@ on a single sheet.</p>
 #&gt; 2016-08-03 04:00:00 UTC,2016-08-02 21:00:00 PDT,5
 #&gt; 2016-08-03 05:00:00 UTC,2016-08-02 22:00:00 PDT,6
 #&gt; 2016-08-03 06:00:00 UTC,2016-08-02 23:00:00 PDT,9</div><div class='input'><span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>Carmel_Valley</span>, includeData <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; deviceDeploymentID,deviceID,deviceType,deviceDescription,deviceExtra,pollutant,units,dataIngestSource,dataIngestURL,dataIngestUnitID,dataIngestExtra,dataIngestDescription,locationID,locationName,longitude,latitude,elevation,countryCode,stateCode,countyName,timezone,houseNumber,street,city,zip,AQS_POC,AQS_GMT.Offset,AQS_Owning.Agency,AQS_Address,AQS_CBSA.Name,AQSID
-#&gt; a9572a904a4ed46d_060530002_03,060530002_03,NA,Met One BAM-1020 Mass Monitor w/VSCC - Beta Attenuation,NA,PM2.5,UG/M3,EPA_AQS,https://aqs.epa.gov/aqsweb/airdata/download_files.html#Raw,NA,NA,EPA AQS hourly data for parameterCode 88101,a9572a904a4ed46d,Carmel Valley,-121.73333,36.48187,131,US,CA,Monterey,America/Los_Angeles,NA,NA,Carmel Valley Village,93924,3,-8,Monterey Bay Unified APCD,35 Ford Road,"Salinas, CA",060530002</div><div class='input'><span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>Carmel_Valley</span>, includeMeta <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; UTC Time,Local Time,a9572a904a4ed46d_060530002_03
+<span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>Carmel_Valley</span>, includeMeta <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; ##### Site metadata begins below here,NA,NA
+#&gt; parameter,blank,a9572a904a4ed46d_060530002_03
+#&gt; deviceDeploymentID,,a9572a904a4ed46d_060530002_03
+#&gt; deviceID,,060530002_03
+#&gt; deviceType,,NA
+#&gt; deviceDescription,,Met One BAM-1020 Mass Monitor w/VSCC - Beta Attenuation
+#&gt; deviceExtra,,NA
+#&gt; pollutant,,PM2.5
+#&gt; units,,UG/M3
+#&gt; dataIngestSource,,EPA_AQS
+#&gt; dataIngestURL,,https://aqs.epa.gov/aqsweb/airdata/download_files.html#Raw
+#&gt; dataIngestUnitID,,NA
+#&gt; dataIngestExtra,,NA
+#&gt; dataIngestDescription,,EPA AQS hourly data for parameterCode 88101
+#&gt; locationID,,a9572a904a4ed46d
+#&gt; locationName,,Carmel Valley
+#&gt; longitude,,-121.7333
+#&gt; latitude,,36.48187
+#&gt; elevation,,131
+#&gt; countryCode,,US
+#&gt; stateCode,,CA
+#&gt; countyName,,Monterey
+#&gt; timezone,,America/Los_Angeles
+#&gt; houseNumber,,NA
+#&gt; street,,NA
+#&gt; city,,Carmel Valley Village
+#&gt; zip,,93924
+#&gt; AQSID,,060530002
+#&gt; ##### Hourly data begins below here,NA,NA
+#&gt; UTC Time,Local Time,a9572a904a4ed46d_060530002_03
 #&gt; 2016-08-02 07:00:00 UTC,2016-08-02 00:00:00 PDT,26
 #&gt; 2016-08-02 08:00:00 UTC,2016-08-02 01:00:00 PDT,31
 #&gt; 2016-08-02 09:00:00 UTC,2016-08-02 02:00:00 PDT,38
