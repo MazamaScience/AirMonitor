@@ -1,6 +1,12 @@
+# AirMonitor 0.1.2
+
+* Renamed `monitor_extractData()` to `monitor_getData()`.
+* Renamed `monitor_extractMeta()` to `monitor_getMeta()`.
+* Added `monitor_getCurrentStatus()`.
+
 # AirMonitor 0.1.1
 
-* Added `monitor_nowcast`.
+* Added `monitor_nowcast()`.
 
 # AirMonitor 0.1.0
 

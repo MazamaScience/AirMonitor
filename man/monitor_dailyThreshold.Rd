@@ -54,10 +54,10 @@ time during DST but every day will consist of 24 hours.
 \examples{
 Carmel_Valley \%>\%
   monitor_dailyThreshold("Moderate") \%>\%
-  monitor_extractData()
+  monitor_getData()
 
 Carmel_Valley \%>\%
   monitor_dailyThreshold("Unhealthy") \%>\%
-  monitor_extractData()
+  monitor_getData()
 
 }

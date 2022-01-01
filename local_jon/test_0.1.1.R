@@ -14,7 +14,7 @@ nowcast <- airnow_loadLatest("PM2.5_nowcast", archiveBaseUrl = archiveBaseUrl)
 j = 655
 plot(nowcast$data[,c(1,j)], pch = 15)
 points(latest_nowcast$data[,c(1,j)], cex = 1.2, col = "salmon")
-title(nowcast$meta$locationName[j-1])
+title(nowcast$meta$locationName[j - 1])
 
 # NOTE:  Some differences for j = 52,  on 2021-12-23 immediately after missing data
 # NOTE:  Some differences for j = 134 on 2021-12-27 immediately after missing data

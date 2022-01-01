@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Names of standard pollutants — pollutantNames • AirMonitor</title>
+<title>Extract dataframes from mts_monitor objects — monitor_getDataFrame • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,18 @@
 
 
 
-<meta property="og:title" content="Names of standard pollutants — pollutantNames" />
-<meta property="og:description" content="Character string identifiers of recognized pollutants." />
+<meta property="og:title" content="Extract dataframes from mts_monitor objects — monitor_getDataFrame" />
+<meta property="og:description" content="These functions are convenient wrappers for extracting the dataframes that
+comprise a mts_monitor object. These functions are designed to be 
+museful when anipulating data in a pipeline chain using %&amp;gt;%.
+Below is a table showing equivalent operations for each function.
+
+FunctionEquivalent Operation
+monitor_getData(monitor)monitor$data
+monitor_getMeta(monitor)monitor$meta
+
+
+" />
 
 
 
@@ -111,24 +121,41 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Names of standard pollutants</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/AirMonitor.R'><code>R/AirMonitor.R</code></a></small>
-    <div class="hidden name"><code>pollutantNames.Rd</code></div>
+    <h1>Extract dataframes from <em>mts_monitor</em> objects</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/utils-monitor.R'><code>R/utils-monitor.R</code></a></small>
+    <div class="hidden name"><code>monitor_getDataFrame.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Character string identifiers of recognized pollutants.</p>
+    <p>These functions are convenient wrappers for extracting the dataframes that
+comprise a <em>mts_monitor</em> object. These functions are designed to be 
+museful when anipulating data in a pipeline chain using <code>%&gt;%</code>.</p>
+<p>Below is a table showing equivalent operations for each function.</p>
+<table class='table'>
+<tr><td><strong>Function</strong></td><td><strong>Equivalent Operation</strong></td></tr>
+<tr><td><code>monitor_getData(monitor)</code></td><td><code>monitor$data</code></td></tr>
+<tr><td><code>monitor_getMeta(monitor)</code></td><td><code>monitor$meta</code></td></tr>
+</table>
+
+
     </div>
 
-    <pre class="usage"><span class='va'>pollutantNames</span></pre>
+    <pre class="usage"><span class='fu'>monitor_getData</span><span class='op'>(</span><span class='va'>monitor</span><span class='op'>)</span>
 
+<span class='fu'>monitor_getMeta</span><span class='op'>(</span><span class='va'>monitor</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>monitor</th>
+      <td><p><em>mts_monitor</em> object to extract dataframe from.</p></td>
+    </tr>
+    </table>
 
-    <p>A vector of character strings</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>pollutantNames</p>
+    <p>A dataframe from the given <em>mts_monitor</em> object</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

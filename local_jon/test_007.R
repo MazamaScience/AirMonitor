@@ -43,4 +43,4 @@ head(daily_d2$data)
 
 Carmel_Valley %>%
   monitor_dailyThreshold("very unhealthy") %>%
-  monitor_extractData()
+  monitor_getData()

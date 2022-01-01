@@ -152,31 +152,31 @@ monitor_distinct <- function(monitor) {
 #'
 #' @description
 #' These functions are convenient wrappers for extracting the dataframes that
-#' comprise a \emph{mts_monitor} object. These functions are designed to be useful when
-#' manipulating data in a pipeline chain using \code{\%>\%}.
+#' comprise a \emph{mts_monitor} object. These functions are designed to be 
+#' museful when anipulating data in a pipeline chain using \code{\%>\%}.
 #'
 #' Below is a table showing equivalent operations for each function.
 #'
 #' \tabular{ll}{
 #'   \strong{Function} \tab \strong{Equivalent Operation}\cr
-#'   \code{monitor_extractData(monitor)} \tab \code{monitor$data}\cr
-#'   \code{monitor_extractMeta(monitor)} \tab \code{monitor$meta}
+#'   \code{monitor_getData(monitor)} \tab \code{monitor$data}\cr
+#'   \code{monitor_getMeta(monitor)} \tab \code{monitor$meta}
 #' }
 #'
 #' @param monitor \emph{mts_monitor} object to extract dataframe from.
 #'
 #' @return A dataframe from the given \emph{mts_monitor} object
 #'
-#' @name monitor_extractDataFrame
-#' @aliases monitor_extractData monitor_extractMeta
+#' @name monitor_getDataFrame
+#' @aliases monitor_getData monitor_getMeta
 #'
 NULL
 
 
 #' @export
-#' @rdname monitor_extractDataFrame
+#' @rdname monitor_getDataFrame
 #'
-monitor_extractData <- function(monitor) {
+monitor_getData <- function(monitor) {
 
   # NOTE:  Use minimal validation for improved speed
   if ( !'data' %in% names(monitor) || !'data.frame' %in% class(monitor$data) )
@@ -188,9 +188,9 @@ monitor_extractData <- function(monitor) {
 
 
 #' @export
-#' @rdname monitor_extractDataFrame
+#' @rdname monitor_getDataFrame
 #'
-monitor_extractMeta <- function(monitor) {
+monitor_getMeta <- function(monitor) {
 
   # NOTE:  Use minimal validation for improved speed
   if ( !'meta' %in% names(monitor) || !'data.frame' %in% class(monitor$meta) )

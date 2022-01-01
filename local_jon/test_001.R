@@ -17,7 +17,7 @@ monitor %>%
 
 monitor %>%
   monitor_select("e9fbd3040bbaaea8_060652002_01") %>%
-  monitor_extractData() %>%
+  monitor_getData() %>%
   plot(type = 'l')
 
 Carmel_Valley %>%
