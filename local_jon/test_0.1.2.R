@@ -1,4 +1,4 @@
-# Version 0.1.1
+# Version 0.1.2
 
 # ----- Test NowCast -----------------------------------------------------------
 
@@ -12,8 +12,9 @@ latest_nowcast <- latest %>% monitor_nowcast()
 nowcast <- airnow_loadLatest("PM2.5_nowcast", archiveBaseUrl = archiveBaseUrl)
 
 j = 655
-plot(nowcast$data[,c(1,j)], pch = 15)
-points(latest_nowcast$data[,c(1,j)], cex = 1.2, col = "salmon")
+plot(latest$data[,c(1,j)], pch = 15, cex = 0.5, col = "salmon")
+points(nowcast$data[,c(1,j)], pch = 15, col = "dodgerblue")
+points(latest_nowcast$data[,c(1,j)], cex = 1.2, col = "black")
 title(nowcast$meta$locationName[j - 1])
 
 # NOTE:  Some differences for j = 52,  on 2021-12-23 immediately after missing data
@@ -25,41 +26,101 @@ title(nowcast$meta$locationName[j - 1])
 
 # ----- Explore write GeoJSON --------------------------------------------------
 
+pt <- proc.time()
 currentTbl <-
   PWFSLSmoke::monitor_getCurrentStatus(
     monitor_toPWFSLSmoke(latest),
     lubridate::now(tzone = "UTC")
   )
+print(proc.time() - pt)
 
-geojsonio::map_leaf(latest$meta)
+###geojsonio::map_leaf(latest$meta)
 
 ###geojsonio::geojson_write(latest$meta, file = "bop.geojson")
 
+
+pt <- proc.time()
+currentTbl <- monitor_getCurrentStatus(latest)
+print(proc.time() - pt)
+
+
+
 desiredColumns <- c(
-  "deviceDeploymentID",
-  "dataIngestSource",
-  "locationName",
   "longitude",
   "latitude",
+  "deviceDeploymentID",
+  "AQSID",
+  "locationName",
   "timezone",
-  "AQSID"
+  "dataIngestSource",
+  "dataIngestUnitID",
+  "currentStatus_processingTime",
+  "last_validTime",
+  "last_validLocalTimestamp",
+  "last_nowcast",
+  "last_PM2.5",
+  "last_latency",
+  "yesterday_PM2.5_avg"
 )
 
-latest$meta %>%
+
+# File -- unquoted numeric values
+currentTbl %>%
   dplyr::select(dplyr::all_of(desiredColumns)) %>%
   geojsonio::geojson_write(
     lat = "latitude",
     lon = "longitude",
-    file = "bop.geojson",
+    geometry = "point",
+    group = NULL,
+    file = "myfile.geojson",
     overwrite = TRUE,
-    precision = 4
+    precision = 5,
+    convert_wgs84 = FALSE,
+    crs = NULL,
   )
+
+
+ # String -- quoted numeric values
+geojsonString <-
+  currentTbl %>%
+  dplyr::select(dplyr::all_of(desiredColumns)) %>%
+  geojsonio::geojson_json(
+    lat = "latitude",
+    lon = "longitude",
+    group = NULL,
+    geometry = "point",
+    type = "FeatureCollection",
+    convert_wgs84 = FALSE,
+    crs = NULL,
+    precision = 5,
+    null = "null",
+    na = "null"
+  )
+
 
 
 # This produces:
 #
-# { "type": "Feature", "properties": { "deviceDeploymentID": "0001770edc620bb8_000052001", "deviceID": "000052001", "deviceType": null, "deviceDescription": null, "deviceExtra": null, "pollutant": "PM2.5", "units": "UG/M3", "dataIngestSource": "AirNow", "dataIngestURL": "https://www.airnowapi.org/aq/data/", "dataIngestUnitID": null, "dataIngestExtra": null, "dataIngestDescription": null, "locationID": "0001770edc620bb8", "locationName": "Charette", "longitude": -72.8928, "latitude": 46.4425, "elevation": 116.8, "countryCode": "CA", "stateCode": "QC", "countyName": null, "timezone": "America/Toronto", "houseNumber": null, "street": null, "city": null, "zip": null, "AQSID": "000052001", "airnow_parameterName": "PM2.5", "airnow_siteCode": "2001", "airnow_status": "Active", "airnow_agencyID": "QC1", "airnow_agencyName": "Canada-Quebec1", "airnow_EPARegion": "CA", "airnow_GMTOffsetHours": -5.0, "airnow_FIPSMSACode": null, "airnow_MSAName": null }, "geometry": { "type": "Point", "coordinates": [ -72.8928, 46.4425 ] } }
-
+# {
+#   "type": "Feature",
+#   "properties": {
+#     "longitude": -72.8928,
+#     "latitude": 46.4425, "deviceDeploymentID":
+#     "0001770edc620bb8_000052001",
+#     "AQSID": "000052001",
+#     "locationName": "Charette",
+#     "timezone": "America/Toronto",
+#     "dataIngestSource": "AirNow",
+#     "dataIngestUnitID": null,
+#     "currentStatus_processingTime": "2022-01-03T18:05:11.825Z",
+#     "last_validTime": "2022-01-03T15:00:00Z",
+#     "last_validLocalTimestamp": "2022-01-03 07:00:00 PST",
+#     "last_nowcast": 3.1,
+#     "last_PM2.5": 3.0,
+#     "last_latency": 1.0,
+#     "yesterday_PM2.5_avg": 2.4 },
+#     "geometry": { "type": "Point", "coordinates": [ -72.8928, 46.4425 ] }
+# }
 
 # v4 geojson:
 #
