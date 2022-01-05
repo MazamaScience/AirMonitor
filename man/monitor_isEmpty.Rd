@@ -13,7 +13,11 @@ monitor_isEmpty(monitor)
 Invisibly returns \code{TRUE} if no data exist in \code{mts_monitor}, \code{FALSE} otherwise.
 }
 \description{
-Convenience function for
-\code{nrow(monitor$data) == 0 || ncol(monitor$data) == 1}.
+This function returns true under the following conditions:
+\itemize{
+\item{no time series: \code{ncol(monitor$data) == 1}}
+\item{no time series records: \code{nrow(monitor$data) == 0}}
+\item{all timeseries values are \code{NA}}
+}
 This makes for more readable code in functions that need to test for this.
 }

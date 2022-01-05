@@ -1,3 +1,7 @@
+# AirMonitor 0.1.3
+
+* Added check for no-valid-values in `monitor_isEmpty()`.
+
 # AirMonitor 0.1.2
 
 * Renamed `monitor_extractData()` to `monitor_getData()`.

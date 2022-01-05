@@ -40,8 +40,10 @@
 
 
 <meta property="og:title" content="Test for an empty mts_monitor object — monitor_isEmpty" />
-<meta property="og:description" content="Convenience function for
-nrow(monitor$data) == 0 || ncol(monitor$data) == 1.
+<meta property="og:description" content="This function returns true under the following conditions:
+no time series: ncol(monitor$data) == 1
+no time series records: nrow(monitor$data) == 0
+all timeseries values are NA
 This makes for more readable code in functions that need to test for this." />
 
 
@@ -74,7 +76,7 @@ This makes for more readable code in functions that need to test for this." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
       </span>
     </div>
 
@@ -119,9 +121,11 @@ This makes for more readable code in functions that need to test for this." />
     </div>
 
     <div class="ref-description">
-    <p>Convenience function for
-<code>nrow(monitor$data) == 0 || ncol(monitor$data) == 1</code>.
-This makes for more readable code in functions that need to test for this.</p>
+    <p>This function returns true under the following conditions:</p><ul>
+<li><p>no time series: <code>ncol(monitor$data) == 1</code></p></li>
+<li><p>no time series records: <code>nrow(monitor$data) == 0</code></p></li>
+<li><p>all timeseries values are <code>NA</code></p></li>
+</ul><p>This makes for more readable code in functions that need to test for this.</p>
     </div>
 
     <pre class="usage"><span class='fu'>monitor_isEmpty</span><span class='op'>(</span><span class='va'>monitor</span><span class='op'>)</span></pre>

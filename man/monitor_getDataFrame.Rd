@@ -18,7 +18,7 @@ A dataframe from the given \emph{mts_monitor} object
 }
 \description{
 These functions are convenient wrappers for extracting the dataframes that
-comprise a \emph{mts_monitor} object. These functions are designed to be 
+comprise a \emph{mts_monitor} object. These functions are designed to be
 museful when anipulating data in a pipeline chain using \code{\%>\%}.
 
 Below is a table showing equivalent operations for each function.

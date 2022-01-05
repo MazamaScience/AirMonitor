@@ -95,8 +95,12 @@ monitor_isValid <- function(
 #'
 #' @param monitor \emph{mts_monitor} object
 #' @return Invisibly returns \code{TRUE} if no data exist in \code{mts_monitor}, \code{FALSE} otherwise.
-#' @description Convenience function for
-#' \code{nrow(monitor$data) == 0 || ncol(monitor$data) == 1}.
+#' @description This function returns true under the following conditions:
+#' \itemize{
+#' \item{no time series: \code{ncol(monitor$data) == 1}}
+#' \item{no time series records: \code{nrow(monitor$data) == 0}}
+#' \item{all timeseries values are \code{NA}}
+#' }
 #' This makes for more readable code in functions that need to test for this.
 #'
 monitor_isEmpty <- function(monitor) {
@@ -106,7 +110,23 @@ monitor_isEmpty <- function(monitor) {
   if ( !'data' %in% names(monitor) || !'data.frame' %in% class(monitor$data) )
     stop("monitor is not a valid 'mts_monitor' object")
 
-  returnVal <- nrow(monitor$data) == 0 || ncol(monitor$data) == 1
+  if ( ncol(monitor$data) == 1 ) {
+
+    # No time series
+    returnVal <- TRUE
+
+  } else if ( nrow(monitor$data) == 0 ) {
+
+    # No time series records
+    returnVal <- TRUE
+
+  } else {
+
+    # Is every record in every non-datetime column NA?
+    returnVal <- all(sapply(monitor$data[,-1], function(x) { all(is.na(x)) }))
+
+  }
+
   return(invisible(returnVal))
 
 }
@@ -152,7 +172,7 @@ monitor_distinct <- function(monitor) {
 #'
 #' @description
 #' These functions are convenient wrappers for extracting the dataframes that
-#' comprise a \emph{mts_monitor} object. These functions are designed to be 
+#' comprise a \emph{mts_monitor} object. These functions are designed to be
 #' museful when anipulating data in a pipeline chain using \code{\%>\%}.
 #'
 #' Below is a table showing equivalent operations for each function.
