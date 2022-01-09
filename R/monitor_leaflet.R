@@ -65,6 +65,9 @@ monitor_leaflet <- function(
   ...
 ) {
 
+  # Configurable values
+  na.color = "#dddddd"
+
   # ----- Validate parameters --------------------------------------------------
 
   monitor_check(monitor)
@@ -251,9 +254,11 @@ monitor_leaflet <- function(
 
     # Ignore warnings from RColorBrewer as leaflet::colorBin does the right thing
     suppressWarnings({
-      colorFunc <- leaflet::colorBin(AQI_colors,
-                                     bins = AQI_breaks,
-                                     na.color = "#bbbbbb")
+      colorFunc <- leaflet::colorBin(
+        AQI_colors,
+        bins = AQI_breaks,
+        na.color = na.color
+      )
       cols <- colorFunc(popupValue)
       colors <- AQI_colors
       labels <- AQI_names
