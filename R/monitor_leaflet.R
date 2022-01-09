@@ -379,3 +379,38 @@ monitor_leaflet <- function(
   return(leafletMap)
 
 }
+
+
+# ===== DEBUGGING ==============================================================
+
+if ( FALSE ) {
+
+  library(AirMonitor)
+  archiveBaseUrl <- "http://data-monitoring_v2-c1.airfire.org/monitoring-v2"
+  monitor <-
+    airnow_loadDaily(archiveBaseUrl = archiveBaseUrl) %>%
+    ##monitor_select(c("089a067f92712ad1_530750003", "d121a99bc6c2ac7f_160570005"))
+    monitor_filter(countryCode %in% c("US", "CA", "MX"))
+
+  slice = "max"
+  radius = 10
+  opacity = 0.7
+  maptype = "terrain"
+  extraVars = NULL
+  jitter = 5e-4
+
+
+
+  monitor_leaflet(
+    monitor,
+    slice = "max",
+    radius = 10,
+    opacity = 0.7,
+    maptype = "terrain",
+    extraVars = NULL,
+    jitter = 5e-4,
+  )
+
+
+
+}
