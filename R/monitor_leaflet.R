@@ -66,7 +66,7 @@ monitor_leaflet <- function(
 ) {
 
   # Configurable values
-  na.color = "#dddddd"
+  na.color = "#cccccc"
 
   # ----- Validate parameters --------------------------------------------------
 
