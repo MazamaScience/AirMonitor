@@ -1,3 +1,10 @@
+# AirMonitor 0.1.4
+
+* Fixed bugs in `monitor_getCurrentStatus()`:
+  - error message when all yesterday data is missing in a single time zone
+  - timestamps were not reported in local timezone
+* Improved parameter validation in `monitor_filterDate()` and `monitor_filterDatetime()`.
+
 # AirMonitor 0.1.3
 
 * Added check for no-valid-values in `monitor_isEmpty()`.

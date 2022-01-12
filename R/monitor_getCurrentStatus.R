@@ -165,8 +165,8 @@ monitor_getCurrentStatus <- function(
     # Find last two non-NA indices
     apply(2, function(x) { rev(which(!is.na(x)))[1:2] })
 
-    # Provide rownames that will end up as colnames
-    rownames(validTimeIndices) <- c("last_validIndex", "previous_validIndex")
+  # Provide rownames that will end up as colnames
+  rownames(validTimeIndices) <- c("last_validIndex", "previous_validIndex")
 
   # Transpose to have a row for each deviceDeploymentID
   validTimeIndices <-
@@ -178,7 +178,7 @@ monitor_getCurrentStatus <- function(
 
   # ----- Add latency values ---------------------------------------------------
 
-  currentStatus <-
+  enhancedMeta <-
 
     # Start with monitor$meta
     meta %>%
@@ -210,62 +210,80 @@ monitor_getCurrentStatus <- function(
         .data$previous_validTime,
         units = "hour"
       ))
-    ) %>%
-
-    # Add local timestamps
-    dplyr::mutate(
-      last_validLocalTimestamp =
-        lubridate::with_tz(.data$last_validTime, tzone = .data$timezone) %>%
-        strftime(format = "%Y-%m-%d %H:%M:%S %Z"),
-      previous_validLocalTimestamp =
-        lubridate::with_tz(.data$previous_validTime, tzone = .data$timezone) %>%
-        strftime(format = "%Y-%m-%d %H:%M:%S %Z")
     )
 
+  # NOTE:  The strftime() function accepts arguments 'x, 'format' and 'tz'.
+  # NOTE:  While strftime() is vectorized for 'x', this is not true for 'format' or 'tz'.
+  # NOTE:  So we create local timestamps below in the timezone-dependent section.
 
   # ----- Add last/previous values ---------------------------------------------
 
   # Order data columns to match currentStatus
   dataBrick <-
     data %>%
-    dplyr::select(currentStatus$deviceDeploymentID)
+    dplyr::select(enhancedMeta$deviceDeploymentID)
 
   nowcast_dataBrick <-
     nowcast_data %>%
-    dplyr::select(currentStatus$deviceDeploymentID)
+    dplyr::select(enhancedMeta$deviceDeploymentID)
 
   # TODO:  We may need to separately determine last_validNowcastIndex as it will
   # TODO:  normally be one hour later than the pm25 value.
 
-  currentStatus$last_PM2.5 <- mapply(
+  enhancedMeta$last_PM2.5 <- mapply(
     function(x, y) { return(round(x[y], 1)) },
     dataBrick,
-    currentStatus$last_validIndex
+    enhancedMeta$last_validIndex
   )
 
-  currentStatus$previous_PM2.5 <- mapply(
+  enhancedMeta$previous_PM2.5 <- mapply(
     function(x, y) { return(round(x[y], 1)) },
     dataBrick,
-    currentStatus$previous_validIndex
+    enhancedMeta$previous_validIndex
   )
 
-  currentStatus$last_nowcast <- mapply(
+  enhancedMeta$last_nowcast <- mapply(
     function(x, y) { return(round(x[y], 1)) },
     nowcast_dataBrick,
-    currentStatus$last_validIndex
+    enhancedMeta$last_validIndex
   )
 
-  currentStatus$previous_nowcast <- mapply(
+  enhancedMeta$previous_nowcast <- mapply(
     function(x, y) { return(round(x[y], 1)) },
     nowcast_dataBrick,
-    currentStatus$previous_validIndex
+    enhancedMeta$previous_validIndex
   )
 
-  # ----- Add yesterday_PM2.5_avg -----------------------------------------------
+  # ----- Timezone dependent section -------------------------------------------
 
-  yesterdayAvgList <- list()
+  emList <- list()
 
-  for ( timezone in unique(meta$timezone) ) {
+  for ( timezone in unique(enhancedMeta$timezone) ) {
+
+    # * Add local timestamps -----
+
+    # Subset enhancedMeta
+    em <-
+      enhancedMeta %>%
+      dplyr::filter(.data$timezone == !!timezone)
+
+    em$last_validLocalTimestamp <-
+      strftime(
+        em$last_validTime,
+        format = "%Y-%m-%d %H:%M:%S",
+        tz = timezone,
+        usetz = TRUE
+      )
+
+    em$previous_validLocalTimestamp <-
+      strftime(
+        em$previous_validTime,
+        format = "%Y-%m-%d %H:%M:%S",
+        tz = timezone,
+        usetz = TRUE
+      )
+
+    # * Add yesterday avg -----
 
     # Local time 24 hours representing "yesterday" relative to enddate
     dateRange <- MazamaCoreUtils::dateRange(
@@ -275,45 +293,57 @@ monitor_getCurrentStatus <- function(
     )
 
     # Get yesterday mean for a single timezone
-    yesterdayAvgList[[timezone]] <-
-
-      # Start with monitor
+    timezoneMon <-
       monitor %>%
+      monitor_filter(timezone == !!timezone)
 
-      # NOTE:  The !! is only need for comparisons. Not when passing
-      # NOTE:  parameter = value pairs as function arguments.
+    # NOTE:  monitor_filterDate() will fail if timezoneMon is empty
 
-      # Filter for monitors in a single timezone
-      monitor_filter(timezone == !!timezone) %>%
+    if ( monitor_isEmpty(timezoneMon) ) {
 
-      # Calculate the daily mean associated with yesterday
-      monitor_filterDate(dateRange[1], dateRange[2], timezone = timezone) %>%
-      monitor_dailyStatistic(
-        FUN = mean,
-        na.rm = TRUE,
-        minHours = minHours,
-        dayBoundary = dayBoundary
-      ) %>%
+      em$yesterday_PM2.5_avg <- as.numeric(NA)
 
-      # Pull out the daily means, omitting the 'datetime' column
-      monitor_getData() %>%
-      dplyr::select(-c("datetime"))
+    } else {
+
+      # Calculate yesterday average
+      em$yesterday_PM2.5_avg <-
+
+        timezoneMon %>%
+        monitor_filterDate(dateRange[1], dateRange[2], timezone = timezone) %>%
+
+        # Guarantee the same order as in cs
+        monitor_reorder(em$deviceDeploymentID) %>%
+
+        # Calculate yesterday mean
+        monitor_dailyStatistic(
+          FUN = mean,
+          na.rm = TRUE,
+          minHours = minHours,
+          dayBoundary = dayBoundary
+        ) %>%
+
+        # Pull out the daily means, omitting the 'datetime' column
+        monitor_getData() %>%
+        dplyr::select(-c("datetime")) %>%
+
+        # Convert single row dataframe to numeric
+        dplyr::slice(1) %>%
+        as.numeric() %>% round(1)
+
+    } # END monitor_isEmpty()
+
+    emList[[timezone]] <- em
 
   }
 
-  # Assign yesterday_PM2.5_avg
-  currentStatus$yesterday_PM2.5_avg <-
+  timezoneMeta <- dplyr::bind_rows(emList)
 
-    # Bind columns from all timezone subsets
-    dplyr::bind_cols(yesterdayAvgList) %>%
+  # ----- Retain original ordering ---------------------------------------------
 
-    # Order as found in currentStatus
-    dplyr::select(currentStatus$deviceDeploymentID) %>%
-
-    # Convert single row dataframe to numeric
-    dplyr::slice(1) %>%
-    as.numeric() %>% round(1)
-
+  currentStatus <-
+    enhancedMeta %>%
+    dplyr::select(.data$deviceDeploymentID) %>%
+    dplyr::left_join(timezoneMeta, by = "deviceDeploymentID")
 
   # ----- Return ---------------------------------------------------------------
 

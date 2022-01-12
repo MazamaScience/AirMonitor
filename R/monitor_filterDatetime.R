@@ -50,15 +50,38 @@ monitor_filterDatetime <- function(
 
   # ----- Validate parameters --------------------------------------------------
 
-  MazamaCoreUtils::stopIfNull(monitor)
   MazamaCoreUtils::stopIfNull(startdate)
   MazamaCoreUtils::stopIfNull(enddate)
 
-  if ( !monitor_isValid(monitor) )
-    stop("Parameter 'monitor' is not a valid 'mts_monitor' object.")
+  # A little involved to catch the case where the user forgets to pass in 'monitor'
+  result <- try({
+    if ( !monitor_isValid(monitor) )
+      stop("First argument is not a valid 'mts_monitor' object.")
+  }, silent = TRUE)
+
+  if ( class(result) %in% "try-error" ) {
+    err_msg <- geterrmessage()
+    if ( stringr::str_detect(err_msg, "object .* not found") ) {
+      stop(paste0(err_msg, "\n(Did you forget to pass in the 'monitor' object?)"))
+    }
+  }
 
   if ( monitor_isEmpty(monitor) )
     stop("Parameter 'monitor' has no data.")
+
+  # Deal with missing timezones
+  if ( is.null(timezone) ) {
+    if ( length(unique(monitor$meta$timezone)) == 1 ) {
+      timezone <- monitor$meta$timezone[1]
+    } else {
+      if ( lubridate::is.POSIXct(startdate) ) {
+        timezone <- lubridate::tz(startdate)
+      } else {
+        message("Multiple timezones found and none specified. Using 'UTC'.")
+        timezone <- "UTC"
+      }
+    }
+  }
 
   # ----- Call MazamaTimeSeries function ---------------------------------------
 

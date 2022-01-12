@@ -149,6 +149,7 @@ monitor_isEmpty <- function(monitor) {
 #' \item{guarantee that rows are in \code{datetime} order}
 #' }
 #'
+
 monitor_distinct <- function(monitor) {
 
   # NOTE:  Use minimal validation for improved speed
