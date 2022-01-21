@@ -1,3 +1,10 @@
+# AirMonitor 0.1.5
+
+* Added `airsis_loadAnnual()`, `wrcc_loadAnnual()`.
+* Renamed `monitor_distance()` to `monitor_getDistance()` to imply that the 
+returned object is not a _mts_monitor_ object.
+* Added `monitor_filterByDistance()`.
+
 # AirMonitor 0.1.4
 
 * Fixed bugs in `monitor_getCurrentStatus()`:

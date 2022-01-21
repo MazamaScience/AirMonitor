@@ -54,8 +54,8 @@ airsis_loadLatest <- function(
     # "OC",
     # "OZONE",
     # "PM10",
-    "PM2.5",
-    "PM2.5_nowcast"
+    "PM2.5"
+    # "PM2.5_nowcast"
     # "PRECIP",
     # "RHUM",
     # "SO2",

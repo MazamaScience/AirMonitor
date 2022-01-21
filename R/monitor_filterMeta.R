@@ -7,10 +7,10 @@
 #' \code{monitor$meta}.
 #'
 #' @description A generalized metadata filter for \emph{mts_monitor} objects to
-#' choose rows/cases where conditions are true.  Multiple conditions are
+#' choose cases where conditions are true.  Multiple conditions are
 #' combined with \code{&} or separated by a comma. Only rows where the condition
-#' evaluates to TRUE are kept. Rows where the condition evaluates to \code{NA}
-#' are dropped.
+#' evaluates to TRUE are kept. Rows of \code{monitor$meta} where the condition
+#' evaluates to \code{NA} are dropped.
 #'
 #' `monitor_filter()` is just a convenient alias for `monitor_filterMeta()`.
 #'

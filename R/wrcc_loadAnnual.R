@@ -1,29 +1,30 @@
 #' @export
 #'
-#' @title Load daily AIRSIS monitoring data
+#' @title Load annual WRCC monitoring data
 #'
+#' @param year Year [YYYY].
 #' @param archiveBaseUrl Base URL for annual EPA AQS data files.
 #' @param archiveBaseDir Local base directory for annual EPA AQS data files.
 #' @param QC_negativeValues Type of QC to apply to negative values.
 #'
-#' @return A \emph{ws_monitor} object with AIRSIS data.
+#' @return A \emph{ws_monitor} object with WRCC data.
 #'
-#' @description Loads pre-generated .rda files containing daily
-#' AIRSIS data.
+#' @description Loads pre-generated .rda files containing annual
+#' WRCC data.
 #'
 #' If \code{archiveDataDir} is defined, data will be loaded from this local
 #' archive. Otherwise, data will be loaded from the monitoring data repository
 #' maintained by the USFS AirFire team.
 #'
-#' The files loaded by this function are updated once per day and
-#' contain data for the previous 45 days.
+#' Current year files loaded by this function are updated once per week.
 #'
-#' For the most recent data in the last 10 days, use \code{airsis_loadLatest()}.
+#' For the most recent data in the last 10 days, use \code{wrcc_loadLatest()}.
 #'
-#' For data extended more than 45 days into the past, use \code{airsis_loadAnnual()}.
+#' For daily updates covering the most recent 45 days, use \code{wrcc_loadDaily()}.
 #'
 
-airsis_loadDaily <- function(
+wrcc_loadAnnual <- function(
+  year = NULL,
   archiveBaseUrl = NULL,
   archiveBaseDir = NULL,
   QC_negativeValues = c("zero", "na", "ignore")
@@ -33,7 +34,11 @@ airsis_loadDaily <- function(
 
   # ----- Validate parameters --------------------------------------------------
 
+  MazamaCoreUtils::stopIfNull(year)
   MazamaCoreUtils::stopIfNull(parameterName)
+
+  if ( as.numeric(year) < 2014 )
+    stop(paste0("No ARISIS data is available before 2014"))
 
   QC_negativeValues <- match.arg(QC_negativeValues)
 
@@ -81,17 +86,17 @@ airsis_loadDaily <- function(
   if ( is.null(archiveBaseUrl) ) {
     dataUrl <- NULL
   } else {
-    dataUrl <- file.path(archiveBaseUrl, "daily/data")
+    dataUrl <- file.path(archiveBaseUrl, "wrcc", year, "data")
   }
 
   if ( is.null(archiveBaseDir) ) {
     dataDir <- NULL
   } else {
-    dataDir <- file.path(archiveBaseDir, "daily/data")
+    dataDir <- file.path(archiveBaseDir, "wrcc", year, "data")
   }
 
-  metaFileName <- sprintf("airsis_%s_daily_meta.rda", parameterName)
-  dataFileName <- sprintf("airsis_%s_daily_data.rda", parameterName)
+  metaFileName <- sprintf("wrcc_%s_%s_meta.rda", parameterName, year)
+  dataFileName <- sprintf("wrcc_%s_%s_data.rda", parameterName, year)
 
   meta <- MazamaCoreUtils::loadDataFile(metaFileName, dataUrl, dataDir)
   data <- MazamaCoreUtils::loadDataFile(dataFileName, dataUrl, dataDir)
@@ -138,6 +143,7 @@ airsis_loadDaily <- function(
 if ( FALSE ) {
 
 
+  year <- 2021
   archiveBaseUrl <- "http://data-monitoring_v2-c1.airfire.org/monitoring-v2"
   archiveBaseDir <- NULL
   QC_negativeValues = "zero"

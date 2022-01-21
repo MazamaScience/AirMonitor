@@ -28,7 +28,7 @@
 #' lon <- -118.330278
 #' lat <- 46.065
 #'
-#' distance <- monitor_distance(PacNW, lon, lat)
+#' distance <- monitor_getDistance(PacNW, lon, lat)
 #' closestIndex <- which(distance == min(distance))
 #'
 #' print("Distances from Walla Walla")
@@ -38,7 +38,7 @@
 #'   round(distance / 1000)
 #' )
 
-monitor_distance <- function(
+monitor_getDistance <- function(
   monitor = NULL,
   longitude = NULL,
   latitude = NULL,
@@ -47,22 +47,20 @@ monitor_distance <- function(
 
   # ----- Validate parameters --------------------------------------------------
 
-  # NOTE:  Validate is handled by MazamaTimeSeries::mts_distance()
+  # NOTE:  Validate is handled by MazamaTimeSeries::mts_getDistance()
 
   # ----- Call MazamaTimeSeries function ---------------------------------------
 
-  monitor <-
-    MazamaTimeSeries::mts_distance(
+  distance <-
+    MazamaTimeSeries::mts_getDistance(
       mts = monitor,
       longitude = longitude,
       latitude = latitude,
       measure = measure
     )
 
-  class(monitor) <- union("mts_monitor", class(monitor))
-
   # ----- Return ---------------------------------------------------------------
 
-  return(invisible(monitor))
+  return(distance)
 
 }
