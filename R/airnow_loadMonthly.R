@@ -1,7 +1,8 @@
 #' @export
 #'
-#' @title Load daily AirNow monitoring data
+#' @title Load monthly AirNow monitoring data
 #'
+#' @param monthStamp Year-month [YYYYmm].
 #' @param parameterName One of the EPA AQS criteria parameter names.
 #' @param archiveBaseUrl Base URL for annual EPA AQS data files.
 #' @param archiveBaseDir Local base directory for annual EPA AQS data files.
@@ -9,17 +10,17 @@
 #'
 #' @return A \emph{ws_monitor} object with AirNow data.
 #'
-#' @description Loads pre-generated .rda files containing hourly
-#' AirNow data.
+#' @description Loads pre-generated .rda files containing hourly AirNow data.
 #'
 #' If \code{archiveDataDir} is defined, data will be loaded from this local
 #' archive. Otherwise, data will be loaded from the monitoring data repository
 #' maintained by the USFS AirFire team.
 #'
-#' The files loaded by this function are updated once per day and
-#' contain data for the previous 45 days.
+#' The files loaded by this function contain a single month's worth of data
 #'
 #' For the most recent data in the last 10 days, use \code{airnow_loadLatest()}.
+#'
+#' For daily updates covering the most recent 45 days, use \code{airnow_loadDaily()}.
 #'
 #' For data extended more than 45 days into the past, use \code{airnow_loadAnnual()}.
 #'
@@ -38,7 +39,7 @@
 # #' \item{OZONE}
 # #' \item{PM10}
 #' \item{PM2.5}
-#' \item{PM2.5_nowcast}
+# #' \item{PM2.5_nowcast}
 # #' \item{PRECIP}
 # #' \item{RHUM}
 # #' \item{SO2}
@@ -51,6 +52,7 @@
 
 
 airnow_loadDaily <- function(
+  monthStamp = NULL,
   parameterName = "PM2.5",
   archiveBaseUrl = NULL,
   archiveBaseDir = NULL,
@@ -58,6 +60,10 @@ airnow_loadDaily <- function(
 ) {
 
   # ----- Validate parameters --------------------------------------------------
+
+  MazamaCoreUtils::stopIfNull(monthStamp)
+  result <- MazamaCoreUtils::parseDatetime(monthStamp, timezone = "UTC")
+  year <- stringr::str_sub(monthStamp, 1, 4)
 
   MazamaCoreUtils::stopIfNull(parameterName)
 
@@ -80,8 +86,8 @@ airnow_loadDaily <- function(
     # "OC",
     # "OZONE",
     # "PM10",
-    "PM2.5",
-    "PM2.5_nowcast"
+    "PM2.5"
+    # "PM2.5_nowcast"
     # "PRECIP",
     # "RHUM",
     # "SO2",
@@ -107,17 +113,17 @@ airnow_loadDaily <- function(
   if ( is.null(archiveBaseUrl) ) {
     dataUrl <- NULL
   } else {
-    dataUrl <- file.path(archiveBaseUrl, "daily/data")
+    dataUrl <- file.path(archiveBaseUrl, "airnow", year, "data")
   }
 
   if ( is.null(archiveBaseDir) ) {
     dataDir <- NULL
   } else {
-    dataDir <- file.path(archiveBaseDir, "daily/data")
+    dataDir <- file.path(archiveBaseDir, "airnow", year, "data")
   }
 
-  metaFileName <- sprintf("airnow_%s_daily_meta.rda", parameterName)
-  dataFileName <- sprintf("airnow_%s_daily_data.rda", parameterName)
+  metaFileName <- sprintf("airnow_%s_%s_meta.rda", parameterName, monthStamp)
+  dataFileName <- sprintf("airnow_%s_%s_data.rda", parameterName, monthStamp)
 
   meta <- MazamaCoreUtils::loadDataFile(metaFileName, dataUrl, dataDir)
   data <- MazamaCoreUtils::loadDataFile(dataFileName, dataUrl, dataDir)
@@ -159,17 +165,3 @@ airnow_loadDaily <- function(
 
 }
 
-# ===== DEBUG ==================================================================
-
-if ( FALSE ) {
-
-
-  parameterName <- "PM2.5"
-  archiveBaseUrl <- "https://data-monitoring1.airfire.org/monitoring-v2"
-  archiveBaseDir <- NULL
-  QC_negativeValues = "zero"
-
-
-
-
-}

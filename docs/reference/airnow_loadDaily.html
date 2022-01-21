@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Load daily AirNow monitoring data — airnow_loadDaily" />
-<meta property="og:description" content="Loads pre-generated .rda files containing daily
+<meta property="og:description" content="Loads pre-generated .rda files containing hourly
 AirNow data.
 If archiveDataDir is defined, data will be loaded from this local
 archive. Otherwise, data will be loaded from the monitoring data repository
@@ -52,6 +52,18 @@ For data extended more than 45 days into the past, use airnow_loadAnnual().
 Pre-processed AirNow exists for the following parameters:
 PM2.5
 PM2.5_nowcast
+
+
+Loads pre-generated .rda files containing hourly AirNow data.
+If archiveDataDir is defined, data will be loaded from this local
+archive. Otherwise, data will be loaded from the monitoring data repository
+maintained by the USFS AirFire team.
+The files loaded by this function contain a single month's worth of data
+For the most recent data in the last 10 days, use airnow_loadLatest().
+For daily updates covering the most recent 45 days, use airnow_loadDaily().
+For data extended more than 45 days into the past, use airnow_loadAnnual().
+Pre-processed AirNow exists for the following parameters:
+PM2.5
 
 " />
 
@@ -85,7 +97,7 @@ PM2.5_nowcast
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
       </span>
     </div>
 
@@ -125,12 +137,12 @@ PM2.5_nowcast
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Load daily AirNow monitoring data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/airnow_loadDaily.R'><code>R/airnow_loadDaily.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/airnow_loadDaily.R'><code>R/airnow_loadDaily.R</code></a>, <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/airnow_loadMonthly.R'><code>R/airnow_loadMonthly.R</code></a></small>
     <div class="hidden name"><code>airnow_loadDaily.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Loads pre-generated .rda files containing daily
+    <p>Loads pre-generated .rda files containing hourly
 AirNow data.</p>
 <p>If <code>archiveDataDir</code> is defined, data will be loaded from this local
 archive. Otherwise, data will be loaded from the monitoring data repository
@@ -144,9 +156,30 @@ contain data for the previous 45 days.</p>
 <li><p>PM2.5_nowcast</p></li>
 </ol>
 
+<p>Loads pre-generated .rda files containing hourly AirNow data.</p>
+<p>If <code>archiveDataDir</code> is defined, data will be loaded from this local
+archive. Otherwise, data will be loaded from the monitoring data repository
+maintained by the USFS AirFire team.</p>
+<p>The files loaded by this function contain a single month's worth of data</p>
+<p>For the most recent data in the last 10 days, use <code><a href='airnow_loadLatest.html'>airnow_loadLatest()</a></code>.</p>
+<p>For daily updates covering the most recent 45 days, use <code>airnow_loadDaily()</code>.</p>
+<p>For data extended more than 45 days into the past, use <code>airnow_loadAnnual()</code>.</p>
+<p>Pre-processed AirNow exists for the following parameters:</p><ol>
+<li><p>PM2.5</p></li>
+</ol>
+
     </div>
 
     <pre class="usage"><span class='fu'>airnow_loadDaily</span><span class='op'>(</span>
+  monthStamp <span class='op'>=</span> <span class='cn'>NULL</span>,
+  parameterName <span class='op'>=</span> <span class='st'>"PM2.5"</span>,
+  archiveBaseUrl <span class='op'>=</span> <span class='cn'>NULL</span>,
+  archiveBaseDir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  QC_negativeValues <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"zero"</span>, <span class='st'>"na"</span>, <span class='st'>"ignore"</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='fu'>airnow_loadDaily</span><span class='op'>(</span>
+  monthStamp <span class='op'>=</span> <span class='cn'>NULL</span>,
   parameterName <span class='op'>=</span> <span class='st'>"PM2.5"</span>,
   archiveBaseUrl <span class='op'>=</span> <span class='cn'>NULL</span>,
   archiveBaseDir <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -156,6 +189,10 @@ contain data for the previous 45 days.</p>
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>monthStamp</th>
+      <td><p>Year-month [YYYYmm].</p></td>
+    </tr>
     <tr>
       <th>parameterName</th>
       <td><p>One of the EPA AQS criteria parameter names.</p></td>
@@ -177,6 +214,7 @@ contain data for the previous 45 days.</p>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <em>ws_monitor</em> object with AirNow data.</p>
+<p>A <em>ws_monitor</em> object with AirNow data.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

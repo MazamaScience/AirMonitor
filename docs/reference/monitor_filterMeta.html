@@ -41,10 +41,10 @@
 
 <meta property="og:title" content="General purpose metadata filtering for mts_monitor objects — monitor_filterMeta" />
 <meta property="og:description" content="A generalized metadata filter for mts_monitor objects to
-choose rows/cases where conditions are true.  Multiple conditions are
+choose cases where conditions are true.  Multiple conditions are
 combined with &amp;amp; or separated by a comma. Only rows where the condition
-evaluates to TRUE are kept. Rows where the condition evaluates to NA
-are dropped.
+evaluates to TRUE are kept. Rows of monitor$meta where the condition
+evaluates to NA are dropped.
 `monitor_filter()` is just a convenient alias for `monitor_filterMeta()`." />
 
 
@@ -77,7 +77,7 @@ are dropped.
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
       </span>
     </div>
 
@@ -123,10 +123,10 @@ are dropped.
 
     <div class="ref-description">
     <p>A generalized metadata filter for <em>mts_monitor</em> objects to
-choose rows/cases where conditions are true.  Multiple conditions are
+choose cases where conditions are true.  Multiple conditions are
 combined with <code>&amp;</code> or separated by a comma. Only rows where the condition
-evaluates to TRUE are kept. Rows where the condition evaluates to <code>NA</code>
-are dropped.</p>
+evaluates to TRUE are kept. Rows of <code>monitor$meta</code> where the condition
+evaluates to <code>NA</code> are dropped.</p>
 <p>`monitor_filter()` is just a convenient alias for `monitor_filterMeta()`.</p>
     </div>
 

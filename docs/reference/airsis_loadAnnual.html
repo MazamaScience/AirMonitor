@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Create daily barplot — monitor_dailyBarplot • AirMonitor</title>
+<title>Load annual AIRSIS monitoring data — airsis_loadAnnual • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,15 @@
 
 
 
-<meta property="og:title" content="Create daily barplot — monitor_dailyBarplot" />
-<meta property="og:description" content="Creates a daily barplot of data from a mts_monitor object.
-Reasonable defaults are chosen for annotations and plot characteristics.
-Users can override any defaults by passing in parameters accepted by
-graphics::barplot." />
+<meta property="og:title" content="Load annual AIRSIS monitoring data — airsis_loadAnnual" />
+<meta property="og:description" content="Loads pre-generated .rda files containing annual
+AIRSIS data.
+If archiveDataDir is defined, data will be loaded from this local
+archive. Otherwise, data will be loaded from the monitoring data repository
+maintained by the USFS AirFire team.
+Current year files loaded by this function are updated once per week.
+For the most recent data in the last 10 days, use airsis_loadLatest().
+For daily updates covering the most recent 45 days, use airsis_loadDaily()." />
 
 
 
@@ -114,80 +118,53 @@ graphics::barplot." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Create daily barplot</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/monitor_dailyBarplot.R'><code>R/monitor_dailyBarplot.R</code></a></small>
-    <div class="hidden name"><code>monitor_dailyBarplot.Rd</code></div>
+    <h1>Load annual AIRSIS monitoring data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/airsis_loadAnnual.R'><code>R/airsis_loadAnnual.R</code></a></small>
+    <div class="hidden name"><code>airsis_loadAnnual.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Creates a daily barplot of data from a <em>mts_monitor</em> object.</p>
-<p>Reasonable defaults are chosen for annotations and plot characteristics.
-Users can override any defaults by passing in parameters accepted by
-<code><a href='https://rdrr.io/r/graphics/barplot.html'>graphics::barplot</a></code>.</p>
+    <p>Loads pre-generated .rda files containing annual
+AIRSIS data.</p>
+<p>If <code>archiveDataDir</code> is defined, data will be loaded from this local
+archive. Otherwise, data will be loaded from the monitoring data repository
+maintained by the USFS AirFire team.</p>
+<p>Current year files loaded by this function are updated once per week.</p>
+<p>For the most recent data in the last 10 days, use <code><a href='airsis_loadLatest.html'>airsis_loadLatest()</a></code>.</p>
+<p>For daily updates covering the most recent 45 days, use <code><a href='airsis_loadDaily.html'>airsis_loadDaily()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_dailyBarplot</span><span class='op'>(</span>
-  monitor <span class='op'>=</span> <span class='cn'>NULL</span>,
-  id <span class='op'>=</span> <span class='cn'>NULL</span>,
-  add <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  addAQI <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"EPA"</span>, <span class='st'>"subdued"</span>, <span class='st'>"deuteranopia"</span><span class='op'>)</span>,
-  opacity <span class='op'>=</span> <span class='cn'>NULL</span>,
-  <span class='va'>...</span>,
-  minHours <span class='op'>=</span> <span class='fl'>18</span>,
-  dayBoundary <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"clock"</span>, <span class='st'>"LST"</span><span class='op'>)</span>
+    <pre class="usage"><span class='fu'>airsis_loadAnnual</span><span class='op'>(</span>
+  year <span class='op'>=</span> <span class='cn'>NULL</span>,
+  archiveBaseUrl <span class='op'>=</span> <span class='cn'>NULL</span>,
+  archiveBaseDir <span class='op'>=</span> <span class='cn'>NULL</span>,
+  QC_negativeValues <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"zero"</span>, <span class='st'>"na"</span>, <span class='st'>"ignore"</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>monitor</th>
-      <td><p><em>mts_monitor</em> object.</p></td>
+      <th>year</th>
+      <td><p>Year [YYYY].</p></td>
     </tr>
     <tr>
-      <th>id</th>
-      <td><p><code>deviceDeploymentID</code> for a single time series found in <code>monitor</code>.
-(Optional if <code>monitor</code> contains only a single time series.)</p></td>
+      <th>archiveBaseUrl</th>
+      <td><p>Base URL for annual EPA AQS data files.</p></td>
     </tr>
     <tr>
-      <th>add</th>
-      <td><p>Logical specifying whether to add to the current plot.</p></td>
+      <th>archiveBaseDir</th>
+      <td><p>Local base directory for annual EPA AQS data files.</p></td>
     </tr>
     <tr>
-      <th>addAQI</th>
-      <td><p>Logical specifying whether to add visual AQI decorations.</p></td>
-    </tr>
-    <tr>
-      <th>palette</th>
-      <td><p>Named color palette to use when adding AQI decorations.</p></td>
-    </tr>
-    <tr>
-      <th>opacity</th>
-      <td><p>Opacity to use for bars.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Additional arguments to be passed to <code><a href='https://rdrr.io/r/graphics/barplot.html'>graphics::barplot()</a></code>.</p></td>
-    </tr>
-    <tr>
-      <th>minHours</th>
-      <td><p>Minimum number of valid hourly records per day required to
-calculate statistics. Days with fewer valid records will be assigned <code>NA</code>.</p></td>
-    </tr>
-    <tr>
-      <th>dayBoundary</th>
-      <td><p>Treatment of daylight savings time:  "clock" uses daylight
-savings time as defined in the local timezone, "LST" uses "local standard time"
-all year round.</p></td>
+      <th>QC_negativeValues</th>
+      <td><p>Type of QC to apply to negative values.</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The underlying axis for this plot is not a time axis so you cannot use this
-function to "add" bars on top of a <code><a href='monitor_timeseriesPlot.html'>monitor_timeseriesPlot()</a></code>. See
-the <span class="pkg">AirMonitorPlots</span> package for more flexibility in plotting.</p>
+    <p>A <em>ws_monitor</em> object with AIRSIS data.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
