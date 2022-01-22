@@ -45,10 +45,11 @@ objects or from a list of mts_monitor objects. The resulting mts_monitor
 object with contain all deviceDeploymentIDs found in any incoming
 mts_monitor and will have a regular time axis covering the the entire range
 of incoming data.
-If incoming time ranges are non-contiguous, the resulting mts_monitor will
-have gaps filled with NA values.
+If incoming time ranges are tempporally non-contiguous, the resulting
+mts_monitor will have gaps filled with NA values.
 An error is generated if the incoming mts_monitor objects have
-non-identical metadata for the same deviceDeploymentID." />
+non-identical metadata for the same deviceDeploymentID unless
+replaceMeta = TRUE." />
 
 
 
@@ -80,7 +81,7 @@ non-identical metadata for the same deviceDeploymentID." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
       </span>
     </div>
 
@@ -130,20 +131,26 @@ objects or from a list of <em>mts_monitor</em> objects. The resulting <em>mts_mo
 object with contain all <code>deviceDeploymentIDs</code> found in any incoming
 <em>mts_monitor</em> and will have a regular time axis covering the the entire range
 of incoming data.</p>
-<p>If incoming time ranges are non-contiguous, the resulting <em>mts_monitor</em> will
-have gaps filled with <code>NA</code> values.</p>
+<p>If incoming time ranges are tempporally non-contiguous, the resulting
+<em>mts_monitor</em> will have gaps filled with <code>NA</code> values.</p>
 <p>An error is generated if the incoming <em>mts_monitor</em> objects have
-non-identical metadata for the same <code>deviceDeploymentID</code>.</p>
+non-identical metadata for the same <code>deviceDeploymentID</code> unless
+<code>replaceMeta = TRUE</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_combine</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>monitor_combine</span><span class='op'>(</span><span class='va'>...</span>, replaceMeta <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>Any number of valid emphmts_monitor objects.</p></td>
+      <td><p>Any number of valid emphmts_monitor objects or a list of objects.</p></td>
+    </tr>
+    <tr>
+      <th>replaceMeta</th>
+      <td><p>Logical specifying whether to allow replacement of metadata
+associated with <code>deviceDeploymentIDs</code>.</p></td>
     </tr>
     </table>
 

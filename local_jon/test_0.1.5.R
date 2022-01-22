@@ -82,5 +82,21 @@ airsis_2020 %>%
   monitor_filterByDistance(longitude, latitude, radius = 30000) %>%
   monitor_leaflet()
 
+# ----- Combine all files? -----------------------------------------------------
+
+airsis <-
+  monitor_combine(
+    airsis_2017,
+    airsis_2018,
+    airsis_2019,
+    airsis_2020
+  )
+
+
+ca <-
+  airsis %>%
+  monitor_filter(stateCode == "CA") %>%
+  monitor_collapse() %>%
+  monitor_timeseriesPlot()
 
 

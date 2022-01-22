@@ -4,10 +4,13 @@
 \alias{monitor_combine}
 \title{Combine multiple \code{mts_monitor} objects}
 \usage{
-monitor_combine(...)
+monitor_combine(..., replaceMeta = FALSE)
 }
 \arguments{
-\item{...}{Any number of valid emph{mts_monitor} objects.}
+\item{...}{Any number of valid emph{mts_monitor} objects or a list of objects.}
+
+\item{replaceMeta}{Logical specifying whether to allow replacement of metadata
+associated with \code{deviceDeploymentIDs}.}
 }
 \value{
 A combined \code{mts_monitor} object.
@@ -19,11 +22,12 @@ object with contain all \code{deviceDeploymentIDs} found in any incoming
 \emph{mts_monitor} and will have a regular time axis covering the the entire range
 of incoming data.
 
-If incoming time ranges are non-contiguous, the resulting \emph{mts_monitor} will
-have gaps filled with \code{NA} values.
+If incoming time ranges are tempporally non-contiguous, the resulting
+\emph{mts_monitor} will have gaps filled with \code{NA} values.
 
 An error is generated if the incoming \emph{mts_monitor} objects have
-non-identical metadata for the same \code{deviceDeploymentID}.
+non-identical metadata for the same \code{deviceDeploymentID} unless
+\code{replaceMeta = TRUE}.
 }
 \note{
 Data are combined with a "latest is best" sensibility where any

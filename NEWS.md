@@ -1,3 +1,7 @@
+# AirMonitor 0.1.6
+
+* Enhanced `monitor_combine()` with the `replaceMeta` argument.
+
 # AirMonitor 0.1.5
 
 * Added `airsis_loadAnnual()`, `wrcc_loadAnnual()`, `airnow_loadMonthly()`.

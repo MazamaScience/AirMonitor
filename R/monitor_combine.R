@@ -2,7 +2,9 @@
 #'
 #' @title Combine multiple \code{mts_monitor} objects
 #'
-#' @param ... Any number of valid emph{mts_monitor} objects.
+#' @param ... Any number of valid emph{mts_monitor} objects or a list of objects.
+#' @param replaceMeta Logical specifying whether to allow replacement of metadata
+#' associated with \code{deviceDeploymentIDs}.
 #'
 #' @return A combined \code{mts_monitor} object.
 #'
@@ -12,11 +14,12 @@
 #' \emph{mts_monitor} and will have a regular time axis covering the the entire range
 #' of incoming data.
 #'
-#' If incoming time ranges are non-contiguous, the resulting \emph{mts_monitor} will
-#' have gaps filled with \code{NA} values.
+#' If incoming time ranges are tempporally non-contiguous, the resulting
+#' \emph{mts_monitor} will have gaps filled with \code{NA} values.
 #'
 #' An error is generated if the incoming \emph{mts_monitor} objects have
-#' non-identical metadata for the same \code{deviceDeploymentID}.
+#' non-identical metadata for the same \code{deviceDeploymentID} unless
+#' \code{replaceMeta = TRUE}.
 #'
 #' @note Data are combined with a "latest is best" sensibility where any
 #' data overlaps exist. Incoming \emph{mts_monitor} objects are ordered based on the
@@ -26,7 +29,8 @@
 #'
 
 monitor_combine <- function(
-  ...
+  ...,
+  replaceMeta = FALSE
 ) {
 
   # Accept any number of monitor objects
@@ -39,7 +43,7 @@ monitor_combine <- function(
 
   # ----- Call MazamaTimeSeries function ---------------------------------------
 
-  monitor <- MazamaTimeSeries::mts_combine(...)
+  monitor <- MazamaTimeSeries::mts_combine(..., replaceMeta = replaceMeta)
   class(monitor) <- union("mts_monitor", class(monitor))
 
   # ----- Return ---------------------------------------------------------------
