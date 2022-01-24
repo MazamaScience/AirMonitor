@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Load daily AirNow monitoring data — airnow_loadDaily • AirMonitor</title>
+<title>Load monthly AirNow monitoring data — airnow_loadMonthly • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,19 +39,17 @@
 
 
 
-<meta property="og:title" content="Load daily AirNow monitoring data — airnow_loadDaily" />
-<meta property="og:description" content="Loads pre-generated .rda files containing hourly
-AirNow data.
+<meta property="og:title" content="Load monthly AirNow monitoring data — airnow_loadMonthly" />
+<meta property="og:description" content="Loads pre-generated .rda files containing hourly AirNow data.
 If archiveDataDir is defined, data will be loaded from this local
 archive. Otherwise, data will be loaded from the monitoring data repository
 maintained by the USFS AirFire team.
-The files loaded by this function are updated once per day and
-contain data for the previous 45 days.
+The files loaded by this function contain a single month's worth of data
 For the most recent data in the last 10 days, use airnow_loadLatest().
+For daily updates covering the most recent 45 days, use airnow_loadDaily().
 For data extended more than 45 days into the past, use airnow_loadAnnual().
 Pre-processed AirNow exists for the following parameters:
 PM2.5
-PM2.5_nowcast
 
 " />
 
@@ -124,29 +122,28 @@ PM2.5_nowcast
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Load daily AirNow monitoring data</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/airnow_loadDaily.R'><code>R/airnow_loadDaily.R</code></a></small>
-    <div class="hidden name"><code>airnow_loadDaily.Rd</code></div>
+    <h1>Load monthly AirNow monitoring data</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/airnow_loadMonthly.R'><code>R/airnow_loadMonthly.R</code></a></small>
+    <div class="hidden name"><code>airnow_loadMonthly.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Loads pre-generated .rda files containing hourly
-AirNow data.</p>
+    <p>Loads pre-generated .rda files containing hourly AirNow data.</p>
 <p>If <code>archiveDataDir</code> is defined, data will be loaded from this local
 archive. Otherwise, data will be loaded from the monitoring data repository
 maintained by the USFS AirFire team.</p>
-<p>The files loaded by this function are updated once per day and
-contain data for the previous 45 days.</p>
+<p>The files loaded by this function contain a single month's worth of data</p>
 <p>For the most recent data in the last 10 days, use <code><a href='airnow_loadLatest.html'>airnow_loadLatest()</a></code>.</p>
+<p>For daily updates covering the most recent 45 days, use <code><a href='airnow_loadDaily.html'>airnow_loadDaily()</a></code>.</p>
 <p>For data extended more than 45 days into the past, use <code>airnow_loadAnnual()</code>.</p>
 <p>Pre-processed AirNow exists for the following parameters:</p><ol>
 <li><p>PM2.5</p></li>
-<li><p>PM2.5_nowcast</p></li>
 </ol>
 
     </div>
 
-    <pre class="usage"><span class='fu'>airnow_loadDaily</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>airnow_loadMonthly</span><span class='op'>(</span>
+  monthStamp <span class='op'>=</span> <span class='cn'>NULL</span>,
   parameterName <span class='op'>=</span> <span class='st'>"PM2.5"</span>,
   archiveBaseUrl <span class='op'>=</span> <span class='cn'>NULL</span>,
   archiveBaseDir <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -156,6 +153,10 @@ contain data for the previous 45 days.</p>
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>monthStamp</th>
+      <td><p>Year-month [YYYYmm].</p></td>
+    </tr>
     <tr>
       <th>parameterName</th>
       <td><p>One of the EPA AQS criteria parameter names.</p></td>

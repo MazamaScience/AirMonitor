@@ -95,8 +95,49 @@ airsis <-
 
 ca <-
   airsis %>%
-  monitor_filter(stateCode == "CA") %>%
-  monitor_collapse() %>%
+  monitor_filter(stateCode == "CA")
+
+par(mar = c(5,5,2,2) + 0.1)
+ca %>%
+  monitor_dailyThreshold("unhealthy") %>%
+  monitor_collapse(FUN = sum) %>%
   monitor_timeseriesPlot()
+par(mar = c(5,4,2,2) + 0.1)
+
+# ----- AirNow 2021 ------------------------------------------------------------
+
+airnow <-
+  list(
+    airnow_loadMonthly(202101, archiveBaseUrl = archiveBaseUrl),
+    airnow_loadMonthly(202102, archiveBaseUrl = archiveBaseUrl),
+    airnow_loadMonthly(202103, archiveBaseUrl = archiveBaseUrl),
+    airnow_loadMonthly(202104, archiveBaseUrl = archiveBaseUrl),
+    airnow_loadMonthly(202105, archiveBaseUrl = archiveBaseUrl),
+    airnow_loadMonthly(202106, archiveBaseUrl = archiveBaseUrl),
+    airnow_loadMonthly(202107, archiveBaseUrl = archiveBaseUrl),
+    airnow_loadMonthly(202108, archiveBaseUrl = archiveBaseUrl),
+    airnow_loadMonthly(202109, archiveBaseUrl = archiveBaseUrl),
+    airnow_loadMonthly(202110, archiveBaseUrl = archiveBaseUrl),
+    airnow_loadMonthly(202111, archiveBaseUrl = archiveBaseUrl),
+    airnow_loadMonthly(202112, archiveBaseUrl = archiveBaseUrl)
+  ) %>%
+  monitor_combine()
+
+# TODO:  Cretae 'data' and 'meta' and save them separately.
+
+
+monitor_leaflet(airnow)
+
+airnow %>% monitor_select("e05aac8a6c6486ca_460710001") %>% monitor_timeseriesPlot()
+
+airnow %>% monitor_select("b6ef8130a407261b_410290019") %>% monitor_timeseriesPlot()
+
+airnow %>%
+  monitor_select("b6ef8130a407261b_410290019") %>%
+  monitor_filterDate(20210705, 20210719) %>%
+  monitor_timeseriesPlot(addAQI = TRUE, shadedNight = TRUE, type = 'l')
+
+
+
 
 

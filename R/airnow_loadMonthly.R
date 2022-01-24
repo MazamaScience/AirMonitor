@@ -51,7 +51,7 @@
 #' }
 
 
-airnow_loadDaily <- function(
+airnow_loadMonthly <- function(
   monthStamp = NULL,
   parameterName = "PM2.5",
   archiveBaseUrl = NULL,
