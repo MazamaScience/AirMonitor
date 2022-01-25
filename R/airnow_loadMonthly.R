@@ -4,11 +4,11 @@
 #'
 #' @param monthStamp Year-month [YYYYmm].
 #' @param parameterName One of the EPA AQS criteria parameter names.
-#' @param archiveBaseUrl Base URL for annual EPA AQS data files.
-#' @param archiveBaseDir Local base directory for annual EPA AQS data files.
+#' @param archiveBaseUrl Base URL for monitoring v2 data files.
+#' @param archiveBaseDir Local base directory for monitoring v2 data files.
 #' @param QC_negativeValues Type of QC to apply to negative values.
 #'
-#' @return A \emph{ws_monitor} object with AirNow data.
+#' @return A \emph{mts_monitor} object with AirNow data.
 #'
 #' @description Loads pre-generated .rda files containing hourly AirNow data.
 #'

@@ -14,14 +14,14 @@ airnow_loadDaily(
 \arguments{
 \item{parameterName}{One of the EPA AQS criteria parameter names.}
 
-\item{archiveBaseUrl}{Base URL for annual EPA AQS data files.}
+\item{archiveBaseUrl}{Base URL for monitoring v2 data files.}
 
-\item{archiveBaseDir}{Local base directory for annual EPA AQS data files.}
+\item{archiveBaseDir}{Local base directory for monitoring v2 data files.}
 
 \item{QC_negativeValues}{Type of QC to apply to negative values.}
 }
 \value{
-A \emph{ws_monitor} object with AirNow data.
+A \emph{mts_monitor} object with AirNow data.
 }
 \description{
 Loads pre-generated .rda files containing hourly

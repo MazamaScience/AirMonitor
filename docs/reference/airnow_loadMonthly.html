@@ -83,7 +83,7 @@ PM2.5
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -135,7 +135,7 @@ maintained by the USFS AirFire team.</p>
 <p>The files loaded by this function contain a single month's worth of data</p>
 <p>For the most recent data in the last 10 days, use <code><a href='airnow_loadLatest.html'>airnow_loadLatest()</a></code>.</p>
 <p>For daily updates covering the most recent 45 days, use <code><a href='airnow_loadDaily.html'>airnow_loadDaily()</a></code>.</p>
-<p>For data extended more than 45 days into the past, use <code>airnow_loadAnnual()</code>.</p>
+<p>For data extended more than 45 days into the past, use <code><a href='airnow_loadAnnual.html'>airnow_loadAnnual()</a></code>.</p>
 <p>Pre-processed AirNow exists for the following parameters:</p><ol>
 <li><p>PM2.5</p></li>
 </ol>
@@ -163,11 +163,11 @@ maintained by the USFS AirFire team.</p>
     </tr>
     <tr>
       <th>archiveBaseUrl</th>
-      <td><p>Base URL for annual EPA AQS data files.</p></td>
+      <td><p>Base URL for monitoring v2 data files.</p></td>
     </tr>
     <tr>
       <th>archiveBaseDir</th>
-      <td><p>Local base directory for annual EPA AQS data files.</p></td>
+      <td><p>Local base directory for monitoring v2 data files.</p></td>
     </tr>
     <tr>
       <th>QC_negativeValues</th>
@@ -177,7 +177,7 @@ maintained by the USFS AirFire team.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <em>ws_monitor</em> object with AirNow data.</p>
+    <p>A <em>mts_monitor</em> object with AirNow data.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

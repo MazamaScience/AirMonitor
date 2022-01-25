@@ -2,11 +2,11 @@
 #'
 #' @title Load most recent AIRSIS monitoring data
 #'
-#' @param archiveBaseUrl Base URL for annual EPA AQS data files.
-#' @param archiveBaseDir Local base directory for annual EPA AQS data files.
+#' @param archiveBaseUrl Base URL for monitoring v2 data files.
+#' @param archiveBaseDir Local base directory for monitoring v2 data files.
 #' @param QC_negativeValues Type of QC to apply to negative values.
 #'
-#' @return A \emph{ws_monitor} object with AIRSIS data.
+#' @return A \emph{mts_monitor} object with AIRSIS data.
 #'
 #' @description Loads pre-generated .rda files containing the most recent
 #' AIRSIS data.

@@ -4,8 +4,8 @@
 #'
 #' @param parameterCode EPA AQS Parameter Code.
 #' @param year Desired year (integer or character representing YYYY).
-#' @param archiveBaseUrl Base URL for annual EPA AQS data files.
-#' @param archiveBaseDir Local base directory for annual EPA AQS data files.
+#' @param archiveBaseUrl Base URL for monitoring v2 data files.
+#' @param archiveBaseDir Local base directory for monitoring v2 data files.
 #' @param QC_negativeValues Type of QC to apply to negative values.
 #'
 #' @return A \emph{mts_monitor} object with EPA AQS data.

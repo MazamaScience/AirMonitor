@@ -17,9 +17,9 @@ epa_aqs_loadAnnual(
 
 \item{year}{Desired year (integer or character representing YYYY).}
 
-\item{archiveBaseUrl}{Base URL for annual EPA AQS data files.}
+\item{archiveBaseUrl}{Base URL for monitoring v2 data files.}
 
-\item{archiveBaseDir}{Local base directory for annual EPA AQS data files.}
+\item{archiveBaseDir}{Local base directory for monitoring v2 data files.}
 
 \item{QC_negativeValues}{Type of QC to apply to negative values.}
 }

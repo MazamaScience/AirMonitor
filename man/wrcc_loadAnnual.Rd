@@ -14,14 +14,14 @@ wrcc_loadAnnual(
 \arguments{
 \item{year}{Year [YYYY].}
 
-\item{archiveBaseUrl}{Base URL for annual EPA AQS data files.}
+\item{archiveBaseUrl}{Base URL for monitoring v2 data files.}
 
-\item{archiveBaseDir}{Local base directory for annual EPA AQS data files.}
+\item{archiveBaseDir}{Local base directory for monitoring v2 data files.}
 
 \item{QC_negativeValues}{Type of QC to apply to negative values.}
 }
 \value{
-A \emph{ws_monitor} object with WRCC data.
+A \emph{mts_monitor} object with WRCC data.
 }
 \description{
 Loads pre-generated .rda files containing annual

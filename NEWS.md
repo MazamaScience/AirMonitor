@@ -1,3 +1,10 @@
+# AirMonitor 0.1.7
+
+* Added `monitor_load() and monitor_loadLatest/Daily/Monthly/Annual()` to 
+intelligently combine data from AirNow, AIRSIS and WRCC.
+* Added `airsis_loadAnnual()`.
+* `monitor_leaflet()` now displays deviceDeploymentID in **bold**.
+
 # AirMonitor 0.1.6
 
 * Enhanced `monitor_combine()` with the `replaceMeta` argument.

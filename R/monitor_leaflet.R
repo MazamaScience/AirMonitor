@@ -296,7 +296,7 @@ monitor_leaflet <- function(
   popupText <- paste0(
     "<b>", monitor$meta$locationName, "</b><br>",
     "<b>", round(popupValue, digits), " ", units, "</b> ", popupWhen, "<br><br>",
-    monitor$meta$deviceDeploymentID, "<br>",
+    "<b>", monitor$meta$deviceDeploymentID, "</b><br>",
     "locationID = ", monitor$meta$locationID, "<br>",
     "deviceID = ", monitor$meta$deviceID, "<br><br>",
     monitor$meta$countyName, " County, ", monitor$meta$stateCode, "<br>",
