@@ -1,3 +1,12 @@
+# AirMonitor 0.1.8
+
+* Added `trimEmptyDays` argument to `monitor_trimDate()`.
+* Added `monitor_aqi()` and support for plots including:
+  - newly defined `US_EPA$breaks_AQI`
+  - added `pollutant = "AQI"` option to all `addAQI~()` functions
+* Fixed bug in `monitor_leaflet()` so that it can handle single-timeseries
+monitor objects.
+
 # AirMonitor 0.1.7
 
 * Added `monitor_load() and monitor_loadLatest/Daily/Monthly/Annual()` to 

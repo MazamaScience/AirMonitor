@@ -4,11 +4,18 @@
 #'
 #' @param monitor \emph{mts_monitor} object.
 #' @param timezone Olson timezone used to interpret dates.
+#' @param trimEmptyDays Logical specifying whether to remove days with no data
+#' at the beginning and end of the time range.
 #'
 #' @description Trims the date range of a \emph{mts_monitor} object to local time date
 #' boundaries which are \emph{within} the range of data. This has the effect
 #' of removing partial-day data records at the start and end of the timeseries
 #' and is useful when calculating full-day statistics.
+#'
+#' By default, multi-day periods of all-missing data at the beginning and end
+#' of the timeseries are removed before trimming to date boundaries. If
+#' \code{trimEmptyDays = FALSE} all records are retained except for partial days
+#' beyond the first and after the last date boundary.
 #'
 #' Day boundaries are calculated using the specified \code{timezone} or, if
 #' \code{NULL}, from \code{monitor$meta$timezone}.
@@ -19,7 +26,8 @@
 
 monitor_trimDate <- function(
   monitor = NULL,
-  timezone = NULL
+  timezone = NULL,
+  trimEmptyDays = TRUE
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -34,7 +42,7 @@ monitor_trimDate <- function(
 
   # ----- Call MazamaTimeSeries function ---------------------------------------
 
-  monitor <- MazamaTimeSeries::mts_trimDate(monitor, timezone)
+  monitor <- MazamaTimeSeries::mts_trimDate(monitor, timezone, trimEmptyDays)
   class(monitor) <- union("mts_monitor", class(monitor))
 
   # ----- Return ---------------------------------------------------------------

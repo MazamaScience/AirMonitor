@@ -25,12 +25,12 @@
 
 wrcc_loadAnnual <- function(
   year = NULL,
-  archiveBaseUrl = NULL,
+  archiveBaseUrl = "http://data-monitoring_v2-c1.airfire.org/monitoring-v2",
   archiveBaseDir = NULL,
   QC_negativeValues = c("zero", "na", "ignore")
 ) {
 
-  parameterName = "PM2.5"
+  parameterName <- "PM2.5"
 
   # ----- Validate parameters --------------------------------------------------
 

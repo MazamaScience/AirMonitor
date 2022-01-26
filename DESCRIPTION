@@ -1,11 +1,12 @@
 Type: Package
 Package: AirMonitor
-Version: 0.1.7
+Version: 0.1.8
 Title: Air Quality Data Analysis
 Authors@R: c(
-    person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre"))
+    person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
+    person("Spencer", "Pease", email="spencerpease618@gmail.com", role=c("ctb")),
+    person("Rex", "Thompson", email="rexs.thompson@gmail.com", role=c("ctb"))
     )
-Author: Jonathan Callahan [aut, cre]
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
 Description: Tools for working with air quality data.
 License: GPL-3
@@ -20,7 +21,7 @@ Imports:
     lubridate,
     magrittr,
     MazamaCoreUtils (>= 0.4.10),
-    MazamaTimeSeries (>= 0.1.5),
+    MazamaTimeSeries (>= 0.1.6),
     readr,
     rlang,
     stringr,

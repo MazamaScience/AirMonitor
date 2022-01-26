@@ -158,8 +158,13 @@ monitor_leaflet <- function(
       # NOTE: all those non-finite values with NA.
 
       suppressWarnings({
-        popupValue <-
-          apply(monitor$data[,-1], 2, FUN, na.rm = TRUE, simplify = TRUE)
+        popupValue <- apply(
+          dplyr::select(monitor$data, -1),
+          2,
+          FUN,
+          na.rm = TRUE,
+          simplify = TRUE
+        )
       })
 
       popupValue[!is.finite(popupValue)] <- NA
@@ -174,7 +179,7 @@ monitor_leaflet <- function(
 
         suppressWarnings({
 
-          dataBrick <- monitor$data[, -1]
+          dataBrick <- dplyr::select(monitor$data, -1)
           sliceValueBrick <- matrix(rep(popupValue, nrow(dataBrick)), nrow = nrow(dataBrick), byrow = TRUE)
           logicalBrick <- dataBrick == sliceValueBrick
           logicalBrick[is.na(logicalBrick)] <- FALSE

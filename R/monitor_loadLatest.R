@@ -49,9 +49,9 @@ monitor_loadLatest <- function(
   QC_negativeValues = c("zero", "na", "ignore")
 ) {
 
-  # ----- Validate parameters --------------------------------------------------
+  parameterName <- "PM2.5"
 
-  parameterName = "PM2.5"
+  # ----- Validate parameters --------------------------------------------------
 
   QC_negativeValues <- match.arg(QC_negativeValues)
 

@@ -5,7 +5,7 @@
 \title{Load most recent WRCC monitoring data}
 \usage{
 wrcc_loadLatest(
-  archiveBaseUrl = NULL,
+  archiveBaseUrl = "http://data-monitoring_v2-c1.airfire.org/monitoring-v2",
   archiveBaseDir = NULL,
   QC_negativeValues = c("zero", "na", "ignore")
 )

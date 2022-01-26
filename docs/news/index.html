@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
       </span>
     </div>
 
@@ -114,6 +114,21 @@
       <small>Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="airmonitor-018" class="section level1">
+<h1 class="page-header" data-toc-text="0.1.8">
+<a href="#airmonitor-018" class="anchor"></a>AirMonitor 0.1.8</h1>
+<ul>
+<li>Added <code>trimEmptyDays</code> argument to <code><a href="../reference/monitor_trimDate.html">monitor_trimDate()</a></code>.</li>
+<li>Added <code><a href="../reference/monitor_aqi.html">monitor_aqi()</a></code> and support for plots including:
+<ul>
+<li>newly defined <code>US_EPA$breaks_AQI</code>
+</li>
+<li>added <code>pollutant = "AQI"</code> option to all <code>addAQI~()</code> functions</li>
+</ul>
+</li>
+<li>Fixed bug in <code><a href="../reference/monitor_leaflet.html">monitor_leaflet()</a></code> so that it can handle single-timeseries monitor objects.</li>
+</ul>
+</div>
     <div id="airmonitor-017" class="section level1">
 <h1 class="page-header" data-toc-text="0.1.7">
 <a href="#airmonitor-017" class="anchor"></a>AirMonitor 0.1.7</h1>

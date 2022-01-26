@@ -109,6 +109,8 @@ monitor_timeseriesPlot <- function(
     if ( meta$units[1] == "UG/M3") {
       # Most common case
       argsList$ylab <- expression(paste(PM[2.5] * " (", mu, "g/m"^3, ")"))
+    } else if ( meta$units[1] == "" ) {
+      argsList$ylab <- sprintf("%s", meta$pollutant[1])
     } else {
       argsList$ylab <- sprintf("%s (%s)", meta$pollutant[1], meta$units[1])
     }

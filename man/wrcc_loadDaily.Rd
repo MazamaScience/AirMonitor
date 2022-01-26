@@ -5,7 +5,7 @@
 \title{Load daily WRCC monitoring data}
 \usage{
 wrcc_loadDaily(
-  archiveBaseUrl = NULL,
+  archiveBaseUrl = "http://data-monitoring_v2-c1.airfire.org/monitoring-v2",
   archiveBaseDir = NULL,
   QC_negativeValues = c("zero", "na", "ignore")
 )

@@ -4,12 +4,15 @@
 \alias{monitor_trimDate}
 \title{Trim a \emph{mts_monitor} object to full days}
 \usage{
-monitor_trimDate(monitor = NULL, timezone = NULL)
+monitor_trimDate(monitor = NULL, timezone = NULL, trimEmptyDays = TRUE)
 }
 \arguments{
 \item{monitor}{\emph{mts_monitor} object.}
 
 \item{timezone}{Olson timezone used to interpret dates.}
+
+\item{trimEmptyDays}{Logical specifying whether to remove days with no data
+at the beginning and end of the time range.}
 }
 \value{
 A subset of the given \emph{mts_monitor} object.
@@ -19,6 +22,11 @@ Trims the date range of a \emph{mts_monitor} object to local time date
 boundaries which are \emph{within} the range of data. This has the effect
 of removing partial-day data records at the start and end of the timeseries
 and is useful when calculating full-day statistics.
+
+By default, multi-day periods of all-missing data at the beginning and end
+of the timeseries are removed before trimming to date boundaries. If
+\code{trimEmptyDays = FALSE} all records are retained except for partial days
+beyond the first and after the last date boundary.
 
 Day boundaries are calculated using the specified \code{timezone} or, if
 \code{NULL}, from \code{monitor$meta$timezone}.

@@ -182,8 +182,9 @@ US_52 <- c(
 
 US_AQI <- list(
 
-  # NOTE:  We must have a default breaks with just the parameter name
+  # NOTE:  We must have default breaks with just the parameter name
   # Breaks for all supported parameters
+  breaks_AQI = c(-Inf, 50, 100, 150, 200, 300, Inf),
   breaks_CO = c(-Inf, 4.5, 9.5, 12.5, 15.5, 30.5, Inf),
   breaks_NO2 = c(-Inf, 54, 101, 361, 650, 2501, Inf),
   breaks_OZONE = c(-Inf, 0, .125, .165, .205, .405, Inf),        # Using OZONE_1hr

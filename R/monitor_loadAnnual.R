@@ -52,10 +52,11 @@ monitor_loadAnnual <- function(
   QC_negativeValues = c("zero", "na", "ignore")
 ) {
 
+  parameterName <- "PM2.5"
+
   # ----- Validate parameters --------------------------------------------------
 
   MazamaCoreUtils::stopIfNull(year)
-  parameterName = "PM2.5"
 
   QC_negativeValues <- match.arg(QC_negativeValues)
 

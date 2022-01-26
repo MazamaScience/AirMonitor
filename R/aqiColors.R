@@ -16,7 +16,7 @@
 
 aqiColors <- function(
   x,
-  pollutant = c("PM2.5", "CO", "OZONE", "PM10"),
+  pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),
   palette = c("EPA", "subdued", "deuteranopia"),
   na.color = NA
 ) {

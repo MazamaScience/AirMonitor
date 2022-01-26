@@ -44,6 +44,10 @@
 boundaries which are within the range of data. This has the effect
 of removing partial-day data records at the start and end of the timeseries
 and is useful when calculating full-day statistics.
+By default, multi-day periods of all-missing data at the beginning and end
+of the timeseries are removed before trimming to date boundaries. If
+trimEmptyDays = FALSE all records are retained except for partial days
+beyond the first and after the last date boundary.
 Day boundaries are calculated using the specified timezone or, if
 NULL, from monitor$meta$timezone." />
 
@@ -77,7 +81,7 @@ NULL, from monitor$meta$timezone." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
       </span>
     </div>
 
@@ -126,11 +130,15 @@ NULL, from monitor$meta$timezone." />
 boundaries which are <em>within</em> the range of data. This has the effect
 of removing partial-day data records at the start and end of the timeseries
 and is useful when calculating full-day statistics.</p>
+<p>By default, multi-day periods of all-missing data at the beginning and end
+of the timeseries are removed before trimming to date boundaries. If
+<code>trimEmptyDays = FALSE</code> all records are retained except for partial days
+beyond the first and after the last date boundary.</p>
 <p>Day boundaries are calculated using the specified <code>timezone</code> or, if
 <code>NULL</code>, from <code>monitor$meta$timezone</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_trimDate</span><span class='op'>(</span>monitor <span class='op'>=</span> <span class='cn'>NULL</span>, timezone <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>monitor_trimDate</span><span class='op'>(</span>monitor <span class='op'>=</span> <span class='cn'>NULL</span>, timezone <span class='op'>=</span> <span class='cn'>NULL</span>, trimEmptyDays <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -142,6 +150,11 @@ and is useful when calculating full-day statistics.</p>
     <tr>
       <th>timezone</th>
       <td><p>Olson timezone used to interpret dates.</p></td>
+    </tr>
+    <tr>
+      <th>trimEmptyDays</th>
+      <td><p>Logical specifying whether to remove days with no data
+at the beginning and end of the time range.</p></td>
     </tr>
     </table>
 
