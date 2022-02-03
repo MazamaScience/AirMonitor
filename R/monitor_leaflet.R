@@ -391,7 +391,7 @@ monitor_leaflet <- function(
 if ( FALSE ) {
 
   library(AirMonitor)
-  archiveBaseUrl <- "http://data-monitoring_v2-c1.airfire.org/monitoring-v2"
+  archiveBaseUrl <- "https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2"
   monitor <-
     airnow_loadDaily(archiveBaseUrl = archiveBaseUrl) %>%
     ##monitor_select(c("089a067f92712ad1_530750003", "d121a99bc6c2ac7f_160570005"))

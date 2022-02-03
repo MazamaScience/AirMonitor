@@ -101,9 +101,7 @@ try({
 
 library(AirMonitor)
 
-archiveBaseUrl <- "http://data-monitoring_v2-c1.airfire.org/monitoring-v2"
-
-monitor <- airnow_loadLatest(archiveBaseUrl = archiveBaseUrl)
+monitor <- airnow_loadLatest()
 
 currentStatus <-
   monitor \%>\%

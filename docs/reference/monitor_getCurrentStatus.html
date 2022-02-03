@@ -73,7 +73,7 @@ from monitor$data reflecting recent measurements." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
       </span>
     </div>
 
@@ -227,9 +227,7 @@ The additional data fields added to <code>monitor$meta</code> are listed below:<
 
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
 
-<span class='va'>archiveBaseUrl</span> <span class='op'>&lt;-</span> <span class='st'>"http://data-monitoring_v2-c1.airfire.org/monitoring-v2"</span>
-
-<span class='va'>monitor</span> <span class='op'>&lt;-</span> <span class='fu'><a href='airnow_loadLatest.html'>airnow_loadLatest</a></span><span class='op'>(</span>archiveBaseUrl <span class='op'>=</span> <span class='va'>archiveBaseUrl</span><span class='op'>)</span>
+<span class='va'>monitor</span> <span class='op'>&lt;-</span> <span class='fu'><a href='airnow_loadLatest.html'>airnow_loadLatest</a></span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='va'>currentStatus</span> <span class='op'>&lt;-</span>
   <span class='va'>monitor</span> <span class='op'>%&gt;%</span>

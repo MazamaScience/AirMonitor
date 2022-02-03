@@ -83,7 +83,7 @@ PM2.5
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.9</span>
       </span>
     </div>
 
@@ -145,7 +145,8 @@ maintained by the USFS AirFire team.</p>
     <pre class="usage"><span class='fu'>airnow_loadAnnual</span><span class='op'>(</span>
   year <span class='op'>=</span> <span class='cn'>NULL</span>,
   parameterName <span class='op'>=</span> <span class='st'>"PM2.5"</span>,
-  archiveBaseUrl <span class='op'>=</span> <span class='st'>"http://data-monitoring_v2-c1.airfire.org/monitoring-v2"</span>,
+ 
+    archiveBaseUrl <span class='op'>=</span> <span class='st'>"https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2"</span>,
   archiveBaseDir <span class='op'>=</span> <span class='cn'>NULL</span>,
   QC_negativeValues <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"zero"</span>, <span class='st'>"na"</span>, <span class='st'>"ignore"</span><span class='op'>)</span>
 <span class='op'>)</span></pre>

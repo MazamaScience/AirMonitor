@@ -1,3 +1,7 @@
+# AirMonitor 0.1.9
+
+* Changed default `archiveBaseUrl` to point to https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2.
+
 # AirMonitor 0.1.8
 
 * Added `trimEmptyDays` argument to `monitor_trimDate()`.

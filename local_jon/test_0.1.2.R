@@ -4,7 +4,7 @@
 
 library(AirMonitor)
 
-archiveBaseUrl <- "http://data-monitoring_v2-c1.airfire.org/monitoring-v2"
+archiveBaseUrl <- "https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2"
 
 latest <- airnow_loadLatest(archiveBaseUrl = archiveBaseUrl)
 latest_nowcast <- latest %>% monitor_nowcast()
