@@ -43,7 +43,26 @@ monitor_combine <- function(
 
   # ----- Call MazamaTimeSeries function ---------------------------------------
 
-  monitor <- MazamaTimeSeries::mts_combine(..., replaceMeta = replaceMeta)
+  result <- try({
+    monitor <- MazamaTimeSeries::mts_combine(..., replaceMeta = replaceMeta)
+  }, silent = TRUE)
+
+  # Handle errors
+  if ( "try-error" %in% class(result) ) {
+    err_msg <- geterrmessage()
+    if ( stringr::str_detect(err_msg, "non-identical metadata") ) {
+      stop(paste(
+        "device-deployments have non-identical metadata\n\n",
+        "Use 'replaceMeta = TRUE' to avoid this error message."
+      ))
+    } else {
+      stop(err_msg)
+    }
+  }
+
+  # If we didn't stop, we succeeded, so continue.
+
+  # Ensure we have the proper class name
   class(monitor) <- union("mts_monitor", class(monitor))
 
   # ----- Return ---------------------------------------------------------------

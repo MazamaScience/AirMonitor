@@ -1,3 +1,7 @@
+# AirMonitor 0.1.10
+
+* Improved error message in `monitor_combine()`.
+
 # AirMonitor 0.1.9
 
 * Changed default `archiveBaseUrl` to point to https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2.
