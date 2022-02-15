@@ -1,6 +1,9 @@
 pandoc: 2.11.4
 pkgdown: 1.6.1
 pkgdown_sha: ~
-articles: {}
-last_built: 2022-02-03T20:28Z
+articles:
+  AirMonitor: AirMonitor.html
+  Developer_Style_Guide: Developer_Style_Guide.html
+  articles/Citations: Citations.html
+last_built: 2022-02-15T23:18Z
 

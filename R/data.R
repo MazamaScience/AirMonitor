@@ -66,3 +66,28 @@
 #' }
 #'
 "Carmel_Valley"
+
+#' @encoding UTF-8
+#' @title Camp Fire example dataset
+#' @format A \emph{ws_monitor} object with "meta" and "data" dataframes.
+#' @description The \code{Camp_Fire} dataset provides a quickly loadable
+#' version of a \emph{ws_monitor} object for practicing and code examples.
+#'
+#' This dataset was was generated on 2022-02-15 by running:
+#'
+#' \preformatted{
+#' library(AirMonitor)
+#'
+#' Camp_Fire <-
+#'   monitor_loadAnnual(2018) %>%
+#'   monitor_filter(stateCode == 'CA') %>%
+#'   monitor_filterDate(
+#'     startdate = 20181108,
+#'     enddate = 20181123,
+#'     timezone = "America/Los_Angeles"
+#'  ) %>%
+#'  monitor_dropE
+#'
+#' save(Camp_Fire, file = "data/Camp_Fire.rda")
+#' }
+"Camp_Fire"

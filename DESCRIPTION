@@ -1,14 +1,20 @@
 Type: Package
 Package: AirMonitor
-Version: 0.1.10
+Version: 0.1.11
 Title: Air Quality Data Analysis
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
     person("Spencer", "Pease", email="spencerpease618@gmail.com", role=c("ctb")),
+    person("Hans", "Martin", email="hansmrtn@gmail.com", role=c("ctb")),
     person("Rex", "Thompson", email="rexs.thompson@gmail.com", role=c("ctb"))
     )
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
-Description: Tools for working with air quality data.
+Description: Utilities for working with hourly air quality monitoring data
+    with a focus on small particulates (PM2.5). A compact data model is 
+    structured as a list with two dataframes. A 'meta' dataframe contains 
+    spatial and measuring device metadata associated with deployments at known 
+    locations. A 'data' dataframe contains a 'datetime' column followed by 
+    columns of measurements associated with each "device-deployment".
 License: GPL-3
 URL: https://github.com/MazamaScience/AirMonitor
 BugReports: https://github.com/MazamaScience/AirMonitor/issues
@@ -21,7 +27,7 @@ Imports:
     lubridate,
     magrittr,
     MazamaCoreUtils (>= 0.4.10),
-    MazamaTimeSeries (>= 0.1.6),
+    MazamaTimeSeries (>= 0.2.1),
     readr,
     rlang,
     stringr,

@@ -1,3 +1,10 @@
+# AirMonitor 0.1.11
+
+* Updated `monitor_dailyBarplot()` to use the `palette` argument.
+* Updated documentation including two vignettes:
+  - `Introduction to AirMonitor`
+  - `Developer Style Guide`
+
 # AirMonitor 0.1.10
 
 * Improved error message in `monitor_combine()`.

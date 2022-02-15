@@ -1,0 +1,157 @@
+---
+title: "Introduction to AirMonitor"
+author: "Mazama Science"
+date: "2020-02-12"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to AirMonitor}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.width = 7, fig.height = 5)
+```
+
+## Installation
+
+Install from CRAN with:
+
+`install.packages('AirMonitor')`
+
+Install the latest version from GitHub with:
+
+`devtools::install_github('mazamascience/AirMonitor')`
+
+## Available data
+
+The USFS AirFire group regularly processes monitoring data in support of their
+various operational tools. Pre-processed, harmonized and QC'ed data files can
+be loaded with the following functions:
+
+* `~_load()` -- load data based on a start- and end-time
+* `~loadAnnual()` -- load a year's worth of data
+* `~loadDaily()` -- load the most recent 45 days of data (updated once per day)
+* `~loadLatest()` -- load the most recent 10 days of data (updated every hour)
+
+Data archives go back over 10 years depending on the source of data.
+
+## Data pipelines
+
+We encourage people to embrace "data pipeline" style coding as encouraged by
+**dplyr** and related packages. The special `%>%` operator uses the output
+of one function as the first argument of the next function, thus allowing for 
+easy "chaining" of results.
+
+With only a few exceptions, all the `monitor_` functions accept a _mts_monitor_ 
+object as their first argument and generate a _mts_monitor_ object as a result 
+so they can be chained together.
+
+## A first example
+
+```{r library, echo = FALSE}
+suppressPackageStartupMessages({
+  library(AirMonitor)
+  
+  Camp_Fire <- Camp_Fire
+})
+```
+
+Let's say we are interested in the impact of smoke from the 2018 
+[Camp Fire](https://en.wikipedia.org/wiki/Camp_Fire_(2018)) in the Sacramento
+area.
+
+We would begin by creating a `Camp_Fire` _mts_monitor_ object that has all the
+monitors in California for the period of interest:
+
+```
+Camp_Fire <-
+  monitor_loadAnnual(2018) %>%
+  monitor_filter(stateCode == 'CA') %>%
+  monitor_filterDate(
+    startdate = 20181108,
+    enddate = 20181123,
+    timezone = "America/Los_Angeles"
+  ) %>%
+  monitor_dropEmpty()
+```
+
+We can display these monitors (colored by maximum PM2.5 value) in an interactive
+map, zoom in and click on the monitor in downtown Sacramento to get it's 
+`deviceDeploymentID`:
+
+```{r Sacramento_2}
+monitor_leaflet(Camp_Fire)
+```
+
+We can use this `deviceDeploymentID` to create a _mts_monitor_ object for this 
+single monitor and take a look at a timeseries plot:
+
+```{r Sacramento_3}
+Sacramento <-
+  Camp_Fire %>%
+  monitor_select("8ca91d2521b701d4_060670010")
+
+Sacramento %>%
+  monitor_timeseriesPlot(
+    shadedNight = TRUE,
+    addAQI = TRUE
+  )
+
+addAQILegend(cex = 0.8)
+```
+
+Next, we can use this specific location to create a _mts_monitor_ object
+containing all monitors within 50 kilometers (31 miles) of Sacramento:
+
+```{r Sacramento_4}
+Sacramento_area <-
+  Camp_Fire %>%
+  monitor_filterByDistance(
+    longitude = Sacramento$meta$longitude,
+    latitude = Sacramento$meta$latitude,
+    radius = 50000
+  )
+
+monitor_leaflet(Sacramento_area)
+```
+
+We can display the hourly data for all the monitors and add day/night shading:
+
+```{r Sacramento_5}
+Sacramento_area %>%
+  monitor_timeseriesPlot(
+    shadedNight = TRUE,
+    addAQI = TRUE,
+    main = "Wildfire Smoke within 30 miles of Sacramento"
+  )
+addAQILegend(lwd = 1, pch = NA)
+```
+
+We can average together all the monitors and create a local-time daily average
+for the Sacramento area:
+
+```{r Sacramento_6}
+Sacramento_area %>%
+  monitor_collapse(
+    deviceID = "Sacramento_area"
+  ) %>%
+  monitor_dailyStatistic() %>%
+  monitor_getData()
+```
+
+Alternatively, we can plot the daily averages:
+
+```{r Sacramento_7}
+Sacramento_area %>%
+  monitor_collapse() %>%
+  monitor_dailyBarplot(
+    main = "Daily Average PM2.5 in the Sacramento Area"
+  )
+addAQILegend(pch = 15, pt.cex = 1.5)
+```
+
+----
+
+Best of luck analyzing your local air quality data!
+

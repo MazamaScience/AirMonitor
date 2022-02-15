@@ -103,7 +103,7 @@ monitor_dailyBarplot <- function(
 
   # Height and color
   argsList$height <- dailyAverage
-  argsList$col <- aqiColors(dailyAverage)
+  argsList$col <- aqiColors(dailyAverage, pollutant, palette)
 
   # X axis labeling is handled after the plot
 
