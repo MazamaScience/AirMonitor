@@ -40,7 +40,9 @@
 
 
 <meta property="og:title" content="Add nighttime shading to a timeseries plot — addShadedNight" />
-<meta property="og:description" content="Draw shading rectangles on a plot to indicate nighttime hours." />
+<meta property="og:description" content="Draw shading rectangles on a plot to indicate nighttime hours.
+The  uses this function internally when
+specifying shadedNight = TRUE." />
 
 
 
@@ -72,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
       </span>
     </div>
 
@@ -135,7 +137,9 @@
     </div>
 
     <div class="ref-description">
-    <p>Draw shading rectangles on a plot to indicate nighttime hours.</p>
+    <p>Draw shading rectangles on a plot to indicate nighttime hours.
+The  uses this function internally when
+specifying <code>shadedNight = TRUE</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>addShadedNight</span><span class='op'>(</span><span class='va'>timeInfo</span>, col <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/adjustcolor.html'>adjustcolor</a></span><span class='op'>(</span><span class='st'>"black"</span>, <span class='fl'>0.1</span><span class='op'>)</span><span class='op'>)</span></pre>
@@ -145,7 +149,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>timeInfo</th>
-      <td><p>dataframe as returned by <code><a href='monitor_timeInfo.html'>monitor_timeInfo()</a></code></p></td>
+      <td><p>dataframe as returned by <code>MazamaTimeSeries::monitor_timeInfo()</code></p></td>
     </tr>
     <tr>
       <th>col</th>
@@ -153,9 +157,6 @@
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>timeInfo</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

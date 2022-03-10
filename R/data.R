@@ -24,8 +24,8 @@
 #'     parameterCode = 88101,
 #'     archiveBaseUrl = NULL,
 #'     archiveBaseDir = "~/Data/monitoring"
-#'   ) %>%
-#'   monitor_filterMeta(stateCode %in% c("WA", "OR", "ID")) %>%
+#'   ) \%>\%
+#'   monitor_filterMeta(stateCode \%in\% c("WA", "OR", "ID")) \%>\%
 #'   monitor_filterDate(20150601, 20151101)
 #'
 #' save(example_88101, file = "data/example_88101.rda")
@@ -58,8 +58,8 @@
 #'     parameterCode = 88101,
 #'     archiveBaseUrl = NULL,
 #'     archiveBaseDir = "~/Data/monitoring"
-#'   ) %>%
-#'   monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_060530002_03") %>%
+#'   ) \%>\%
+#'   monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_060530002_03") \%>\%
 #'   monitor_filterDate(20160722, 20160815)
 #'
 #' save(Carmel_Valley, file = "data/Carmel_Valley.rda")
@@ -79,14 +79,14 @@
 #' library(AirMonitor)
 #'
 #' Camp_Fire <-
-#'   monitor_loadAnnual(2018) %>%
-#'   monitor_filter(stateCode == 'CA') %>%
+#'   monitor_loadAnnual(2018) \%>\%
+#'   monitor_filter(stateCode == 'CA') \%>\%
 #'   monitor_filterDate(
 #'     startdate = 20181108,
 #'     enddate = 20181123,
 #'     timezone = "America/Los_Angeles"
-#'  ) %>%
-#'  monitor_dropE
+#'  ) \%>\%
+#'  monitor_dropEmpty()
 #'
 #' save(Camp_Fire, file = "data/Camp_Fire.rda")
 #' }

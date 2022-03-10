@@ -11,7 +11,8 @@
 #' is applied.
 #' @param ... additional arguments to be passed on to the \code{apply()} function.
 #'
-#' @return A \emph{mts_monitor} object representingn a single time series
+#' @return A \emph{mts_monitor} object representing a single time series. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @description
 #' Collapses data from all time series in \code{mts_monitor} into a

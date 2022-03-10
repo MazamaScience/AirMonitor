@@ -2,7 +2,15 @@
 #' @docType package
 #' @name AirMonitor
 #' @title Air Quality Data Analysis
-#' @description Tools for working with air quality data.
+#' @description
+#' \code{
+#' Utilities for working with hourly air quality monitoring data
+#' with a focus on small particulates (PM2.5). A compact data model is
+#' structured as a list with two dataframes. A 'meta' dataframe contains
+#' spatial and measuring device metadata associated with deployments at known
+#' locations. A 'data' dataframe contains a 'datetime' column followed by
+#' columns of measurements associated with each "device-deployment".
+#' }
 
 NULL
 
@@ -18,7 +26,9 @@ NULL
 #' @description Vector of names of the required \code{monitor$meta} columns.
 #' These represent metadata columns that must exist in every valid
 #' \emph{mts_monitor} object. Any number of additional columns may also be present.
-#'
+#' @examples
+#'  print(coreMetadataNames, width = 80)
+
 
 # NOTE:  AirNow units include:
 # NOTE:    "C", "DEGREES", "KNOTS", "M/S", "MILLIBAR", "MM",
@@ -88,6 +98,16 @@ pollutantNames <- c(
 #' @format A vector with 49 elements
 #' @description
 #' State codes for the 48 contiguous states +DC that make up the CONtinental US.
+#' \code{
+#' CONUS <- c(
+#'   "AL","AZ","AR","CA","CO","CT","DE","FL","GA",
+#'   "ID","IL","IN","IA","KS","KY","LA","ME","MD",
+#'   "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+#'   "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+#'   "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
+#'   "DC"
+#' )
+#' }
 
 CONUS <- c(
        "AL","AZ","AR","CA","CO","CT","DE","FL","GA",
@@ -106,7 +126,17 @@ CONUS <- c(
 #' @title US state codes
 #' @format A vector with 52 elements
 #' @description
-#' State codes for the 50 states +DC +PR (Puerto Rico)
+#' State codes for the 50 states +DC +PR (Puerto Rico).
+#' \code{
+#' US_52 <- c(
+#'   "AK","AL","AZ","AR","CA","CO","CT","DE","FL","GA",
+#'   "HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
+#'   "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+#'   "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+#'   "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
+#'   "DC","PR"
+#' )
+#' }
 
 US_52 <- c(
   "AK","AL","AZ","AR","CA","CO","CT","DE","FL","GA",
@@ -134,6 +164,7 @@ US_52 <- c(
 #'
 #' Breakpoints are given in units reported for each parameter and include:
 #' \itemize{
+#' \item{\code{breaks_AQI}}
 #' \item{\code{breaks_CO}}
 #' \item{\code{breaks_NO2}}
 #' \item{\code{breaks_OZONE_1hr}}
@@ -146,7 +177,7 @@ US_52 <- c(
 #'
 #' Several different color palettes are provided:
 #' \itemize{
-#' \item{\code{colors_EPA} -- offical EPA AQI colors}
+#' \item{\code{colors_EPA} -- official EPA AQI colors}
 #' \item{\code{colors_subdued} -- subdued colors fo use with leaflet maps}
 #' \item{\code{colors_deuteranopia} -- color vision impaired colors}
 #' }
@@ -162,7 +193,7 @@ US_52 <- c(
 #'
 #' @section Actions:
 #'
-#' Text for "actions to protect yourself" are provided provided for each
+#' Text for "actions to protect yourself" are provided for each
 #' category in several languages identified by the
 #' ISO 639-2 alpha-3 code:
 #' \itemize{

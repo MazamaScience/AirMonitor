@@ -20,7 +20,8 @@
 #' @seealso \code{\link{monitor_loadDaily}}
 #' @seealso \code{\link{monitor_loadLatest}}
 #'
-#' @return A \emph{mts_monitor} object with PM2.5 monitoring data.
+#' @return A \emph{mts_monitor} object with PM2.5 monitoring data. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @examples
 #' \dontrun{

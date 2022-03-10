@@ -8,7 +8,8 @@
 #' @param archiveBaseDir Local base directory for monitoring v2 data files.
 #' @param QC_negativeValues Type of QC to apply to negative values.
 #'
-#' @return A \emph{mts_monitor} object with AirNow data.
+#' @return A \emph{mts_monitor} object with AirNow data. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @description Loads pre-generated .rda files containing hourly AirNow data.
 #'

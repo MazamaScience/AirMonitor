@@ -6,7 +6,8 @@
 #' @param replaceMeta Logical specifying whether to allow replacement of metadata
 #' associated with \code{deviceDeploymentIDs}.
 #'
-#' @return A combined \code{mts_monitor} object.
+#' @return A combined \code{mts_monitor} object. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @description Create a combined \emph{mts_monitor} from any number of \emph{mts_monitor}
 #' objects or from a list of \emph{mts_monitor} objects. The resulting \emph{mts_monitor}

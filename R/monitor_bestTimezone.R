@@ -8,7 +8,7 @@
 #' most common one. In the case of a tie, the alphabetically first one is
 #' returned.
 #'
-#' @return A valid \code{OlsonNames()} timezone.
+#' @return A valid \code{base::OlsonNames()} timezone.
 #'
 
 monitor_bestTimezone <- function(

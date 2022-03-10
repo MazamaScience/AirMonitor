@@ -19,7 +19,8 @@ monitor_nowcast(
 NowCast values starting with the 2nd hour.}
 }
 \value{
-A modified \code{mts_monitor} object.
+A modified \code{mts_monitor} object. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 A Nowcast algorithm is applied to the data in in the

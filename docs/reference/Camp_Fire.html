@@ -47,14 +47,14 @@ This dataset was was generated on 2022-02-15 by running:
 library(AirMonitor)
 
 Camp_Fire &amp;lt;-
-  monitor_loadAnnual(2018) &amp;lt;!-- %&amp;gt;% --&amp;gt;
-  monitor_filter(stateCode == 'CA') &amp;lt;!-- %&amp;gt;% --&amp;gt;
+  monitor_loadAnnual(2018) %&amp;gt;%
+  monitor_filter(stateCode == 'CA') %&amp;gt;%
   monitor_filterDate(
     startdate = 20181108,
     enddate = 20181123,
     timezone = &quot;America/Los_Angeles&quot;
- ) &amp;lt;!-- %&amp;gt;% --&amp;gt;
- monitor_dropE
+ ) %&amp;gt;%
+ monitor_dropEmpty()
 
 save(Camp_Fire, file = &quot;data/Camp_Fire.rda&quot;)
 
@@ -90,7 +90,7 @@ save(Camp_Fire, file = &quot;data/Camp_Fire.rda&quot;)
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
       </span>
     </div>
 
@@ -157,19 +157,19 @@ save(Camp_Fire, file = &quot;data/Camp_Fire.rda&quot;)
 version of a <em>ws_monitor</em> object for practicing and code examples.</p>
 <p>This dataset was was generated on 2022-02-15 by running:</p>
 <pre>
-library(AirMonitor)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
 
-Camp_Fire &lt;-
-  monitor_loadAnnual(2018) &lt;!-- %&gt;% --&gt;
-  monitor_filter(stateCode == 'CA') &lt;!-- %&gt;% --&gt;
-  monitor_filterDate(
-    startdate = 20181108,
-    enddate = 20181123,
-    timezone = "America/Los_Angeles"
- ) &lt;!-- %&gt;% --&gt;
- monitor_dropE
+<span class='va'>Camp_Fire</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='monitor_loadAnnual.html'>monitor_loadAnnual</a></span><span class='op'>(</span><span class='fl'>2018</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_filterMeta.html'>monitor_filter</a></span><span class='op'>(</span><span class='va'>stateCode</span> <span class='op'>==</span> <span class='st'>'CA'</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_filterDate.html'>monitor_filterDate</a></span><span class='op'>(</span>
+    startdate <span class='op'>=</span> <span class='fl'>20181108</span>,
+    enddate <span class='op'>=</span> <span class='fl'>20181123</span>,
+    timezone <span class='op'>=</span> <span class='st'>"America/Los_Angeles"</span>
+ <span class='op'>)</span> <span class='op'>%&gt;%</span>
+ <span class='fu'><a href='monitor_dropEmpty.html'>monitor_dropEmpty</a></span><span class='op'>(</span><span class='op'>)</span>
 
-save(Camp_Fire, file = "data/Camp_Fire.rda")
+<span class='fu'><a href='https://rdrr.io/r/base/save.html'>save</a></span><span class='op'>(</span><span class='va'>Camp_Fire</span>, file <span class='op'>=</span> <span class='st'>"data/Camp_Fire.rda"</span><span class='op'>)</span>
 </pre>
 
     </div>

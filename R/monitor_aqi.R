@@ -7,7 +7,8 @@
 #' @param includeShortTerm Logical specifying whether to alcluate preliminary
 #' NowCast values starting with the 2nd hour.
 #'
-#' @return A modified \code{mts_monitor} object.
+#' @return A modified \code{mts_monitor} object. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @description Nowcast and AQI algorithms are applied to the data in the
 #' monitor object. See \link{monitor_nowcast}.

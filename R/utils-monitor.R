@@ -139,7 +139,8 @@ monitor_isEmpty <- function(monitor) {
 #'
 #' @param monitor \emph{mts_monitor} object
 #'
-#' @return A \emph{mts_monitor} object with no duplicated data records.
+#' @return A \emph{mts_monitor} object with no duplicated data records. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @description Two successive steps are used to guarantee that the
 #' \code{datetime} axis contains no repeated values:
@@ -186,7 +187,7 @@ monitor_distinct <- function(monitor) {
 #'
 #' @param monitor \emph{mts_monitor} object to extract dataframe from.
 #'
-#' @return A dataframe from the given \emph{mts_monitor} object
+#' @return A dataframe from the given \emph{mts_monitor} object.
 #'
 #' @name monitor_getDataFrame
 #' @aliases monitor_getData monitor_getMeta

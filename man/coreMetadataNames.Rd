@@ -18,4 +18,7 @@ These represent metadata columns that must exist in every valid
 \details{
 coreMetadataNames
 }
+\examples{
+ print(coreMetadataNames, width = 80)
+}
 \keyword{datasets}

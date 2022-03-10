@@ -49,6 +49,7 @@ For the most recent data in the last 10 days, use airnow_loadLatest().
 For daily updates covering the most recent 45 days, use airnow_loadDaily().
 For data extended more than 45 days into the past, use airnow_loadAnnual().
 Pre-processed AirNow exists for the following parameters:
+
 PM2.5
 
 " />
@@ -83,7 +84,7 @@ PM2.5
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
       </span>
     </div>
 
@@ -154,7 +155,8 @@ maintained by the USFS AirFire team.</p>
 <p>For the most recent data in the last 10 days, use <code><a href='airnow_loadLatest.html'>airnow_loadLatest()</a></code>.</p>
 <p>For daily updates covering the most recent 45 days, use <code><a href='airnow_loadDaily.html'>airnow_loadDaily()</a></code>.</p>
 <p>For data extended more than 45 days into the past, use <code><a href='airnow_loadAnnual.html'>airnow_loadAnnual()</a></code>.</p>
-<p>Pre-processed AirNow exists for the following parameters:</p><ol>
+<p>Pre-processed AirNow exists for the following parameters:</p>
+<ol>
 <li><p>PM2.5</p></li>
 </ol>
 
@@ -196,7 +198,8 @@ maintained by the USFS AirFire team.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <em>mts_monitor</em> object with AirNow data.</p>
+    <p>A <em>mts_monitor</em> object with AirNow data. (A list with
+<code>meta</code> and <code>data</code> dataframes.)</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

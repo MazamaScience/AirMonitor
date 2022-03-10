@@ -34,7 +34,8 @@ monitor_filterDatetime(
 \code{\link[lubridate]{floor_date}}}
 }
 \value{
-A subset of the given \emph{mts_monitor} object.
+A subset of the given \emph{mts_monitor} object. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 Subsets a \code{mts_monitor} object by datetime. This function

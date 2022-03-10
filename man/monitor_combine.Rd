@@ -13,7 +13,8 @@ monitor_combine(..., replaceMeta = FALSE)
 associated with \code{deviceDeploymentIDs}.}
 }
 \value{
-A combined \code{mts_monitor} object.
+A combined \code{mts_monitor} object. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 Create a combined \emph{mts_monitor} from any number of \emph{mts_monitor}

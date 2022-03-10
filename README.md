@@ -38,9 +38,7 @@ package contains **ggplot2** based plotting functions for advanced plots.
 
 ## Installation
 
-Install from CRAN with:
-
-`install.packages('AirMonitor')`
+*NOTE:  This package has not yet been uploaded to CRAN*
 
 Install the latest version from GitHub with:
 

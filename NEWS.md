@@ -1,3 +1,7 @@
+# AirMonitor 0.1.12
+
+* Further documentation updates.
+
 # AirMonitor 0.1.11
 
 * Updated `monitor_dailyBarplot()` to use the `palette` argument.

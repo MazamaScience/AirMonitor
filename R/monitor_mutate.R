@@ -13,7 +13,8 @@
 #' vector of the same length.
 #'
 #'
-#' @return A modified \code{mts_monitor} object.
+#' @return A modified \code{mts_monitor} object. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 
 monitor_mutate <- function(

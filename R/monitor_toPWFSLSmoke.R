@@ -5,7 +5,8 @@
 #'
 #' @param monitor \emph{mts_monitor} object
 #'
-#' @return A \pkg{PWFSLSmoke} \emph{ws_monitor} object.
+#' @return A \pkg{PWFSLSmoke} \emph{ws_monitor} object. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @description A \emph{mts_monitor} object is modified so that it becomes
 #' a \pkg{PWFSLSmoke} package \emph{ws_monitor} object. While some information

@@ -31,7 +31,8 @@ savings time as defined in the local timezone, "LST" uses "local standard time"
 all year round.}
 }
 \value{
-A \emph{mts_monitor} object containing daily statistical summaries.
+A \emph{mts_monitor} object containing daily statistical summaries. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 Daily statstics are calculated for each time series in \code{monitor$data}

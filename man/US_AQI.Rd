@@ -25,6 +25,7 @@ The low end of each break category is used as the breakpoint.
 
 Breakpoints are given in units reported for each parameter and include:
 \itemize{
+\item{\code{breaks_AQI}}
 \item{\code{breaks_CO}}
 \item{\code{breaks_NO2}}
 \item{\code{breaks_OZONE_1hr}}
@@ -39,7 +40,7 @@ Breakpoints are given in units reported for each parameter and include:
 
 Several different color palettes are provided:
 \itemize{
-\item{\code{colors_EPA} -- offical EPA AQI colors}
+\item{\code{colors_EPA} -- official EPA AQI colors}
 \item{\code{colors_subdued} -- subdued colors fo use with leaflet maps}
 \item{\code{colors_deuteranopia} -- color vision impaired colors}
 }
@@ -59,7 +60,7 @@ ISO 639-2 alpha-3 code:
 \section{Actions}{
 
 
-Text for "actions to protect yourself" are provided provided for each
+Text for "actions to protect yourself" are provided for each
 category in several languages identified by the
 ISO 639-2 alpha-3 code:
 \itemize{

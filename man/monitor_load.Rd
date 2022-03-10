@@ -29,7 +29,8 @@ monitor_load(
 files are available from both `epa` and `airnow`.}
 }
 \value{
-A \emph{mts_monitor} object with PM2.5 monitoring data.
+A \emph{mts_monitor} object with PM2.5 monitoring data. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 Loads monitoring data for a given time range. Data from AirNow,

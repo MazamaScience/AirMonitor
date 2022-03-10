@@ -10,7 +10,7 @@ monitor_bestTimezone(monitor = NULL)
 \item{monitor}{\emph{mts_monitor} object.}
 }
 \value{
-A valid \code{OlsonNames()} timezone.
+A valid \code{base::OlsonNames()} timezone.
 }
 \description{
 Evaluates all timezones in \code{monitor} and returns the

@@ -29,7 +29,8 @@ all year round.}
 }
 \value{
 A \emph{mts_monitor} object containing daily counts of hours at or above
-a threshold value..
+a threshold value. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 Calculates the number of hours per day each monitor in \code{monitor} was

@@ -31,7 +31,8 @@ is applied.}
 \item{...}{additional arguments to be passed on to the \code{apply()} function.}
 }
 \value{
-A \emph{mts_monitor} object representingn a single time series
+A \emph{mts_monitor} object representing a single time series. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 Collapses data from all time series in \code{mts_monitor} into a

@@ -31,7 +31,8 @@
 #' \item{get timezone from \code{mts_monitor}}
 #' }
 #'
-#' @return A subset of the given \emph{mts_monitor} object.
+#' @return A subset of the given \emph{mts_monitor} object. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @seealso \link{monitor_filterDate}
 #' @seealso \link{monitor_filterMeta}

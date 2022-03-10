@@ -19,7 +19,8 @@
 #'
 #' Expressions should use \code{data} for the left hand side of the comparison.
 #'
-#' @return A modified \code{mts_monitor} object.
+#' @return A modified \code{mts_monitor} object. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @examples
 #' library(AirMonitor)

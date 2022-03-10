@@ -14,7 +14,8 @@ monitor_mutate(monitor = NULL, FUN = NULL, ...)
 \item{...}{Additional arguments to be passed to \code{FUN}.}
 }
 \value{
-A modified \code{mts_monitor} object.
+A modified \code{mts_monitor} object. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 This function works similarly to \code{dplyr::mutate()} and applies

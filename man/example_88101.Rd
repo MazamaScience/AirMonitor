@@ -33,8 +33,8 @@ example_88101 <-
     parameterCode = 88101,
     archiveBaseUrl = NULL,
     archiveBaseDir = "~/Data/monitoring"
-  ) %>%
-  monitor_filterMeta(stateCode %in% c("WA", "OR", "ID")) %>%
+  ) \%>\%
+  monitor_filterMeta(stateCode \%in\% c("WA", "OR", "ID")) \%>\%
   monitor_filterDate(20150601, 20151101)
 
 save(example_88101, file = "data/example_88101.rda")

@@ -2,10 +2,11 @@
 #' @importFrom grDevices adjustcolor
 #' @importFrom graphics rect par
 #' @title Add nighttime shading to a timeseries plot
-#' @param timeInfo dataframe as returned by \code{monitor_timeInfo()}
+#' @param timeInfo dataframe as returned by \code{MazamaTimeSeries::monitor_timeInfo()}
 #' @param col Color used to shade nights.
 #' @description Draw shading rectangles on a plot to indicate nighttime hours.
-#' @seealso \link{timeInfo}
+#' The \link{monitor_timeseriesPlot} function uses this function internally when
+#' specifying \code{shadedNight = TRUE}.
 
 addShadedNight <- function(
   timeInfo,

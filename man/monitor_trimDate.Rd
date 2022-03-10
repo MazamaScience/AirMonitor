@@ -15,7 +15,8 @@ monitor_trimDate(monitor = NULL, timezone = NULL, trimEmptyDays = TRUE)
 at the beginning and end of the time range.}
 }
 \value{
-A subset of the given \emph{mts_monitor} object.
+A subset of the given \emph{mts_monitor} object. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 Trims the date range of a \emph{mts_monitor} object to local time date

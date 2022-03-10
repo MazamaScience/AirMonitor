@@ -10,7 +10,8 @@ monitor_toPWFSLSmoke(monitor = NULL)
 \item{monitor}{\emph{mts_monitor} object}
 }
 \value{
-A \pkg{PWFSLSmoke} \emph{ws_monitor} object.
+A \pkg{PWFSLSmoke} \emph{ws_monitor} object. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 A \emph{mts_monitor} object is modified so that it becomes

@@ -20,7 +20,8 @@
 #' Day boundaries are calculated using the specified \code{timezone} or, if
 #' \code{NULL}, from \code{monitor$meta$timezone}.
 #'
-#' @return A subset of the given \emph{mts_monitor} object.
+#' @return A subset of the given \emph{mts_monitor} object. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #'
 

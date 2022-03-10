@@ -8,7 +8,8 @@
 #' @param archiveBaseDir Local base directory for monitoring v2 data files.
 #' @param QC_negativeValues Type of QC to apply to negative values.
 #'
-#' @return A \emph{mts_monitor} object with AirNow data.
+#' @return A \emph{mts_monitor} object with AirNow data. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @description Loads pre-generated .rda files containing hourly AirNow data.
 #'
@@ -25,6 +26,7 @@
 #' For data extended more than 45 days into the past, use \code{airnow_loadAnnual()}.
 #'
 #' Pre-processed AirNow exists for the following parameters:
+#'
 #' \enumerate{
 # #' \item{BARPR}
 # #' \item{BC}

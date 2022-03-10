@@ -7,13 +7,12 @@
 addShadedNight(timeInfo, col = adjustcolor("black", 0.1))
 }
 \arguments{
-\item{timeInfo}{dataframe as returned by \code{monitor_timeInfo()}}
+\item{timeInfo}{dataframe as returned by \code{MazamaTimeSeries::monitor_timeInfo()}}
 
 \item{col}{Color used to shade nights.}
 }
 \description{
 Draw shading rectangles on a plot to indicate nighttime hours.
-}
-\seealso{
-\link{timeInfo}
+The \link{monitor_timeseriesPlot} function uses this function internally when
+specifying \code{shadedNight = TRUE}.
 }

@@ -15,7 +15,8 @@ monitor_reorder(monitor, id)
 \item{id}{Vector of \code{deviceDeploymentIDs}.}
 }
 \value{
-A reordered (subset) of the incoming \emph{mts_monitor} object.
+A reordered (subset) of the incoming \emph{mts_monitor} object. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 This function acts similarly to \code{dplyr::select()} working on

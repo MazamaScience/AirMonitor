@@ -3,7 +3,8 @@
 #'
 #' @title Drop device deployments with all missing data
 #'
-#' @param monitor \emph{mts_monitor} object.
+#' @param monitor \emph{mts_monitor} object. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @description The incoming \emph{mts_monitor} object is subset to retain
 #' only device deployments with valid data.

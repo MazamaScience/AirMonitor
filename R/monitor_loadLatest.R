@@ -6,7 +6,8 @@
 #' @param archiveBaseDir Local base directory for monitoring v2 data files.
 #' @param QC_negativeValues Type of QC to apply to negative values.
 #'
-#' @return A \emph{mts_monitor} object with PM2.5 monitoring data.
+#' @return A \emph{mts_monitor} object with PM2.5 monitoring data. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @description Combine recent data from AirNow, AIRSIS and WRCC:
 #'

@@ -14,7 +14,7 @@ monitor_getMeta(monitor)
 \item{monitor}{\emph{mts_monitor} object to extract dataframe from.}
 }
 \value{
-A dataframe from the given \emph{mts_monitor} object
+A dataframe from the given \emph{mts_monitor} object.
 }
 \description{
 These functions are convenient wrappers for extracting the dataframes that

@@ -7,7 +7,8 @@
 monitor_fromPWFSLSmoke(ws_monitor = NULL)
 }
 \arguments{
-\item{ws_monitor}{\emph{ws_monitor} object}
+\item{ws_monitor}{\emph{ws_monitor} object. (A list with
+\code{meta} and \code{data} dataframes.)}
 }
 \value{
 A \emph{mts_monitor} object.

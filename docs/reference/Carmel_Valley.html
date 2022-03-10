@@ -73,7 +73,7 @@ version of a mts_monitor object for practicing and code examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
       </span>
     </div>
 
@@ -156,19 +156,19 @@ breezes. Data are stored as a <em>mts_monitor</em> object and are used in some
 examples in the package documentation.</p>
 <p>This dataset was generated on 2021-10-19 by running:</p>
 <pre>
-library(AirMonitor)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
 
-Carmel_Valley &lt;-
-  epa_aqs_loadAnnual(
-    year = 2016,
-    parameterCode = 88101,
-    archiveBaseUrl = NULL,
-    archiveBaseDir = "~/Data/monitoring"
-  ) &lt;!-- %&gt;% --&gt;
-  monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_060530002_03") &lt;!-- %&gt;% --&gt;
-  monitor_filterDate(20160722, 20160815)
+<span class='va'>Carmel_Valley</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='epa_aqs_loadAnnual.html'>epa_aqs_loadAnnual</a></span><span class='op'>(</span>
+    year <span class='op'>=</span> <span class='fl'>2016</span>,
+    parameterCode <span class='op'>=</span> <span class='fl'>88101</span>,
+    archiveBaseUrl <span class='op'>=</span> <span class='cn'>NULL</span>,
+    archiveBaseDir <span class='op'>=</span> <span class='st'>"~/Data/monitoring"</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_filterMeta.html'>monitor_filterMeta</a></span><span class='op'>(</span><span class='va'>deviceDeploymentID</span> <span class='op'>==</span> <span class='st'>"a9572a904a4ed46d_060530002_03"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_filterDate.html'>monitor_filterDate</a></span><span class='op'>(</span><span class='fl'>20160722</span>, <span class='fl'>20160815</span><span class='op'>)</span>
 
-save(Carmel_Valley, file = "data/Carmel_Valley.rda")
+<span class='fu'><a href='https://rdrr.io/r/base/save.html'>save</a></span><span class='op'>(</span><span class='va'>Carmel_Valley</span>, file <span class='op'>=</span> <span class='st'>"data/Carmel_Valley.rda"</span><span class='op'>)</span>
 </pre>
 
 

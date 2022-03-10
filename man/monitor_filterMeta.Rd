@@ -16,7 +16,8 @@ monitor_filter(monitor, ...)
 \code{monitor$meta}.}
 }
 \value{
-A subset of the incoming \code{mts_monitor}.
+A subset of the incoming \code{mts_monitor}. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 A generalized metadata filter for \emph{mts_monitor} objects to

@@ -43,5 +43,6 @@ of monitors returned may be less than the specified \code{count} value if
 fewer than \code{count} time series are found within the target area.
 }
 \note{
-The returned \emph{mts_monitor} will have an extra \code{distance}
+The returned \emph{mts_monitor} will have an extra \code{distance}.  (A list with
+\code{meta} and \code{data} dataframes.)
 }

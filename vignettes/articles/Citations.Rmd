@@ -1,7 +1,7 @@
 ---
 title: "Citations"
 author: "Jonathan Callahan"
-date: "2/15/2022"
+date: "3/09/2022"
 output: html_document
 ---
 
@@ -9,14 +9,14 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The **AirSensor** package and it's predecessor, the **PWFSLSmoke** package
-are widely used in air quality analysis throughout North America and the world.
-This document provides links to projects and publications that use one of
-these packages.
+The **AirMonitor** package's predecessor, the **PWFSLSmoke** package
+is widely used in air quality analysis throughout North America and the world.
+This document provides links to projects and publications that use the
+**PWFSLSmoke** package.
 
 ## PWFSLSmoke
 
-The predecessor to the **AirSensor** package is the 
+The predecessor to the **AirMonitore** package is the 
 [PWFSLSmoke](https://github.com/MazamaScience/PWFSLSmoke) package from which
 many functions were copied and refactored.
 

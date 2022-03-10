@@ -73,7 +73,7 @@ version of a mts_monitor object for practicing and code examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
       </span>
     </div>
 
@@ -155,19 +155,19 @@ Pacific Northwest from May 31 through November 01, 2015. All data are
 associated with Parameter Code 88101 -- PM2.5 FRM/FEM Mass.</p>
 <p>This dataset was generated on 2021-10-19 by running:</p>
 <pre>
-library(AirMonitor)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
 
-example_88101 &lt;-
-  epa_aqs_loadAnnual(
-    year = 2015,
-    parameterCode = 88101,
-    archiveBaseUrl = NULL,
-    archiveBaseDir = "~/Data/monitoring"
-  ) &lt;!-- %&gt;% --&gt;
-  monitor_filterMeta(stateCode &lt;!-- %in% c("WA", "OR", "ID")) %&gt;% --&gt;
-  monitor_filterDate(20150601, 20151101)
+<span class='va'>example_88101</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='epa_aqs_loadAnnual.html'>epa_aqs_loadAnnual</a></span><span class='op'>(</span>
+    year <span class='op'>=</span> <span class='fl'>2015</span>,
+    parameterCode <span class='op'>=</span> <span class='fl'>88101</span>,
+    archiveBaseUrl <span class='op'>=</span> <span class='cn'>NULL</span>,
+    archiveBaseDir <span class='op'>=</span> <span class='st'>"~/Data/monitoring"</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_filterMeta.html'>monitor_filterMeta</a></span><span class='op'>(</span><span class='va'>stateCode</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"WA"</span>, <span class='st'>"OR"</span>, <span class='st'>"ID"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_filterDate.html'>monitor_filterDate</a></span><span class='op'>(</span><span class='fl'>20150601</span>, <span class='fl'>20151101</span><span class='op'>)</span>
 
-save(example_88101, file = "data/example_88101.rda")
+<span class='fu'><a href='https://rdrr.io/r/base/save.html'>save</a></span><span class='op'>(</span><span class='va'>example_88101</span>, file <span class='op'>=</span> <span class='st'>"data/example_88101.rda"</span><span class='op'>)</span>
 </pre>
 
 

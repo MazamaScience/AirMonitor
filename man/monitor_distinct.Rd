@@ -10,7 +10,8 @@ monitor_distinct(monitor)
 \item{monitor}{\emph{mts_monitor} object}
 }
 \value{
-A \emph{mts_monitor} object with no duplicated data records.
+A \emph{mts_monitor} object with no duplicated data records. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 Two successive steps are used to guarantee that the

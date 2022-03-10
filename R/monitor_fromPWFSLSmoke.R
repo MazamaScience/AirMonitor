@@ -3,7 +3,8 @@
 #'
 #' @title Convert a ws_monitor object from the PWFSLSmoke package
 #'
-#' @param ws_monitor \emph{ws_monitor} object
+#' @param ws_monitor \emph{ws_monitor} object. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @return A \emph{mts_monitor} object.
 #'

@@ -22,7 +22,8 @@ monitor_loadAnnual(
 \item{QC_negativeValues}{Type of QC to apply to negative values.}
 }
 \value{
-A \emph{mts_monitor} object with PM2.5 monitoring data.
+A \emph{mts_monitor} object with PM2.5 monitoring data. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 Combine annual data from AirNow, AIRSIS and WRCC:

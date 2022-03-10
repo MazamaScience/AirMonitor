@@ -22,7 +22,8 @@ wrcc_loadAnnual(
 \item{QC_negativeValues}{Type of QC to apply to negative values.}
 }
 \value{
-A \emph{mts_monitor} object with WRCC data.
+A \emph{mts_monitor} object with WRCC data. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 Loads pre-generated .rda files containing annual

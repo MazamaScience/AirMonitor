@@ -21,7 +21,7 @@ monitor_getDistance(
 \item{measure}{One of "geodesic", "haversine" "vincenty", or "cheap".}
 }
 \value{
-Vector of of distances (meters) named by \code{deviceDeploymentID}.
+Vector of distances (meters) named by \code{deviceDeploymentID}.
 }
 \description{
 This function returns the distances (meters) between \code{monitor} locations

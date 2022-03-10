@@ -17,7 +17,7 @@
 #' \code{measure = "cheap"} will vary by a few meters compared with those
 #' calculated using \code{measure = "geodesic"}.
 #'
-#' @return Vector of of distances (meters) named by \code{deviceDeploymentID}.
+#' @return Vector of distances (meters) named by \code{deviceDeploymentID}.
 #'
 #' @examples
 #' library(AirMonitor)

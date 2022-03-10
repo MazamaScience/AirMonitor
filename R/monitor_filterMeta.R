@@ -16,7 +16,8 @@
 #'
 #' @note Filtering is done on variables in \code{monitor$meta}.
 #'
-#' @return A subset of the incoming \code{mts_monitor}.
+#' @return A subset of the incoming \code{mts_monitor}. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @seealso \link{monitor_filterDate}
 #' @seealso \link{monitor_filterDatetime}

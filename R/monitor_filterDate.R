@@ -41,7 +41,8 @@
 #' \code{enddate} is less than 24 hours after \code{startdate}. In that case, a
 #' single day is returned.
 #'
-#' @return A subset of the given \emph{mts_monitor} object.
+#' @return A subset of the given \emph{mts_monitor} object. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 #' @seealso \link{monitor_filterDatetime}
 #' @seealso \link{monitor_filterMeta}

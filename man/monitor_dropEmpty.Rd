@@ -7,7 +7,8 @@
 monitor_dropEmpty(monitor)
 }
 \arguments{
-\item{monitor}{\emph{mts_monitor} object.}
+\item{monitor}{\emph{mts_monitor} object. (A list with
+\code{meta} and \code{data} dataframes.)}
 }
 \value{
 A subset of the incoming \code{mts_monitor}.

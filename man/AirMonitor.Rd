@@ -5,5 +5,12 @@
 \alias{AirMonitor}
 \title{Air Quality Data Analysis}
 \description{
-Tools for working with air quality data.
+\code{
+Utilities for working with hourly air quality monitoring data
+with a focus on small particulates (PM2.5). A compact data model is
+structured as a list with two dataframes. A 'meta' dataframe contains
+spatial and measuring device metadata associated with deployments at known
+locations. A 'data' dataframe contains a 'datetime' column followed by
+columns of measurements associated with each "device-deployment".
+}
 }

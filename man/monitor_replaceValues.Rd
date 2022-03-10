@@ -14,7 +14,8 @@ monitor_replaceValues(monitor = NULL, filter = NULL, value = NULL)
 \item{value}{Numeric replacement value.}
 }
 \value{
-A modified \code{mts_monitor} object.
+A modified \code{mts_monitor} object. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 Use an R expression to identify values for replacement.
