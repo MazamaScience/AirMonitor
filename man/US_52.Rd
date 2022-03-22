@@ -12,6 +12,7 @@ US_52
 }
 \description{
 State codes for the 50 states +DC +PR (Puerto Rico).
+
 \code{
 US_52 <- c(
   "AK","AL","AZ","AR","CA","CO","CT","DE","FL","GA",

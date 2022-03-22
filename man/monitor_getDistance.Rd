@@ -34,22 +34,3 @@ the spatial scale being considered. Distances calculated with
 \code{measure = "cheap"} will vary by a few meters compared with those
 calculated using \code{measure = "geodesic"}.
 }
-\examples{
-library(AirMonitor)
-
-PacNW <- example_88101
-
-# Walla Walla
-lon <- -118.330278
-lat <- 46.065
-
-distance <- monitor_getDistance(PacNW, lon, lat)
-closestIndex <- which(distance == min(distance))
-
-print("Distances from Walla Walla")
-sprintf(
-  "\%s: \%d km",
-  PacNW$meta$locationName,
-  round(distance / 1000)
-)
-}

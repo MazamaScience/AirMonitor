@@ -36,6 +36,29 @@
 #' \code{FUN = min/max} or \code{FUN = mean} and some of the time steps have all
 #' missing values. See the R documentation for \code{min} for an explanation.
 #'
+#' @examples
+#' library(AirMonitor)
+#'
+#' # Spokane area AQSIDs all begin with "53063"
+#' Spokane <-
+#'   NW_Megafires %>%
+#'   monitor_filter(stringr::str_detect(AQSID,'^53063')) %>%
+#'   monitor_filterDate(20150619, 20150626)
+#'
+#' # Get min/max for all monitors
+#' Spokane_min <- monitor_collapse(Spokane, deviceID = 'Spokane_min', FUN = min)
+#' Spokane_max <- monitor_collapse(Spokane, deviceID = 'Spokane_max', FUN = max)
+#'
+#' # Create plot
+#' monitor_timeseriesPlot(
+#'   Spokane,
+#'   shadedNight = TRUE,
+#'   main = "Spokane Range of PM2.5 Values"
+#' )
+#'
+#' # Add min/max lines
+#' monitor_timeseriesPlot(Spokane_max, col = 'red', type = 's', add = TRUE)
+#' monitor_timeseriesPlot(Spokane_min, col = 'blue', type = 's', add = TRUE)
 
 monitor_collapse <- function(
   monitor,

@@ -1,41 +1,35 @@
 # ----- Example datasets ------------------------------------------------------
 
 #' @encoding UTF-8
-#' @title Example EPA AQS 88101 dataset
-#' @format A \emph{mts_monitor} object with 16584 rows and 44 columns of data.
-#' @description The \code{example_88101} dataset provides a quickly loadable
+#' @title NW_Megafires example dataset
+#' @format A \emph{mts_monitor} object with 3672 rows and 141 columns of data.
+#' @description The \code{NW_Megafires} dataset provides a quickly loadable
 #' version of a \emph{mts_monitor} object for practicing and code examples.
 #'
 #' @details
-#' In the summer of 2015 Washington state had several catastrophic wildfires that led
-#' to many days of heavy smoke in eastern Washington, Oregon and northern Idaho.
-#' The example_88101 dataset contains EPA AQS ambient monitoring data for the
-#' Pacific Northwest from May 31 through November 01, 2015. All data are
-#' associated with Parameter Code 88101 -- PM2.5 FRM/FEM Mass.
+#' In the summer of 2015, Washington state had several catastrophic wildfires
+#' that led to many days of heavy smoke in eastern Washington, Oregon and
+#' northern Idaho. The NW_Megafires dataset contains monitoring data for the
+#' Pacific Northwest from May 31 through November 01, 2015.
 #'
-#' This dataset was generated on 2021-10-19 by running:
+#' This dataset was generated on 2022-03-22 by running:
 #'
 #' \preformatted{
 #' library(AirMonitor)
 #'
-#' example_88101 <-
-#'   epa_aqs_loadAnnual(
-#'     year = 2015,
-#'     parameterCode = 88101,
-#'     archiveBaseUrl = NULL,
-#'     archiveBaseDir = "~/Data/monitoring"
-#'   ) \%>\%
+#' NW_Megafires <-
+#'   airnow_loadAnnual(2015) \%>\%
 #'   monitor_filterMeta(stateCode \%in\% c("WA", "OR", "ID")) \%>\%
 #'   monitor_filterDate(20150601, 20151101)
 #'
-#' save(example_88101, file = "data/example_88101.rda")
+#' save(NW_Megafires, file = "data/NW_Megafires.rda")
 #' }
 #'
-"example_88101"
+"NW_Megafires"
 
 #' @encoding UTF-8
 #' @title Carmel Valley example dataset
-#' @format A \emph{mts_monitor} object with 600 rows and 2 columns of data.
+#' @format A \emph{mts_monitor} object with 576 rows and 2 columns of data.
 #' @description The \code{Carmel_Valley} dataset provides a quickly loadable
 #' version of a \emph{mts_monitor} object for practicing and code examples.
 #'
@@ -47,19 +41,14 @@
 #' breezes. Data are stored as a \emph{mts_monitor} object and are used in some
 #' examples in the package documentation.
 #'
-#' This dataset was generated on 2021-10-19 by running:
+#' This dataset was generated on 2022-03-22 by running:
 #'
 #' \preformatted{
 #' library(AirMonitor)
 #'
 #' Carmel_Valley <-
-#'   epa_aqs_loadAnnual(
-#'     year = 2016,
-#'     parameterCode = 88101,
-#'     archiveBaseUrl = NULL,
-#'     archiveBaseDir = "~/Data/monitoring"
-#'   ) \%>\%
-#'   monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_060530002_03") \%>\%
+#'   monitor_loadAnnual(2016) \%>\%
+#'   monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_060530002") \%>\%
 #'   monitor_filterDate(20160722, 20160815)
 #'
 #' save(Carmel_Valley, file = "data/Carmel_Valley.rda")
@@ -69,9 +58,9 @@
 
 #' @encoding UTF-8
 #' @title Camp Fire example dataset
-#' @format A \emph{ws_monitor} object with "meta" and "data" dataframes.
+#' @format A \emph{mts_monitor} object with 360 rows and 134 columns of data.
 #' @description The \code{Camp_Fire} dataset provides a quickly loadable
-#' version of a \emph{ws_monitor} object for practicing and code examples.
+#' version of a \emph{mts_monitor} object for practicing and code examples.
 #'
 #' This dataset was was generated on 2022-02-15 by running:
 #'

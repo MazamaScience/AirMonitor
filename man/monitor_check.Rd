@@ -9,6 +9,10 @@ monitor_check(monitor)
 \arguments{
 \item{monitor}{\emph{mts_monitor} objet.}
 }
+\value{
+Invisibly returns \code{TRUE} if \code{mts_monitor} has the correct
+structure. Stops with an error message otherwise.
+}
 \description{
 Checks on the validity of an \emph{mts_monitor} object. If any test
 fails, this function will stop with a warning message.

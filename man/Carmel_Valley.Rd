@@ -6,7 +6,7 @@
 \alias{Carmel_Valley}
 \title{Carmel Valley example dataset}
 \format{
-A \emph{mts_monitor} object with 600 rows and 2 columns of data.
+A \emph{mts_monitor} object with 576 rows and 2 columns of data.
 }
 \usage{
 Carmel_Valley
@@ -23,19 +23,14 @@ shows heavy smoke as well as strong diurnal cycles associated with sea
 breezes. Data are stored as a \emph{mts_monitor} object and are used in some
 examples in the package documentation.
 
-This dataset was generated on 2021-10-19 by running:
+This dataset was generated on 2022-03-22 by running:
 
 \preformatted{
 library(AirMonitor)
 
 Carmel_Valley <-
-  epa_aqs_loadAnnual(
-    year = 2016,
-    parameterCode = 88101,
-    archiveBaseUrl = NULL,
-    archiveBaseDir = "~/Data/monitoring"
-  ) \%>\%
-  monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_060530002_03") \%>\%
+  monitor_loadAnnual(2016) \%>\%
+  monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_060530002") \%>\%
   monitor_filterDate(20160722, 20160815)
 
 save(Carmel_Valley, file = "data/Carmel_Valley.rda")

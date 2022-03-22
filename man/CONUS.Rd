@@ -12,6 +12,7 @@ CONUS
 }
 \description{
 State codes for the 48 contiguous states +DC that make up the CONtinental US.
+
 \code{
 CONUS <- c(
   "AL","AZ","AR","CA","CO","CT","DE","FL","GA",

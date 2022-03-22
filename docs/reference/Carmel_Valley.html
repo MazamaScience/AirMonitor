@@ -73,7 +73,7 @@ version of a mts_monitor object for practicing and code examples." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.13</span>
       </span>
     </div>
 
@@ -145,7 +145,7 @@ version of a <em>mts_monitor</em> object for practicing and code examples.</p>
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A <em>mts_monitor</em> object with 600 rows and 2 columns of data.</p>
+    <p>A <em>mts_monitor</em> object with 576 rows and 2 columns of data.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>In August of 2016, the Soberanes fire in California burned along the Big Sur
@@ -154,18 +154,13 @@ dataset contains PM2.5 monitoring data for the monitor in Carmel Valley which
 shows heavy smoke as well as strong diurnal cycles associated with sea
 breezes. Data are stored as a <em>mts_monitor</em> object and are used in some
 examples in the package documentation.</p>
-<p>This dataset was generated on 2021-10-19 by running:</p>
+<p>This dataset was generated on 2022-03-22 by running:</p>
 <pre>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
 
 <span class='va'>Carmel_Valley</span> <span class='op'>&lt;-</span>
-  <span class='fu'><a href='epa_aqs_loadAnnual.html'>epa_aqs_loadAnnual</a></span><span class='op'>(</span>
-    year <span class='op'>=</span> <span class='fl'>2016</span>,
-    parameterCode <span class='op'>=</span> <span class='fl'>88101</span>,
-    archiveBaseUrl <span class='op'>=</span> <span class='cn'>NULL</span>,
-    archiveBaseDir <span class='op'>=</span> <span class='st'>"~/Data/monitoring"</span>
-  <span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='monitor_filterMeta.html'>monitor_filterMeta</a></span><span class='op'>(</span><span class='va'>deviceDeploymentID</span> <span class='op'>==</span> <span class='st'>"a9572a904a4ed46d_060530002_03"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_loadAnnual.html'>monitor_loadAnnual</a></span><span class='op'>(</span><span class='fl'>2016</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_filterMeta.html'>monitor_filterMeta</a></span><span class='op'>(</span><span class='va'>deviceDeploymentID</span> <span class='op'>==</span> <span class='st'>"a9572a904a4ed46d_060530002"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='monitor_filterDate.html'>monitor_filterDate</a></span><span class='op'>(</span><span class='fl'>20160722</span>, <span class='fl'>20160815</span><span class='op'>)</span>
 
 <span class='fu'><a href='https://rdrr.io/r/base/save.html'>save</a></span><span class='op'>(</span><span class='va'>Carmel_Valley</span>, file <span class='op'>=</span> <span class='st'>"data/Carmel_Valley.rda"</span><span class='op'>)</span>

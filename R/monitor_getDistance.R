@@ -19,24 +19,6 @@
 #'
 #' @return Vector of distances (meters) named by \code{deviceDeploymentID}.
 #'
-#' @examples
-#' library(AirMonitor)
-#'
-#' PacNW <- example_88101
-#'
-#' # Walla Walla
-#' lon <- -118.330278
-#' lat <- 46.065
-#'
-#' distance <- monitor_getDistance(PacNW, lon, lat)
-#' closestIndex <- which(distance == min(distance))
-#'
-#' print("Distances from Walla Walla")
-#' sprintf(
-#'   "%s: %d km",
-#'   PacNW$meta$locationName,
-#'   round(distance / 1000)
-#' )
 
 monitor_getDistance <- function(
   monitor = NULL,

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Subset and reorder time series within an mts_monitor object — monitor_select • AirMonitor</title>
+<title>NW_Megafires example dataset — NW_Megafires • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,12 +39,9 @@
 
 
 
-<meta property="og:title" content="Subset and reorder time series within an mts_monitor object — monitor_select" />
-<meta property="og:description" content="This function acts similarly to dplyr::select() working on
-monitor$data. The returned mts_monitor object will contain only
-those time series identified by id in the order specified.
-This can be helpful when using faceted plot functions based on ggplot
-such as those found in AirMonitorPlots." />
+<meta property="og:title" content="NW_Megafires example dataset — NW_Megafires" />
+<meta property="og:description" content="The NW_Megafires dataset provides a quickly loadable
+version of a mts_monitor object for practicing and code examples." />
 
 
 
@@ -133,43 +130,40 @@ such as those found in AirMonitorPlots." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Subset and reorder time series within an <em>mts_monitor</em> object</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/monitor_select.R'><code>R/monitor_select.R</code></a></small>
-    <div class="hidden name"><code>monitor_select.Rd</code></div>
+    <h1>NW_Megafires example dataset</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/data.R'><code>R/data.R</code></a></small>
+    <div class="hidden name"><code>NW_Megafires.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function acts similarly to <code><a href='https://dplyr.tidyverse.org/reference/select.html'>dplyr::select()</a></code> working on
-<code>monitor$data</code>. The returned <em>mts_monitor</em> object will contain only
-those time series identified by <code>id</code> in the order specified.</p>
-<p>This can be helpful when using faceted plot functions based on <span class="pkg">ggplot</span>
-such as those found in <span class="pkg">AirMonitorPlots</span>.</p>
+    <p>The <code>NW_Megafires</code> dataset provides a quickly loadable
+version of a <em>mts_monitor</em> object for practicing and code examples.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_select</span><span class='op'>(</span><span class='va'>monitor</span>, <span class='va'>id</span><span class='op'>)</span>
+    <pre class="usage"><span class='va'>NW_Megafires</span></pre>
 
-<span class='fu'>monitor_reorder</span><span class='op'>(</span><span class='va'>monitor</span>, <span class='va'>id</span><span class='op'>)</span></pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>monitor</th>
-      <td><p><em>mts_monitor</em> object.</p></td>
-    </tr>
-    <tr>
-      <th>id</th>
-      <td><p>Vector of <code>deviceDeploymentIDs</code>.</p></td>
-    </tr>
-    </table>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <p>A <em>mts_monitor</em> object with 3672 rows and 141 columns of data.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A reordered (subset) of the incoming <em>mts_monitor</em> object. (A list with
-<code>meta</code> and <code>data</code> dataframes.)</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <p>In the summer of 2015, Washington state had several catastrophic wildfires
+that led to many days of heavy smoke in eastern Washington, Oregon and
+northern Idaho. The NW_Megafires dataset contains monitoring data for the
+Pacific Northwest from May 31 through November 01, 2015.</p>
+<p>This dataset was generated on 2022-03-22 by running:</p>
+<pre>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
 
-    <div class='dont-index'><p><a href='monitor_filterMeta.html'>monitor_filterMeta</a></p></div>
+<span class='va'>NW_Megafires</span> <span class='op'>&lt;-</span>
+  <span class='fu'><a href='airnow_loadAnnual.html'>airnow_loadAnnual</a></span><span class='op'>(</span><span class='fl'>2015</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_filterMeta.html'>monitor_filterMeta</a></span><span class='op'>(</span><span class='va'>stateCode</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"WA"</span>, <span class='st'>"OR"</span>, <span class='st'>"ID"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_filterDate.html'>monitor_filterDate</a></span><span class='op'>(</span><span class='fl'>20150601</span>, <span class='fl'>20151101</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/save.html'>save</a></span><span class='op'>(</span><span class='va'>NW_Megafires</span>, file <span class='op'>=</span> <span class='st'>"data/NW_Megafires.rda"</span><span class='op'>)</span>
+</pre>
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

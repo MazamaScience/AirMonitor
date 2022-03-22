@@ -54,9 +54,9 @@ _"device-deployment"_ -- a timeseries collected by a particular device at a
 specific location. Multiple device-deployments are stored in memory as a
 _monitor_ object -- an R list with two dataframes:
 
-`monitor$meta` -- N rows = unique device-deployments; cols = device/location metadata
+`monitor$meta` -- rows = unique device-deployments; cols = device/location metadata
 
-`monitor$data` -- rows = UTC times; N cols = device-deployments (plus an additional `datetime` column)
+`monitor$data` -- rows = UTC times; cols = device-deployments (plus an additional `datetime` column)
 
 A key feature of this data model is the use of the `deviceDeploymentID` as a
 "foreign key" that allows `data` columns to be mapped onto the associated

@@ -30,6 +30,12 @@
 #' @importFrom grDevices adjustcolor
 #' @export
 #'
+#' @examples
+#' library(AirMonitor)
+#'
+#' Carmel_Valley %>%
+#'   monitor_dailyBarplot()
+#'
 monitor_dailyBarplot <- function(
   monitor = NULL,
   id = NULL,

@@ -36,7 +36,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.13</span>
       </span>
     </div>
 
@@ -127,8 +127,8 @@ columns of measurements associated with each "device-deployment".</code></pre>
 <a href="#data-model" class="anchor"></a>Data Model</h2>
 <p>The <strong>AirMonitor</strong> packages uses the <em>mts</em> data model defined in <strong><a href="https://github.com/mazamascience/MazamaTimeSeries/">MazamaTimeSeries</a></strong>.</p>
 <p>In this data model, each unique time series is referred to as a <em>“device-deployment”</em> – a timeseries collected by a particular device at a specific location. Multiple device-deployments are stored in memory as a <em>monitor</em> object – an R list with two dataframes:</p>
-<p><code>monitor$meta</code> – N rows = unique device-deployments; cols = device/location metadata</p>
-<p><code>monitor$data</code> – rows = UTC times; N cols = device-deployments (plus an additional <code>datetime</code> column)</p>
+<p><code>monitor$meta</code> – rows = unique device-deployments; cols = device/location metadata</p>
+<p><code>monitor$data</code> – rows = UTC times; cols = device-deployments (plus an additional <code>datetime</code> column)</p>
 <p>A key feature of this data model is the use of the <code>deviceDeploymentID</code> as a “foreign key” that allows <code>data</code> columns to be mapped onto the associated spatial and device metadata in a <code>meta</code> row. The following will always be true:</p>
 <pre><code><a href="https://rdrr.io/r/base/identical.html">identical(names(monitor$data), c('datetime', monitor$meta$deviceDeploymentID))</a></code></pre>
 <p>Each column of <code>monitor$data</code> represents a timeseries associated with a particular device-deployment while each row represents a <em>synoptic</em> snapshot of all measurements made at a particular time.</p>

@@ -98,6 +98,7 @@ pollutantNames <- c(
 #' @format A vector with 49 elements
 #' @description
 #' State codes for the 48 contiguous states +DC that make up the CONtinental US.
+#'
 #' \code{
 #' CONUS <- c(
 #'   "AL","AZ","AR","CA","CO","CT","DE","FL","GA",
@@ -127,6 +128,7 @@ CONUS <- c(
 #' @format A vector with 52 elements
 #' @description
 #' State codes for the 50 states +DC +PR (Puerto Rico).
+#'
 #' \code{
 #' US_52 <- c(
 #'   "AK","AL","AZ","AR","CA","CO","CT","DE","FL","GA",

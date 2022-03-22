@@ -12,8 +12,8 @@ monitor_isValid(monitor = NULL, verbose = FALSE)
 \item{verbose}{Logical specifying whether to produce detailed warning messages.}
 }
 \value{
-\code{TRUE} if \code{mts_monitor} has the correct structure,
-\code{FALSE} otherwise.
+Invisibly returns \code{TRUE} if \code{mts_monitor} has the correct
+structure, \code{FALSE} otherwise.
 }
 \description{
 The \code{mts_monitor} is checked for the presence of core

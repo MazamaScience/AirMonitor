@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Example EPA AQS 88101 dataset — example_88101 • AirMonitor</title>
+<title>Example EPA AQS 88101 dataset — NW_Megafires • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Example EPA AQS 88101 dataset — example_88101" />
-<meta property="og:description" content="The example_88101 dataset provides a quickly loadable
+<meta property="og:title" content="Example EPA AQS 88101 dataset — NW_Megafires" />
+<meta property="og:description" content="The NW_Megafires dataset provides a quickly loadable
 version of a mts_monitor object for practicing and code examples." />
 
 
@@ -132,15 +132,15 @@ version of a mts_monitor object for practicing and code examples." />
     <div class="page-header">
     <h1>Example EPA AQS 88101 dataset</h1>
     <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>example_88101.Rd</code></div>
+    <div class="hidden name"><code>NW_Megafires.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The <code>example_88101</code> dataset provides a quickly loadable
+    <p>The <code>NW_Megafires</code> dataset provides a quickly loadable
 version of a <em>mts_monitor</em> object for practicing and code examples.</p>
     </div>
 
-    <pre class="usage"><span class='va'>example_88101</span></pre>
+    <pre class="usage"><span class='va'>NW_Megafires</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
@@ -150,14 +150,14 @@ version of a <em>mts_monitor</em> object for practicing and code examples.</p>
 
     <p>In the summer of 2015 Washington state had several catastrophic wildfires that led
 to many days of heavy smoke in eastern Washington, Oregon and northern Idaho.
-The example_88101 dataset contains EPA AQS ambient monitoring data for the
+The NW_Megafires dataset contains EPA AQS ambient monitoring data for the
 Pacific Northwest from May 31 through November 01, 2015. All data are
 associated with Parameter Code 88101 -- PM2.5 FRM/FEM Mass.</p>
 <p>This dataset was generated on 2021-10-19 by running:</p>
 <pre>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
 
-<span class='va'>example_88101</span> <span class='op'>&lt;-</span>
+<span class='va'>NW_Megafires</span> <span class='op'>&lt;-</span>
   <span class='fu'><a href='epa_aqs_loadAnnual.html'>epa_aqs_loadAnnual</a></span><span class='op'>(</span>
     year <span class='op'>=</span> <span class='fl'>2015</span>,
     parameterCode <span class='op'>=</span> <span class='fl'>88101</span>,
@@ -167,7 +167,7 @@ associated with Parameter Code 88101 -- PM2.5 FRM/FEM Mass.</p>
   <span class='fu'><a href='monitor_filterMeta.html'>monitor_filterMeta</a></span><span class='op'>(</span><span class='va'>stateCode</span> <span class='op'>%in%</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"WA"</span>, <span class='st'>"OR"</span>, <span class='st'>"ID"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='monitor_filterDate.html'>monitor_filterDate</a></span><span class='op'>(</span><span class='fl'>20150601</span>, <span class='fl'>20151101</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/save.html'>save</a></span><span class='op'>(</span><span class='va'>example_88101</span>, file <span class='op'>=</span> <span class='st'>"data/example_88101.rda"</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/save.html'>save</a></span><span class='op'>(</span><span class='va'>NW_Megafires</span>, file <span class='op'>=</span> <span class='st'>"data/NW_Megafires.rda"</span><span class='op'>)</span>
 </pre>
 
 

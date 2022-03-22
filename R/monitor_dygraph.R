@@ -38,17 +38,6 @@ monitor_dygraph <- function(
   # Create an xts from all data columns except the first which is 'datetime'
   timeseriesData <- xts::xts(monitor$data[, -1], datetime, tzone = timezone)
 
-  # # Add siteNames
-  # # Sanity check for existence of siteName column
-  # # NOTE:  ws_monitor objects derived from ws_grid objects only have the monitorID column
-  # if ( is.null(ws_monitor$meta$siteName) ) {
-  #   ws_monitor$meta$siteName <- ws_monitor$meta$monitorID
-  # }
-  # # Sanity check for existence of names
-  # siteNames <- ifelse(is.na(ws_monitor$meta$siteName),
-  #                     names(ws_monitor$data)[-1], ws_monitor$meta$siteName
-  # )
-  # names(timeseriesData) <- siteNames
   names(timeseriesData) <- monitor$meta$locationName
 
   show <- ifelse(showLegend, "always", "never")

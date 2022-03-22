@@ -6,14 +6,14 @@
 \alias{Camp_Fire}
 \title{Camp Fire example dataset}
 \format{
-A \emph{ws_monitor} object with "meta" and "data" dataframes.
+A \emph{mts_monitor} object with 360 rows and 134 columns of data.
 }
 \usage{
 Camp_Fire
 }
 \description{
 The \code{Camp_Fire} dataset provides a quickly loadable
-version of a \emph{ws_monitor} object for practicing and code examples.
+version of a \emph{mts_monitor} object for practicing and code examples.
 
 This dataset was was generated on 2022-02-15 by running:
 

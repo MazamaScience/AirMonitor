@@ -74,7 +74,7 @@ mts_monitor object. Any number of additional columns may also be present." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.13</span>
       </span>
     </div>
 
@@ -152,6 +152,17 @@ These represent metadata columns that must exist in every valid
 
     <p>coreMetadataNames</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'> <span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>coreMetadataNames</span>, width <span class='op'>=</span> <span class='fl'>80</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1] "deviceDeploymentID"    "deviceID"              "deviceType"           
+#&gt;  [4] "deviceDescription"     "deviceExtra"           "pollutant"            
+#&gt;  [7] "units"                 "dataIngestSource"      "dataIngestURL"        
+#&gt; [10] "dataIngestUnitID"      "dataIngestExtra"       "dataIngestDescription"
+#&gt; [13] "locationID"            "locationName"          "longitude"            
+#&gt; [16] "latitude"              "elevation"             "countryCode"          
+#&gt; [19] "stateCode"             "countyName"            "timezone"             
+#&gt; [22] "houseNumber"           "street"                "city"                 
+#&gt; [25] "zip"                   "AQSID"                </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -7,6 +7,9 @@
 #' @description Checks on the validity of an \emph{mts_monitor} object. If any test
 #' fails, this function will stop with a warning message.
 #'
+#' @return Invisibly returns \code{TRUE} if \code{mts_monitor} has the correct
+#' structure. Stops with an error message otherwise.
+#'
 #'
 monitor_check <- function(monitor) {
   tryCatch(
@@ -49,8 +52,8 @@ monitor_check <- function(monitor) {
 #'   \item{\code{datetime} -- measurement time (UTC)}
 #' }
 #'
-#' @return \code{TRUE} if \code{mts_monitor} has the correct structure,
-#' \code{FALSE} otherwise.
+#' @return Invisibly returns \code{TRUE} if \code{mts_monitor} has the correct
+#' structure, \code{FALSE} otherwise.
 #'
 #'
 monitor_isValid <- function(

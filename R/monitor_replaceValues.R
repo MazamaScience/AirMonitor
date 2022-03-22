@@ -25,7 +25,7 @@
 #' @examples
 #' library(AirMonitor)
 #'
-#' wa <- monitor_filterMeta(example_88101, stateCode == 'WA')
+#' wa <- monitor_filterMeta(NW_Megafires, stateCode == 'WA')
 #' any(wa$data < 0, na.rm = TRUE)
 #'
 #' wa_zero <- monitor_replaceValues(wa, data < 0, 0)
