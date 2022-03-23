@@ -23,6 +23,21 @@
 #'
 #' For data extended more than 45 days into the past, use \code{wrcc_loadAnnual()}.
 #'
+#' @seealso \code{\link{wrcc_loadAnnual}}
+#' @seealso \code{\link{wrcc_loadDaily}}
+#'
+#' @examples
+#' \dontrun{
+#' library(AirMonitor)
+#'
+#' # Fail gracefully if any resources are not available
+#' try({
+#'
+#' wrcc_loadLatest() \%>\%
+#'   monitor_leaflet()
+#'
+#' }, silent = FALSE)
+#' }
 
 wrcc_loadLatest <- function(
   archiveBaseUrl = "https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2",

@@ -21,7 +21,7 @@ monitor_filterDatetime(
 
 \item{enddate}{Desired end datetime (ISO 8601).}
 
-\item{timezone}{Olson timezone used to interpret dates.}
+\item{timezone}{Olson timezone used to interpret \code{startdate} and \code{enddate}.}
 
 \item{unit}{Units used to determine time at end-of-day.}
 
@@ -54,6 +54,33 @@ Timezone determination precedence assumes that if you are passing in
 \item{use passed in \code{timezone}}
 \item{get timezone from \code{mts_monitor}}
 }
+}
+\examples{
+library(AirMonitor)
+
+Camp_Fire \%>\%
+  monitor_timeRange()
+
+# Reduced time range returned in "UTC"
+Camp_Fire \%>\%
+  monitor_filterDatetime(
+    "2018-11-15 02:00:00",
+    "2018-11-22 06:00:00",
+    timezone = "America/Los_Angeles"
+  ) \%>\%
+  monitor_timeRange()
+
+# Reduced time range returned in "America/Los_Angeles"
+Camp_Fire \%>\%
+  monitor_filterDatetime(
+    "2018111502",
+    "2018112206",
+    timezone = "America/Los_Angeles"
+  ) \%>\%
+  monitor_timeRange(
+    timezone = "America/Los_Angeles"
+  )
+
 }
 \seealso{
 \link{monitor_filterDate}

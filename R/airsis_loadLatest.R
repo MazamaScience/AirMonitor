@@ -23,6 +23,22 @@
 #'
 #' For data extended more than 45 days into the past, use \code{airsis_loadAnnual()}.
 #'
+#' @seealso \code{\link{airsis_loadAnnual}}
+#' @seealso \code{\link{airsis_loadDaily}}
+#'
+#' @examples
+#' \dontrun{
+#' library(AirMonitor)
+#'
+#' # Fail gracefully if any resources are not available
+#' try({
+#'
+#' airsis_loadLatest()\ %>\%
+#'   monitor_filter(stateCode == "CA") \%>\%
+#'   monitor_leaflet()
+#'
+#' }, silent = FALSE)
+#' }
 
 airsis_loadLatest <- function(
   archiveBaseUrl = "https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2",

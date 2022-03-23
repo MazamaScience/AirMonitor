@@ -63,7 +63,7 @@ library(AirMonitor)
 Spokane <-
   NW_Megafires \%>\%
   monitor_filter(stringr::str_detect(AQSID,'^53063')) \%>\%
-  monitor_filterDate(20150619, 20150626)
+  monitor_filterDate(20150801, 20150808)
 
 # Get min/max for all monitors
 Spokane_min <- monitor_collapse(Spokane, deviceID = 'Spokane_min', FUN = min)

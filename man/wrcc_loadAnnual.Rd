@@ -39,3 +39,31 @@ For the most recent data in the last 10 days, use \code{wrcc_loadLatest()}.
 
 For daily updates covering the most recent 45 days, use \code{wrcc_loadDaily()}.
 }
+\examples{
+\dontrun{
+library(AirMonitor)
+
+# Fail gracefully if any resources are not available
+try({
+
+# See https://en.wikipedia.org/wiki/Snake_River_Complex_Fire
+
+# WRCC monitors during the Snake River Complex Fire
+wrcc_loadAnnual(2021) \\%>\\%
+  monitor_filter(stateCode \\%in\\% c("ID", "MT")) \\%>\\%
+  monitor_filterDate(20210707, 20210820, timezone = "America/Denver") \\%>\\%
+  monitor_timeseriesPlot(
+    ylim = c(0, 300),
+    xpd = NA,
+    addAQI = TRUE,
+    main = "WRCC monitors during Snake River Complex Fire"
+  )
+
+}, silent = FALSE)
+}
+}
+\seealso{
+\code{\link{wrcc_loadDaily}}
+
+\code{\link{wrcc_loadLatest}}
+}

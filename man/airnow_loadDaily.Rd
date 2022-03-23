@@ -46,3 +46,24 @@ Pre-processed AirNow exists for the following parameters:
 \item{PM2.5_nowcast}
 }
 }
+\examples{
+\dontrun{
+library(AirMonitor)
+
+# Fail gracefully if any resources are not available
+try({
+
+airnow_loadDaily() \\%>\\%
+  monitor_filter(stateCode == "WA") \\%>\\%
+  monitor_leaflet()
+
+}, silent = FALSE)
+}
+}
+\seealso{
+\code{\link{airnow_loadAnnual}}
+
+\code{\link{airnow_loadLatest}}
+
+\code{\link{airnow_loadMonthly}}
+}

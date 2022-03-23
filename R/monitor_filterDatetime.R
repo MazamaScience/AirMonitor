@@ -5,7 +5,7 @@
 #' @param monitor \emph{mts_monitor} object.
 #' @param startdate Desired start datetime (ISO 8601).
 #' @param enddate Desired end datetime (ISO 8601).
-#' @param timezone Olson timezone used to interpret dates.
+#' @param timezone Olson timezone used to interpret \code{startdate} and \code{enddate}.
 #' @param unit Units used to determine time at end-of-day.
 #' @param ceilingStart Logical instruction to apply
 #'   \code{\link[lubridate]{ceiling_date}} to the \code{startdate} rather than
@@ -37,6 +37,31 @@
 #' @seealso \link{monitor_filterDate}
 #' @seealso \link{monitor_filterMeta}
 #'
+#' @examples
+#' library(AirMonitor)
+#'
+#' Camp_Fire %>%
+#'   monitor_timeRange()
+#'
+#' # Reduced time range returned in "UTC"
+#' Camp_Fire %>%
+#'   monitor_filterDatetime(
+#'     "2018-11-15 02:00:00",
+#'     "2018-11-22 06:00:00",
+#'     timezone = "America/Los_Angeles"
+#'   ) %>%
+#'   monitor_timeRange()
+#'
+#' # Reduced time range returned in "America/Los_Angeles"
+#' Camp_Fire %>%
+#'   monitor_filterDatetime(
+#'     "2018111502",
+#'     "2018112206",
+#'     timezone = "America/Los_Angeles"
+#'   ) %>%
+#'   monitor_timeRange(
+#'     timezone = "America/Los_Angeles"
+#'   )
 #'
 
 monitor_filterDatetime <- function(

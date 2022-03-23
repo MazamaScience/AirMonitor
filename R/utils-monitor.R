@@ -178,7 +178,7 @@ monitor_distinct <- function(monitor) {
 #' @description
 #' These functions are convenient wrappers for extracting the dataframes that
 #' comprise a \emph{mts_monitor} object. These functions are designed to be
-#' museful when anipulating data in a pipeline chain using \code{\%>\%}.
+#' useful when manipulating data in a pipeline chain using \code{\%>\%}.
 #'
 #' Below is a table showing equivalent operations for each function.
 #'

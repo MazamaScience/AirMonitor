@@ -49,6 +49,24 @@
 # #' \item{WD}
 # #' \item{WS}
 #' }
+#'
+#' @seealso \code{\link{airnow_loadAnnual}}
+#' @seealso \code{\link{airnow_loadDaily}}
+#' @seealso \code{\link{airnow_loadMonthly}}
+#'
+#' @examples
+#' \dontrun{
+#' library(AirMonitor)
+#'
+#' # Fail gracefully if any resources are not available
+#' try({
+#'
+#' airnow_loadLatest() \%>\%
+#'   monitor_filter(stateCode == "WA") \%>\%
+#'   monitor_leaflet()
+#'
+#' }, silent = FALSE)
+#' }
 
 
 airnow_loadLatest <- function(

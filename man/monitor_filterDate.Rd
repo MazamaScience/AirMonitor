@@ -66,6 +66,33 @@ with \code{enddate} will be returned. The exception being when
 \code{enddate} is less than 24 hours after \code{startdate}. In that case, a
 single day is returned.
 }
+\examples{
+library(AirMonitor)
+
+Camp_Fire \%>\%
+  monitor_timeRange()
+
+# Reduced time range returned in "UTC"
+Camp_Fire \%>\%
+  monitor_filterDate(
+    "2018-11-15",
+    "2018-11-22",
+    timezone = "America/Los_Angeles"
+  ) \%>\%
+  monitor_timeRange()
+
+# Reduced time range returned in "America/Los_Angeles"
+Camp_Fire \%>\%
+  monitor_filterDatetime(
+    "20181115",
+    "20181122",
+    timezone = "America/Los_Angeles"
+  ) \%>\%
+  monitor_timeRange(
+    timezone = "America/Los_Angeles"
+  )
+
+}
 \seealso{
 \link{monitor_filterDatetime}
 

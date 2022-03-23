@@ -6,7 +6,7 @@
 \alias{NW_Megafires}
 \title{NW_Megafires example dataset}
 \format{
-A \emph{mts_monitor} object with 3672 rows and 141 columns of data.
+A \emph{mts_monitor} object with 1080 rows and 141 columns of data.
 }
 \usage{
 NW_Megafires
@@ -19,19 +19,13 @@ version of a \emph{mts_monitor} object for practicing and code examples.
 In the summer of 2015, Washington state had several catastrophic wildfires
 that led to many days of heavy smoke in eastern Washington, Oregon and
 northern Idaho. The NW_Megafires dataset contains monitoring data for the
-Pacific Northwest from May 31 through November 01, 2015.
+Pacific Northwest from July 24 through September 06, 2015.
 
 This dataset was generated on 2022-03-22 by running:
 
 \preformatted{
 library(AirMonitor)
 
-NW_Megafires <-
-  airnow_loadAnnual(2015) \%>\%
-  monitor_filterMeta(stateCode \%in\% c("WA", "OR", "ID")) \%>\%
-  monitor_filterDate(20150601, 20151101)
-
-save(NW_Megafires, file = "data/NW_Megafires.rda")
 }
 }
 \keyword{datasets}

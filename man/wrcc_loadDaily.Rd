@@ -37,3 +37,21 @@ For the most recent data in the last 10 days, use \code{wrcc_loadLatest()}.
 
 For data extended more than 45 days into the past, use \code{wrcc_loadAnnual()}.
 }
+\examples{
+\dontrun{
+library(AirMonitor)
+
+# Fail gracefully if any resources are not available
+try({
+
+wrcc_loadDaily() \\%>\\%
+  monitor_leaflet()
+
+}, silent = FALSE)
+}
+}
+\seealso{
+\code{\link{wrcc_loadAnnual}}
+
+\code{\link{wrcc_loadDaily}}
+}

@@ -39,3 +39,27 @@ For the most recent data in the last 10 days, use \code{airsis_loadLatest()}.
 
 For daily updates covering the most recent 45 days, use \code{airsis_loadDaily()}.
 }
+\examples{
+\dontrun{
+library(AirMonitor)
+
+# Fail gracefully if any resources are not available
+try({
+
+# See https://en.wikipedia.org/wiki/Camp_Fire_(2018)
+
+# AIRSIS monitors during the Camp Fire
+airsis_loadAnnual(2018) \\%>\\%
+  monitor_filter(stateCode == "CA") \\%>\\%
+  monitor_filterDate(20181101, 20181201) \\%>\\%
+  monitor_dropEmpty() \\%>\\%
+  monitor_leaflet()
+
+}, silent = FALSE)
+}
+}
+\seealso{
+\code{\link{airsis_loadDaily}}
+
+\code{\link{airsis_loadLatest}}
+}

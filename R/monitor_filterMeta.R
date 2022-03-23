@@ -22,6 +22,26 @@
 #' @seealso \link{monitor_filterDate}
 #' @seealso \link{monitor_filterDatetime}
 #'
+#' @example
+#' library(AirMonitor)
+#'
+#' # Filter based on countyName field
+#' Camp_Fire %>%
+#'   monitor_filter(countyName == "Alameda") %>%
+#'   monitor_timeseriesPlot(main = "All Alameda County Monitors")
+#'
+#' # Filter combining two fields
+#' Camp_Fire %>%
+#'   monitor_filter(latitude > 39.5, longitude > -121.5) %>%
+#'   monitor_getMeta() %>%
+#'   dplyr::pull(locationName)
+#'
+#' # Filter using string matching
+#' Camp_Fire %>%
+#'   monitor_filter(stringr::str_detect(locationName, "^San")) %>%
+#'   monitor_getMeta() %>%
+#'   dplyr::pull(locationName)
+#'
 
 monitor_filterMeta <- function(
   monitor,

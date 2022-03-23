@@ -191,7 +191,7 @@ the recommended format is <code>"YYYY-mm-dd HH:MM:SS"</code>.</p>
     </tr>
     <tr>
       <th>timezone</th>
-      <td><p>Olson timezone used to interpret dates.</p></td>
+      <td><p>Olson timezone used to interpret <code>startdate</code> and <code>enddate</code>.</p></td>
     </tr>
     <tr>
       <th>unit</th>
@@ -220,6 +220,33 @@ the recommended format is <code>"YYYY-mm-dd HH:MM:SS"</code>.</p>
     <div class='dont-index'><p><a href='monitor_filterDate.html'>monitor_filterDate</a></p>
 <p><a href='monitor_filterMeta.html'>monitor_filterMeta</a></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
+
+<span class='va'>Camp_Fire</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_timeRange.html'>monitor_timeRange</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "2018-11-08 08:00:00 UTC" "2018-11-23 07:00:00 UTC"</div><div class='input'>
+<span class='co'># Reduced time range returned in "UTC"</span>
+<span class='va'>Camp_Fire</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>monitor_filterDatetime</span><span class='op'>(</span>
+    <span class='st'>"2018-11-15 02:00:00"</span>,
+    <span class='st'>"2018-11-22 06:00:00"</span>,
+    timezone <span class='op'>=</span> <span class='st'>"America/Los_Angeles"</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_timeRange.html'>monitor_timeRange</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "2018-11-15 10:00:00 UTC" "2018-11-22 13:00:00 UTC"</div><div class='input'>
+<span class='co'># Reduced time range returned in "America/Los_Angeles"</span>
+<span class='va'>Camp_Fire</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>monitor_filterDatetime</span><span class='op'>(</span>
+    <span class='st'>"2018111502"</span>,
+    <span class='st'>"2018112206"</span>,
+    timezone <span class='op'>=</span> <span class='st'>"America/Los_Angeles"</span>
+  <span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_timeRange.html'>monitor_timeRange</a></span><span class='op'>(</span>
+    timezone <span class='op'>=</span> <span class='st'>"America/Los_Angeles"</span>
+  <span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "2018-11-15 02:00:00 PST" "2018-11-22 05:00:00 PST"</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

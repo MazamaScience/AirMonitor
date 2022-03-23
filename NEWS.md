@@ -3,6 +3,8 @@
 * Further documentation updates.
 * Rebuilt example datasets from latest data archives.
 * Removed `epa_aqs_loadAnnual()` until those data files get rebuilt.
+* Improved documentation examples.
+* Added `monitor_timeRange()`.
 
 # AirMonitor 0.1.12
 

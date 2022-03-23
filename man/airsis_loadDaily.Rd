@@ -37,3 +37,22 @@ For the most recent data in the last 10 days, use \code{airsis_loadLatest()}.
 
 For data extended more than 45 days into the past, use \code{airsis_loadAnnual()}.
 }
+\examples{
+\dontrun{
+library(AirMonitor)
+
+# Fail gracefully if any resources are not available
+try({
+
+airsis_loadDaily()\ \%>\\%
+  monitor_filter(stateCode == "CA") \\%>\\%
+  monitor_leaflet()
+
+}, silent = FALSE)
+}
+}
+\seealso{
+\code{\link{airsis_loadAnnual}}
+
+\code{\link{airsis_loadLatest}}
+}

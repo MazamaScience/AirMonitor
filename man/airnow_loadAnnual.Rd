@@ -48,3 +48,34 @@ Pre-processed AirNow exists for the following parameters:
 \item{PM2.5}
 }
 }
+\examples{
+\dontrun{
+library(AirMonitor)
+
+# Fail gracefully if any resources are not available
+try({
+
+# See https://en.wikipedia.org/wiki/2017_Montana_wildfires
+
+# Daily Barplot of Montana wildfires
+airnow_loadAnnual(2017) \\%>\\%
+  monitor_filter(stateCode == "MT") \\%>\\%
+  monitor_filterDate(20170701, 20170930, timezone = "America/Denver") \\%>\\%
+  monitor_dailyStatistic() \\%>\\%
+  monitor_timeseriesPlot(
+    ylim = c(0, 300),
+    xpd = NA,
+    addAQI = TRUE,
+    main = "Montana 2017 -- AirNow Daily Average PM2.5"
+  )
+
+}, silent = FALSE)
+}
+}
+\seealso{
+\code{\link{airnow_loadDaily}}
+
+\code{\link{airnow_loadLatest}}
+
+\code{\link{airnow_loadMonthly}}
+}

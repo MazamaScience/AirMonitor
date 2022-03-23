@@ -52,7 +52,6 @@
 # #' \item{WS}
 #' }
 
-
 airnow_loadMonthly <- function(
   monthStamp = NULL,
   parameterName = "PM2.5",

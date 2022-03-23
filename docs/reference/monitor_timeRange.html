@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>NW_Megafires example dataset — NW_Megafires • AirMonitor</title>
+<title>Get the time range for a monitor — monitor_timeRange • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,12 @@
 
 
 
-<meta property="og:title" content="NW_Megafires example dataset — NW_Megafires" />
-<meta property="og:description" content="The NW_Megafires dataset provides a quickly loadable
-version of a mts_monitor object for practicing and code examples." />
+<meta property="og:title" content="Get the time range for a monitor — monitor_timeRange" />
+<meta property="og:description" content="This function is a wrapper for range(monitor$data$datetime)
+and is convenient for use in data pipelines.
+Dates will be returned in the timezone associated with
+monitor$data$datetime which is typically &quot;UTC&quot; unless
+timezone is specified." />
 
 
 
@@ -130,34 +133,38 @@ version of a mts_monitor object for practicing and code examples." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>NW_Megafires example dataset</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>NW_Megafires.Rd</code></div>
+    <h1>Get the time range for a monitor</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/monitor_timeRange.R'><code>R/monitor_timeRange.R</code></a></small>
+    <div class="hidden name"><code>monitor_timeRange.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The <code>NW_Megafires</code> dataset provides a quickly loadable
-version of a <em>mts_monitor</em> object for practicing and code examples.</p>
+    <p>This function is a wrapper for <code><a href='https://rdrr.io/r/base/range.html'>range(monitor$data$datetime)</a></code>
+and is convenient for use in data pipelines.</p>
+<p>Dates will be returned in the timezone associated with
+<code>monitor$data$datetime</code> which is typically "UTC" unless
+<code>timezone</code> is specified.</p>
     </div>
 
-    <pre class="usage"><span class='va'>NW_Megafires</span></pre>
+    <pre class="usage"><span class='fu'>monitor_timeRange</span><span class='op'>(</span>monitor <span class='op'>=</span> <span class='cn'>NULL</span>, timezone <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>monitor</th>
+      <td><p><em>mts_monitor</em> object.</p></td>
+    </tr>
+    <tr>
+      <th>timezone</th>
+      <td><p>Olson timezone for the returned dates.</p></td>
+    </tr>
+    </table>
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <em>mts_monitor</em> object with 1080 rows and 141 columns of data.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>In the summer of 2015, Washington state had several catastrophic wildfires
-that led to many days of heavy smoke in eastern Washington, Oregon and
-northern Idaho. The NW_Megafires dataset contains monitoring data for the
-Pacific Northwest from July 24 through September 06, 2015.</p>
-<p>This dataset was generated on 2022-03-22 by running:</p>
-<pre>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
-
-</pre>
-
+    <p>A vector containing the minimum and maximum times of a
+<em>mts_monitor</em> object.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

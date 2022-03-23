@@ -47,6 +47,31 @@
 #' @seealso \link{monitor_filterDatetime}
 #' @seealso \link{monitor_filterMeta}
 #'
+#' @examples
+#' library(AirMonitor)
+#'
+#' Camp_Fire %>%
+#'   monitor_timeRange()
+#'
+#' # Reduced time range returned in "UTC"
+#' Camp_Fire %>%
+#'   monitor_filterDate(
+#'     "2018-11-15",
+#'     "2018-11-22",
+#'     timezone = "America/Los_Angeles"
+#'   ) %>%
+#'   monitor_timeRange()
+#'
+#' # Reduced time range returned in "America/Los_Angeles"
+#' Camp_Fire %>%
+#'   monitor_filterDatetime(
+#'     "20181115",
+#'     "20181122",
+#'     timezone = "America/Los_Angeles"
+#'   ) %>%
+#'   monitor_timeRange(
+#'     timezone = "America/Los_Angeles"
+#'   )
 #'
 
 monitor_filterDate <- function(
