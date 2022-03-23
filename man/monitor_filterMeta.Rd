@@ -31,6 +31,27 @@ evaluates to \code{NA} are dropped.
 \note{
 Filtering is done on variables in \code{monitor$meta}.
 }
+\examples{
+library(AirMonitor)
+
+# Filter based on countyName field
+Camp_Fire \%>\%
+  monitor_filter(countyName == "Alameda") \%>\%
+  monitor_timeseriesPlot(main = "All Alameda County Monitors")
+
+# Filter combining two fields
+Camp_Fire \%>\%
+  monitor_filter(latitude > 39.5, longitude > -121.5) \%>\%
+  monitor_getMeta() \%>\%
+  dplyr::pull(locationName)
+
+# Filter using string matching
+Camp_Fire \%>\%
+  monitor_filter(stringr::str_detect(locationName, "^San")) \%>\%
+  monitor_getMeta() \%>\%
+  dplyr::pull(locationName)
+
+}
 \seealso{
 \link{monitor_filterDate}
 

@@ -44,3 +44,34 @@ Reasonable defaults are chosen for annotations and plot characteristics.
 Users can override any defaults by passing in parameters accepted by
 \code{graphics::plot.default}.
 }
+\examples{
+library(AirMonitor)
+
+# Single monitor
+Carmel_Valley \%>\%
+  monitor_timeseriesPlot()
+
+# Multiple monitors
+Camp_Fire \%>\%
+  monitor_filter(countyName == "Alameda") \%>\%
+  monitor_timeseriesPlot(main = "All Alameda County Monitors")
+
+# Standard extras
+Carmel_Valley \%>\%
+  monitor_timeseriesPlot(
+    shadedNight = TRUE,
+    addAQI = TRUE
+  )
+addAQILegend()
+
+# Fancy plot based on pm2.5 values
+pm2.5 <- Carmel_Valley$data[,2]
+Carmel_Valley \%>\%
+  monitor_timeseriesPlot(
+    shadedNight = TRUE,
+    pch = 15,
+    cex = pmax(pm2.5 / 200, 0.5),
+    col = aqiColors(pm2.5),
+    opacity = 0.8
+  )
+}

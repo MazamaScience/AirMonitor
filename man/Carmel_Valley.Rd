@@ -29,7 +29,7 @@ This dataset was generated on 2022-03-22 by running:
 library(AirMonitor)
 
 Carmel_Valley <-
-  monitor_loadAnnual(2016) \%>\%
+  airnow_loadAnnual(2016) \%>\%
   monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_060530002") \%>\%
   monitor_filterDate(20160722, 20160815)
 

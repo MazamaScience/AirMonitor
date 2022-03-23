@@ -178,13 +178,11 @@ on a single sheet.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"Carmel_Valley"</span><span class='op'>)</span>
-
-<span class='va'>Carmel_Valley</span> <span class='op'>&lt;-</span>
+<span class='va'>monitor</span> <span class='op'>&lt;-</span>
   <span class='va'>Carmel_Valley</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='monitor_filterDate.html'>monitor_filterDate</a></span><span class='op'>(</span><span class='fl'>20160802</span>, <span class='fl'>20160803</span><span class='op'>)</span>
 
-<span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>Carmel_Valley</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>monitor</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='warning'>Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if `.name_repair` is omitted as of tibble 2.0.0.</span>
 #&gt; <span class='warning'>Using compatibility `.name_repair`.</span></div><div class='output co'>#&gt; ##### Site metadata begins below here,NA,NA
 #&gt; parameter,blank,a9572a904a4ed46d_060530002
@@ -226,7 +224,7 @@ on a single sheet.</p>
 #&gt; 2016-08-02 14:00:00 UTC,2016-08-02 07:00:00 PDT,142
 #&gt; 2016-08-02 15:00:00 UTC,2016-08-02 08:00:00 PDT,156
 #&gt; 2016-08-02 16:00:00 UTC,2016-08-02 09:00:00 PDT,129
-#&gt; 2016-08-02 17:00:00 UTC,2016-08-02 10:00:00 PDT,NaN
+#&gt; 2016-08-02 17:00:00 UTC,2016-08-02 10:00:00 PDT,NA
 #&gt; 2016-08-02 18:00:00 UTC,2016-08-02 11:00:00 PDT,100
 #&gt; 2016-08-02 19:00:00 UTC,2016-08-02 12:00:00 PDT,90
 #&gt; 2016-08-02 20:00:00 UTC,2016-08-02 13:00:00 PDT,33
@@ -239,38 +237,10 @@ on a single sheet.</p>
 #&gt; 2016-08-03 03:00:00 UTC,2016-08-02 20:00:00 PDT,6
 #&gt; 2016-08-03 04:00:00 UTC,2016-08-02 21:00:00 PDT,5
 #&gt; 2016-08-03 05:00:00 UTC,2016-08-02 22:00:00 PDT,6
-#&gt; 2016-08-03 06:00:00 UTC,2016-08-02 23:00:00 PDT,9</div><div class='input'><span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>Carmel_Valley</span>, includeData <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>Carmel_Valley</span>, includeMeta <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; ##### Site metadata begins below here,NA,NA
-#&gt; parameter,blank,a9572a904a4ed46d_060530002
-#&gt; deviceDeploymentID,,a9572a904a4ed46d_060530002
-#&gt; deviceID,,060530002
-#&gt; deviceType,,NA
-#&gt; deviceDescription,,NA
-#&gt; deviceExtra,,NA
-#&gt; pollutant,,PM2.5
-#&gt; units,,UG/M3
-#&gt; dataIngestSource,,AIRNOW
-#&gt; dataIngestURL,,https://files.airnowtech.org/airnow
-#&gt; dataIngestUnitID,,NA
-#&gt; dataIngestExtra,,NA
-#&gt; dataIngestDescription,,NA
-#&gt; locationID,,a9572a904a4ed46d
-#&gt; locationName,,Carmel Valley AMS
-#&gt; longitude,,-121.7333
-#&gt; latitude,,36.48187
-#&gt; elevation,,200.1
-#&gt; countryCode,,US
-#&gt; stateCode,,CA
-#&gt; countyName,,Monterey
-#&gt; timezone,,America/Los_Angeles
-#&gt; houseNumber,,NA
-#&gt; street,,Via Contenta
-#&gt; city,,NA
-#&gt; zip,,NA
-#&gt; AQSID,,060530002
-#&gt; ##### Hourly data begins below here,NA,NA
-#&gt; UTC Time,Local Time,a9572a904a4ed46d_060530002
+#&gt; 2016-08-03 06:00:00 UTC,2016-08-02 23:00:00 PDT,9</div><div class='input'><span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>monitor</span>, includeData <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; deviceDeploymentID,deviceID,deviceType,deviceDescription,deviceExtra,pollutant,units,dataIngestSource,dataIngestURL,dataIngestUnitID,dataIngestExtra,dataIngestDescription,locationID,locationName,longitude,latitude,elevation,countryCode,stateCode,countyName,timezone,houseNumber,street,city,zip,AQSID
+#&gt; a9572a904a4ed46d_060530002,060530002,NA,NA,NA,PM2.5,UG/M3,AIRNOW,https://files.airnowtech.org/airnow,NA,NA,NA,a9572a904a4ed46d,Carmel Valley AMS,-121.73333,36.48187,200.1,US,CA,Monterey,America/Los_Angeles,NA,Via Contenta,NA,NA,060530002</div><div class='input'><span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>monitor</span>, includeMeta <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; UTC Time,Local Time,a9572a904a4ed46d_060530002
 #&gt; 2016-08-02 07:00:00 UTC,2016-08-02 00:00:00 PDT,26
 #&gt; 2016-08-02 08:00:00 UTC,2016-08-02 01:00:00 PDT,31
 #&gt; 2016-08-02 09:00:00 UTC,2016-08-02 02:00:00 PDT,38
@@ -281,7 +251,7 @@ on a single sheet.</p>
 #&gt; 2016-08-02 14:00:00 UTC,2016-08-02 07:00:00 PDT,142
 #&gt; 2016-08-02 15:00:00 UTC,2016-08-02 08:00:00 PDT,156
 #&gt; 2016-08-02 16:00:00 UTC,2016-08-02 09:00:00 PDT,129
-#&gt; 2016-08-02 17:00:00 UTC,2016-08-02 10:00:00 PDT,NaN
+#&gt; 2016-08-02 17:00:00 UTC,2016-08-02 10:00:00 PDT,NA
 #&gt; 2016-08-02 18:00:00 UTC,2016-08-02 11:00:00 PDT,100
 #&gt; 2016-08-02 19:00:00 UTC,2016-08-02 12:00:00 PDT,90
 #&gt; 2016-08-02 20:00:00 UTC,2016-08-02 13:00:00 PDT,33

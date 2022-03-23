@@ -23,6 +23,25 @@
 #' @return A subset of the given \emph{mts_monitor} object. (A list with
 #' \code{meta} and \code{data} dataframes.)
 #'
+#' @examples
+#' library(AirMonitor)
+#'
+#' # Non-day boundaries
+#' monitor <-
+#'   Camp_Fire %>%
+#'   monitor_filterDatetime(
+#'     "2018111502",
+#'     "2018112206",
+#'     timezone = "America/Los_Angeles"
+#'   )
+#'
+#' monitor %>%
+#'   monitor_timeRange(timezone = "America/Los_Angeles")
+#'
+#' # Trim to full days only
+#' monitor %>%
+#'   monitor_trimDate() %>%
+#'   monitor_timeRange(timezone = "America/Los_Angeles")
 #'
 
 monitor_trimDate <- function(

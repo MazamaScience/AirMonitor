@@ -1,5 +1,6 @@
 #' @export
 #' @importFrom rlang .data
+#' @importFrom dplyr across everything na_if
 #'
 #' @title Convert monitor data as CSV
 #'
@@ -22,15 +23,13 @@
 #' @examples
 #' library(AirMonitor)
 #'
-#' data("Carmel_Valley")
-#'
-#' Carmel_Valley <-
+#' monitor <-
 #'   Carmel_Valley %>%
 #'   monitor_filterDate(20160802, 20160803)
 #'
-#' monitor_toCSV(Carmel_Valley) %>% cat()
-#' monitor_toCSV(Carmel_Valley, includeData = FALSE) %>% cat()
-#' monitor_toCSV(Carmel_Valley, includeMeta = FALSE) %>% cat()
+#' monitor_toCSV(monitor) %>% cat()
+#' monitor_toCSV(monitor, includeData = FALSE) %>% cat()
+#' monitor_toCSV(monitor, includeMeta = FALSE) %>% cat()
 #'
 
 monitor_toCSV <- function(
@@ -43,7 +42,7 @@ monitor_toCSV <- function(
 
   MazamaCoreUtils::stopIfNull(monitor)
   includeMeta <- MazamaCoreUtils::setIfNull(includeMeta, TRUE)
-  includeMeta <- MazamaCoreUtils::setIfNull(includeData, TRUE)
+  includeData <- MazamaCoreUtils::setIfNull(includeData, TRUE)
 
   if ( !monitor_isValid(monitor) )
     stop("Parameter 'monitor' is not a valid 'mts_monitor' object.")
@@ -75,10 +74,12 @@ monitor_toCSV <- function(
       AirMonitor::coreMetadataNames,
       "",
       t(monitor$meta[,AirMonitor::coreMetadataNames])
-    ) %>%
-    dplyr::as_tibble()
+    )
 
-  names(metaTbl) <- c("parameter", "blank", monitor$meta$deviceDeploymentID)
+  # To avoid dplyr .name_repair issues
+  colnames(metaTbl) <- c("parameter", "blank", monitor$meta$deviceDeploymentID)
+
+  metaTbl <- dplyr::as_tibble(metaTbl, .name_repair = "check_unique")
 
   # ---- Create dataTbl --------------------------------------------------------
 
@@ -100,7 +101,9 @@ monitor_toCSV <- function(
       localTimeString,
       monitor$data[,-1]
     ) %>%
-    dplyr::as_tibble()
+    dplyr::as_tibble() %>%
+    # Convert "NaN" to NA
+    dplyr::mutate(across(everything(), ~ na_if(., "NaN")))
 
   if ( length(unique(timezones)) == 1 ) {
     names(dataTbl) <- c("UTC Time", "Local Time", monitor$meta$deviceDeploymentID)

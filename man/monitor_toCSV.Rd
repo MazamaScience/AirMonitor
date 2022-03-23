@@ -30,14 +30,12 @@ To obtain a machine parseable CSV string for just the data, you can use
 \examples{
 library(AirMonitor)
 
-data("Carmel_Valley")
-
-Carmel_Valley <-
+monitor <-
   Carmel_Valley \%>\%
   monitor_filterDate(20160802, 20160803)
 
-monitor_toCSV(Carmel_Valley) \%>\% cat()
-monitor_toCSV(Carmel_Valley, includeData = FALSE) \%>\% cat()
-monitor_toCSV(Carmel_Valley, includeMeta = FALSE) \%>\% cat()
+monitor_toCSV(monitor) \%>\% cat()
+monitor_toCSV(monitor, includeData = FALSE) \%>\% cat()
+monitor_toCSV(monitor, includeMeta = FALSE) \%>\% cat()
 
 }

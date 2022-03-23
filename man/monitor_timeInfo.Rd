@@ -64,6 +64,17 @@ carmel_day <- list(meta = carmel$meta, data = data_day)
 carmel_night <- list(meta = carmel$meta, data = data_night)
 
 # Plot them
-plot(carmel_day$data, pch = 8, col = 'goldenrod')
-points(carmel_night$data, pch = 16, col = 'darkblue')
+carmel_day \%>\%
+  monitor_timeseriesPlot(
+    pch = 8,
+    col = "goldenrod",
+    shadedNight = TRUE
+  )
+
+carmel_night \%>\%
+  monitor_timeseriesPlot(
+    add = TRUE,
+    pch = 16,
+    col = "darkblue"
+  )
 }

@@ -22,7 +22,7 @@
 #' @seealso \link{monitor_filterDate}
 #' @seealso \link{monitor_filterDatetime}
 #'
-#' @example
+#' @examples
 #' library(AirMonitor)
 #'
 #' # Filter based on countyName field

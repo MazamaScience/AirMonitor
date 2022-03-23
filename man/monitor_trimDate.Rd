@@ -32,3 +32,24 @@ beyond the first and after the last date boundary.
 Day boundaries are calculated using the specified \code{timezone} or, if
 \code{NULL}, from \code{monitor$meta$timezone}.
 }
+\examples{
+library(AirMonitor)
+
+# Non-day boundaries
+monitor <-
+  Camp_Fire \%>\%
+  monitor_filterDatetime(
+    "2018111502",
+    "2018112206",
+    timezone = "America/Los_Angeles"
+  )
+
+monitor \%>\%
+  monitor_timeRange(timezone = "America/Los_Angeles")
+
+# Trim to full days only
+monitor \%>\%
+  monitor_trimDate() \%>\%
+  monitor_timeRange(timezone = "America/Los_Angeles")
+
+}
