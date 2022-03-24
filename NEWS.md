@@ -5,6 +5,7 @@
 * Removed `epa_aqs_loadAnnual()` until those data files get rebuilt.
 * Improved documentation examples.
 * Added `monitor_timeRange()`.
+* Replace any `NaN` data values with `NA` when loading data.
 
 # AirMonitor 0.1.12
 

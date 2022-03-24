@@ -69,9 +69,10 @@ pm2.5 <- Carmel_Valley$data[,2]
 Carmel_Valley \%>\%
   monitor_timeseriesPlot(
     shadedNight = TRUE,
-    pch = 15,
-    cex = pmax(pm2.5 / 200, 0.5),
+    pch = 16,
+    cex = pmax(pm2.5 / 100, 0.5),
     col = aqiColors(pm2.5),
     opacity = 0.8
   )
+addAQILegend(pch = 16)
 }

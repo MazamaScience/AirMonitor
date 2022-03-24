@@ -29,7 +29,7 @@ Imports:
     MazamaCoreUtils (>= 0.4.10),
     MazamaTimeSeries (>= 0.2.1),
     readr,
-    rlang,
+    rlang (>= 0.1.2),
     stringr,
     tidyselect,
     xts

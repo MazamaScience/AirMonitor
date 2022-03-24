@@ -1,4 +1,5 @@
 #' @export
+#' @importFrom dplyr across
 #'
 #' @title Load most recent AirNow monitoring data
 #'
@@ -150,9 +151,11 @@ airnow_loadLatest <- function(
 
   data <-
     data %>%
-    dplyr::select(dplyr::all_of(c("datetime", meta$deviceDeploymentID)))
+    dplyr::select(dplyr::all_of(c("datetime", meta$deviceDeploymentID))) %>%
+    # Replace any NaN that snuck in
+    dplyr::mutate(across(where(is.numeric), function(x) ifelse(is.nan(x), NA, x)))
 
-  # Create monitor objecet
+  # Create monitor object
   monitor <- list(meta = meta, data = data)
 
   monitor <- structure(monitor, class = c("mts_monitor", "mts", class(monitor)))
@@ -174,21 +177,6 @@ airnow_loadLatest <- function(
   # ----- Return ---------------------------------------------------------------
 
   return(monitor)
-
-
-}
-
-# ===== DEBUG ==================================================================
-
-if ( FALSE ) {
-
-
-  parameterName <- "PM2.5"
-  archiveBaseUrl <- "https://data-monitoring1.airfire.org/monitoring-v2"
-  archiveBaseDir <- NULL
-  QC_negativeValues = "zero"
-
-
 
 
 }
