@@ -53,7 +53,7 @@
 #' Camp_Fire %>%
 #'   monitor_timeRange()
 #'
-#' # Reduced time range returned in "UTC"
+#' # Day boundaries returned in "UTC"
 #' Camp_Fire %>%
 #'   monitor_filterDate(
 #'     "2018-11-15",
@@ -62,7 +62,7 @@
 #'   ) %>%
 #'   monitor_timeRange()
 #'
-#' # Reduced time range returned in "America/Los_Angeles"
+#' # Day boundaries returned in "America/Los_Angeles"
 #' Camp_Fire %>%
 #'   monitor_filterDatetime(
 #'     "20181115",

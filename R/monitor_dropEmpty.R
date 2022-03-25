@@ -7,9 +7,10 @@
 #' \code{meta} and \code{data} dataframes.)
 #'
 #' @description The incoming \emph{mts_monitor} object is subset to retain
-#' only device deployments with valid data.
+#' only time series with valid data.
 #'
-#' @return A subset of the incoming \code{mts_monitor}.
+#' @return A subset of the incoming \code{mts_monitor}. (A list with
+#' \code{meta} and \code{data} dataframes.)
 #'
 
 monitor_dropEmpty <- function(

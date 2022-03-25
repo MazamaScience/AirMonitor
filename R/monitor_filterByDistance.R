@@ -12,8 +12,8 @@
 #'
 #' @return A \emph{mts_monitor} object with monitors near a location.
 #'
-#' @description Filters \code{monitor} to include only those time series located
-#' within a certain radius of a target location. If no time series fall
+#' @description Filters the \code{monitor} argument to include only those time series
+#' located within a certain radius of a target location. If no time series fall
 #' within the specified \code{radius}, an empty \emph{mts_monitor} object will
 #' be returned.
 #'
@@ -25,7 +25,27 @@
 #'
 #' @note The returned \emph{mts_monitor} will have an extra \code{distance}.  (A list with
 #' \code{meta} and \code{data} dataframes.)
-
+#'
+#' @examples
+#' library(AirMonitor)
+#'
+#' # Walla Walla
+#' longitude <- -118.330278
+#' latitude <- 46.065
+#'
+#' Walla_Walla_monitors <-
+#'   NW_Megafires %>%
+#'   monitor_filterByDistance(
+#'     longitude = -118.330,
+#'     latitude = 46.065,
+#'     radius = 50000,     # 50 km
+#'     addToMeta = TRUE
+#'   )
+#'
+#' Walla_Walla_monitors %>%
+#'   monitor_getMeta() %>%
+#'   dplyr::select(c("locationName", "distanceFromTarget"))
+#'
 
 monitor_filterByDistance <- function(
   monitor,

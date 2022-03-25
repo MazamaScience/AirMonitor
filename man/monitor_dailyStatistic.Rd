@@ -54,3 +54,14 @@ time axis will be defined in "UTC" with times as they \emph{appear} in standard
 time in the local timezone. These days will be one hour off from clock
 time during DST but every day will consist of 24 hours.
 }
+\examples{
+library(AirMonitor)
+
+Carmel_Valley \%>\%
+  monitor_dailyStatistic(max) \%>\%
+  monitor_getData()
+
+Carmel_Valley \%>\%
+  monitor_dailyStatistic(min) \%>\%
+  monitor_getData()
+}

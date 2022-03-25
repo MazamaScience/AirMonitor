@@ -30,8 +30,9 @@
 #' an important tool for creating LST daily averages and LST axis labeling.
 #'
 #' @param monitor \emph{mts_monitor} object.
-#' @param deviceDeploymentID ID for a specific monitor in \code{monitor} --
-#' optional if \code{monitor} only has one monitor.
+#' @param id \code{deviceDeploymentID} used to select a single time
+#' series found in \code{monitor}. -- optional if \code{monitor} only has one
+#' time series.
 #'
 #' @return A dataframe with times and masks.
 #'
@@ -73,7 +74,7 @@
 
 monitor_timeInfo <- function(
   monitor = NULL,
-  deviceDeploymentID = NULL
+  id = NULL
 ) {
 
   # ----- Validate parameters --------------------------------------------------

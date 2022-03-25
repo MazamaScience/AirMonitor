@@ -6,6 +6,7 @@
 * Improved documentation examples.
 * Added `monitor_timeRange()`.
 * Replace any `NaN` data values with `NA` when loading data.
+* Added `AirFire_S3_archiveBaseUrl` as package data.
 
 # AirMonitor 0.1.12
 

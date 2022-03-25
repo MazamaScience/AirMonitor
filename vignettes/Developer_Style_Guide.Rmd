@@ -1,6 +1,6 @@
 ---
 title: "Developer Style Guide"
-author: "Mazama Science"
+author: "Jonathan Callahan"
 date: "2022-02-15"
 output: rmarkdown::html_vignette
 vignette: >
@@ -14,7 +14,7 @@ vignette: >
 This document describes the coding style used within the package.  Having a
 consistent style enhances the readability and "understandability" of the code 
 and makes it easier for users and developers to work with this package and
-with other, related packages from [Mazama Science](http://mazamascience.com).
+with other, related [Mazama Science packages](https://github.com/MazamaScience).
 
 ## Naming Objects
 
@@ -23,7 +23,7 @@ code readable and understandable to future readers of the code _(perhaps even
 yourself!)_. Having a system for creating names also makes it easier to come up 
 with new ones.
 
-Mazama Science embraces **`lowerCamelCase`** for object names.
+Mazama Science packages embrace **`lowerCamelCase`** for object names.
 
 With the casing settled, we use an ornithologist’s sensibility for how to 
 identify things:
@@ -159,5 +159,3 @@ be added or the order of arguments need to be changed.
 
 It is our belief that good code should be both readable and understandable and
 should inspire others to copy and innovate on their own.
-
-**_Mazama Science_**

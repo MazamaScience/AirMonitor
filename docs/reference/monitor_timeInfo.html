@@ -170,7 +170,7 @@ UTC <code>time</code> vector and will contain the following columns:</p>
 
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_timeInfo</span><span class='op'>(</span>monitor <span class='op'>=</span> <span class='cn'>NULL</span>, deviceDeploymentID <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>monitor_timeInfo</span><span class='op'>(</span>monitor <span class='op'>=</span> <span class='cn'>NULL</span>, id <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,9 +180,10 @@ UTC <code>time</code> vector and will contain the following columns:</p>
       <td><p><em>mts_monitor</em> object.</p></td>
     </tr>
     <tr>
-      <th>deviceDeploymentID</th>
-      <td><p>ID for a specific monitor in <code>monitor</code> --
-optional if <code>monitor</code> only has one monitor.</p></td>
+      <th>id</th>
+      <td><p><code>deviceDeploymentID</code> used to select a single time
+series found in <code>monitor</code>. -- optional if <code>monitor</code> only has one
+time series.</p></td>
     </tr>
     </table>
 

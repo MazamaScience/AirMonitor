@@ -18,8 +18,8 @@ monitor_timeseriesPlot(
 \arguments{
 \item{monitor}{\emph{mts_monitor} object.}
 
-\item{id}{\code{deviceDeploymentID} for a single time series found in \code{monitor}.
-(Optional if \code{monitor} contains only a single time series.)}
+\item{id}{\code{deviceDeploymentID} used to limit plotting to a single time
+series found in \code{monitor}.}
 
 \item{shadedNight}{Logical specifying whether to add nighttime shading.}
 
@@ -74,5 +74,5 @@ Carmel_Valley \%>\%
     col = aqiColors(pm2.5),
     opacity = 0.8
   )
-addAQILegend(pch = 16)
+addAQILegend(pch = 16, cex = 0.6, bg = "white")
 }

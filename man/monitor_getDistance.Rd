@@ -21,7 +21,8 @@ monitor_getDistance(
 \item{measure}{One of "geodesic", "haversine" "vincenty", or "cheap".}
 }
 \value{
-Vector of distances (meters) named by \code{deviceDeploymentID}.
+Named vector of distances (meters) with each distance identified
+by \code{deviceDeploymentID}.
 }
 \description{
 This function returns the distances (meters) between \code{monitor} locations
@@ -33,4 +34,21 @@ The measure \code{"cheap"} may be used to speed things up depending on
 the spatial scale being considered. Distances calculated with
 \code{measure = "cheap"} will vary by a few meters compared with those
 calculated using \code{measure = "geodesic"}.
+}
+\examples{
+library(AirMonitor)
+
+# Walla Walla
+longitude <- -118.3302
+latitude <- 46.065
+
+distance <- monitor_getDistance(NW_Megafires, longitude, latitude)
+closestIndex <- which(distance == min(distance))
+
+# Distance in meters
+distance[closestIndex]
+
+# Monitor metadata
+str(NW_Megafires$meta[closestIndex,])
+
 }

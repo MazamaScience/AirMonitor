@@ -172,7 +172,8 @@ mask identifying monitors within a certain radius of the location of interest.</
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Vector of distances (meters) named by <code>deviceDeploymentID</code>.</p>
+    <p>Named vector of distances (meters) with each distance identified
+by <code>deviceDeploymentID</code>.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>The measure <code>"cheap"</code> may be used to speed things up depending on
@@ -180,6 +181,50 @@ the spatial scale being considered. Distances calculated with
 <code>measure = "cheap"</code> will vary by a few meters compared with those
 calculated using <code>measure = "geodesic"</code>.</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
+
+<span class='co'># Walla Walla</span>
+<span class='va'>longitude</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='fl'>118.3302</span>
+<span class='va'>latitude</span> <span class='op'>&lt;-</span> <span class='fl'>46.065</span>
+
+<span class='va'>distance</span> <span class='op'>&lt;-</span> <span class='fu'>monitor_getDistance</span><span class='op'>(</span><span class='va'>NW_Megafires</span>, <span class='va'>longitude</span>, <span class='va'>latitude</span><span class='op'>)</span>
+<span class='va'>closestIndex</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='va'>distance</span> <span class='op'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>distance</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='co'># Distance in meters</span>
+<span class='va'>distance</span><span class='op'>[</span><span class='va'>closestIndex</span><span class='op'>]</span>
+</div><div class='output co'>#&gt; 3f1e6dd0ed3ca0b1_530710005 
+#&gt;                    1779.27 </div><div class='input'>
+<span class='co'># Monitor metadata</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>NW_Megafires</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>[</span><span class='va'>closestIndex</span>,<span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; tibble [1 × 26] (S3: tbl_df/tbl/data.frame)
+#&gt;  $ deviceDeploymentID   : chr "3f1e6dd0ed3ca0b1_530710005"
+#&gt;  $ deviceID             : chr "530710005"
+#&gt;  $ deviceType           : chr NA
+#&gt;  $ deviceDescription    : chr NA
+#&gt;  $ deviceExtra          : chr NA
+#&gt;  $ pollutant            : chr "PM2.5"
+#&gt;  $ units                : chr "UG/M3"
+#&gt;  $ dataIngestSource     : chr "AIRNOW"
+#&gt;  $ dataIngestURL        : chr "https://files.airnowtech.org/airnow"
+#&gt;  $ dataIngestUnitID     : chr NA
+#&gt;  $ dataIngestExtra      : chr NA
+#&gt;  $ dataIngestDescription: chr NA
+#&gt;  $ locationID           : chr "3f1e6dd0ed3ca0b1"
+#&gt;  $ locationName         : chr "Walla Walla-12th St"
+#&gt;  $ longitude            : num -118
+#&gt;  $ latitude             : num 46.1
+#&gt;  $ elevation            : num 267
+#&gt;  $ countryCode          : chr "US"
+#&gt;  $ stateCode            : chr "WA"
+#&gt;  $ countyName           : chr "Walla Walla"
+#&gt;  $ timezone             : chr "America/Los_Angeles"
+#&gt;  $ houseNumber          : chr NA
+#&gt;  $ street               : chr "South 12th Avenue"
+#&gt;  $ city                 : chr "Walla Walla"
+#&gt;  $ zip                  : chr "99362-5024"
+#&gt;  $ AQSID                : chr "530710005"</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -153,6 +153,8 @@ monitor_isEmpty <- function(monitor) {
 #' \item{guarantee that rows are in \code{datetime} order}
 #' }
 #'
+#' @note This function is primarily for package-internal use.
+#'
 
 monitor_distinct <- function(monitor) {
 
@@ -178,7 +180,7 @@ monitor_distinct <- function(monitor) {
 #' @description
 #' These functions are convenient wrappers for extracting the dataframes that
 #' comprise a \emph{mts_monitor} object. These functions are designed to be
-#' useful when manipulating data in a pipeline chain using \code{\%>\%}.
+#' useful when manipulating data in a pipeline using \code{\%>\%}.
 #'
 #' Below is a table showing equivalent operations for each function.
 #'

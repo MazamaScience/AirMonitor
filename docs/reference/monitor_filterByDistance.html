@@ -40,8 +40,8 @@
 
 
 <meta property="og:title" content="Filter by distance from a target location — monitor_filterByDistance" />
-<meta property="og:description" content="Filters monitor to include only those time series located
-within a certain radius of a target location. If no time series fall
+<meta property="og:description" content="Filters the monitor argument to include only those time series
+located within a certain radius of a target location. If no time series fall
 within the specified radius, an empty mts_monitor object will
 be returned.
 When count is used, a mts_monitor object is
@@ -143,8 +143,8 @@ fewer than count time series are found within the target area." />
     </div>
 
     <div class="ref-description">
-    <p>Filters <code>monitor</code> to include only those time series located
-within a certain radius of a target location. If no time series fall
+    <p>Filters the <code>monitor</code> argument to include only those time series
+located within a certain radius of a target location. If no time series fall
 within the specified <code>radius</code>, an empty <em>mts_monitor</em> object will
 be returned.</p>
 <p>When <code>count</code> is used, a <em>mts_monitor</em> object is
@@ -201,6 +201,31 @@ as a field in <code>monitor$meta</code>.</p></td>
     <p>The returned <em>mts_monitor</em> will have an extra <code>distance</code>.  (A list with
 <code>meta</code> and <code>data</code> dataframes.)</p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
+
+<span class='co'># Walla Walla</span>
+<span class='va'>longitude</span> <span class='op'>&lt;-</span> <span class='op'>-</span><span class='fl'>118.330278</span>
+<span class='va'>latitude</span> <span class='op'>&lt;-</span> <span class='fl'>46.065</span>
+
+<span class='va'>Walla_Walla_monitors</span> <span class='op'>&lt;-</span>
+  <span class='va'>NW_Megafires</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>monitor_filterByDistance</span><span class='op'>(</span>
+    longitude <span class='op'>=</span> <span class='op'>-</span><span class='fl'>118.330</span>,
+    latitude <span class='op'>=</span> <span class='fl'>46.065</span>,
+    radius <span class='op'>=</span> <span class='fl'>50000</span>,     <span class='co'># 50 km</span>
+    addToMeta <span class='op'>=</span> <span class='cn'>TRUE</span>
+  <span class='op'>)</span>
+
+<span class='va'>Walla_Walla_monitors</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_getDataFrame.html'>monitor_getMeta</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"locationName"</span>, <span class='st'>"distanceFromTarget"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 × 2</span>
+#&gt;   locationName        distanceFromTarget
+#&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                            <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'>1</span> Walla Walla-12th St               <span style='text-decoration: underline;'>1</span>794
+#&gt; <span style='color: #BCBCBC;'>2</span> Dayton-W Main                    <span style='text-decoration: underline;'>38</span>732</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

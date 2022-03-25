@@ -25,11 +25,11 @@ monitor_filterDatetime(
 
 \item{unit}{Units used to determine time at end-of-day.}
 
-\item{ceilingStart}{Logical instruction to apply
+\item{ceilingStart}{Logical specifying application of
 \code{\link[lubridate]{ceiling_date}} to the \code{startdate} rather than
 \code{\link[lubridate]{floor_date}}}
 
-\item{ceilingEnd}{Logical instruction to apply
+\item{ceilingEnd}{Logical specifying application of
 \code{\link[lubridate]{ceiling_date}} to the \code{enddate} rather than
 \code{\link[lubridate]{floor_date}}}
 }
@@ -38,7 +38,7 @@ A subset of the given \emph{mts_monitor} object. (A list with
 \code{meta} and \code{data} dataframes.)
 }
 \description{
-Subsets a \code{mts_monitor} object by datetime. This function
+Subsets a \emph{mts_monitor} object by datetime. This function
 allows for sub-day filtering as opposed to \code{monitor_filterDate()} which
 always filters to day-boundaries.
 

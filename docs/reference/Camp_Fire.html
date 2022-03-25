@@ -41,24 +41,7 @@
 
 <meta property="og:title" content="Camp Fire example dataset — Camp_Fire" />
 <meta property="og:description" content="The Camp_Fire dataset provides a quickly loadable
-version of a mts_monitor object for practicing and code examples.
-This dataset was was generated on 2022-02-15 by running:
-
-library(AirMonitor)
-
-Camp_Fire &amp;lt;-
-  monitor_loadAnnual(2018) %&amp;gt;%
-  monitor_filter(stateCode == 'CA') %&amp;gt;%
-  monitor_filterDate(
-    startdate = 20181108,
-    enddate = 20181123,
-    timezone = &quot;America/Los_Angeles&quot;
- ) %&amp;gt;%
- monitor_dropEmpty()
-
-save(Camp_Fire, file = &quot;data/Camp_Fire.rda&quot;)
-
-" />
+version of a mts_monitor object for practicing and code examples." />
 
 
 
@@ -155,6 +138,23 @@ save(Camp_Fire, file = &quot;data/Camp_Fire.rda&quot;)
     <div class="ref-description">
     <p>The <code>Camp_Fire</code> dataset provides a quickly loadable
 version of a <em>mts_monitor</em> object for practicing and code examples.</p>
+    </div>
+
+    <pre class="usage"><span class='va'>Camp_Fire</span></pre>
+
+
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
+
+    <p>A <em>mts_monitor</em> object with 360 rows and 134 columns of data.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The 20189 Camp Fire was the deadliest and most destructive wildfire in California's
+history, and the most expensive natural disaster in the world in 2018 in
+terms of insured losses. The fire caused at least 85 civilian fatalities and
+injured 12 civilians and five firefighters. It covered an area of 153,336
+acres and destroyed more than 18,000 structures, most with the first 4 hours.
+Smoke from the fire resulted in the worst air pollution ever for the
+San Francisco Bay Area and Sacramento Valley.</p>
 <p>This dataset was was generated on 2022-02-15 by running:</p>
 <pre>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
@@ -172,14 +172,6 @@ version of a <em>mts_monitor</em> object for practicing and code examples.</p>
 <span class='fu'><a href='https://rdrr.io/r/base/save.html'>save</a></span><span class='op'>(</span><span class='va'>Camp_Fire</span>, file <span class='op'>=</span> <span class='st'>"data/Camp_Fire.rda"</span><span class='op'>)</span>
 </pre>
 
-    </div>
-
-    <pre class="usage"><span class='va'>Camp_Fire</span></pre>
-
-
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>A <em>mts_monitor</em> object with 360 rows and 134 columns of data.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

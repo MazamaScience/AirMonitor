@@ -207,6 +207,14 @@ ISO 639-2 alpha-3 code:</p><ul>
 and are given in units appropriate for each pollutant.</p>
 <p>AQI colors are defined at <a href='https://docs.airnowapi.org/aq101'>https://docs.airnowapi.org/aq101</a></p>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>US_AQI</span><span class='op'>$</span><span class='va'>breaks_AQI</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] -Inf   50  100  150  200  300  Inf</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>US_AQI</span><span class='op'>$</span><span class='va'>colors_EPA</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "#00E400" "#FFFF00" "#FF7E00" "#FF0000" "#8F3F97" "#7E0023"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>US_AQI</span><span class='op'>$</span><span class='va'>names_eng</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "Good"           "Moderate"       "USG"            "Unhealthy"     
+#&gt; [5] "Very Unhealthy" "Hazardous"     </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>US_AQI</span><span class='op'>$</span><span class='va'>names_spa</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "Buena"         "Moderada"      "IGS"           "Insalubre"    
+#&gt; [5] "Muy insalubre" "Peligrosa"    </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

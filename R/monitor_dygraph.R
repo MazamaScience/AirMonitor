@@ -13,6 +13,16 @@
 #'
 #' @return Initiates the interactive dygraph plot in RStudio's 'Viewer' tab.
 #'
+#' @examples
+#' \dontrun{
+#' library(AirMonitor)
+#'
+#' # Multiple monitors
+#' Camp_Fire %>%
+#'   monitor_filter(countyName == "Alameda") %>%
+#'   monitor_dygraph()
+#' }
+
 
 monitor_dygraph <- function(
   monitor,

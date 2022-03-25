@@ -10,7 +10,7 @@
 #' @return A modified \code{mts_monitor} object. (A list with
 #' \code{meta} and \code{data} dataframes.)
 #'
-#' @description A Nowcast algorithm is applied to the data in in the
+#' @description A NowCast algorithm is applied to the data in in the
 #' \code{monitor} object. The \code{version} argument specifies the minimum
 #' weight factor and number of hours to be used in the calculation.
 #'
@@ -24,7 +24,7 @@
 #' The default, \code{version = "pm"}, is appropriate for typical usage.
 #'
 #' @details
-#' This function calculates the current hour's NowCast value based on the value
+#' This function calculates each hour's NowCast value based on the value
 #' for the given hour and the previous N-1 hours, where N is the number
 #' of hours appropriate for the \code{version} argument. For example, if
 #' \code{version = "pm"}, the NowCast value for Hour 12 is based on the data

@@ -6,7 +6,7 @@
 \usage{
 aqiColors(
   x,
-  pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),
+  pollutant = c("PM2.5", "AQI", "CO", "NO", "OZONE", "PM10", "SO2"),
   palette = c("EPA", "subdued", "deuteranopia"),
   na.color = NA
 )
@@ -26,4 +26,18 @@ A vector or matrix of AQI colors to be used in maps and plots.
 \description{
 This function uses the \code{leaflet::colorBin()} function to return a
 vector or matrix of colors derived from data values.
+}
+\examples{
+library(AirMonitor)
+
+# Fancy plot based on pm2.5 values
+pm2.5 <- Carmel_Valley$data[,2]
+Carmel_Valley \%>\%
+  monitor_timeseriesPlot(
+    shadedNight = TRUE,
+    pch = 16,
+    cex = pmax(pm2.5 / 100, 0.5),
+    col = aqiColors(pm2.5),
+    opacity = 0.8
+  )
 }

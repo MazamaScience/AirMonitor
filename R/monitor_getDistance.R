@@ -17,7 +17,24 @@
 #' \code{measure = "cheap"} will vary by a few meters compared with those
 #' calculated using \code{measure = "geodesic"}.
 #'
-#' @return Vector of distances (meters) named by \code{deviceDeploymentID}.
+#' @return Named vector of distances (meters) with each distance identified
+#' by \code{deviceDeploymentID}.
+#'
+#' @examples
+#' library(AirMonitor)
+#'
+#' # Walla Walla
+#' longitude <- -118.3302
+#' latitude <- 46.065
+#'
+#' distance <- monitor_getDistance(NW_Megafires, longitude, latitude)
+#' closestIndex <- which(distance == min(distance))
+#'
+#' # Distance in meters
+#' distance[closestIndex]
+#'
+#' # Monitor metadata
+#' str(NW_Megafires$meta[closestIndex,])
 #'
 
 monitor_getDistance <- function(

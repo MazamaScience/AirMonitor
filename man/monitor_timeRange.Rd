@@ -23,3 +23,7 @@ Dates will be returned in the timezone associated with
 \code{monitor$data$datetime} which is typically "UTC" unless
 \code{timezone} is specified.
 }
+\examples{
+Carmel_Valley \%>\%
+  monitor_timeRange(timezone = "America/Los_Angeles")
+}

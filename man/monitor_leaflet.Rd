@@ -68,3 +68,16 @@ underlying map tile if available. See
 \url{https://leaflet-extras.github.io/leaflet-providers/} for a list of
 "provider tiles" to use as the background map.
 }
+\examples{
+\dontrun{
+library(AirMonitor)
+# Fail gracefully if any resources are not available
+try({
+
+monitor_loadLatest() \%>\%
+  monitor_filter(stateCode \%in\% CONUS) \%>\%
+  monitor_leaflet()
+
+}, silent = FALSE)
+}
+}

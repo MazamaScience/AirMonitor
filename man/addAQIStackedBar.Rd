@@ -28,4 +28,6 @@ Stacked AQI Bar
 }
 \description{
 Draws a stacked bar indicating AQI levels on one side of a plot
+The \link{monitor_timeseriesPlot} function uses this function internally when
+specifying \code{addAQI = TRUE}.
 }

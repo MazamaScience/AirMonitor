@@ -76,16 +76,34 @@ coreMetadataNames <- c(
 #' @name pollutantNames
 #' @title Names of standard pollutants
 #' @format A vector of character strings
-#' @description Character string identifiers of recognized pollutants.
+#' @description Character string identifiers of recognized pollutant names.
+#' @examples
+#'  print(coreMetadataNames, width = 80)
 
 pollutantNames <- c(
-  "OZONE",
-  "SO2",
+  "PM2.5",
+  "AQI",
   "CO",
   "NO",
-  "PM2.5",
-  "PM10"
+  "OZONE",
+  "PM10",
+  "SO2"
 )
+
+
+#' AirFire_S3_archiveBaseUrl
+#'
+#' @export
+#' @docType data
+#' @name AirFire_S3_archiveBaseUrl
+#' @title USFS maintained archive base URL
+#' @format A url
+#' @description The US Forest Service AirFire group maintains an archive of
+#' processed monitoring data. The base URL for this archive is used as the
+#' default in all \code{~_load()} functions.
+#' @example print(AirFire_S3_archiveBaseUrl)
+AirFire_S3_archiveBaseUrl <-
+  "https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2"
 
 # ----- State codes -----------------------------------------------------------
 
@@ -212,6 +230,12 @@ US_52 <- c(
 #' AQI colors are defined at \url{https://docs.airnowapi.org/aq101}
 #' @note
 #' The low end of each break category is used as the breakpoint.
+#'
+#' @examples
+#' print(US_AQI$breaks_AQI)
+#' print(US_AQI$colors_EPA)
+#' print(US_AQI$names_eng)
+#' print(US_AQI$names_spa)
 
 US_AQI <- list(
 

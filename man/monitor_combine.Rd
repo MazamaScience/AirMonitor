@@ -36,3 +36,23 @@ data overlaps exist. Incoming \emph{mts_monitor} objects are ordered based on th
 time stamp of their last record. Any data records found in a "later" \emph{mts_monitor}
 will overwrite data associated with an "earlier" \emph{mts_monitor}.
 }
+\examples{
+library(AirMonitor)
+
+# Washington State University
+Pullman <-
+  NW_Megafires \%>\%
+  monitor_select("089a067f92712ad1_530750003") \%>\%
+  monitor_filterDatetime(2015080118, 2015080203)
+
+# University of Idaho
+Moscow <-
+  NW_Megafires \%>\%
+  monitor_select("d121a99bc6c2ac7f_160570005") \%>\%
+  monitor_filterDatetime(2015080200, 2015080206)
+
+monitor_combine(Pullman, Moscow) \%>\%
+  monitor_getData()
+
+
+}

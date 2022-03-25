@@ -19,5 +19,7 @@ addAQILines(
 }
 \description{
 Draws AQI lines across a plot at the levels appropriate for
+The \link{monitor_timeseriesPlot} function uses this function internally when
+specifying \code{addAQI = TRUE}.
 \code{pollutant}.
 }

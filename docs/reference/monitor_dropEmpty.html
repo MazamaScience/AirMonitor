@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Drop device deployments with all missing data — monitor_dropEmpty" />
 <meta property="og:description" content="The incoming mts_monitor object is subset to retain
-only device deployments with valid data." />
+only time series with valid data." />
 
 
 
@@ -137,7 +137,7 @@ only device deployments with valid data." />
 
     <div class="ref-description">
     <p>The incoming <em>mts_monitor</em> object is subset to retain
-only device deployments with valid data.</p>
+only time series with valid data.</p>
     </div>
 
     <pre class="usage"><span class='fu'>monitor_dropEmpty</span><span class='op'>(</span><span class='va'>monitor</span><span class='op'>)</span></pre>
@@ -154,7 +154,8 @@ only device deployments with valid data.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A subset of the incoming <code>mts_monitor</code>.</p>
+    <p>A subset of the incoming <code>mts_monitor</code>. (A list with
+<code>meta</code> and <code>data</code> dataframes.)</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

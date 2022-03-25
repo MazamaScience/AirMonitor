@@ -8,13 +8,27 @@
 #'
 #' @description
 #' This function works similarly to \code{dplyr::mutate()} and applies
-#' \code{FUN} to each time series found in \code{monitor}. \code{FUN} must be a
-#' function that accepts a numeric vector as its first argument and returns a
-#' vector of the same length.
+#' \code{FUN} to each time series found in \code{monitor$data}. \code{FUN} must
+#' be a function that accepts a numeric vector as its first argument and returns
+#' a vector of the same length.
 #'
 #'
 #' @return A modified \code{mts_monitor} object. (A list with
 #' \code{meta} and \code{data} dataframes.)
+#'
+#' @examples
+#' library(AirMonitor)
+#'
+#' Carmel_Valley %>%
+#'   monitor_filterDatetime(2016080207, 2016080212) %>%
+#'   monitor_toCSV(includeMeta = FALSE) %>%
+#'   cat()
+#'
+#' Carmel_Valley %>%
+#'   monitor_filterDatetime(2016080207, 2016080212) %>%
+#'   monitor_mutate(function(x) { return(x / 2) }) %>%
+#'   monitor_toCSV(includeMeta = FALSE) %>%
+#'   cat()
 #'
 
 monitor_mutate <- function(

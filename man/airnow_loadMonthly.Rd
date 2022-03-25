@@ -7,8 +7,7 @@
 airnow_loadMonthly(
   monthStamp = NULL,
   parameterName = "PM2.5",
- 
-    archiveBaseUrl = "https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2",
+  archiveBaseUrl = AirFire_S3_archiveBaseUrl,
   archiveBaseDir = NULL,
   QC_negativeValues = c("zero", "na", "ignore")
 )

@@ -35,7 +35,7 @@
 #'
 #' @details
 #' In August of 2016, the Soberanes fire in California burned along the Big Sur
-#' coast. It was at the time the most expensive wildifre in US history. This
+#' coast. At the time, it was the most expensive wildifre in US history. This
 #' dataset contains PM2.5 monitoring data for the monitor in Carmel Valley which
 #' shows heavy smoke as well as strong diurnal cycles associated with sea
 #' breezes. Data are stored as a \emph{mts_monitor} object and are used in some
@@ -61,6 +61,15 @@
 #' @format A \emph{mts_monitor} object with 360 rows and 134 columns of data.
 #' @description The \code{Camp_Fire} dataset provides a quickly loadable
 #' version of a \emph{mts_monitor} object for practicing and code examples.
+#'
+#' @details
+#' The 20189 Camp Fire was the deadliest and most destructive wildfire in California's
+#' history, and the most expensive natural disaster in the world in 2018 in
+#' terms of insured losses. The fire caused at least 85 civilian fatalities and
+#' injured 12 civilians and five firefighters. It covered an area of 153,336
+#' acres and destroyed more than 18,000 structures, most with the first 4 hours.
+#' Smoke from the fire resulted in the worst air pollution ever for the
+#' San Francisco Bay Area and Sacramento Valley.
 #'
 #' This dataset was was generated on 2022-02-15 by running:
 #'

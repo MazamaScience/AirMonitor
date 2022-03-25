@@ -24,7 +24,7 @@ This function acts similarly to \code{dplyr::select()} working on
 those time series identified by \code{id} in the order specified.
 
 This can be helpful when using faceted plot functions based on \pkg{ggplot}
-such as those found in \pkg{AirMonitorPlots}.
+such as those found in the \pkg{AirMonitorPlots} package.
 }
 \seealso{
 \link{monitor_filterMeta}

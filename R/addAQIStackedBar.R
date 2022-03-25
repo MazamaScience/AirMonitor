@@ -6,6 +6,8 @@
 #' @param pos Position of the stacked bar relative to the plot.
 #' @param palette Named color palette to use for AQI categories.
 #' @description Draws a stacked bar indicating AQI levels on one side of a plot
+#' The \link{monitor_timeseriesPlot} function uses this function internally when
+#' specifying \code{addAQI = TRUE}.
 #' @return Stacked AQI Bar
 
 addAQIStackedBar <- function(

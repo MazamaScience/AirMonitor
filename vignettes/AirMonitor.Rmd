@@ -34,7 +34,7 @@ be loaded with the following functions:
 * `~loadDaily()` -- load the most recent 45 days of data (updated once per day)
 * `~loadLatest()` -- load the most recent 10 days of data (updated every hour)
 
-Data archives go back over 10 years depending on the source of data.
+Data archives go back over 10 years depending on the data source.
 
 ## Data pipelines
 
@@ -125,7 +125,7 @@ Sacramento_area %>%
     addAQI = TRUE,
     main = "Wildfire Smoke within 30 miles of Sacramento"
   )
-addAQILegend(lwd = 1, pch = NA)
+addAQILegend(lwd = 1, pch = NA, bg = "white")
 ```
 
 We can average together all the monitors and create a local-time daily average
@@ -148,7 +148,7 @@ Sacramento_area %>%
   monitor_dailyBarplot(
     main = "Daily Average PM2.5 in the Sacramento Area"
   )
-addAQILegend(pch = 15, pt.cex = 1.5)
+addAQILegend(pch = 15, bg = "white")
 ```
 
 ----

@@ -30,3 +30,13 @@ Initiates the interactive dygraph plot in RStudio's 'Viewer' tab.
 This function creates interactive graphs that will be displayed
 in RStudio's 'Viewer' tab.
 }
+\examples{
+\dontrun{
+library(AirMonitor)
+
+# Multiple monitors
+Camp_Fire \%>\%
+  monitor_filter(countyName == "Alameda") \%>\%
+  monitor_dygraph()
+}
+}

@@ -41,7 +41,7 @@
 
 <meta property="og:title" content="Replace mts_monitor data with another value — monitor_replaceValues" />
 <meta property="og:description" content="Use an R expression to identify values for replacement.
-The RR expression given in filter is used to identify elements
+The R expression given in filter is used to identify elements
 in monitor$data that should be replaced.  The datetime column
 will be retained unmodified. Typical usage would include
 
@@ -145,7 +145,7 @@ Expressions should use data for the left hand side of the comparison." />
 
     <div class="ref-description">
     <p>Use an R expression to identify values for replacement.</p>
-<p>The <span style="R">R</span>R expression given in <code>filter</code> is used to identify elements
+<p>The <span class="pkg">R</span> expression given in <code>filter</code> is used to identify elements
 in <code>monitor$data</code> that should be replaced.  The <code>datetime</code> column
 will be retained unmodified. Typical usage would include</p>
 <ol>
@@ -184,10 +184,10 @@ will be retained unmodified. Typical usage would include</p>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
 
 <span class='va'>wa</span> <span class='op'>&lt;-</span> <span class='fu'><a href='monitor_filterMeta.html'>monitor_filterMeta</a></span><span class='op'>(</span><span class='va'>NW_Megafires</span>, <span class='va'>stateCode</span> <span class='op'>==</span> <span class='st'>'WA'</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/any.html'>any</a></span><span class='op'>(</span><span class='va'>wa</span><span class='op'>$</span><span class='va'>data</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>
-<span class='va'>wa_zero</span> <span class='op'>&lt;-</span> <span class='fu'>monitor_replaceValues</span><span class='op'>(</span><span class='va'>wa</span>, <span class='va'>data</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/any.html'>any</a></span><span class='op'>(</span><span class='va'>wa_zero</span><span class='op'>$</span><span class='va'>data</span> <span class='op'>&lt;</span> <span class='fl'>0</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/any.html'>any</a></span><span class='op'>(</span><span class='va'>wa</span><span class='op'>$</span><span class='va'>data</span> <span class='op'>&lt;</span> <span class='fl'>5</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='va'>wa_zero</span> <span class='op'>&lt;-</span> <span class='fu'>monitor_replaceValues</span><span class='op'>(</span><span class='va'>wa</span>, <span class='va'>data</span> <span class='op'>&lt;</span> <span class='fl'>5</span>, <span class='fl'>5</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/any.html'>any</a></span><span class='op'>(</span><span class='va'>wa_zero</span><span class='op'>$</span><span class='va'>data</span> <span class='op'>&lt;</span> <span class='fl'>5</span>, na.rm <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] FALSE</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

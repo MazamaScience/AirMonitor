@@ -11,12 +11,12 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The **AirMonitor** package's predecessor, the **PWFSLSmoke** package
 is widely used in air quality analysis throughout North America and the world.
-This document provides links to projects and publications that use the
+This document provides links to projects and publications that mention the
 **PWFSLSmoke** package.
 
 ## PWFSLSmoke
 
-The predecessor to the **AirMonitore** package is the 
+The predecessor to the **AirMonitor** package is the 
 [PWFSLSmoke](https://github.com/MazamaScience/PWFSLSmoke) package from which
 many functions were copied and refactored.
 
@@ -31,30 +31,30 @@ Process and Display Data from Air Quality Sensors
 
 * **Feb, 2022 -- Environmental Modeling & Software**<br>
 https://doi.org/10.1016/j.envsoft.2021.105256<br>
-"the AirSensor package leverages the PWFSLSmoke package to provide access 
+"the AirSensor package leverages the _PWFSLSmoke_ package to provide access 
 to PM2.5 data"
 
 * **Feb, 2021 -- Eos**<br>
 https://doi.org/10.1029/2021EO155076<br>
-"Special thanks go to ... Mazama Science for the PWFSLSmoke R statistical package"
+"Special thanks go to ... Mazama Science for the _PWFSLSmoke_ R statistical package"
 
 * **Dec, 2020 -- Environmental Modeling & Software**<br>
 https://doi.org/10.1016/j.envsoft.2020.104832<br>
-"AirSensor has been integrated with the PWFSLSmoke R package for access to 
+"AirSensor has been integrated with the _PWFSLSmoke_ R package for access to 
 regulatory AM data"
 
 * **Sep, 2020 -- Journal of the Air & Waste Management Association**<br>
 https://doi.org/10.1080/10962247.2021.1891994<br>
-"Data were accessed and processed by the PWFSLSmoke statistical package"
+"Data were accessed and processed by the _PWFSLSmoke_ statistical package"
 
 * **Sep, 2020 -- Atmosphere**<br>
 https://doi.org/10.3390/atmos11090970<br>
 "daily average concentrations of PM2.5 were downloaded in R using the 
-PWFSLSmoke Package"
+_PWFSLSmoke_ Package"
 
 ### Student Theses that mention PWFSLSmoke
 
 * **2021 -- UW Masters Thesis**<br>
 http://hdl.handle.net/1773/48258<br>
 "Many thanks to the USFS Pacific Wildland Fire Sciences Lab Airfire team for 
-developing the PWFSLSmoke R package and making it available for researchers."
+developing the _PWFSLSmoke_ R package and making it available for researchers."

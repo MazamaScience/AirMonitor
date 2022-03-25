@@ -14,6 +14,9 @@
 #' @return A vector containing the minimum and maximum times of a
 #' \emph{mts_monitor} object.
 #'
+#' @examples
+#' Carmel_Valley %>%
+#'   monitor_timeRange(timezone = "America/Los_Angeles")
 
 
 monitor_timeRange <- function(

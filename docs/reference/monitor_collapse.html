@@ -40,16 +40,16 @@
 
 
 <meta property="og:title" content="Collapse an mts_monitor object into a single time series — monitor_collapse" />
-<meta property="og:description" content="Collapses data from all time series in mts_monitor into a
+<meta property="og:description" content="Collapses data from all time series in a mts_monitor into a
 single-time series mts_monitor object using the function provided in the
 FUN argument. The single-time series result will be located at the mean
 longitude and latitude unless longitude and latitude
 parameters are specified.
-Any columns of meta that are constant across all records will be retained in
-the returned mts_monitor meta.
+Any columns of monitor$meta that are constant across all records will
+be retained in the returned mts_monitor meta dataframe.
 The core metadata associated with this location (e.g.
 countryCode, stateCode, timezone, ...) will be determined from
-the most common (or average) value found in mts$meta. This will be
+the most common (or average) value found in monitor$meta. This will be
 a reasonable assumption for the vast majority of intended use cases where
 data from multiple instruments in close proximity are averaged together." />
 
@@ -146,16 +146,16 @@ data from multiple instruments in close proximity are averaged together." />
     </div>
 
     <div class="ref-description">
-    <p>Collapses data from all time series in <code>mts_monitor</code> into a
+    <p>Collapses data from all time series in a <code>mts_monitor</code> into a
 single-time series <em>mts_monitor</em> object using the function provided in the
 <code>FUN</code> argument. The single-time series result will be located at the mean
 longitude and latitude unless <code>longitude</code> and <code>latitude</code>
 parameters are specified.</p>
-<p>Any columns of meta that are constant across all records will be retained in
-the returned <em>mts_monitor</em> meta.</p>
+<p>Any columns of <code>monitor$meta</code> that are constant across all records will
+be retained in the returned <em>mts_monitor</em> <code>meta</code> dataframe.</p>
 <p>The core metadata associated with this location (<em>e.g.</em>
 <code>countryCode, stateCode, timezone, ...</code>) will be determined from
-the most common (or average) value found in <code>mts$meta</code>. This will be
+the most common (or average) value found in <code>monitor$meta</code>. This will be
 a reasonable assumption for the vast majority of intended use cases where
 data from multiple instruments in close proximity are averaged together.</p>
     </div>
@@ -218,10 +218,10 @@ missing values. See the R documentation for <code>min</code> for an explanation.
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
 
-<span class='co'># Spokane area AQSIDs all begin with "53063"</span>
+<span class='co'># Spokane area AQSIDs all begin with "5306"</span>
 <span class='va'>Spokane</span> <span class='op'>&lt;-</span>
   <span class='va'>NW_Megafires</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='monitor_filterMeta.html'>monitor_filter</a></span><span class='op'>(</span><span class='fu'>stringr</span><span class='fu'>::</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>AQSID</span>,<span class='st'>'^53063'</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_filterMeta.html'>monitor_filter</a></span><span class='op'>(</span><span class='fu'>stringr</span><span class='fu'>::</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>AQSID</span>,<span class='st'>'^5306'</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='monitor_filterDate.html'>monitor_filterDate</a></span><span class='op'>(</span><span class='fl'>20150801</span>, <span class='fl'>20150808</span><span class='op'>)</span>
 
 <span class='co'># Get min/max for all monitors</span>

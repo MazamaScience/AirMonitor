@@ -8,7 +8,7 @@
 #' @param includeMeta Logical specifying whether to include \code{monitor$meta}.
 #' @param includeData Logical specifying whether to include \code{monitor$data}.
 #'
-#' @description Converts the contents of the \code{monitor} object to CSV.
+#' @description Converts the contents of the \code{monitor} argument to CSV.
 #' By default, the output is a text string with "human readable" CSV that
 #' includes both \code{meta} and \code{data}. When saved as a file, this format
 #' is useful for point-and-click spreadsheet users who want to have everything
@@ -69,7 +69,7 @@ monitor_toCSV <- function(
   # Structure the metaMatrix so that columns match up with dataTbl columns
   # NOTE:  second column gets NA to align with the data 'Local Time' column
 
-  metaTbl <-
+  metaMatrix <-
     cbind(
       AirMonitor::coreMetadataNames,
       "",
@@ -77,9 +77,9 @@ monitor_toCSV <- function(
     )
 
   # To avoid dplyr .name_repair issues
-  colnames(metaTbl) <- c("parameter", "blank", monitor$meta$deviceDeploymentID)
+  colnames(metaMatrix) <- c("parameter", "blank", monitor$meta$deviceDeploymentID)
 
-  metaTbl <- dplyr::as_tibble(metaTbl, .name_repair = "check_unique")
+  metaTbl <- dplyr::as_tibble(metaMatrix, .name_repair = "check_unique")
 
   # ---- Create dataTbl --------------------------------------------------------
 
@@ -95,13 +95,18 @@ monitor_toCSV <- function(
   utcTimeString <- strftime(utcTime, "%Y-%m-%d %H:%M:%S %Z", tz = "UTC")
   localTimeString <- strftime(utcTime, "%Y-%m-%d %H:%M:%S %Z", tz = timezone)
 
-  dataTbl <-
+  dataMatrix <-
     cbind(
       utcTimeString,
       localTimeString,
       monitor$data[,-1]
-    ) %>%
-    dplyr::as_tibble() %>%
+    )
+
+  # To avoid dplyr .name_repair issues
+  colnames(dataMatrix) <- make.names(1:ncol(dataMatrix))
+
+  dataTbl <-
+    dplyr::as_tibble(dataMatrix, .name_repair = "check_unique") %>%
     # Convert "NaN" to NA
     dplyr::mutate(across(everything(), ~ na_if(., "NaN")))
 

@@ -77,4 +77,10 @@ and are given in units appropriate for each pollutant.
 AQI colors are defined at \url{https://docs.airnowapi.org/aq101}
 }
 
+\examples{
+print(US_AQI$breaks_AQI)
+print(US_AQI$colors_EPA)
+print(US_AQI$names_eng)
+print(US_AQI$names_spa)
+}
 \keyword{datasets}

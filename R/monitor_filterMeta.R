@@ -10,9 +10,11 @@
 #' choose cases where conditions are true.  Multiple conditions are
 #' combined with \code{&} or separated by a comma. Only rows where the condition
 #' evaluates to TRUE are kept. Rows of \code{monitor$meta} where the condition
-#' evaluates to \code{NA} are dropped.
+#' evaluates to \code{NA} are dropped. Associated olumns of \code{monitor$data}
+#' are also dropped for internal consistency in the returned \emph{mts_monitor}
+#' object.
 #'
-#' `monitor_filter()` is just a convenient alias for `monitor_filterMeta()`.
+#' \code{monitor_filter()} is an alias for \code{monitor_filterMeta()}.
 #'
 #' @note Filtering is done on variables in \code{monitor$meta}.
 #'

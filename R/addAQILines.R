@@ -4,6 +4,8 @@
 #' @param palette Named color palette to use for AQI categories.
 #' @param ... additional arguments to be passed to \code{abline()}
 #' @description Draws AQI lines across a plot at the levels appropriate for
+#' The \link{monitor_timeseriesPlot} function uses this function internally when
+#' specifying \code{addAQI = TRUE}.
 #' \code{pollutant}.
 
 addAQILines <- function(

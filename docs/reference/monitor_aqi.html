@@ -41,7 +41,8 @@
 
 <meta property="og:title" content="Calculate hourly NowCast-based AQI values — monitor_aqi" />
 <meta property="og:description" content="Nowcast and AQI algorithms are applied to the data in the
-monitor object. See monitor_nowcast." />
+monitor object. A modified mts_monitor object is returned whre values
+have been replaced with their Air Quality Index equivalents. See monitor_nowcast." />
 
 
 
@@ -137,7 +138,8 @@ monitor object. See monitor_nowcast." />
 
     <div class="ref-description">
     <p>Nowcast and AQI algorithms are applied to the data in the
-monitor object. See <a href='monitor_nowcast.html'>monitor_nowcast</a>.</p>
+monitor object. A modified <code>mts_monitor</code> object is returned whre values
+have been replaced with their Air Quality Index equivalents. See <a href='monitor_nowcast.html'>monitor_nowcast</a>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>monitor_aqi</span><span class='op'>(</span>
@@ -166,8 +168,8 @@ NowCast values starting with the 2nd hour.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A modified <code>mts_monitor</code> object. (A list with
-<code>meta</code> and <code>data</code> dataframes.)</p>
+    <p>A modified <code>mts_monitor</code> object containing AQI values. (A list
+with <code>meta</code> and <code>data</code> dataframes.)</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://docs.airnowapi.org/aq101'>https://docs.airnowapi.org/aq101</a></p>

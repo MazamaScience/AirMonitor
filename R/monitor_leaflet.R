@@ -53,6 +53,18 @@
 #'
 #' @return Invisibly returns a leaflet map of class "leaflet".
 #'
+#' @examples
+#' \dontrun{
+#' library(AirMonitor)
+#' # Fail gracefully if any resources are not available
+#' try({
+#'
+#' monitor_loadLatest() %>%
+#'   monitor_filter(stateCode %in% CONUS) %>%
+#'   monitor_leaflet()
+#'
+#' }, silent = FALSE)
+#' }
 
 monitor_leaflet <- function(
   monitor,

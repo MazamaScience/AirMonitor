@@ -44,8 +44,10 @@
 choose cases where conditions are true.  Multiple conditions are
 combined with &amp;amp; or separated by a comma. Only rows where the condition
 evaluates to TRUE are kept. Rows of monitor$meta where the condition
-evaluates to NA are dropped.
-`monitor_filter()` is just a convenient alias for `monitor_filterMeta()`." />
+evaluates to NA are dropped. Associated olumns of monitor$data
+are also dropped for internal consistency in the returned mts_monitor
+object.
+monitor_filter() is an alias for monitor_filterMeta()." />
 
 
 
@@ -144,8 +146,10 @@ evaluates to NA are dropped.
 choose cases where conditions are true.  Multiple conditions are
 combined with <code>&amp;</code> or separated by a comma. Only rows where the condition
 evaluates to TRUE are kept. Rows of <code>monitor$meta</code> where the condition
-evaluates to <code>NA</code> are dropped.</p>
-<p>`monitor_filter()` is just a convenient alias for `monitor_filterMeta()`.</p>
+evaluates to <code>NA</code> are dropped. Associated olumns of <code>monitor$data</code>
+are also dropped for internal consistency in the returned <em>mts_monitor</em>
+object.</p>
+<p><code>monitor_filter()</code> is an alias for <code>monitor_filterMeta()</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>monitor_filterMeta</span><span class='op'>(</span><span class='va'>monitor</span>, <span class='va'>...</span><span class='op'>)</span>

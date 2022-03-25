@@ -12,7 +12,7 @@
 #' those time series identified by \code{id} in the order specified.
 #'
 #' This can be helpful when using faceted plot functions based on \pkg{ggplot}
-#' such as those found in \pkg{AirMonitorPlots}.
+#' such as those found in the \pkg{AirMonitorPlots} package.
 #'
 #' @return A reordered (subset) of the incoming \emph{mts_monitor} object. (A list with
 #' \code{meta} and \code{data} dataframes.)

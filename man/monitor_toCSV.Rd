@@ -17,7 +17,7 @@ monitor_toCSV(monitor, includeMeta = TRUE, includeData = TRUE)
 CSV formatted text.
 }
 \description{
-Converts the contents of the \code{monitor} object to CSV.
+Converts the contents of the \code{monitor} argument to CSV.
 By default, the output is a text string with "human readable" CSV that
 includes both \code{meta} and \code{data}. When saved as a file, this format
 is useful for point-and-click spreadsheet users who want to have everything

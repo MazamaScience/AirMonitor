@@ -168,8 +168,8 @@ Users can override any defaults by passing in parameters accepted by
     </tr>
     <tr>
       <th>id</th>
-      <td><p><code>deviceDeploymentID</code> for a single time series found in <code>monitor</code>.
-(Optional if <code>monitor</code> contains only a single time series.)</p></td>
+      <td><p><code>deviceDeploymentID</code> used to limit plotting to a single time
+series found in <code>monitor</code>.</p></td>
     </tr>
     <tr>
       <th>shadedNight</th>
@@ -230,7 +230,7 @@ in visual importance as the number of points increases.</p></td>
     col <span class='op'>=</span> <span class='fu'><a href='aqiColors.html'>aqiColors</a></span><span class='op'>(</span><span class='va'>pm2.5</span><span class='op'>)</span>,
     opacity <span class='op'>=</span> <span class='fl'>0.8</span>
   <span class='op'>)</span>
-</div><div class='input'><span class='fu'><a href='addAQILegend.html'>addAQILegend</a></span><span class='op'>(</span>pch <span class='op'>=</span> <span class='fl'>16</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='addAQILegend.html'>addAQILegend</a></span><span class='op'>(</span>pch <span class='op'>=</span> <span class='fl'>16</span>, cex <span class='op'>=</span> <span class='fl'>0.6</span>, bg <span class='op'>=</span> <span class='st'>"white"</span><span class='op'>)</span>
 </div><div class='img'><img src='monitor_timeseriesPlot-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

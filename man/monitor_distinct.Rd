@@ -22,3 +22,6 @@ Two successive steps are used to guarantee that the
 \item{guarantee that rows are in \code{datetime} order}
 }
 }
+\note{
+This function is primarily for package-internal use.
+}

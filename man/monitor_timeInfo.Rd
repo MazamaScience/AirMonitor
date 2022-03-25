@@ -4,13 +4,14 @@
 \alias{monitor_timeInfo}
 \title{Get time related information for a monitor}
 \usage{
-monitor_timeInfo(monitor = NULL, deviceDeploymentID = NULL)
+monitor_timeInfo(monitor = NULL, id = NULL)
 }
 \arguments{
 \item{monitor}{\emph{mts_monitor} object.}
 
-\item{deviceDeploymentID}{ID for a specific monitor in \code{monitor} --
-optional if \code{monitor} only has one monitor.}
+\item{id}{\code{deviceDeploymentID} used to select a single time
+series found in \code{monitor}. -- optional if \code{monitor} only has one
+time series.}
 }
 \value{
 A dataframe with times and masks.

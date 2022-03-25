@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Apply NowCast algorithm to mts_monitor data — monitor_nowcast" />
-<meta property="og:description" content="A Nowcast algorithm is applied to the data in in the
+<meta property="og:description" content="A NowCast algorithm is applied to the data in in the
 monitor object. The version argument specifies the minimum
 weight factor and number of hours to be used in the calculation.
 Available versions include:
@@ -144,7 +144,7 @@ The default, version = &quot;pm&quot;, is appropriate for typical usage." />
     </div>
 
     <div class="ref-description">
-    <p>A Nowcast algorithm is applied to the data in in the
+    <p>A NowCast algorithm is applied to the data in in the
 <code>monitor</code> object. The <code>version</code> argument specifies the minimum
 weight factor and number of hours to be used in the calculation.</p>
 <p>Available versions include:</p><ol>
@@ -186,7 +186,7 @@ NowCast values starting with the 2nd hour.</p></td>
 <code>meta</code> and <code>data</code> dataframes.)</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This function calculates the current hour's NowCast value based on the value
+    <p>This function calculates each hour's NowCast value based on the value
 for the given hour and the previous N-1 hours, where N is the number
 of hours appropriate for the <code>version</code> argument. For example, if
 <code>version = "pm"</code>, the NowCast value for Hour 12 is based on the data

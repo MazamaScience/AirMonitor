@@ -14,8 +14,8 @@
 #' \code{graphics::plot.default}.
 #'
 #' @param monitor \emph{mts_monitor} object.
-#' @param id \code{deviceDeploymentID} for a single time series found in \code{monitor}.
-#' (Optional if \code{monitor} contains only a single time series.)
+#' @param id \code{deviceDeploymentID} used to limit plotting to a single time
+#' series found in \code{monitor}.
 #' @param shadedNight Logical specifying whether to add nighttime shading.
 #' @param add Logical specifying whether to add to the current plot.
 #' @param addAQI Logical specifying whether to add visual AQI decorations.
@@ -55,7 +55,7 @@
 #'     col = aqiColors(pm2.5),
 #'     opacity = 0.8
 #'   )
-#' addAQILegend(pch = 16)
+#' addAQILegend(pch = 16, cex = 0.6, bg = "white")
 
 monitor_timeseriesPlot <- function(
   monitor = NULL,

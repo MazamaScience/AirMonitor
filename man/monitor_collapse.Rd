@@ -35,18 +35,18 @@ A \emph{mts_monitor} object representing a single time series. (A list with
 \code{meta} and \code{data} dataframes.)
 }
 \description{
-Collapses data from all time series in \code{mts_monitor} into a
+Collapses data from all time series in a \code{mts_monitor} into a
 single-time series \emph{mts_monitor} object using the function provided in the
 \code{FUN} argument. The single-time series result will be located at the mean
 longitude and latitude unless \code{longitude} and \code{latitude}
 parameters are specified.
 
-Any columns of meta that are constant across all records will be retained in
-the returned \emph{mts_monitor} meta.
+Any columns of \code{monitor$meta} that are constant across all records will
+be retained in the returned \emph{mts_monitor} \code{meta} dataframe.
 
 The core metadata associated with this location (\emph{e.g.}
 \code{countryCode, stateCode, timezone, ...}) will be determined from
-the most common (or average) value found in \code{mts$meta}. This will be
+the most common (or average) value found in \code{monitor$meta}. This will be
 a reasonable assumption for the vast majority of intended use cases where
 data from multiple instruments in close proximity are averaged together.
 }
@@ -59,10 +59,10 @@ missing values. See the R documentation for \code{min} for an explanation.
 \examples{
 library(AirMonitor)
 
-# Spokane area AQSIDs all begin with "53063"
+# Spokane area AQSIDs all begin with "5306"
 Spokane <-
   NW_Megafires \%>\%
-  monitor_filter(stringr::str_detect(AQSID,'^53063')) \%>\%
+  monitor_filter(stringr::str_detect(AQSID,'^5306')) \%>\%
   monitor_filterDate(20150801, 20150808)
 
 # Get min/max for all monitors

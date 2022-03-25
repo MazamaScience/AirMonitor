@@ -20,7 +20,7 @@ A modified \code{mts_monitor} object. (A list with
 \description{
 Use an R expression to identify values for replacement.
 
-The \R{R} expression given in \code{filter} is used to identify elements
+The \pkg{R} expression given in \code{filter} is used to identify elements
 in \code{monitor$data} that should be replaced.  The \code{datetime} column
 will be retained unmodified. Typical usage would include
 
@@ -35,8 +35,8 @@ Expressions should use \code{data} for the left hand side of the comparison.
 library(AirMonitor)
 
 wa <- monitor_filterMeta(NW_Megafires, stateCode == 'WA')
-any(wa$data < 0, na.rm = TRUE)
+any(wa$data < 5, na.rm = TRUE)
 
-wa_zero <- monitor_replaceValues(wa, data < 0, 0)
-any(wa_zero$data < 0, na.rm = TRUE)
+wa_zero <- monitor_replaceValues(wa, data < 5, 5)
+any(wa_zero$data < 5, na.rm = TRUE)
 }

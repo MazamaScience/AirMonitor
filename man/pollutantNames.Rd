@@ -11,9 +11,12 @@ A vector of character strings
 pollutantNames
 }
 \description{
-Character string identifiers of recognized pollutants.
+Character string identifiers of recognized pollutant names.
 }
 \details{
 pollutantNames
+}
+\examples{
+ print(coreMetadataNames, width = 80)
 }
 \keyword{datasets}

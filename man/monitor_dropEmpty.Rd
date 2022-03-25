@@ -11,9 +11,10 @@ monitor_dropEmpty(monitor)
 \code{meta} and \code{data} dataframes.)}
 }
 \value{
-A subset of the incoming \code{mts_monitor}.
+A subset of the incoming \code{mts_monitor}. (A list with
+\code{meta} and \code{data} dataframes.)
 }
 \description{
 The incoming \emph{mts_monitor} object is subset to retain
-only device deployments with valid data.
+only time series with valid data.
 }

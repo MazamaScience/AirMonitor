@@ -16,7 +16,7 @@ monitor_dailyThreshold(
 \item{monitor}{\emph{mts_monitor} object.}
 
 \item{threshold}{AQI level name (e.g. \code{"unhealthy"}) or numerical
-threshold at or above which a measurement is counted.}
+threshold at and above which a measurement is counted.}
 
 \item{na.rm}{Logical value indicating whether NA values should be ignored.}
 
@@ -33,12 +33,12 @@ a threshold value. (A list with
 \code{meta} and \code{data} dataframes.)
 }
 \description{
-Calculates the number of hours per day each monitor in \code{monitor} was
+Calculates the number of hours per day each time series in \code{monitor} was
 at or above a given threshold.
 
 Because the returned \emph{mts_monitor} object is defined on a daily axis in a
 specific time zone, it is important that the incoming \code{monitor} contain
-timeseries associated with a single time zone.
+only timeseries within a single time zone.
 }
 \note{
 When \code{dayBoundary = "clock"}, the returned \code{monitor$data$datetime}
@@ -53,6 +53,8 @@ time in the local timezone. These days will be one hour off from clock
 time during DST but every day will consist of 24 hours.
 }
 \examples{
+library(AirMonitor)
+
 Carmel_Valley \%>\%
   monitor_dailyThreshold("Moderate") \%>\%
   monitor_getData()
