@@ -227,7 +227,7 @@ US_52 <- c(
 #' Currently supported languages include English (eng) and Spanish (spa).
 #'
 #' AQI breaks are defined at
-#' \url{https://aqs.epa.gov/aqsweb/documents/codetables/aqi_breakpoints.html}
+#' \url{https://www.airnow.gov/sites/default/files/2020-05/aqi-technical-assistance-document-sept2018.pdf}
 #' and are given in units appropriate for each pollutant.
 #'
 #' AQI colors are defined at \url{https://docs.airnowapi.org/aq101}

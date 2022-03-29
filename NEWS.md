@@ -1,3 +1,10 @@
+# AirMonitor 0.2.1
+
+CRAN test fixes:
+
+* Removed `simplfy = TRUE` from calls to `base::apply()` as this is the default.
+* Replaced URL reference for AQI breaks to point to AirNow.
+
 # AirMonitor 0.2.0
 
 Ready for CRAN submission.

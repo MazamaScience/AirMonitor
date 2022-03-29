@@ -103,7 +103,7 @@ monitor_leaflet <- function(
 
   # ----- Pollutant dependent AQI ----------------------------------------------
 
-  # See: https://aqs.epa.gov/aqsweb/documents/codetables/aqi_breakpoints.html
+  # See: https://www.airnow.gov/sites/default/files/2020-05/aqi-technical-assistance-document-sept2018.pdf
 
   pollutant <- toupper(unique(monitor$meta$pollutant))
   if ( length(pollutant) > 1 ) {
@@ -170,12 +170,11 @@ monitor_leaflet <- function(
       # NOTE: all those non-finite values with NA.
 
       suppressWarnings({
-        popupValue <- apply(
+        popupValue <- base::apply(
           dplyr::select(monitor$data, -1),
           2,
           FUN,
-          na.rm = TRUE,
-          simplify = TRUE
+          na.rm = TRUE
         )
       })
 
@@ -195,7 +194,7 @@ monitor_leaflet <- function(
           sliceValueBrick <- matrix(rep(popupValue, nrow(dataBrick)), nrow = nrow(dataBrick), byrow = TRUE)
           logicalBrick <- dataBrick == sliceValueBrick
           logicalBrick[is.na(logicalBrick)] <- FALSE
-          firstRowAtMax <- apply(logicalBrick, 2, function(x) { min(which(x), na.rm = TRUE) },  simplify = TRUE)
+          firstRowAtMax <- base::apply(logicalBrick, 2, function(x) { min(which(x), na.rm = TRUE) })
           firstRowAtMax[!is.finite(firstRowAtMax)] <- NA
           firstTimeAtMax <- monitor$data$datetime[firstRowAtMax]
 

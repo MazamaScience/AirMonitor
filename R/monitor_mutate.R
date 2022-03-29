@@ -61,12 +61,11 @@ monitor_mutate <- function(
 
   # ----- Apply function -------------------------------------------------------
 
-  dataBrick <- apply(
+  dataBrick <- base::apply(
     dplyr::select(monitor$data, -1),
     2,
     FUN,
-    ...,
-    simplify = TRUE
+    ...
   )
 
   monitor$data <- cbind(dplyr::select(monitor$data, 1), dataBrick)
