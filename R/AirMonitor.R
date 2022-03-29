@@ -101,7 +101,10 @@ pollutantNames <- c(
 #' @description The US Forest Service AirFire group maintains an archive of
 #' processed monitoring data. The base URL for this archive is used as the
 #' default in all \code{~_load()} functions.
-#' @example print(AirFire_S3_archiveBaseUrl)
+#'
+#' \preformatted{
+#' "https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2"
+#' }
 AirFire_S3_archiveBaseUrl <-
   "https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2"
 

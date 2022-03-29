@@ -42,7 +42,11 @@
 <meta property="og:title" content="USFS maintained archive base URL — AirFire_S3_archiveBaseUrl" />
 <meta property="og:description" content="The US Forest Service AirFire group maintains an archive of
 processed monitoring data. The base URL for this archive is used as the
-default in all ~_load() functions." />
+default in all ~_load() functions.
+
+&quot;https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2&quot;
+
+" />
 
 
 
@@ -74,7 +78,7 @@ default in all ~_load() functions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.14</span>
       </span>
     </div>
 
@@ -100,10 +104,16 @@ default in all ~_load() functions." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Data_Model.html">Data Model</a>
+    </li>
+    <li>
       <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
       <a href="../articles/articles/Citations.html">Citations</a>
+    </li>
+    <li>
+      <a href="../articles/articles/NowCast.html">NowCast</a>
     </li>
   </ul>
 </li>
@@ -140,6 +150,10 @@ default in all ~_load() functions." />
     <p>The US Forest Service AirFire group maintains an archive of
 processed monitoring data. The base URL for this archive is used as the
 default in all <code>~_load()</code> functions.</p>
+<pre>
+<span class='st'>"https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2"</span>
+</pre>
+
     </div>
 
     <pre class="usage"><span class='va'>AirFire_S3_archiveBaseUrl</span></pre>

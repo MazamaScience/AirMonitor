@@ -14,6 +14,10 @@ AirFire_S3_archiveBaseUrl
 The US Forest Service AirFire group maintains an archive of
 processed monitoring data. The base URL for this archive is used as the
 default in all \code{~_load()} functions.
+
+\preformatted{
+"https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2"
+}
 }
 \details{
 AirFire_S3_archiveBaseUrl

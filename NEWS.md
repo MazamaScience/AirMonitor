@@ -1,3 +1,8 @@
+# AirMonitor 0.1.14
+
+* Fixes for package check NOTEs.
+* Added "Data Model" vignette.
+
 # AirMonitor 0.1.13
 
 * Further documentation updates.

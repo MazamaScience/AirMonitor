@@ -45,7 +45,10 @@
 #' }
 
 monitor_loadLatest <- function(
-  archiveBaseUrl = "https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2",
+  archiveBaseUrl = paste0(
+    "https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
+    "monitoring/v2"
+  ),
   archiveBaseDir = NULL,
   QC_negativeValues = c("zero", "na", "ignore")
 ) {

@@ -39,10 +39,10 @@
 #' @examples
 #' library(AirMonitor)
 #'
-#' # Spokane area AQSIDs all begin with "5306"
+#' # Spokane county AQSIDs all begin with "53063"
 #' Spokane <-
 #'   NW_Megafires %>%
-#'   monitor_filter(stringr::str_detect(AQSID,'^5306')) %>%
+#'   monitor_filter(stringr::str_detect(AQSID, '^53063')) %>%
 #'   monitor_filterDate(20150801, 20150808)
 #'
 #' # Get min/max for all monitors

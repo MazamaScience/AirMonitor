@@ -46,7 +46,7 @@ Install the latest version from GitHub with:
 
 ## Data Model
 
-The **AirMonitor** packages uses the _mts_ data model defined in 
+The **AirMonitor** package uses the _mts_ data model defined in 
 **[MazamaTimeSeries](https://mazamascience.github.io/MazamaTimeSeries/)**.
 
 In this data model, each unique time series is referred to as a 
