@@ -83,13 +83,13 @@
 
 airnow_loadAnnual <- function(
   year = NULL,
-  parameterName = "PM2.5",
   archiveBaseUrl = paste0(
     "https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
     "monitoring/v2"
   ),
   archiveBaseDir = NULL,
-  QC_negativeValues = c("zero", "na", "ignore")
+  QC_negativeValues = c("zero", "na", "ignore"),
+  parameterName = "PM2.5"
 ) {
 
   # ----- Validate parameters --------------------------------------------------

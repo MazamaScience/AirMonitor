@@ -1,7 +1,14 @@
+# AirMonitor 0.2.0
+
+Ready for CRAN submission.
+
 # AirMonitor 0.1.14
 
 * Fixes for package check NOTEs.
 * Added "Data Model" vignette.
+* Added "Save Data as CSV" vignette.
+* Changed `airnow_load~()` functions o put `parameterName` argument last.
+* Added `test-loadData.R`
 
 # AirMonitor 0.1.13
 

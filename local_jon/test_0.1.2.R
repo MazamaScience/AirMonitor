@@ -9,7 +9,7 @@ archiveBaseUrl <- "https://airfire-data-exports.s3.us-west-2.amazonaws.com/monit
 latest <- airnow_loadLatest(archiveBaseUrl = archiveBaseUrl)
 latest_nowcast <- latest %>% monitor_nowcast()
 
-nowcast <- airnow_loadLatest("PM2.5_nowcast", archiveBaseUrl = archiveBaseUrl)
+nowcast <- airnow_loadLatest(archiveBaseUrl = archiveBaseUrl, "PM2.5_nowcast")
 
 j = 655
 plot(latest$data[,c(1,j)], pch = 15, cex = 0.5, col = "salmon")

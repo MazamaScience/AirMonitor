@@ -157,10 +157,10 @@ if ( FALSE ) {
 
   monitor <-
     airnow_loadLatest(
-      parameterName = "PM2.5",
       archiveBaseUrl = "https://data-monitoring1.airfire.org/monitoring-v2",
       archiveBaseDir = NULL,
-      QC_negativeValues = "zero"
+      QC_negativeValues = "zero",
+      parameterName = "PM2.5"
     )
 
   ws_monitor <- monitor_toPWFSLSmoke(monitor)

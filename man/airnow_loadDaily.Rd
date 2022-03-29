@@ -5,21 +5,21 @@
 \title{Load daily AirNow monitoring data}
 \usage{
 airnow_loadDaily(
-  parameterName = "PM2.5",
   archiveBaseUrl = paste0("https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
     "monitoring/v2"),
   archiveBaseDir = NULL,
-  QC_negativeValues = c("zero", "na", "ignore")
+  QC_negativeValues = c("zero", "na", "ignore"),
+  parameterName = "PM2.5"
 )
 }
 \arguments{
-\item{parameterName}{One of the EPA AQS criteria parameter names.}
-
 \item{archiveBaseUrl}{Base URL for monitoring v2 data files.}
 
 \item{archiveBaseDir}{Local base directory for monitoring v2 data files.}
 
 \item{QC_negativeValues}{Type of QC to apply to negative values.}
+
+\item{parameterName}{One of the EPA AQS criteria parameter names.}
 }
 \value{
 A \emph{mts_monitor} object with AirNow data. (A list with

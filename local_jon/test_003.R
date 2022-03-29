@@ -9,14 +9,14 @@ a1 <-
 
 a2 <-
   airnow_loadLatest(
-    "PM2.5",
-    archiveBaseUrl = "https://data-monitoring1.airfire.org/monitoring-v2"
+    archiveBaseUrl = "https://data-monitoring1.airfire.org/monitoring-v2",
+    "PM2.5"
   )
 
 a2n <-
   airnow_loadLatest(
-    "PM2.5_nowcast",
-    archiveBaseUrl = "https://data-monitoring1.airfire.org/monitoring-v2"
+    archiveBaseUrl = "https://data-monitoring1.airfire.org/monitoring-v2",
+    "PM2.5_nowcast"
   )
 
 ia1 <-

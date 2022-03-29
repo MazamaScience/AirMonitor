@@ -67,7 +67,7 @@ monitor_loadLatest <- function(
   monitorList <- list()
 
   try({
-    monitorList[["airnow"]] <- airnow_loadLatest(parameterName, archiveBaseUrl, archiveBaseDir, QC_negativeValues)
+    monitorList[["airnow"]] <- airnow_loadLatest(archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterName)
   }, silent = TRUE)
 
   try({

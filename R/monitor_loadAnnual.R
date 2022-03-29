@@ -72,7 +72,7 @@ monitor_loadAnnual <- function(
   monitorList <- list()
 
   try({
-    monitorList[["airnow"]] <- airnow_loadAnnual(year, parameterName, archiveBaseUrl, archiveBaseDir, QC_negativeValues)
+    monitorList[["airnow"]] <- airnow_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterName)
   }, silent = TRUE)
 
   try({

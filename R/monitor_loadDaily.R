@@ -67,7 +67,7 @@ monitor_loadDaily <- function(
   monitorList <- list()
 
   try({
-    monitorList[["airnow"]] <- airnow_loadDaily(parameterName, archiveBaseUrl, archiveBaseDir, QC_negativeValues)
+    monitorList[["airnow"]] <- airnow_loadDaily(archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterName)
   }, silent = TRUE)
 
   try({
