@@ -39,6 +39,10 @@ calculate statistics. Days with fewer valid records will be assigned \code{NA}.}
 savings time as defined in the local timezone, "LST" uses "local standard time"
 all year round.}
 }
+\value{
+No return value. This function is called to draw an air quality
+daily average plot on the active graphics device.
+}
 \description{
 Creates a daily barplot of data from a \emph{mts_monitor} object.
 

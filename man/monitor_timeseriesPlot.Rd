@@ -35,6 +35,10 @@ in visual importance as the number of points increases.}
 
 \item{...}{Additional arguments to be passed to \code{graphics::plot.default()}.}
 }
+\value{
+No return value. This function is called to draw an air quality
+time series plot on the active graphics device.
+}
 \description{
 Creates a time series plot of data from a \emph{mts_monitor} object.
 By default, points are plotted as semi-transparent squares. All data values

@@ -11,6 +11,9 @@ addShadedNight(timeInfo, col = adjustcolor("black", 0.1))
 
 \item{col}{Color used to shade nights.}
 }
+\value{
+No return value, called to add day/night shading to a timeseries plot.
+}
 \description{
 Draw shading rectangles on a plot to indicate nighttime hours.
 The \link{monitor_timeseriesPlot} function uses this function internally when

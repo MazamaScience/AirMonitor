@@ -7,6 +7,7 @@
 #' The \link{monitor_timeseriesPlot} function uses this function internally when
 #' specifying \code{addAQI = TRUE}.
 #' \code{pollutant}.
+#' @return No return value, called to add lines to a time series plot.
 
 addAQILines <- function(
   pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),

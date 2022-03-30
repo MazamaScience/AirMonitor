@@ -24,7 +24,7 @@ addAQIStackedBar(
 \item{pos}{Position of the stacked bar relative to the plot.}
 }
 \value{
-Stacked AQI Bar
+No return value, called to add color bars to a time series plot.
 }
 \description{
 Draws a stacked bar indicating AQI levels on one side of a plot

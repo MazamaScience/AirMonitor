@@ -14,7 +14,8 @@
 #' monitor object. A modified \code{mts_monitor} object is returned whre values
 #' have been replaced with their Air Quality Index equivalents. See \link{monitor_nowcast}.
 #'
-#' @references \url{https://docs.airnowapi.org/aq101}
+#' @references \url{https://en.wikipedia.org/wiki/Nowcast_(Air_Quality_Index)}
+#' @references \url{https://www.airnow.gov/aqi/aqi-basics/}
 #'
 
 monitor_aqi <- function(

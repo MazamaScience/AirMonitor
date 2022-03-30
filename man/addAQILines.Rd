@@ -17,6 +17,9 @@ addAQILines(
 
 \item{...}{additional arguments to be passed to \code{abline()}}
 }
+\value{
+No return value, called to add lines to a time series plot.
+}
 \description{
 Draws AQI lines across a plot at the levels appropriate for
 The \link{monitor_timeseriesPlot} function uses this function internally when

@@ -26,6 +26,9 @@
 #' savings time as defined in the local timezone, "LST" uses "local standard time"
 #' all year round.
 #'
+#' @return No return value. This function is called to draw an air quality
+#' daily average plot on the active graphics device.
+#'
 #' @import graphics
 #' @importFrom grDevices adjustcolor
 #' @export

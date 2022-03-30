@@ -57,9 +57,5 @@ incoming \emph{mts_monitor} object.
 \references{
 \url{https://en.wikipedia.org/wiki/Nowcast_(Air_Quality_Index)}
 
-\url{https://aqicn.org/faq/2015-03-15/air-quality-nowcast-a-beginners-guide/}
-
-https://forum.airnowtech.org/t/the-nowcast-for-ozone-and-pm/172
-
-https://forum.airnowtech.org/t/the-aqi-equation/169
+\href{https://www.airnow.gov/sites/default/files/2020-05/aqi-technical-assistance-document-sept2018.pdf}{AQI Technical Assistance Document}
 }

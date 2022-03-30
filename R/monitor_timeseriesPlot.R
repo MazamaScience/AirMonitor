@@ -25,6 +25,9 @@
 #' in visual importance as the number of points increases.
 #' @param ... Additional arguments to be passed to \code{graphics::plot.default()}.
 #'
+#' @return No return value. This function is called to draw an air quality
+#' time series plot on the active graphics device.
+#'
 #' @examples
 #' library(AirMonitor)
 #'

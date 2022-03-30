@@ -7,6 +7,7 @@
 #' @description Draw shading rectangles on a plot to indicate nighttime hours.
 #' The \link{monitor_timeseriesPlot} function uses this function internally when
 #' specifying \code{shadedNight = TRUE}.
+#' @return No return value, called to add day/night shading to a timeseries plot.
 
 addShadedNight <- function(
   timeInfo,

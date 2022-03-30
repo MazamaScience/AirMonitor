@@ -1,3 +1,10 @@
+# AirMonitor 0.2.2
+
+CRAN test fixes:
+
+* Guarantee that every plotting function documents the return value.
+* Updated references for AQI and NowCast algorithms.
+
 # AirMonitor 0.2.1
 
 CRAN test fixes:

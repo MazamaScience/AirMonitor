@@ -15,6 +15,8 @@
 #' to match the arrangement in the plot. This is different from the default
 #' "reading order" so you may wish to reverse the order of user supplied
 #' arguments with \code{rev()} .
+#' @return A list with components \code{rect} and \code{text} is returned
+#' invisbly. (See \link{legend}.)
 
 addAQILegend <- function(
   x = "topright",

@@ -8,7 +8,7 @@
 #' @description Draws a stacked bar indicating AQI levels on one side of a plot
 #' The \link{monitor_timeseriesPlot} function uses this function internally when
 #' specifying \code{addAQI = TRUE}.
-#' @return Stacked AQI Bar
+#' @return No return value, called to add color bars to a time series plot.
 
 addAQIStackedBar <- function(
   pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),

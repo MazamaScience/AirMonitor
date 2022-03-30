@@ -1,6 +1,6 @@
 Type: Package
 Package: AirMonitor
-Version: 0.2.1
+Version: 0.2.2
 Title: Air Quality Data Analysis
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
@@ -15,6 +15,9 @@ Description: Utilities for working with hourly air quality monitoring data
     spatial and measuring device metadata associated with deployments at known 
     locations. A 'data' dataframe contains a 'datetime' column followed by 
     columns of measurements associated with each "device-deployment".
+    Algorithms to calculate NowCast and the associated Air Quality Index (AQI)
+    are defined at the US Environmental Projection Agency AirNow program:
+    <https://www.airnow.gov/sites/default/files/2020-05/aqi-technical-assistance-document-sept2018.pdf>.
 License: GPL-3
 URL: https://github.com/MazamaScience/AirMonitor
 BugReports: https://github.com/MazamaScience/AirMonitor/issues

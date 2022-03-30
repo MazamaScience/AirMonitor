@@ -26,6 +26,10 @@ addAQILegend(
 
 \item{...}{Additional arguments to be passed to \code{legend()}.}
 }
+\value{
+A list with components \code{rect} and \code{text} is returned
+invisbly. (See \link{legend}.)
+}
 \description{
 This function is a convenience wrapper around
 \code{graphics::legend()}. It will show the AQI colors and

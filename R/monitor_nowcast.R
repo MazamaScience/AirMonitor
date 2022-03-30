@@ -42,9 +42,7 @@
 #' incoming \emph{mts_monitor} object.
 #'
 #' @references \url{https://en.wikipedia.org/wiki/Nowcast_(Air_Quality_Index)}
-#' @references \url{https://aqicn.org/faq/2015-03-15/air-quality-nowcast-a-beginners-guide/}
-#' @references https://forum.airnowtech.org/t/the-nowcast-for-ozone-and-pm/172
-#' @references https://forum.airnowtech.org/t/the-aqi-equation/169
+#' @references \href{https://www.airnow.gov/sites/default/files/2020-05/aqi-technical-assistance-document-sept2018.pdf}{AQI Technical Assistance Document}
 #'
 
 # NOTE:  This script is based on the javascript code at:
