@@ -1,4 +1,4 @@
-# ASIC 2022 Tutorial
+# ASIC 2022 Tutorial for the AirMonitor package
 
 # Load the package
 library(AirMonitor)
@@ -71,7 +71,7 @@ area_monitors %>%
 # Look at the locations for last fall
 ids <- area_monitors$meta$deviceDeploymentID
 
-# NOTE:  This download can take 5-20 sec
+# NOTE:  This download can take 10-20 sec
 monitor_2021 <- monitor_loadAnnual(2021)
 
 # Get phoenix area monitors during last fall
