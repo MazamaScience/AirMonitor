@@ -1,3 +1,11 @@
+# AirMonitor 0.3.0
+
+Version 0.3 works with data built using a new `fullAQSID` field available from 
+AirNow. This unique identifier is more consistent and should be better supported
+in the future than the older `AQSID` field.
+
+This change requires a few minor changes mostly in function examples.
+
 # AirMonitor 0.2.2
 
 CRAN fixes:

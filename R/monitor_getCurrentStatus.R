@@ -83,6 +83,8 @@
 #' library(AirMonitor)
 #'
 #' monitor <- airnow_loadLatest()
+#' # TODO:  Needed before rebuilding of v2 database with fullAQSID
+#' monitor$meta$fullAQSID <- paste0("840", monitor$meta$AQSID)
 #'
 #' currentStatus <-
 #'   monitor %>%

@@ -65,7 +65,8 @@ coreMetadataNames <- c(
   "zip",                      # --
 
   # Extras
-  "AQSID"                     # -- EPA AQS site identifier (widely used for North American air quality data)
+  "AQSID",                    # -- EPA AQS site identifier (widely used for North American air quality data)
+  "fullAQSID"                 # -- Updated, scalable and future-oriented EPA unique identifier
 )
 
 
