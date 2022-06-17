@@ -180,8 +180,16 @@ monitor_timeseriesPlot <- function(
 
   # ----- Base plot ------------------------------------------------------------
 
+  needToResetMargins <- FALSE
+
   # Base plot for background
   if ( !add ) {
+
+    # Add space to the left if default margins are in place
+    if ( all(par("mar") == c(5,4,4,2) + .1) ) {
+      par("mar" = c(5,5,4,2) + .1)
+      needToResetMargins <- TRUE
+    }
 
     # Create blank plot
     do.call(plot, argsListBlank)
@@ -233,6 +241,9 @@ monitor_timeseriesPlot <- function(
     # Add the points
     do.call(points, argsList)
   }
+
+  if ( needToRestMargins )
+    par("mar") <- c(5,4,4,2) + .1
 
 }
 

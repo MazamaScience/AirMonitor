@@ -16,7 +16,7 @@ any(is.na(airnow_latest$meta$deploymentType))
 monitor_filterMeta(airnow_latest, is.na(deploymentType)) %>% monitor_leaflet()
 
 # Are we lifting up negative values?
-any(airnow_latest$data[,-1] < 0) # Should be FALSE
+any(airnow_latest$data[,-1] < 0, na.rm = TRUE) # Should be FALSE
 
 # Check New Mexico
 airnow_latest %>%
@@ -65,7 +65,7 @@ monitor_timeseriesPlot(airnow_FS10386)
 monitor_timeseriesPlot(wrcc_FS10386, pch = 1, col = 'red', add = TRUE)
 # Nice! Almost a perfect match
 
-# Look for lon/lats as "named" numerics
+# Look for lon/lats as "named" numerics (Should NOT see any.)
 lapply(wrcc_latest$meta, attributes) %>% str()
 
 # ...
