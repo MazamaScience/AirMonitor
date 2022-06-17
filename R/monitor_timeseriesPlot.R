@@ -186,8 +186,8 @@ monitor_timeseriesPlot <- function(
   if ( !add ) {
 
     # Add space to the left if default margins are in place
-    if ( all(par("mar") == c(5,4,4,2) + .1) ) {
-      par("mar" = c(5,5,4,2) + .1)
+    if ( all(par("mar") == c(5.1, 4.1, 4.1, 2.1)) )  {
+      par("mar" = c(5.1, 5.1, 4.1, 2.1))
       needToResetMargins <- TRUE
     }
 
@@ -242,8 +242,8 @@ monitor_timeseriesPlot <- function(
     do.call(points, argsList)
   }
 
-  if ( needToRestMargins )
-    par("mar") <- c(5,4,4,2) + .1
+  if ( needToResetMargins )
+    par("mar" = c(5.1, 4.1, 4.1, 2.1))
 
 }
 
