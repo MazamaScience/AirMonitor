@@ -18,6 +18,9 @@ monitor_filterMeta(airnow_latest, is.na(deploymentType)) %>% monitor_leaflet()
 # Are we lifting up negative values?
 any(airnow_latest$data[,-1] < 0, na.rm = TRUE) # Should be FALSE
 
+# Do we have any duplicated locations?
+any(duplicated(airnow_latest$meta$locationID)) # Should be FALSE
+
 # Check New Mexico
 airnow_latest %>%
   monitor_filter(stateCode == "NM") %>%
@@ -27,6 +30,15 @@ airnow_latest %>%
 airnow_latest %>%
   monitor_select("c733850d59531f1e_840350130016") %>%
   monitor_timeseriesPlot(shadedNight = TRUE, addAQI = TRUE)
+
+# ----- Test airnow_daily ------------------------------------------------------
+
+airnow_daily <- airnow_loadDaily(archiveBaseUrl = archiveBaseUrl)
+
+# Do we have any duplicated locations?
+any(duplicated(airnow_daily$meta$locationID)) # Should be FALSE
+
+
 
 # ----- Test airsis_latest -----------------------------------------------------
 
@@ -38,6 +50,11 @@ airsis_latest %>%
 
 # Some AIRSIS monitors are found in the AirNow database and have fullAQSID
 airsis_latest$meta$fullAQSID
+
+# ----- Test airsis_latest -----------------------------------------------------
+
+airsis_daily <- airsis_loadDaily(archiveBaseUrl = archiveBaseUrl)
+
 
 # ----- Test wrcc_latest -------------------------------------------------------
 
