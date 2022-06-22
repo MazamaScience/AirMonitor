@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -50,7 +50,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -64,12 +64,6 @@
     </li>
     <li>
       <a href="../articles/articles/Citations.html">Citations</a>
-    </li>
-    <li>
-      <a href="../articles/articles/NowCast.html">NowCast</a>
-    </li>
-    <li>
-      <a href="../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
     </li>
   </ul>
 </li>
@@ -94,7 +88,7 @@
 
       
 
-      </header><script src="Developer_Style_Guide_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><script src="Developer_Style_Guide_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Developer Style Guide</h1>
@@ -112,40 +106,61 @@
 <div id="r-style-guide" class="section level1">
 <h1 class="hasAnchor">
 <a href="#r-style-guide" class="anchor"></a>R Style Guide</h1>
-<p>This document describes the coding style used within the package. Having a consistent style enhances the readability and “understandability” of the code and makes it easier for users and developers to work with this package and with other, related <a href="https://github.com/MazamaScience">Mazama Science packages</a>.</p>
+<p>This document describes the coding style used within the package.
+Having a consistent style enhances the readability and
+“understandability” of the code and makes it easier for users and
+developers to work with this package and with other, related <a href="https://github.com/MazamaScience">Mazama Science packages</a>.</p>
 <div id="naming-objects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#naming-objects" class="anchor"></a>Naming Objects</h2>
-<p>Naming variables is one of the most important things to get right to make your code readable and understandable to future readers of the code <em>(perhaps even yourself!)</em>. Having a system for creating names also makes it easier to come up with new ones.</p>
-<p>Mazama Science packages embrace <strong><code>lowerCamelCase</code></strong> for object names.</p>
-<p>With the casing settled, we use an ornithologist’s sensibility for how to identify things:</p>
+<p>Naming variables is one of the most important things to get right to
+make your code readable and understandable to future readers of the code
+<em>(perhaps even yourself!)</em>. Having a system for creating names
+also makes it easier to come up with new ones.</p>
+<p>Mazama Science packages embrace
+<strong><code>lowerCamelCase</code></strong> for object names.</p>
+<p>With the casing settled, we use an ornithologist’s sensibility for
+how to identify things:</p>
 <ul>
 <li>What is it? — a <code>bird</code>
 </li>
 <li>What kind of bird is it? — a <code>blackBird</code>
 </li>
-<li>What kind of blackBird is it? — a <code>redwingedBlackBird</code>
+<li>What kind of blackBird is it? — a
+<code>redwingedBlackBird</code>
 </li>
 </ul>
-<p>It’s a simple system: start with a noun and prefix it with descriptors until it is uniquely identified.</p>
-<p>In this system we would never have a variable called: <code>num_hours</code>. Instead we go through our process:</p>
+<p>It’s a simple system: start with a noun and prefix it with
+descriptors until it is uniquely identified.</p>
+<p>In this system we would never have a variable called:
+<code>num_hours</code>. Instead we go through our process:</p>
 <ul>
-<li>What is it? — <em>(Hmm. What noun describes this? Ah yes!)</em> — a <code>count</code>
+<li>What is it? — <em>(Hmm. What noun describes this? Ah yes!)</em> — a
+<code>count</code>
 </li>
-<li>What kind of count is it? — <em>(It’s not a “head count” or a “body count”.)</em> It’s an <code>hourCount</code>.</li>
+<li>What kind of count is it? — <em>(It’s not a “head count” or a “body
+count”.)</em> It’s an <code>hourCount</code>.</li>
 </ul>
-<p>For complex objects it is often helpful to give readers of the code a hint as to what type of object it is so they will know how to work with it. We often use variable names like:</p>
+<p>For complex objects it is often helpful to give readers of the code a
+hint as to what type of object it is so they will know how to work with
+it. We often use variable names like:</p>
 <ul>
 <li>
 <code>monitor</code> — a <em>mts_monitor</em> object</li>
 </ul>
-<p>We occasionally use ‘_’ to create classes of similar variables that are otherwise hard to name, e.g.:</p>
+<p>We occasionally use ’_’ to create classes of similar variables that
+are otherwise hard to name, e.g.:</p>
 <pre><code>QC_negativeValues</code></pre>
 </div>
 <div id="naming-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#naming-functions" class="anchor"></a>Naming Functions</h2>
-<p>Most functions should strive to be atomic in nature and should do one thing really well. Think of them as individual <em>Lego</em> bricks that we click together to achieve more advanced functionality. Where objects are <em><strong>well described nouns</strong></em>, functions are <em><strong>well described verbs</strong></em> that describe what they do as in:</p>
+<p>Most functions should strive to be atomic in nature and should do one
+thing really well. Think of them as individual <em>Lego</em> bricks that
+we click together to achieve more advanced functionality. Where objects
+are <em><strong>well described nouns</strong></em>, functions are
+<em><strong>well described verbs</strong></em> that describe what they
+do as in:</p>
 <pre><code><a href="../reference/monitor_collapse.html">monitor_collapse()
 monitor_combine()
 monitor_dropEmpty()
@@ -153,7 +168,12 @@ monitor_filter()
 monitor_filterDate()
 monitor_select()
 ...</a></code></pre>
-<p>All of these functions begin with <code>monitor_</code> because they are for creating or working with <em>monitor</em> objects. Many of these functions accept a <em>monitor</em> object as their first argument and return a modified <em>monitor</em>. This means that they can be used with the <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> “pipe” operator and chained together as in:</p>
+<p>All of these functions begin with <code>monitor_</code> because they
+are for creating or working with <em>monitor</em> objects. Many of these
+functions accept a <em>monitor</em> object as their first argument and
+return a modified <em>monitor</em>. This means that they can be used
+with the <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> “pipe” operator and chained together as
+in:</p>
 <pre><code>Sacramento_area_daily_avg &lt;-
 
   # Get all data for 2018
@@ -185,35 +205,50 @@ monitor_select()
 <div id="naming-files" class="section level2">
 <h2 class="hasAnchor">
 <a href="#naming-files" class="anchor"></a>Naming Files</h2>
-<p>Each file should contain a single function of the same name. Thus, the function named <code><a href="../reference/monitor_filterDate.html">monitor_filterDate()</a></code> is defined in <code>monitor_filterDate.R</code>. An exception is made for small, mostly internal functions used in conjunction with a particular type of object or activity. These can be stored together in a file named <code>utils-~</code>:</p>
+<p>Each file should contain a single function of the same name. Thus,
+the function named <code><a href="../reference/monitor_filterDate.html">monitor_filterDate()</a></code> is defined in
+<code>monitor_filterDate.R</code>. An exception is made for small,
+mostly internal functions used in conjunction with a particular type of
+object or activity. These can be stored together in a file named
+<code>utils-~</code>:</p>
 <pre><code>utils-monitor.R</code></pre>
 </div>
 <div id="syntax" class="section level2">
 <h2 class="hasAnchor">
 <a href="#syntax" class="anchor"></a>Syntax</h2>
-<p>We generally adhere to the <a href="http://adv-r.had.co.nz/Style.html">Wickham Style Guide</a> for syntax with a few exceptions:</p>
+<p>We generally adhere to the <a href="http://adv-r.had.co.nz/Style.html">Wickham Style Guide</a> for
+syntax with a few exceptions:</p>
 <div id="spacing" class="section level3">
 <h3 class="hasAnchor">
 <a href="#spacing" class="anchor"></a>Spacing</h3>
-<p><strong>Do</strong> place spaces around code in parentheses if it is an <code>if</code> test:</p>
+<p><strong>Do</strong> place spaces around code in parentheses if it is
+an <code>if</code> test:</p>
 <pre><code>if ( &lt;logical expression part1&gt; &amp;&amp; &lt;logical expression part2&gt; ) {
   ...
 }</code></pre>
-<p>When debugging, this makes it much easier to select the logical test with a cursor and paste it into the RStudio console.</p>
+<p>When debugging, this makes it much easier to select the logical test
+with a cursor and paste it into the RStudio console.</p>
 </div>
 <div id="lists" class="section level3">
 <h3 class="hasAnchor">
 <a href="#lists" class="anchor"></a>Lists</h3>
-<p>We generally like to specify R lists with each <code>parameter = value</code> pair on a separate line. This goes for regular lists and for named argument lists passed to a function:</p>
+<p>We generally like to specify R lists with each
+<code>parameter = value</code> pair on a separate line. This goes for
+regular lists and for named argument lists passed to a function:</p>
 <pre><code>  # Filter to a 2-week period
   monitor_filterDate(
     startdate = 20181108,
     enddate = 20181123,
     timezone = "America/Los_Angeles"
   ) %&gt;%</code></pre>
-<p>Coding this way makes it easy to see which function arguments are being passed. It also eases future refactoring of the code when additional arguments need to be added or the order of arguments need to be changed.</p>
+<p>Coding this way makes it easy to see which function arguments are
+being passed. It also eases future refactoring of the code when
+additional arguments need to be added or the order of arguments need to
+be changed.</p>
 <hr>
-<p>It is our belief that good code should be both readable and understandable and should inspire others to copy and innovate on their own.</p>
+<p>It is our belief that good code should be both readable and
+understandable and should inspire others to copy and innovate on their
+own.</p>
 </div>
 </div>
 </div>

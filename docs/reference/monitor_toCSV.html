@@ -79,7 +79,7 @@ includeData = FALSE." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -98,7 +98,7 @@ includeData = FALSE." />
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -112,12 +112,6 @@ includeData = FALSE." />
     </li>
     <li>
       <a href="../articles/articles/Citations.html">Citations</a>
-    </li>
-    <li>
-      <a href="../articles/articles/NowCast.html">NowCast</a>
-    </li>
-    <li>
-      <a href="../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
     </li>
   </ul>
 </li>
@@ -220,6 +214,7 @@ on a single sheet.</p>
 #&gt; city,,NA
 #&gt; zip,,NA
 #&gt; AQSID,,060530002
+#&gt; fullAQSID,,840060530002
 #&gt; ##### Hourly data begins below here,NA,NA
 #&gt; UTC Time,Local Time,a9572a904a4ed46d_060530002
 #&gt; 2016-08-02 07:00:00 UTC,2016-08-02 00:00:00 PDT,26
@@ -246,8 +241,8 @@ on a single sheet.</p>
 #&gt; 2016-08-03 04:00:00 UTC,2016-08-02 21:00:00 PDT,5
 #&gt; 2016-08-03 05:00:00 UTC,2016-08-02 22:00:00 PDT,6
 #&gt; 2016-08-03 06:00:00 UTC,2016-08-02 23:00:00 PDT,9</div><div class='input'><span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>monitor</span>, includeData <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; deviceDeploymentID,deviceID,deviceType,deviceDescription,deviceExtra,pollutant,units,dataIngestSource,dataIngestURL,dataIngestUnitID,dataIngestExtra,dataIngestDescription,locationID,locationName,longitude,latitude,elevation,countryCode,stateCode,countyName,timezone,houseNumber,street,city,zip,AQSID
-#&gt; a9572a904a4ed46d_060530002,060530002,NA,NA,NA,PM2.5,UG/M3,AIRNOW,https://files.airnowtech.org/airnow,NA,NA,NA,a9572a904a4ed46d,Carmel Valley AMS,-121.73333,36.48187,200.1,US,CA,Monterey,America/Los_Angeles,NA,Via Contenta,NA,NA,060530002</div><div class='input'><span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>monitor</span>, includeMeta <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; deviceDeploymentID,deviceID,deviceType,deviceDescription,deviceExtra,pollutant,units,dataIngestSource,dataIngestURL,dataIngestUnitID,dataIngestExtra,dataIngestDescription,locationID,locationName,longitude,latitude,elevation,countryCode,stateCode,countyName,timezone,houseNumber,street,city,zip,AQSID,fullAQSID
+#&gt; a9572a904a4ed46d_060530002,060530002,NA,NA,NA,PM2.5,UG/M3,AIRNOW,https://files.airnowtech.org/airnow,NA,NA,NA,a9572a904a4ed46d,Carmel Valley AMS,-121.73333,36.48187,200.1,US,CA,Monterey,America/Los_Angeles,NA,Via Contenta,NA,NA,060530002,840060530002</div><div class='input'><span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>monitor</span>, includeMeta <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; UTC Time,Local Time,a9572a904a4ed46d_060530002
 #&gt; 2016-08-02 07:00:00 UTC,2016-08-02 00:00:00 PDT,26
 #&gt; 2016-08-02 08:00:00 UTC,2016-08-02 01:00:00 PDT,31

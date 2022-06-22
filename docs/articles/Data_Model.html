@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -50,7 +50,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -64,12 +64,6 @@
     </li>
     <li>
       <a href="../articles/articles/Citations.html">Citations</a>
-    </li>
-    <li>
-      <a href="../articles/articles/NowCast.html">NowCast</a>
-    </li>
-    <li>
-      <a href="../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
     </li>
   </ul>
 </li>
@@ -94,7 +88,7 @@
 
       
 
-      </header><script src="Data_Model_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><script src="Data_Model_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Data Model</h1>
@@ -109,35 +103,73 @@
 
     
     
-<p>This vignette explores the <code>mts_monitor</code> data model used throughout the <strong>AirMonitor</strong> package to store and work with monitoring data.</p>
-<p>The <strong>AirMonitor</strong> package is designed to provide a compact, full-featured suite of utilities for working with PM 2.5 data. A uniform data model provides consistent data access across monitoring data available from different agencies. The core data model in this package is defined by the <code>mts_monitor</code> object used to store data associated with groups of individual monitors.</p>
-<p>To work efficiently with the package it is important to understand the structure of this data object and which functions operate on it. Package functions that begin with <code>monitor_</code>, expect objects of class <code>mts_monitor</code> as their first argument. (<em>‘mts_’ stands for ‘Multiple Time Series’</em>)</p>
+<p>This vignette explores the <code>mts_monitor</code> data model used
+throughout the <strong>AirMonitor</strong> package to store and work
+with monitoring data.</p>
+<p>The <strong>AirMonitor</strong> package is designed to provide a
+compact, full-featured suite of utilities for working with PM 2.5 data.
+A uniform data model provides consistent data access across monitoring
+data available from different agencies. The core data model in this
+package is defined by the <code>mts_monitor</code> object used to store
+data associated with groups of individual monitors.</p>
+<p>To work efficiently with the package it is important to understand
+the structure of this data object and which functions operate on it.
+Package functions that begin with <code>monitor_</code>, expect objects
+of class <code>mts_monitor</code> as their first argument. (<em>‘mts_’
+stands for ‘Multiple Time Series’</em>)</p>
 <div id="data-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-model" class="anchor"></a>Data Model</h2>
-<p>The <strong>AirMonitor</strong> package uses the <em>mts</em> data model defined in <strong><a href="https://mazamascience.github.io/MazamaTimeSeries/">MazamaTimeSeries</a></strong>.</p>
-<p>In this data model, each unique time series is referred to as a <em>“device-deployment”</em> – a timeseries collected by a particular device at a specific location. Multiple device-deployments are stored in memory as a <em>monitor</em> object – an R list with two dataframes:</p>
-<p><code>monitor$meta</code> – rows = unique device-deployments; cols = device/location metadata</p>
-<p><code>monitor$data</code> – rows = UTC times; cols = device-deployments (plus an additional <code>datetime</code> column)</p>
-<p>A key feature of this data model is the use of the <code>deviceDeploymentID</code> as a “foreign key” that allows <code>data</code> columns to be mapped onto the associated spatial and device metadata in a <code>meta</code> row. The following will always be true:</p>
+<p>The <strong>AirMonitor</strong> package uses the <em>mts</em> data
+model defined in <strong><a href="https://mazamascience.github.io/MazamaTimeSeries/">MazamaTimeSeries</a></strong>.</p>
+<p>In this data model, each unique time series is referred to as a
+<em>“device-deployment”</em> – a timeseries collected by a particular
+device at a specific location. Multiple device-deployments are stored in
+memory as a <em>monitor</em> object – an R list with two dataframes:</p>
+<p><code>monitor$meta</code> – rows = unique device-deployments; cols =
+device/location metadata</p>
+<p><code>monitor$data</code> – rows = UTC times; cols =
+device-deployments (plus an additional <code>datetime</code> column)</p>
+<p>A key feature of this data model is the use of the
+<code>deviceDeploymentID</code> as a “foreign key” that allows
+<code>data</code> columns to be mapped onto the associated spatial and
+device metadata in a <code>meta</code> row. The following will always be
+true:</p>
 <pre><code><a href="https://rdrr.io/r/base/identical.html">identical(names(monitor$data), c('datetime', monitor$meta$deviceDeploymentID))</a></code></pre>
-<p>Each column of <code>monitor$data</code> represents a timeseries associated with a particular device-deployment while each row represents a <em>synoptic</em> snapshot of all measurements made at a particular time.</p>
-<p>In this manner, software can create both timeseries plots and maps from a single <code>monitor</code> object in memory.</p>
-<p>The <code>data</code> dataframe contains all hourly measurements organized with rows (the ‘unlimited’ dimension) as unique timesteps and columns as unique device-deployments. The very first column is always named <code>datetime</code> and contains the <code>POSIXct</code> datetime in Coordinated Universal Time (UTC). This time axis is guaranteed to be a regular hourly axis with no gaps.</p>
-<p>The <code>meta</code> dataframe contains all metadata associated with device-deployments and is organized with rows as unique device-deployments and columns containing both location and device metadata. The following columns are guaranteed to exist in the <code>meta</code> dataframe:</p>
+<p>Each column of <code>monitor$data</code> represents a timeseries
+associated with a particular device-deployment while each row represents
+a <em>synoptic</em> snapshot of all measurements made at a particular
+time.</p>
+<p>In this manner, software can create both timeseries plots and maps
+from a single <code>monitor</code> object in memory.</p>
+<p>The <code>data</code> dataframe contains all hourly measurements
+organized with rows (the ‘unlimited’ dimension) as unique timesteps and
+columns as unique device-deployments. The very first column is always
+named <code>datetime</code> and contains the <code>POSIXct</code>
+datetime in Coordinated Universal Time (UTC). This time axis is
+guaranteed to be a regular hourly axis with no gaps.</p>
+<p>The <code>meta</code> dataframe contains all metadata associated with
+device-deployments and is organized with rows as unique
+device-deployments and columns containing both location and device
+metadata. The following columns are guaranteed to exist in the
+<code>meta</code> dataframe:</p>
 <ul>
 <li>
-<code>deviceDeploymentID</code> – unique ID associated with a time series</li>
+<code>deviceDeploymentID</code> – unique ID associated with a time
+series</li>
 <li>
 <code>deviceID</code> – unique location ID</li>
 <li>
 <code>deviceType</code> – (optional) device type</li>
 <li>
-<code>deviceDescription</code> – (optional) human readable device description</li>
+<code>deviceDescription</code> – (optional) human readable device
+description</li>
 <li>
-<code>deviceExtra</code> – (optional) additional human readable device information</li>
+<code>deviceExtra</code> – (optional) additional human readable
+device information</li>
 <li>
-<code>pollutant</code> – pollutant name from <code><a href="../reference/pollutantNames.html">AirMonitor::pollutantNames</a></code>
+<code>pollutant</code> – pollutant name from
+<code><a href="../reference/pollutantNames.html">AirMonitor::pollutantNames</a></code>
 </li>
 <li>
 <code>units</code> – one of <code>"PPM|PPB|UG/M3"</code>
@@ -147,14 +179,18 @@
 <li>
 <code>dataIngestURL</code> – (optional) URL used to access data</li>
 <li>
-<code>dataIngestUnitID</code> – (optional) instrument identifier used at <code>dataIngestSource</code>
+<code>dataIngestUnitID</code> – (optional) instrument identifier
+used at <code>dataIngestSource</code>
 </li>
 <li>
-<code>dataIngestExtra</code> – (optional) human readable data ingest information</li>
+<code>dataIngestExtra</code> – (optional) human readable data ingest
+information</li>
 <li>
-<code>dataIngestDescription</code>– (optional) human readable data ingest instructions</li>
+<code>dataIngestDescription</code>– (optional) human readable data
+ingest instructions</li>
 <li>
-<code>locationID</code> – unique location ID from <code><a href="https://rdrr.io/pkg/MazamaLocationUtils/man/location_createID.html">MazamaLocationUtils::location_createID()</a></code>
+<code>locationID</code> – unique location ID from
+<code><a href="https://rdrr.io/pkg/MazamaLocationUtils/man/location_createID.html">MazamaLocationUtils::location_createID()</a></code>
 </li>
 <li>
 <code>locationName</code> – human readable location name</li>
@@ -183,11 +219,16 @@
 <li>
 <code>AQSID</code> – (optional) EPA AQS unique identifier</li>
 </ul>
-<p>It is important to note that the <code>deviceDeploymentID</code> acts as a unique key that connects <code>data</code> with <code>meta</code>. The following will always be true:</p>
+<p>It is important to note that the <code>deviceDeploymentID</code> acts
+as a unique key that connects <code>data</code> with <code>meta</code>.
+The following will always be true:</p>
 <pre><code>rownames(mts_monitor$meta) == mts_monitor$meta$deviceDeploymentID
 colnames(mts_monitor$data) == c('datetime', mts_monitor$meta$deviceDeploymentID)</code></pre>
-<p><strong>Example 1: Exploring <code>mts_monitor</code> objects</strong></p>
-<p>We will use the built-in “NW_Megafires” dataset and various <code>monitor_filter~()</code> functions to subset a <code>mts_monitor</code> object which we then examine.</p>
+<p><strong>Example 1: Exploring <code>mts_monitor</code>
+objects</strong></p>
+<p>We will use the built-in “NW_Megafires” dataset and various
+<code>monitor_filter~()</code> functions to subset a
+<code>mts_monitor</code> object which we then examine.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitor">AirMonitor</a></span><span class="op">)</span><span class="op">)</span>
 
@@ -210,7 +251,7 @@ colnames(mts_monitor$data) == c('datetime', mts_monitor$meta$deviceDeploymentID)
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Examine the 'meta' dataframe</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 67 26</code></pre>
+<pre><code>## [1] 67 27</code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></code></pre></div>
 <pre><code>##  [1] "deviceDeploymentID"    "deviceID"              "deviceType"           
@@ -221,7 +262,7 @@ colnames(mts_monitor$data) == c('datetime', mts_monitor$meta$deviceDeploymentID)
 ## [16] "latitude"              "elevation"             "countryCode"          
 ## [19] "stateCode"             "countyName"            "timezone"             
 ## [22] "houseNumber"           "street"                "city"                 
-## [25] "zip"                   "AQSID"</code></pre>
+## [25] "zip"                   "AQSID"                 "fullAQSID"</code></pre>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Examine the 'data' dataframe</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
@@ -230,9 +271,16 @@ colnames(mts_monitor$data) == c('datetime', mts_monitor$meta$deviceDeploymentID)
 <code class="sourceCode R"><span class="co"># This should always be true</span>
 <span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'datetime'</span>, <span class="va">monitor</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<p><strong>Example 2: Basic manipulation of <code>mts_monitor</code> objects</strong></p>
-<p>The <strong>AirMonitor</strong> package has numerous functions that can work with <code>mts_monitor</code> objects, all of which begin with <code>monitor_</code>. If you need to do something that the package functions do not provide, you can manipulate <code>mts_monitor</code> objects directly as long as you retain the structure of the data model.</p>
-<p>Functions that accept and return <code>mts_monitor</code> objects include:</p>
+<p><strong>Example 2: Basic manipulation of <code>mts_monitor</code>
+objects</strong></p>
+<p>The <strong>AirMonitor</strong> package has numerous functions that
+can work with <code>mts_monitor</code> objects, all of which begin with
+<code>monitor_</code>. If you need to do something that the package
+functions do not provide, you can manipulate <code>mts_monitor</code>
+objects directly as long as you retain the structure of the data
+model.</p>
+<p>Functions that accept and return <code>mts_monitor</code> objects
+include:</p>
 <ul>
 <li><code><a href="../reference/monitor_aqi.html">monitor_aqi()</a></code></li>
 <li><code><a href="../reference/monitor_collapse.html">monitor_collapse()</a></code></li>
@@ -241,7 +289,8 @@ colnames(mts_monitor$data) == c('datetime', mts_monitor$meta$deviceDeploymentID)
 <li><code><a href="../reference/monitor_dailyThreshold.html">monitor_dailyThreshold()</a></code></li>
 <li><code><a href="../reference/monitor_dropEmpty.html">monitor_dropEmpty()</a></code></li>
 <li>
-<code><a href="../reference/monitor_filterMeta.html">monitor_filter()</a></code> ( aka <code><a href="../reference/monitor_filterMeta.html">monitor_filterMeta()</a></code>)</li>
+<code><a href="../reference/monitor_filterMeta.html">monitor_filter()</a></code> ( aka
+<code><a href="../reference/monitor_filterMeta.html">monitor_filterMeta()</a></code>)</li>
 <li><code><a href="../reference/monitor_filterByDistance.html">monitor_filterByDistance()</a></code></li>
 <li><code><a href="../reference/monitor_filterDate.html">monitor_filterDate()</a></code></li>
 <li><code>monitor_filterDateTime()</code></li>
@@ -249,10 +298,12 @@ colnames(mts_monitor$data) == c('datetime', mts_monitor$meta$deviceDeploymentID)
 <li><code><a href="../reference/monitor_nowcast.html">monitor_nowcast()</a></code></li>
 <li><code><a href="../reference/monitor_replaceValues.html">monitor_replaceValues()</a></code></li>
 <li>
-<code><a href="../reference/monitor_select.html">monitor_select()</a></code> ( aka <code><a href="../reference/monitor_select.html">monitor_reorder()</a></code>)</li>
+<code><a href="../reference/monitor_select.html">monitor_select()</a></code> ( aka
+<code><a href="../reference/monitor_select.html">monitor_reorder()</a></code>)</li>
 <li><code><a href="../reference/monitor_trimDate.html">monitor_trimDate()</a></code></li>
 </ul>
-<p>These functions can be used with the <strong>magrittr</strong> package <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> pipe as in the following example:</p>
+<p>These functions can be used with the <strong>magrittr</strong>
+package <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> pipe as in the following example:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Calculate daily means for the Methow Valley from monitors in Twisp and Winthrop</span>
 <span class="va">TwispID</span> <span class="op">&lt;-</span> <span class="st">"450d08fb5a3e4ea0_530470009"</span>
@@ -283,8 +334,11 @@ colnames(mts_monitor$data) == c('datetime', mts_monitor$meta$deviceDeploymentID)
 ## 5 2015-08-05                           3.7
 ## 6 2015-08-06                           3.2
 ## 7 2015-08-07                          11.0</code></pre>
-<p><strong>Example 3: Advanced manipulation of <code>mts_monitor</code> objects</strong></p>
-<p>The following code demonstrates user manipulation of the data from a <code>mts_monitor</code> object outside the scope of provided <code>monitor_~()</code> functions.</p>
+<p><strong>Example 3: Advanced manipulation of <code>mts_monitor</code>
+objects</strong></p>
+<p>The following code demonstrates user manipulation of the data from a
+<code>mts_monitor</code> object outside the scope of provided
+<code>monitor_~()</code> functions.</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Spokane area AQSIDs all begin with "53063"</span>
 <span class="va">Spokane</span> <span class="op">&lt;-</span>
@@ -342,7 +396,9 @@ colnames(mts_monitor$data) == c('datetime', mts_monitor$meta$deviceDeploymentID)
 ## abde4337eb9064e4_530639996                  0.8835324
 ## fa8288b1da3b2a87_530630047                  1.0000000</code></pre>
 <hr>
-<p>This introduction to the <code>mts_monitor</code> data model should be enough to get you started. Lots more documentation and examples are available in the package documentation.</p>
+<p>This introduction to the <code>mts_monitor</code> data model should
+be enough to get you started. Lots more documentation and examples are
+available in the package documentation.</p>
 <p>Best of luck exploring and understanding PM 2.air quality data!</p>
 </div>
   </div>

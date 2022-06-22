@@ -1,4 +1,4 @@
-pandoc: 2.11.4
+pandoc: 2.17.1.1
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
@@ -6,7 +6,5 @@ articles:
   Data_Model: Data_Model.html
   Developer_Style_Guide: Developer_Style_Guide.html
   articles/Citations: Citations.html
-  articles/NowCast: NowCast.html
-  articles/Save_Data_as_CSV: Save_Data_as_CSV.html
-last_built: 2022-03-30T23:44Z
+last_built: 2022-06-22T19:21Z
 
