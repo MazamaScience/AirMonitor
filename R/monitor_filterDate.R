@@ -26,6 +26,9 @@
 #' \item{\code{"YYYY-mm-dd"}}
 #' }
 #'
+#' If either \code{startdate} or \code{enddate} is not provided, the start/end of
+#' the \emph{mts_monitor} time axis will be used.
+#'
 #' Timezone determination precedence assumes that if you are passing in
 #' \code{POSIXct} values then you know what you are doing.
 #'
@@ -86,9 +89,6 @@ monitor_filterDate <- function(
 
   # ----- Validate parameters --------------------------------------------------
 
-  MazamaCoreUtils::stopIfNull(startdate)
-  MazamaCoreUtils::stopIfNull(enddate)
-
   # A little involved to catch the case where the user forgets to pass in 'monitor'
   result <- try({
     if ( !monitor_isValid(monitor) )
@@ -104,6 +104,13 @@ monitor_filterDate <- function(
 
   if ( monitor_isEmpty(monitor) )
     stop("Parameter 'monitor' has no data.")
+
+  # Handle missing times
+  if ( is.null(startdate) )
+    startdate <- min(monitor$data$datetime, na.rm = TRUE)
+
+  if ( is.null(enddate) )
+    enddate <- max(monitor$data$datetime, na.rm = TRUE)
 
   # Deal with missing timezones
   if ( is.null(timezone) ) {

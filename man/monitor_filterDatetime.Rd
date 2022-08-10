@@ -46,6 +46,9 @@ Datetimes can be anything that is understood by
 \code{MazamaCoreUtils::parseDatetime()}. For non-\code{POSIXct} values,
 the recommended format is \code{"YYYY-mm-dd HH:MM:SS"}.
 
+If either \code{startdate} or \code{enddate} is not provided, the start/end of
+the \emph{mts_monitor} time axis will be used.
+
 Timezone determination precedence assumes that if you are passing in
 \code{POSIXct} values then you know what you are doing.
 

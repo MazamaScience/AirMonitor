@@ -50,6 +50,9 @@ including either of the following recommended formats:
 \item{\code{"YYYY-mm-dd"}}
 }
 
+If either \code{startdate} or \code{enddate} is not provided, the start/end of
+the \emph{mts_monitor} time axis will be used.
+
 Timezone determination precedence assumes that if you are passing in
 \code{POSIXct} values then you know what you are doing.
 
