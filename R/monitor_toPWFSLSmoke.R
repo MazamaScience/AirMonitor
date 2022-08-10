@@ -92,6 +92,7 @@ monitor_toPWFSLSmoke <- function(
   # [21] "timezone"              "houseNumber"
   # [23] "street"                "city"
   # [25] "zip"                   "AQSID"
+  # [27] "fullAQSID"
 
   meta <-
 
@@ -155,13 +156,7 @@ if ( FALSE ) {
 
   library(AirMonitor)
 
-  monitor <-
-    airnow_loadLatest(
-      archiveBaseUrl = "https://data-monitoring1.airfire.org/monitoring-v2",
-      archiveBaseDir = NULL,
-      QC_negativeValues = "zero",
-      parameterName = "PM2.5"
-    )
+  monitor <- AirMonitor::airnow_loadLatest()
 
   ws_monitor <- monitor_toPWFSLSmoke(monitor)
 

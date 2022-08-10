@@ -28,6 +28,24 @@ airnow_latest %>%
   monitor_select("c733850d59531f1e_840350130016") %>%
   monitor_timeseriesPlot(shadedNight = TRUE, addAQI = TRUE)
 
+
+# ----- Test airnow_latest -----------------------------------------------------
+
+airnow_daily <- airnow_loadDaily(archiveBaseDir = archiveBaseDir)
+
+# Is the airnow data using fullAQSID as the deviceID? If so, all should be 12 chars long.
+table(stringr::str_length(airnow_daily$meta$deviceID))
+
+airnow_daily %>%
+  monitor_filter(stateCode == "NM") %>%
+  monitor_leaflet()
+
+# Anthony, NM
+airnow_daily %>%
+  monitor_select("c733850d59531f1e_840350130016") %>%
+  monitor_timeseriesPlot(shadedNight = TRUE, addAQI = TRUE)
+
+
 # ----- Test airsis_latest -----------------------------------------------------
 
 airsis_latest <- airsis_loadLatest(archiveBaseDir = archiveBaseDir)
