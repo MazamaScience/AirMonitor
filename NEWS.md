@@ -1,3 +1,10 @@
+# AirMonitor 0.3.1
+
+* Updated `monitor_toPWFSLSmoke()` and `monitor_fromPWFSLSmoke()` to support
+the `fullAQSID field`
+* Updated `monitor_filterDate()` and `monitor_filterDatetime()` to allow one-sided
+filtering when passing in only a single `startdate` or `endddate` argument.
+
 # AirMonitor 0.3.0
 
 Version 0.3 works with data built using a new `fullAQSID` field available from 

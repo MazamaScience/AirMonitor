@@ -46,6 +46,8 @@ always filters to day-boundaries.
 Datetimes can be anything that is understood by
 MazamaCoreUtils::parseDatetime(). For non-POSIXct values,
 the recommended format is &quot;YYYY-mm-dd HH:MM:SS&quot;.
+If either startdate or enddate is not provided, the start/end of
+the mts_monitor time axis will be used.
 Timezone determination precedence assumes that if you are passing in
 POSIXct values then you know what you are doing.
 
@@ -85,7 +87,7 @@ get timezone from mts_monitor
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.1</span>
       </span>
     </div>
 
@@ -157,6 +159,8 @@ always filters to day-boundaries.</p>
 <p>Datetimes can be anything that is understood by
 <code><a href='https://rdrr.io/pkg/MazamaCoreUtils/man/parseDatetime.html'>MazamaCoreUtils::parseDatetime()</a></code>. For non-<code>POSIXct</code> values,
 the recommended format is <code>"YYYY-mm-dd HH:MM:SS"</code>.</p>
+<p>If either <code>startdate</code> or <code>enddate</code> is not provided, the start/end of
+the <em>mts_monitor</em> time axis will be used.</p>
 <p>Timezone determination precedence assumes that if you are passing in
 <code>POSIXct</code> values then you know what you are doing.</p>
 <ol>
