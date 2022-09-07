@@ -1,0 +1,216 @@
+---
+title: "AIRSIS Data Extremes 2021"
+author: "Jonathan Callahan"
+date: "2022-09-07"
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(AirMonitor)
+
+airsis <- 
+  airsis_loadAnnual(2021) %>%
+  monitor_filterDate(20210701, 20211001, timezone = "UTC") %>%
+  monitor_replaceValues(data > 4000, NA)
+```
+
+This mini-report takes a look at the data values from temporary
+monitors whose data is handled by the AIRSIS (aka Oceaneering).
+
+We compare data values from these monitors against the AirNow default QC chcecks
+for:
+
+* Max severe (invalid) range: 175 ug/m3
+* Rate of change: 40 ug/m3
+
+# WRCC Data
+
+During the fall of 2021, 132 monitors were deployed whose data was transmitted via
+satellite to AIRSIS and subsequently processed by AirFire data ingest
+scripts. The following plots show the values of PM2.5 for a three month period when wildfire
+smoke was impacting communities.
+
+```{r all_data_timeseries_plot, echo = FALSE}
+par(mar = c(3, 4, 6, 2) + .1)
+monitor_timeseriesPlot(airsis, addAQI = TRUE, xpd = NA, main = "2021 PM2.5 Values")
+par(mar = c(5, 4, 4, 2) + .1)
+addAQILegend("topleft", cex = 0.8)
+
+par(mar = c(3, 4, 6, 2) + .1)
+monitor_timeseriesPlot(airsis, ylim = c(0, 300), addAQI = TRUE, main = "2021 PM2.5 Values (zoomed in)")
+par(mar = c(5, 4, 4, 2) + .1)
+addAQILegend("topleft", cex = 0.8)
+```
+
+## High Value Cutoff = 175
+
+AirNow QC uses a high value cutoff of 175 ug/m3 to flag suspect data. This cutoff
+may be too low for monitors deployed near wildfires.
+
+Below we see two histograms, one with all of the values below the AirNow cutoff 
+of 175 ug/m3 and a second one with all the values above the cutoff.
+
+```{r all_data_histograms, echo = FALSE}
+layout(matrix(seq(2)))
+par(mar = c(3,4,2,2) + .1)
+data <- airsis$data[,-1] %>% as.matrix() %>% as.numeric()
+hist(data[data < 175], breaks = seq(0, 175, 5), main = "Histogram of data < 175 ug/m3")
+data <- airsis$data[,-1] %>% as.matrix() %>% as.numeric()
+hist(data[data >= 175], breaks = seq(175, 2500, by = 75), main = "Histogram of data >= 175 ug/m3")
+par(mar = c(5,4,4,2) + .1)
+layout(1)
+```
+
+**Monitors with the highest values**
+
+34 monitors in this time period had hourly PM2.5 values above 175 ug/m3.
+
+```{r high_value_timeseries, echo = FALSE}
+high_value_IDs <-
+  airsis %>%
+  monitor_replaceValues(data < 175, NA) %>%
+  monitor_dropEmpty() %>%
+  monitor_getMeta() %>%
+  dplyr::pull(deviceDeploymentID)
+
+airsis_high <- monitor_select(airsis, high_value_IDs)
+
+airsis_high %>% monitor_timeseriesPlot(type = 'l', main = "Monitors with high values")
+
+abline(h = 175, col = adjustcolor("gray50", 0.6), lwd = 3)
+
+xlo <- par("usr")[1]
+xhi <- par("usr")[2]
+text(xlo, 200, "175 cutoff", pos = 4, adj = c(0, 1))
+```
+
+```{r high_value_timeseries_1, echo = FALSE}
+airsis_high %>%
+  monitor_filterDate(20210724, 20210806, timezone = "UTC") %>%
+  monitor_timeseriesPlot(type = 'l', main = "Monitors with high values")
+  
+abline(h = 175, col = adjustcolor("gray50", 0.6), lwd = 3)
+
+xlo <- par("usr")[1]
+xhi <- par("usr")[2]
+text(xlo, 200, "175 cutoff", pos = 4, adj = c(0, 1))
+```
+
+```{r high_value_timeseries_2, echo = FALSE}
+airsis_high %>%
+  monitor_filterDate(20210810, 20210824, timezone = "UTC") %>%
+  monitor_timeseriesPlot(type = 'l', main = "Monitors with high values")
+  
+abline(h = 175, col = adjustcolor("gray50", 0.6), lwd = 3)
+
+xlo <- par("usr")[1]
+xhi <- par("usr")[2]
+text(xlo, 200, "175 cutoff", pos = 4, adj = c(0, 1))
+```
+
+```{r high_value_timeseries_3, echo = FALSE}
+airsis_high %>%
+  monitor_filterDate(20210901, 20210915, timezone = "UTC") %>%
+  monitor_timeseriesPlot(type = 'l', main = "Monitors with high values")
+  
+abline(h = 175, col = adjustcolor("gray50", 0.6), lwd = 3)
+
+xlo <- par("usr")[1]
+xhi <- par("usr")[2]
+text(xlo, 200, "175 cutoff", pos = 4, adj = c(0, 1))
+```
+
+## Rate of Change Cutoff = 40 ug/m3/hr
+
+AirNow QC also applies a rate-of-change cutoff of 40 ug/m3/hr to flag suspect data.
+This cutoff may also be too low for monitors deployed near wildfires.
+
+The histograms of rate-of-change for this time period are below. There are many
+rate-of-change values above 40 ug/m3/hr in the monitoring data.
+
+```{r rate_of_change_histograms, echo = FALSE}
+dataBrick <- airsis$data[,-1]
+data <-
+  dataBrick %>%
+  lapply(diff) %>%
+  unlist() %>%
+  as.numeric() #%>%
+  #abs()
+  
+layout(matrix(seq(2)))
+par(mar = c(3,4,2,2) + .1)
+hist(data[abs(data) < 40], breaks = seq(-40, 40, 5), main = "Histogram of rate-of-change < 40 ug/m3/hr")
+hist(data[abs(data) >= 40 & abs(data) <= 1000], breaks = seq(-1000,1000,40), main = "Histogram of rate-of-change >= 40 ug/m3/hr")
+par(mar = c(5,4,4,2) + .1)
+layout(1)
+```
+
+**Monitors with high rate-of-change values**
+
+We can view those high rate-of-change values in context with the following series
+of timeseries plots. For the vast majority of cases, these high rate-of-change
+values are associated with smoke in an environment with strong diurnal 
+variation in PM2.5 levels. All of these values in red are associated with
+high rate-of-change and almost all appear to be valid.
+
+```{r high_value_roc, echo = FALSE}
+# Determine number of monitors in high group
+a <- dataBrick %>% lapply(diff)
+b <- lapply(a, function(x) { any(x >= 40, na.rm = TRUE) })
+c <- unlist(b)
+
+high_roc_IDs <- names(c[c == TRUE]) # any high roc values
+
+high_roc <- 
+  airsis %>% 
+  monitor_select(high_roc_IDs) %>%
+  monitor_dropEmpty()
+
+my_mask_FUN <- function(x) {
+  diff_vector <- c(as.numeric(NA), diff(x))
+  mask <- diff_vector < 40
+  mask[is.na(mask)] <- TRUE
+  x[mask] <- NA
+  return(x)
+}
+
+masked_high_roc <- high_roc %>% monitor_mutate(my_mask_FUN)
+```
+
+```{r roc_plots, echo = FALSE}
+high_roc %>%
+  monitor_filterDate(20210715, 20210915, timezone = "UTC") %>%
+  monitor_timeseriesPlot(cex = 0.6, shadedNight = TRUE, main = "Monitors with Rate-of-Change >= 40 ug/m3/hr")
+monitor_timeseriesPlot(high_roc, type = 'l', lwd = 0.5, add = TRUE)
+monitor_timeseriesPlot(masked_high_roc, cex = 0.6, col = "red", add = TRUE, opacity = 1)
+```
+
+```{r roc_plots_1, echo = FALSE}
+high_roc %>%
+  monitor_filterDate(20210724, 20210806, timezone = "UTC") %>%
+  monitor_timeseriesPlot(cex = 0.6, shadedNight = TRUE, main = "Monitors with Rate-of-Change >= 40 ug/m3/hr")
+monitor_timeseriesPlot(high_roc, type = 'l', lwd = 0.5, add = TRUE)
+monitor_timeseriesPlot(masked_high_roc, cex = 0.6, col = "red", add = TRUE, opacity = 1)
+```
+
+```{r roc_plots_2, echo = FALSE}
+high_roc %>%
+  monitor_filterDate(20210810, 20210824, timezone = "UTC") %>%
+  monitor_timeseriesPlot(cex = 0.6, shadedNight = TRUE, main = "Monitors with Rate-of-Change >= 40 ug/m3/hr")
+monitor_timeseriesPlot(high_roc, type = 'l', lwd = 0.5, add = TRUE)
+monitor_timeseriesPlot(masked_high_roc, cex = 0.6, col = "red", add = TRUE, opacity = 1)
+```
+
+```{r roc_plots_3, echo = FALSE}
+high_roc %>%
+  monitor_filterDate(20210901, 20210915, timezone = "UTC") %>%
+  monitor_timeseriesPlot(cex = 0.6, shadedNight = TRUE, main = "Monitors with Rate-of-Change >= 40 ug/m3/hr")
+monitor_timeseriesPlot(high_roc, type = 'l', lwd = 0.5, add = TRUE)
+monitor_timeseriesPlot(masked_high_roc, cex = 0.6, col = "red", add = TRUE, opacity = 1)
+```
+
+----
+
+
