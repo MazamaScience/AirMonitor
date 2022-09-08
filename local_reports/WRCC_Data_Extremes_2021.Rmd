@@ -47,11 +47,11 @@ addAQILegend("topleft", cex = 0.8)
 
 ## High Value Cutoff = 175
 
-AirNow QC uses a high value cutoff of 175 ug/m3 to flag suspect data. This cutoff
-may be too low for monitors deployed near wildfires.
+AirNow uses automated QC to invalidate any values above a "Max Severe" level.
+The default level for this high value cutoff is 175 ug/m3.
 
-Below we see two histograms, one with all of the values below the AirNow cutoff 
-of 175 ug/m3 and a second one with all the values above the cutoff.
+Below we see two histograms, one with all of the values below the default 
+"high value" cutoff of 175 ug/m3 and a second one with all the values above the cutoff.
 
 ```{r all_data_histograms, echo = FALSE}
 layout(matrix(seq(2)))
