@@ -1,3 +1,7 @@
+# AirMonitor 0.3.2
+
+* Added `monitor_selectWhere()` for data based selection.
+
 # AirMonitor 0.3.1
 
 * Updated `monitor_toPWFSLSmoke()` and `monitor_fromPWFSLSmoke()` to support

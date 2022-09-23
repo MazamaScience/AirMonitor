@@ -24,7 +24,7 @@ latest %>% monitor_leaflet()
 # Use the deviceDeploymentID to select a single monitor
 monitor <-
   latest %>%
-  monitor_select("4acfb3843fa942f0_040213015") # Hidden Valley, Arizona
+  monitor_select("4acfb3843fa942f0_021040213015") # Hidden Valley, Arizona
 
 dim(monitor$meta)
 dim(monitor$data)

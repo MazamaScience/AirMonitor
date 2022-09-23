@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(AirMonitor)
 
 cutoff <- 750
-roc_cutoff <- 200
+roc_cutoff <- 250
 
 airsis <- 
   airsis_loadAnnual(2021) %>%
@@ -36,14 +36,20 @@ smoke was impacting communities.
 
 ```{r all_data_timeseries_plot, echo = FALSE}
 par(mar = c(3, 4, 6, 2) + .1)
-monitor_timeseriesPlot(airsis, addAQI = TRUE, xpd = NA, main = "2021 PM2.5 Values")
+monitor_timeseriesPlot(airsis, xpd = NA, main = "2021 PM2.5 Values")
+abline(h = cutoff, col = adjustcolor("gray50", 0.6), lwd = 3)
+xlo <- par("usr")[1]
+xhi <- par("usr")[2]
+text(xlo, cutoff+25, sprintf("%d cutoff", cutoff), pos = 4, adj = c(0, 1))
 par(mar = c(5, 4, 4, 2) + .1)
-addAQILegend("topleft", cex = 0.8)
 
 par(mar = c(3, 4, 6, 2) + .1)
-monitor_timeseriesPlot(airsis, ylim = c(0, 1000), addAQI = TRUE, main = "2021 PM2.5 Values (zoomed in)")
+monitor_timeseriesPlot(airsis, ylim = c(0, 1000), main = "2021 PM2.5 Values (zoomed in)")
+abline(h = cutoff, col = adjustcolor("gray50", 0.6), lwd = 3)
+xlo <- par("usr")[1]
+xhi <- par("usr")[2]
+text(xlo, cutoff+25, sprintf("%d cutoff", cutoff), pos = 4, adj = c(0, 1))
 par(mar = c(5, 4, 4, 2) + .1)
-addAQILegend("topleft", cex = 0.8)
 ```
 
 ## High Value Cutoff = `r cutoff`
@@ -87,7 +93,7 @@ abline(h = cutoff, col = adjustcolor("gray50", 0.6), lwd = 3)
 
 xlo <- par("usr")[1]
 xhi <- par("usr")[2]
-text(xlo, 200, sprintf("%d cutoff", cutoff), pos = 4, adj = c(0, 1))
+text(xlo, cutoff+25, sprintf("%d cutoff", cutoff), pos = 4, adj = c(0, 1))
 ```
 
 ```{r high_value_timeseries_1, echo = FALSE}
@@ -99,7 +105,7 @@ abline(h = cutoff, col = adjustcolor("gray50", 0.6), lwd = 3)
 
 xlo <- par("usr")[1]
 xhi <- par("usr")[2]
-text(xlo, 200, sprintf("%d cutoff", cutoff), pos = 4, adj = c(0, 1))
+text(xlo, cutoff+25, sprintf("%d cutoff", cutoff), pos = 4, adj = c(0, 1))
 ```
 
 ```{r high_value_timeseries_2, echo = FALSE}
@@ -111,7 +117,7 @@ abline(h = cutoff, col = adjustcolor("gray50", 0.6), lwd = 3)
 
 xlo <- par("usr")[1]
 xhi <- par("usr")[2]
-text(xlo, 200, sprintf("%d cutoff", cutoff), pos = 4, adj = c(0, 1))
+text(xlo, cutoff+25, sprintf("%d cutoff", cutoff), pos = 4, adj = c(0, 1))
 ```
 
 ```{r high_value_timeseries_3, echo = FALSE}
@@ -123,7 +129,7 @@ abline(h = cutoff, col = adjustcolor("gray50", 0.6), lwd = 3)
 
 xlo <- par("usr")[1]
 xhi <- par("usr")[2]
-text(xlo, 200, sprintf("%d cutoff", cutoff), pos = 4, adj = c(0, 1))
+text(xlo, cutoff+25, sprintf("%d cutoff", cutoff), pos = 4, adj = c(0, 1))
 ```
 
 ## Rate of Change Cutoff = `r roc_cutoff` ug/m3/hr
