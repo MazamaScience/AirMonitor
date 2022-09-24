@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -135,6 +135,18 @@
       <small>Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="airmonitor-033" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.3">
+<a href="#airmonitor-033" class="anchor"></a>AirMonitor 0.3.3<small> Unreleased </small>
+</h1>
+<ul>
+<li>Added <code>QC_removeSuspectData = TRUE</code> argument to
+<code>airsis_load~()</code> and `wrcc_load~() functions to remove those
+monitors that have values of 2000 ug/m3. A review of the data from
+AIRSIS and WRCC shows some archival time series (2015, 2016, 2020) where
+all values are one of 0, 1K, 2K, 3K, 4K, 5K.</li>
+</ul>
+</div>
     <div id="airmonitor-032" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.2">
 <a href="#airmonitor-032" class="anchor"></a>AirMonitor 0.3.2<small> Unreleased </small>

@@ -8,7 +8,8 @@ wrcc_loadDaily(
   archiveBaseUrl = paste0("https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
     "monitoring/v2"),
   archiveBaseDir = NULL,
-  QC_negativeValues = c("zero", "na", "ignore")
+  QC_negativeValues = c("zero", "na", "ignore"),
+  QC_removeSuspectData = TRUE
 )
 }
 \arguments{
@@ -17,6 +18,8 @@ wrcc_loadDaily(
 \item{archiveBaseDir}{Local base directory for monitoring v2 data files.}
 
 \item{QC_negativeValues}{Type of QC to apply to negative values.}
+
+\item{QC_removeSuspectData}{Removes monitors determined to be misbehaving.}
 }
 \value{
 A \emph{mts_monitor} object with WRCC data. (A list with
@@ -36,6 +39,16 @@ contain data for the previous 45 days.
 For the most recent data in the last 10 days, use \code{wrcc_loadLatest()}.
 
 For data extended more than 45 days into the past, use \code{wrcc_loadAnnual()}.
+}
+\note{
+With \code{QC_removeSuspectData = TRUE} (the default), data is checked for
+monitors with values of 2000 ug/m3. Some older WRCC timeseries contain only
+values of 0, 1000, 2000, 3000, 4000 and 5000. Data from these deployments
+passed instrument-level QC checks but these timeseries generally do not
+represent valid data and should be removed.
+
+Only those personally familiar with the individual instrument deployments
+should work with the "suspect" data.
 }
 \examples{
 \dontrun{

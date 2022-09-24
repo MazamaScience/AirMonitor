@@ -6,6 +6,7 @@
 #' @param archiveBaseUrl Base URL for monitoring v2 data files.
 #' @param archiveBaseDir Local base directory for monitoring v2 data files.
 #' @param QC_negativeValues Type of QC to apply to negative values.
+#' @param QC_removeSuspectData Removes monitors determined to be misbehaving.
 #'
 #' @return A \emph{mts_monitor} object with WRCC data. (A list with
 #' \code{meta} and \code{data} dataframes.)
@@ -23,6 +24,16 @@
 #' For the most recent data in the last 10 days, use \code{wrcc_loadLatest()}.
 #'
 #' For data extended more than 45 days into the past, use \code{wrcc_loadAnnual()}.
+#'
+#' @note
+#' With \code{QC_removeSuspectData = TRUE} (the default), data is checked for
+#' monitors with values of 2000 ug/m3. Some older WRCC timeseries contain only
+#' values of 0, 1000, 2000, 3000, 4000 and 5000. Data from these deployments
+#' passed instrument-level QC checks but these timeseries generally do not
+#' represent valid data and should be removed.
+#'
+#' Only those personally familiar with the individual instrument deployments
+#' should work with the "suspect" data.
 #'
 #' @seealso \code{\link{wrcc_loadAnnual}}
 #' @seealso \code{\link{wrcc_loadDaily}}
@@ -46,7 +57,8 @@ wrcc_loadDaily <- function(
     "monitoring/v2"
   ),
   archiveBaseDir = NULL,
-  QC_negativeValues = c("zero", "na", "ignore")
+  QC_negativeValues = c("zero", "na", "ignore"),
+  QC_removeSuspectData = TRUE
 ) {
 
   parameterName <- "PM2.5"
@@ -138,20 +150,31 @@ wrcc_loadDaily <- function(
 
   # ----- Apply QC -------------------------------------------------------------
 
+  # Handle negative values
   if ( QC_negativeValues == "zero" ) {
-
     monitor <- monitor_replaceValues(monitor, data < 0, 0)
-
   } else if ( QC_negativeValues == "na" ) {
-
     monitor <- monitor_replaceValues(monitor, data < 0, as.numeric(NA))
+  }
+
+  # NOTE:  Several monitors in 2016 have values only at 0, 1000, 2000, ..., 5000
+  if ( QC_removeSuspectData ) {
+
+    badIDs <-
+      monitor %>%
+      monitor_selectWhere( function(x) { any(x == 2000, na.rm = TRUE) } ) %>%
+      monitor_getMeta() %>%
+      dplyr::pull(.data$deviceDeploymentID)
+
+    goodIDs <- setdiff(monitor$meta$deviceDeploymentID, badIDs)
 
   }
+
+  monitor <- monitor %>% monitor_select(goodIDs)
 
   # ----- Return ---------------------------------------------------------------
 
   return(monitor)
-
 
 }
 

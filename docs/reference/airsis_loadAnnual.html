@@ -79,7 +79,7 @@ For daily updates covering the most recent 45 days, use airsis_loadDaily()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
       </span>
     </div>
 
@@ -160,7 +160,8 @@ maintained by the USFS AirFire team.</p>
   archiveBaseUrl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"https://airfire-data-exports.s3.us-west-2.amazonaws.com/"</span>,
     <span class='st'>"monitoring/v2"</span><span class='op'>)</span>,
   archiveBaseDir <span class='op'>=</span> <span class='cn'>NULL</span>,
-  QC_negativeValues <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"zero"</span>, <span class='st'>"na"</span>, <span class='st'>"ignore"</span><span class='op'>)</span>
+  QC_negativeValues <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"zero"</span>, <span class='st'>"na"</span>, <span class='st'>"ignore"</span><span class='op'>)</span>,
+  QC_removeSuspectData <span class='op'>=</span> <span class='cn'>TRUE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -182,12 +183,25 @@ maintained by the USFS AirFire team.</p>
       <th>QC_negativeValues</th>
       <td><p>Type of QC to apply to negative values.</p></td>
     </tr>
+    <tr>
+      <th>QC_removeSuspectData</th>
+      <td><p>Removes monitors determined to be misbehaving.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <em>mts_monitor</em> object with AIRSIS data. (A list with
 <code>meta</code> and <code>data</code> dataframes.)</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>With <code>QC_removeSuspectData = TRUE</code> (the default), data is checked for
+monitors with values of 2000 ug/m3. Some older AIRSIS timeseries contain only
+values of 0, 1000, 2000, 3000, 4000 and 5000. Data from these deployments
+passed instrument-level QC checks but these timeseries generally do not
+represent valid data and should be removed.</p>
+<p>Only those personally familiar with the individual instrument deployments
+should work with the "suspect" data.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='airsis_loadDaily.html'>airsis_loadDaily</a></code></p>

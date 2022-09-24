@@ -8,7 +8,8 @@ airsis_loadLatest(
   archiveBaseUrl = paste0("https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
     "monitoring/v2"),
   archiveBaseDir = NULL,
-  QC_negativeValues = c("zero", "na", "ignore")
+  QC_negativeValues = c("zero", "na", "ignore"),
+  QC_removeSuspectData = TRUE
 )
 }
 \arguments{
@@ -17,6 +18,8 @@ airsis_loadLatest(
 \item{archiveBaseDir}{Local base directory for monitoring v2 data files.}
 
 \item{QC_negativeValues}{Type of QC to apply to negative values.}
+
+\item{QC_removeSuspectData}{Removes monitors determined to be misbehaving.}
 }
 \value{
 A \emph{mts_monitor} object with AIRSIS data. (A list with
@@ -36,6 +39,16 @@ contain data for the previous 10 days.
 For daily updates covering the most recent 45 days, use \code{airsis_loadDaily()}.
 
 For data extended more than 45 days into the past, use \code{airsis_loadAnnual()}.
+}
+\note{
+With \code{QC_removeSuspectData = TRUE} (the default), data is checked for
+monitors with values of 3000 ug/m3. Some older AIRSIS timeseries contain only
+values of 0, 1000, 2000, 3000, 4000 and 5000. Data from these deployments
+passed instrument-level QC checks but these timeseries generally do not
+represent valid data and should be removed.
+
+Only those personally familiar with the individual instrument deployments
+should work with the "suspect" data.
 }
 \examples{
 \dontrun{

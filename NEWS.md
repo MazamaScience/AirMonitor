@@ -1,3 +1,10 @@
+# AirMonitor 0.3.3
+
+* Added `QC_removeSuspectData = TRUE` argument to `airsis_load~()` and
+`wrcc_load~() functions to remove those monitors that have values of 2000 ug/m3. 
+A review of the data from AIRSIS and WRCC shows some archival time series 
+(2015, 2016, 2020) where all values are one of 0, 1K, 2K, 3K, 4K, 5K.
+
 # AirMonitor 0.3.2
 
 * Added `monitor_selectWhere()` for data based selection.
