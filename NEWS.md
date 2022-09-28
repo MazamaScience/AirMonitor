@@ -1,3 +1,8 @@
+# AirMonitor 0.3.4
+
+* Improved logic for `QC_removeSuspectData` argument to `airsis_load~()` and
+`wrcc_load~() functions.
+
 # AirMonitor 0.3.3
 
 * Added `QC_removeSuspectData = TRUE` argument to `airsis_load~()` and

@@ -26,11 +26,11 @@
 #' For data extended more than 45 days into the past, use \code{wrcc_loadAnnual()}.
 #'
 #' @note
+#' Some older WRCC timeseries contain only values of 0, 1000, 2000, 3000, ... ug/m3.
+#' Data from these deployments pass instrument-level QC checks but these
+#' timeseries generally do not represent valid data and should be removed.
 #' With \code{QC_removeSuspectData = TRUE} (the default), data is checked for
-#' monitors with values of 2000 ug/m3. Some older WRCC timeseries contain only
-#' values of 0, 1000, 2000, 3000, 4000 and 5000. Data from these deployments
-#' passed instrument-level QC checks but these timeseries generally do not
-#' represent valid data and should be removed.
+#' monitors only reporting values of 0:10 * 1000 ug/m3.
 #'
 #' Only those personally familiar with the individual instrument deployments
 #' should work with the "suspect" data.
@@ -157,20 +157,21 @@ wrcc_loadLatest <- function(
     monitor <- monitor_replaceValues(monitor, data < 0, as.numeric(NA))
   }
 
-  # NOTE:  Several monitors in 2016 have values only at 0, 1000, 2000, ..., 5000
+  # NOTE:  Several monitors in 2015 have values only at 0, 1000, 2000, 3000, ...
   if ( QC_removeSuspectData ) {
 
+    suspectValues <- c(0:10 * 1000, as.numeric(NA))
     badIDs <-
       monitor %>%
-      monitor_selectWhere( function(x) { any(x == 2000, na.rm = TRUE) } ) %>%
+      monitor_selectWhere( function(x) { all(x %in% suspectValues, na.rm = TRUE) } ) %>%
       monitor_getMeta() %>%
       dplyr::pull(.data$deviceDeploymentID)
 
     goodIDs <- setdiff(monitor$meta$deviceDeploymentID, badIDs)
 
-  }
+    monitor <- monitor %>% monitor_select(goodIDs)
 
-  monitor <- monitor %>% monitor_select(goodIDs)
+  }
 
   # ----- Return ---------------------------------------------------------------
 
