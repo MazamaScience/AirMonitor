@@ -80,7 +80,7 @@ For data extended more than 45 days into the past, use wrcc_loadAnnual()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
       </span>
     </div>
 
@@ -192,11 +192,11 @@ contain data for the previous 10 days.</p>
 <code>meta</code> and <code>data</code> dataframes.)</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>With <code>QC_removeSuspectData = TRUE</code> (the default), data is checked for
-monitors with values of 2000 ug/m3. Some older WRCC timeseries contain only
-values of 0, 1000, 2000, 3000, 4000 and 5000. Data from these deployments
-passed instrument-level QC checks but these timeseries generally do not
-represent valid data and should be removed.</p>
+    <p>Some older WRCC timeseries contain only values of 0, 1000, 2000, 3000, ... ug/m3.
+Data from these deployments pass instrument-level QC checks but these
+timeseries generally do not represent valid data and should be removed.
+With <code>QC_removeSuspectData = TRUE</code> (the default), data is checked and
+periods reporting only values of 0:10 * 1000 ug/m3 are invalidated.</p>
 <p>Only those personally familiar with the individual instrument deployments
 should work with the "suspect" data.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

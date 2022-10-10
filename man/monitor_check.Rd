@@ -7,7 +7,7 @@
 monitor_check(monitor)
 }
 \arguments{
-\item{monitor}{\emph{mts_monitor} objet.}
+\item{monitor}{\emph{mts_monitor} object.}
 }
 \value{
 Invisibly returns \code{TRUE} if \code{mts_monitor} has the correct

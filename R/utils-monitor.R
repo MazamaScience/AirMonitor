@@ -2,7 +2,7 @@
 #'
 #' @title Check an \emph{mts_monitor} object for validity.
 #'
-#' @param monitor \emph{mts_monitor} objet.
+#' @param monitor \emph{mts_monitor} object.
 #'
 #' @description Checks on the validity of an \emph{mts_monitor} object. If any test
 #' fails, this function will stop with a warning message.

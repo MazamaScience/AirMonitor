@@ -46,8 +46,8 @@ For daily updates covering the most recent 45 days, use \code{airsis_loadDaily()
 Some older AIRSIS timeseries contain only values of 0, 1000, 2000, 3000, ... ug/m3.
 Data from these deployments pass instrument-level QC checks but these
 timeseries generally do not represent valid data and should be removed.
-With \code{QC_removeSuspectData = TRUE} (the default), data is checked for
-monitors only reporting values of 0:10 * 1000 ug/m3.
+With \code{QC_removeSuspectData = TRUE} (the default), data is checked and
+periods reporting only values of 0:10 * 1000 ug/m3 are invalidated.
 
 Only those personally familiar with the individual instrument deployments
 should work with the "suspect" data.

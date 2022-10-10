@@ -3,6 +3,7 @@
 export("%>%")
 export(AirFire_S3_archiveBaseUrl)
 export(CONUS)
+export(QC_invalidateConsecutiveSuspectValues)
 export(US_52)
 export(US_AQI)
 export(addAQILegend)
