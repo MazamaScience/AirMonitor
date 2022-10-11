@@ -42,6 +42,26 @@ monitor_timeseriesPlot(airsis_2015, xlab = "", ylim=c(0, 1500), xpd = NA, main =
 par(mar = c(5,4,4,2) + .1)
 layout(1)
 
+# ===== EXPLORE AIRSIS 2022 ====================================================
+
+threshold <- 500
+
+worst_sites <-
+  airsis_2022 %>%
+  monitor_selectWhere(
+    function(x) { any(x >= threshold, na.rm = TRUE) }
+  )
+
+worst_sites %>% monitor_leaflet()
+
+worst_sites %>%
+  monitor_filterDate(20220726, 20220810) %>%
+  monitor_dropEmpty() %>%
+  monitor_select("7189571beee8f765_arb3.2017") %>%
+  #AirMonitorPlots::monitor_ggTimeseries()
+  #monitor_timeseriesPlot()
+  monitor_leaflet()
+
 # ===== WRCC ===================================================================
 
 wrcc_2022 <- wrcc_loadAnnual(2022)

@@ -2,7 +2,7 @@
 
 * Improved logic for `QC_removeSuspectData` argument to `airsis_load~()` and
 `wrcc_load~() functions.
-* Added QC_QC_invalidateConsecutiveSuspectValues() function.
+* Added `QC_invalidateConsecutiveSuspectValues()` function.
 
 # AirMonitor 0.3.3
 

@@ -1,0 +1,224 @@
+---
+title: "AIRSIS QC Options"
+author: "Jonathan Callahan"
+date: "2022-10-11"
+output: html_document
+---
+
+```{r setup, include=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo=TRUE)
+```
+
+## Quality Control
+
+This mini-report examines PM2.5 data values from temporary monitors whose data 
+is obtained from AIRSIS (aka Oceaneering). 
+
+We will explore various QC options that can be used to improve trust in the data
+without invalidating valid outliers that may identify periods of intense smoke
+from wildfires.
+
+### Engineering-level QC
+
+All data used in this report have already had instrument specific QC applied. 
+During data processing of _engineering-level_ data, PM2.5 values were 
+invalidated if other measurements such as Internal Relative Humidity or Air Flow
+were out of spec, indicating that the instrument was not working properly. This 
+level of QC only works on one record at a time.
+
+The term "Raw" below refers to post-engineering-level-QC.
+
+### "Raw" Data Problems
+
+We will use AIRSIS data from 2020 to highlight some of the issues that must be
+dealt with.
+
+A simple plot of data from all 165 temporary monitors in 2020 reveals many 
+occurences of 1000, 2000, _etc._ Many of these are obviously incorrect and need 
+to be removed. 
+
+```{r airsis_no_QC, warning=FALSE}
+library(AirMonitor)
+
+airsis_no_QC <- 
+  airsis_loadAnnual(
+    2020,
+    QC_negativeValues = "ignore",
+    QC_removeSuspectData = FALSE
+  )
+
+monitor_timeseriesPlot(airsis_no_QC, main = "AIRSIS 2020 data -- 165 Sites with no QC")
+```
+
+### QC: Remove "Sticky" Values
+
+We can create an algorithm that invalidates (_i.e._ replaces with 
+`NA`) the obviously bad values:
+
+```
+1. identify all "suspect values" (NA, 0, 1K, 2K, 3K, ...)
+2. identify any consecutive sequence of suspect values of length 2 or more
+3. invalidate every value that is part of such a sequence
+```
+
+Applying this "sticky values" QC, we can remove all of the 
+visually obvious bad values:
+
+```{r airsis_no_sticky, warning=FALSE}
+airsis_no_sticky <- 
+  airsis_loadAnnual(
+    2020,
+    QC_negativeValues = "ignore",
+    QC_removeSuspectData = TRUE
+  )
+
+monitor_timeseriesPlot(airsis_no_sticky, main = "AIRSIS 2020 data -- 'Sticky' values removed")
+```
+
+But if we look closely near zero we see many negative values:
+
+```{r airsis_negative, warning=FALSE}
+monitor_timeseriesPlot(airsis_no_sticky, main = "AIRSIS 2020 data -- Negative values", ylim = c(-20, 20))
+usr <- par()$usr
+rect(
+  usr[1], usr[3], usr[2], -0.5,
+  col = adjustcolor("salmon", 0.2),
+  border = NA
+)
+```
+
+### QC: Remove negative values
+
+Negative values of aerosol density are not possible. They are "aphysical".
+
+There are many reasons why an instrument might report negative values, several
+of them related to electronics: bias voltages within sensors; amplifiers may 
+need calibration; _etc._ 
+
+Without a deep dive into the engineering data for each instrument, the best way
+to resolve these "aphysical" values is to convert them to zero. Most of these
+values are small numbers anyway, so conversion to zero can be seen as "rounding
+up" to the nearest physically sensible value.
+
+Here is a final version of the AIRSIS 2020 data with
+
+* removal of consecutive suspect values
+* converstion of negative values to zero
+
+```{r airsis_qc, warning=FALSE}
+airsis <- 
+  airsis_loadAnnual(
+    2020,
+    QC_negativeValues = "zero",
+    QC_removeSuspectData = TRUE
+  )
+
+monitor_timeseriesPlot(airsis, main = "AIRSIS 2020 data -- QC applied")
+```
+
+## Extreme Values
+
+We can subset this dataset to include only those monitors that recorded values
+equal to or greater than 500 ug/m3. This subset contains 24 sites presented on 
+the map below. Most are in valley locations where diurnal breezes can concentrate 
+wildfire smoke generated in the surrounding mountains.
+
+```{r worst_sites_leaflet, warning=FALSE}
+worst_sites <-
+  airsis %>%
+  monitor_selectWhere(
+    function(x) { any(x >= 500, na.rm = TRUE) }
+  )
+
+monitor_leaflet(worst_sites)
+```
+
+Plotting the annual timeseries for these "worst" sites shows that September saw 
+the most smoke with 18 monitors registering values >= 500 ug/m3.
+
+```{r worst_sites_timeseriesPlot, warning=FALSE}
+worst_sites %>%
+  monitor_timeseriesPlot(main = "AIRSIS 2020 data -- Sites with >= 500 ug/m3")
+
+worst_sites_september <-
+  airsis %>%
+  monitor_filterDate(20200901, 20201001, timezone = "UTC") %>%
+  monitor_selectWhere(
+    function(x) { any(x >= 500, na.rm = TRUE) }
+  )
+
+worst_sites_september %>%
+  monitor_timeseriesPlot(main = "AIRSIS 2020 data -- 18 Sites with >= 500 ug/m3")
+```
+
+### Timeseries Inspection
+
+The next three plots present each individual timeseries (dots) along with the
+NowCast (lines) so we can visually inspect them for suspect measurements. 
+
+_Note:  These plots do not show any of the (very few) values above 1500 ug/m3_
+
+```{r worst_sites_1_6, echo = FALSE, warning=FALSE, fig.width = 8, fig.height=10}
+library(AirMonitorPlots)
+
+ids <- worst_sites_september$meta$deviceDeploymentID
+
+worst_sites_1_6 <- 
+  worst_sites_september %>%
+  monitor_select(ids[1:6]) %>%
+  ggplot_pm25Timeseries(
+    startdate = 20200901,
+    enddate = 20201001,
+    timezone = "UTC",
+    ylim = c(0, 1500)
+  ) +
+  ggtitle("Worst Sites 1-6") +
+  geom_pm25Points(aes(color = locationName)) + 
+  stat_nowcast(aes(color = locationName)) +
+  facet_grid(rows = vars(locationName))
+
+print(worst_sites_1_6)
+```
+
+```{r worst_sites_7_12, echo = FALSE, warning=FALSE, fig.width = 8, fig.height=10}
+worst_sites_7_12 <- 
+  worst_sites_september %>%
+  monitor_select(ids[7:12]) %>%
+  ggplot_pm25Timeseries(
+    startdate = 20200901,
+    enddate = 20201001,
+    timezone = "UTC",
+    ylim = c(0, 1500)
+  ) +
+  ggtitle("Worst Sites 7-12") +
+  geom_pm25Points(aes(color = locationName)) + 
+  stat_nowcast(aes(color = locationName)) +
+  facet_grid(rows = vars(locationName))
+
+print(worst_sites_7_12)
+```
+
+```{r worst_sites_13_18, echo = FALSE, warning=FALSE, fig.width = 8, fig.height=10}
+worst_sites_13_18 <- 
+  worst_sites_september %>%
+  monitor_select(ids[13:18]) %>%
+  ggplot_pm25Timeseries(
+    startdate = 20200901,
+    enddate = 20201001,
+    timezone = "UTC",
+    ylim = c(0, 1500)
+  ) +
+  ggtitle("Worst Sites 13-18") +
+  geom_pm25Points(aes(color = locationName)) + 
+  stat_nowcast(aes(color = locationName)) +
+  facet_grid(rows = vars(locationName))
+
+print(worst_sites_13_18)
+```
+
+For almost all instruments, measurements above 500 or even above 1000 ug/m3 seem
+quite reasonable in the context of surrounding points.
+
+----
+
+
