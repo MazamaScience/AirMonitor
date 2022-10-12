@@ -79,7 +79,7 @@ monitor_filter() is an alias for monitor_filterMeta()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
       </span>
     </div>
 
@@ -198,18 +198,16 @@ object.</p>
   <span class='fu'>monitor_filter</span><span class='op'>(</span><span class='va'>latitude</span> <span class='op'>&gt;</span> <span class='fl'>39.5</span>, <span class='va'>longitude</span> <span class='op'>&gt;</span> <span class='op'>-</span><span class='fl'>121.5</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='monitor_getDataFrame.html'>monitor_getMeta</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span><span class='op'>(</span><span class='va'>locationName</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "Chester BAM" "Portola"     "Quincy BAM" </div><div class='input'>
+</div><div class='output co'>#&gt; [1] "MMCA81017"   "Portola"     "Quincy BAM"  "Chester BAM" "MMCA81019"  </div><div class='input'>
 <span class='co'># Filter using string matching</span>
 <span class='va'>Camp_Fire</span> <span class='op'>%&gt;%</span>
   <span class='fu'>monitor_filter</span><span class='op'>(</span><span class='fu'>stringr</span><span class='fu'>::</span><span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>locationName</span>, <span class='st'>"^San"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='monitor_getDataFrame.html'>monitor_getMeta</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span><span class='op'>(</span><span class='va'>locationName</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;  [1] "San Andreas"                  "San Pablo - Rumrill"         
-#&gt;  [3] "Santa Clarita"                "San Rafael"                  
-#&gt;  [5] "San Francisco"                "San Luis Obispo - Higuera St"
-#&gt;  [7] "Santa Barbara"                "Santa Maria - Broadway"      
-#&gt;  [9] "San Jose - Jackson St."       "San Jose - Knox Ave"         
-#&gt; [11] "Santa Cruz AMS"              </div><div class='input'>
+</div><div class='output co'>#&gt;  [1] "Santa Cruz AMS"         "Santa Clarita"          "San Rafael"            
+#&gt;  [4] "Santa Barbara"          "Santa Maria - Broadway" "San Francisco"         
+#&gt;  [7] "San Pablo - Rumrill"    "San Jose - Jackson St." "San Jose - Knox Ave"   
+#&gt; [10] "San Andreas"           </div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

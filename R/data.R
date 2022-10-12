@@ -12,17 +12,17 @@
 #' northern Idaho. The NW_Megafires dataset contains monitoring data for the
 #' Pacific Northwest from July 24 through September 06, 2015.
 #'
-#' This dataset was generated on 2022-03-23 by running:
+#' This dataset was generated on 2022-10-12 by running:
 #'
 #' \preformatted{
 #' library(AirMonitor)
 #'
-# NW_Megafires <-
-#   airnow_loadAnnual(2015) \%>\%
-#   monitor_filterMeta(stateCode \%in\% c("WA", "OR", "ID")) \%>\%
-#   monitor_filterDate(20150724, 20150907)
-#
-# save(NW_Megafires, file = "data/NW_Megafires.rda")
+#' NW_Megafires <-
+#'   airnow_loadAnnual(2015) \%>\%
+#'   monitor_filterMeta(stateCode \%in\% c("WA", "OR", "ID")) \%>\%
+#'   monitor_filterDate(20150724, 20150907)
+#'
+#' save(NW_Megafires, file = "data/NW_Megafires.rda")
 #' }
 #'
 "NW_Megafires"
@@ -35,20 +35,20 @@
 #'
 #' @details
 #' In August of 2016, the Soberanes fire in California burned along the Big Sur
-#' coast. At the time, it was the most expensive wildifre in US history. This
+#' coast. At the time, it was the most expensive wildfire in US history. This
 #' dataset contains PM2.5 monitoring data for the monitor in Carmel Valley which
 #' shows heavy smoke as well as strong diurnal cycles associated with sea
 #' breezes. Data are stored as a \emph{mts_monitor} object and are used in some
 #' examples in the package documentation.
 #'
-#' This dataset was generated on 2022-03-22 by running:
+#' This dataset was generated on 2022-10-12 by running:
 #'
 #' \preformatted{
 #' library(AirMonitor)
 #'
 #' Carmel_Valley <-
 #'   airnow_loadAnnual(2016) \%>\%
-#'   monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_060530002") \%>\%
+#'   monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_840060530002") \%>\%
 #'   monitor_filterDate(20160722, 20160815)
 #'
 #' save(Carmel_Valley, file = "data/Carmel_Valley.rda")
@@ -63,7 +63,7 @@
 #' version of a \emph{mts_monitor} object for practicing and code examples.
 #'
 #' @details
-#' The 20189 Camp Fire was the deadliest and most destructive wildfire in California's
+#' The 2018 Camp Fire was the deadliest and most destructive wildfire in California's
 #' history, and the most expensive natural disaster in the world in 2018 in
 #' terms of insured losses. The fire caused at least 85 civilian fatalities and
 #' injured 12 civilians and five firefighters. It covered an area of 153,336
@@ -71,7 +71,7 @@
 #' Smoke from the fire resulted in the worst air pollution ever for the
 #' San Francisco Bay Area and Sacramento Valley.
 #'
-#' This dataset was was generated on 2022-02-15 by running:
+#' This dataset was was generated on 2022-10-12 by running:
 #'
 #' \preformatted{
 #' library(AirMonitor)

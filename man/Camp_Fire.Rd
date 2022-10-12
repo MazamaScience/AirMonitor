@@ -16,7 +16,7 @@ The \code{Camp_Fire} dataset provides a quickly loadable
 version of a \emph{mts_monitor} object for practicing and code examples.
 }
 \details{
-The 20189 Camp Fire was the deadliest and most destructive wildfire in California's
+The 2018 Camp Fire was the deadliest and most destructive wildfire in California's
 history, and the most expensive natural disaster in the world in 2018 in
 terms of insured losses. The fire caused at least 85 civilian fatalities and
 injured 12 civilians and five firefighters. It covered an area of 153,336
@@ -24,7 +24,7 @@ acres and destroyed more than 18,000 structures, most with the first 4 hours.
 Smoke from the fire resulted in the worst air pollution ever for the
 San Francisco Bay Area and Sacramento Valley.
 
-This dataset was was generated on 2022-02-15 by running:
+This dataset was was generated on 2022-10-12 by running:
 
 \preformatted{
 library(AirMonitor)

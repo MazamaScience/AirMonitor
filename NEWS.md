@@ -1,3 +1,8 @@
+# AirMonitor 0.3.5
+
+* Now depending on **MazamaTimeSeries** 0.2.8 for the `mts_selectWhere()` function.
+* Updated data sets with latest version of the data.
+
 # AirMonitor 0.3.4
 
 * Improved logic for `QC_removeSuspectData` argument to `airsis_load~()` and

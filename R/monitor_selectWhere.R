@@ -42,48 +42,17 @@ monitor_selectWhere <- function(
   FUN
 ) {
 
-  # ----- Validate parameters --------------------------------------------------
+  # NOTE:  Validate is handled by MazamaTimeSeries::mts_selectWhere()
 
-  # A little involved to catch the case where the user forgets to pass in 'monitor'
-  result <- try({
-    if ( !monitor_isValid(monitor) )
-      stop("First argument is not a valid 'mts_monitor' object.")
-  }, silent = TRUE)
+  # ----- Call MazamaTimeSeries function ---------------------------------------
 
-  if ( class(result) %in% "try-error" ) {
-    err_msg <- geterrmessage()
-    if ( stringr::str_detect(err_msg, "object .* not found") ) {
-      stop(paste0(err_msg, "\n(Did you forget to pass in the 'monitor' object?)"))
-    }
-  }
+  monitor <-
+    MazamaTimeSeries::mts_selectWhere(
+      mts = monitor,
+      FUN = FUN
+    )
 
-  if ( monitor_isEmpty(monitor) )
-    stop("Parameter 'monitor' has no data.")
-
-  if ( !is.function(FUN) )
-    stop("'FUN' is not a function.")
-
-  if ( !is.logical(FUN(c(1:5,NA,6:10))) )
-    stop("'FUN' does not return a logical value. Do you need to include 'na.rm = TRUE'?")
-
-  # ----- Apply function -------------------------------------------------------
-
-  # See https://dplyr.tidyverse.org/articles/colwise.html
-
-  # Get dataBrick
-  tbl <- monitor$data[,-1]
-
-  # Apply function
-  mask <-
-    tbl %>%
-    dplyr::summarize(dplyr::across(.cols = dplyr::everything(), FUN)) %>%
-    as.logical()
-
-  # Get deviceDeploymentIDs where FUN returns TRUE
-  ids <- names(tbl)[mask]
-
-  # Select those monitors
-  monitor <- monitor %>% monitor_select(ids)
+  class(monitor) <- union("mts_monitor", class(monitor))
 
   # ----- Return ---------------------------------------------------------------
 

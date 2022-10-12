@@ -79,7 +79,7 @@ includeData = FALSE." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
       </span>
     </div>
 
@@ -187,16 +187,16 @@ on a single sheet.</p>
 
 <span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>monitor</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; ##### Site metadata begins below here,NA,NA
-#&gt; parameter,blank,a9572a904a4ed46d_060530002
-#&gt; deviceDeploymentID,,a9572a904a4ed46d_060530002
-#&gt; deviceID,,060530002
+#&gt; parameter,blank,a9572a904a4ed46d_840060530002
+#&gt; deviceDeploymentID,,a9572a904a4ed46d_840060530002
+#&gt; deviceID,,840060530002
 #&gt; deviceType,,NA
 #&gt; deviceDescription,,NA
 #&gt; deviceExtra,,NA
 #&gt; pollutant,,PM2.5
 #&gt; units,,UG/M3
-#&gt; dataIngestSource,,AIRNOW
-#&gt; dataIngestURL,,https://files.airnowtech.org/airnow
+#&gt; dataIngestSource,,AirNow
+#&gt; dataIngestURL,,https://www.airnowapi.org/aq/data/
 #&gt; dataIngestUnitID,,NA
 #&gt; dataIngestExtra,,NA
 #&gt; dataIngestDescription,,NA
@@ -210,13 +210,13 @@ on a single sheet.</p>
 #&gt; countyName,,Monterey
 #&gt; timezone,,America/Los_Angeles
 #&gt; houseNumber,,NA
-#&gt; street,,Via Contenta
+#&gt; street,,Ford Road
 #&gt; city,,NA
 #&gt; zip,,NA
 #&gt; AQSID,,060530002
 #&gt; fullAQSID,,840060530002
 #&gt; ##### Hourly data begins below here,NA,NA
-#&gt; UTC Time,Local Time,a9572a904a4ed46d_060530002
+#&gt; UTC Time,Local Time,a9572a904a4ed46d_840060530002
 #&gt; 2016-08-02 07:00:00 UTC,2016-08-02 00:00:00 PDT,26
 #&gt; 2016-08-02 08:00:00 UTC,2016-08-02 01:00:00 PDT,31
 #&gt; 2016-08-02 09:00:00 UTC,2016-08-02 02:00:00 PDT,38
@@ -241,9 +241,9 @@ on a single sheet.</p>
 #&gt; 2016-08-03 04:00:00 UTC,2016-08-02 21:00:00 PDT,5
 #&gt; 2016-08-03 05:00:00 UTC,2016-08-02 22:00:00 PDT,6
 #&gt; 2016-08-03 06:00:00 UTC,2016-08-02 23:00:00 PDT,9</div><div class='input'><span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>monitor</span>, includeData <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; deviceDeploymentID,deviceID,deviceType,deviceDescription,deviceExtra,pollutant,units,dataIngestSource,dataIngestURL,dataIngestUnitID,dataIngestExtra,dataIngestDescription,locationID,locationName,longitude,latitude,elevation,countryCode,stateCode,countyName,timezone,houseNumber,street,city,zip,AQSID,fullAQSID
-#&gt; a9572a904a4ed46d_060530002,060530002,NA,NA,NA,PM2.5,UG/M3,AIRNOW,https://files.airnowtech.org/airnow,NA,NA,NA,a9572a904a4ed46d,Carmel Valley AMS,-121.73333,36.48187,200.1,US,CA,Monterey,America/Los_Angeles,NA,Via Contenta,NA,NA,060530002,840060530002</div><div class='input'><span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>monitor</span>, includeMeta <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; UTC Time,Local Time,a9572a904a4ed46d_060530002
+</div><div class='output co'>#&gt; deviceDeploymentID,deviceID,deviceType,deviceDescription,deviceExtra,pollutant,units,dataIngestSource,dataIngestURL,dataIngestUnitID,dataIngestExtra,dataIngestDescription,locationID,locationName,longitude,latitude,elevation,countryCode,stateCode,countyName,timezone,houseNumber,street,city,zip,AQSID,fullAQSID,airnow_stationID,airnow_parameterName,airnow_monitorType,airnow_siteCode,airnow_status,airnow_agencyID,airnow_agencyName,airnow_EPARegion,airnow_GMTOffsetHours,airnow_CBSA_ID,airnow_CBSA_Name,airnow_stateAQSCode,airnow_countyAQSCode,airnow_MSAName,address,deploymentType
+#&gt; a9572a904a4ed46d_840060530002,840060530002,NA,NA,NA,PM2.5,UG/M3,AirNow,https://www.airnowapi.org/aq/data/,NA,NA,NA,a9572a904a4ed46d,Carmel Valley AMS,-121.73333,36.48187,200.1,US,CA,Monterey,America/Los_Angeles,NA,Ford Road,NA,NA,060530002,840060530002,060530002,PM2.5,Permanent,0002,Active,MON,Monterey Bay Unified APCD,R9,-8,41500," Salinas, CA ",06,053,NA,"Tularcitos Elementary School, Ford Road, Carmel Valley, Monterey County, CA, United States of America",Permanent</div><div class='input'><span class='fu'>monitor_toCSV</span><span class='op'>(</span><span class='va'>monitor</span>, includeMeta <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; UTC Time,Local Time,a9572a904a4ed46d_840060530002
 #&gt; 2016-08-02 07:00:00 UTC,2016-08-02 00:00:00 PDT,26
 #&gt; 2016-08-02 08:00:00 UTC,2016-08-02 01:00:00 PDT,31
 #&gt; 2016-08-02 09:00:00 UTC,2016-08-02 02:00:00 PDT,38

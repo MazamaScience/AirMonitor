@@ -80,7 +80,7 @@ fewer than count time series are found within the target area." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
       </span>
     </div>
 
@@ -223,11 +223,13 @@ as a field in <code>monitor$meta</code>.</p></td>
 <span class='va'>Walla_Walla_monitors</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='monitor_getDataFrame.html'>monitor_getMeta</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"locationName"</span>, <span class='st'>"distanceFromTarget"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 2 × 2</span>
+</div><div class='output co'>#&gt; <span style='color: #949494;'># A tibble: 4 × 2</span>
 #&gt;   locationName        distanceFromTarget
 #&gt;   <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                            <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
 #&gt; <span style='color: #BCBCBC;'>1</span> Walla Walla-12th St               <span style='text-decoration: underline;'>1</span>794
-#&gt; <span style='color: #BCBCBC;'>2</span> Dayton-W Main                    <span style='text-decoration: underline;'>38</span>732</div><div class='input'>
+#&gt; <span style='color: #BCBCBC;'>2</span> Walla Walla-12th St               <span style='text-decoration: underline;'>1</span>794
+#&gt; <span style='color: #BCBCBC;'>3</span> Dayton-W Main                    <span style='text-decoration: underline;'>38</span>732
+#&gt; <span style='color: #BCBCBC;'>4</span> Dayton-W Main                    <span style='text-decoration: underline;'>38</span>732</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

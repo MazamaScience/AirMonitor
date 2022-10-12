@@ -166,8 +166,8 @@ following example:
 
 ```{r Methow_Valley, results = "hold"}
 # Calculate daily means for the Methow Valley from monitors in Twisp and Winthrop
-TwispID <- "450d08fb5a3e4ea0_530470009"
-WinthropID <- "40ffdacb421a5ee6_530470010"
+TwispID <- "40ffdacb421a5ee6_840530470010"
+WinthropID <- "450d08fb5a3e4ea0_530470009"
 
 # Recipe to calculate Methow Valley August Means:
 Methow_Valley_AugustMeans <- 

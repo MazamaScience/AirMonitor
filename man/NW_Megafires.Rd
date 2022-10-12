@@ -21,11 +21,17 @@ that led to many days of heavy smoke in eastern Washington, Oregon and
 northern Idaho. The NW_Megafires dataset contains monitoring data for the
 Pacific Northwest from July 24 through September 06, 2015.
 
-This dataset was generated on 2022-03-23 by running:
+This dataset was generated on 2022-10-12 by running:
 
 \preformatted{
 library(AirMonitor)
 
+NW_Megafires <-
+  airnow_loadAnnual(2015) \%>\%
+  monitor_filterMeta(stateCode \%in\% c("WA", "OR", "ID")) \%>\%
+  monitor_filterDate(20150724, 20150907)
+
+save(NW_Megafires, file = "data/NW_Megafires.rda")
 }
 }
 \keyword{datasets}

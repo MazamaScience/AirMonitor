@@ -90,7 +90,7 @@ single monitor and take a look at a timeseries plot:
 ```{r Sacramento_3}
 Sacramento <-
   Camp_Fire %>%
-  monitor_select("8ca91d2521b701d4_060670010")
+  monitor_select("127e996697f9731c_840060670010")
 
 Sacramento %>%
   monitor_timeseriesPlot(

@@ -74,7 +74,7 @@ mask identifying monitors within a certain radius of the location of interest." 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
       </span>
     </div>
 
@@ -196,38 +196,54 @@ calculated using <code>measure = "geodesic"</code>.</p>
 
 <span class='co'># Distance in meters</span>
 <span class='va'>distance</span><span class='op'>[</span><span class='va'>closestIndex</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; 3f1e6dd0ed3ca0b1_530710005 
-#&gt;                    1779.27 </div><div class='input'>
+</div><div class='output co'>#&gt; 3f1e6dd0ed3ca0b1_840530710005    3f1e6dd0ed3ca0b1_530710005 
+#&gt;                       1779.27                       1779.27 </div><div class='input'>
 <span class='co'># Monitor metadata</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>NW_Megafires</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>[</span><span class='va'>closestIndex</span>,<span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; tibble [1 × 27] (S3: tbl_df/tbl/data.frame)
-#&gt;  $ deviceDeploymentID   : chr "3f1e6dd0ed3ca0b1_530710005"
-#&gt;  $ deviceID             : chr "530710005"
-#&gt;  $ deviceType           : chr NA
-#&gt;  $ deviceDescription    : chr NA
-#&gt;  $ deviceExtra          : chr NA
-#&gt;  $ pollutant            : chr "PM2.5"
-#&gt;  $ units                : chr "UG/M3"
-#&gt;  $ dataIngestSource     : chr "AIRNOW"
-#&gt;  $ dataIngestURL        : chr "https://files.airnowtech.org/airnow"
-#&gt;  $ dataIngestUnitID     : chr NA
-#&gt;  $ dataIngestExtra      : chr NA
-#&gt;  $ dataIngestDescription: chr NA
-#&gt;  $ locationID           : chr "3f1e6dd0ed3ca0b1"
-#&gt;  $ locationName         : chr "Walla Walla-12th St"
-#&gt;  $ longitude            : num -118
-#&gt;  $ latitude             : num 46.1
-#&gt;  $ elevation            : num 267
-#&gt;  $ countryCode          : chr "US"
-#&gt;  $ stateCode            : chr "WA"
-#&gt;  $ countyName           : chr "Walla Walla"
-#&gt;  $ timezone             : chr "America/Los_Angeles"
-#&gt;  $ houseNumber          : chr NA
-#&gt;  $ street               : chr "South 12th Avenue"
-#&gt;  $ city                 : chr "Walla Walla"
-#&gt;  $ zip                  : chr "99362-5024"
-#&gt;  $ AQSID                : chr "530710005"
-#&gt;  $ fullAQSID            : chr "840530710005"</div><div class='input'>
+</div><div class='output co'>#&gt; tibble [2 × 43] (S3: tbl_df/tbl/data.frame)
+#&gt;  $ deviceDeploymentID   : chr [1:2] "3f1e6dd0ed3ca0b1_840530710005" "3f1e6dd0ed3ca0b1_530710005"
+#&gt;  $ deviceID             : chr [1:2] "840530710005" "530710005"
+#&gt;  $ deviceType           : chr [1:2] NA NA
+#&gt;  $ deviceDescription    : chr [1:2] NA NA
+#&gt;  $ deviceExtra          : chr [1:2] NA NA
+#&gt;  $ pollutant            : chr [1:2] "PM2.5" "PM2.5"
+#&gt;  $ units                : chr [1:2] "UG/M3" "UG/M3"
+#&gt;  $ dataIngestSource     : chr [1:2] "AirNow" "AIRNOW"
+#&gt;  $ dataIngestURL        : chr [1:2] "https://www.airnowapi.org/aq/data/" "https://files.airnowtech.org/airnow"
+#&gt;  $ dataIngestUnitID     : chr [1:2] NA NA
+#&gt;  $ dataIngestExtra      : chr [1:2] NA NA
+#&gt;  $ dataIngestDescription: chr [1:2] NA NA
+#&gt;  $ locationID           : chr [1:2] "3f1e6dd0ed3ca0b1" "3f1e6dd0ed3ca0b1"
+#&gt;  $ locationName         : chr [1:2] "Walla Walla-12th St" "Walla Walla-12th St"
+#&gt;  $ longitude            : num [1:2] -118 -118
+#&gt;  $ latitude             : num [1:2] 46.1 46.1
+#&gt;  $ elevation            : num [1:2] 267 267
+#&gt;  $ countryCode          : chr [1:2] "US" "US"
+#&gt;  $ stateCode            : chr [1:2] "WA" "WA"
+#&gt;  $ countyName           : chr [1:2] "Walla Walla" "Walla Walla"
+#&gt;  $ timezone             : chr [1:2] "America/Los_Angeles" "America/Los_Angeles"
+#&gt;  $ houseNumber          : chr [1:2] NA NA
+#&gt;  $ street               : chr [1:2] "West Birch Street" "South 12th Avenue"
+#&gt;  $ city                 : chr [1:2] NA "Walla Walla"
+#&gt;  $ zip                  : chr [1:2] "99362-5024" "99362-5024"
+#&gt;  $ AQSID                : chr [1:2] "530710005" "530710005"
+#&gt;  $ fullAQSID            : chr [1:2] "840530710005" NA
+#&gt;  $ airnow_stationID     : chr [1:2] "530710005" NA
+#&gt;  $ airnow_parameterName : chr [1:2] "PM2.5" NA
+#&gt;  $ airnow_monitorType   : chr [1:2] "Permanent" NA
+#&gt;  $ airnow_siteCode      : chr [1:2] "0005" NA
+#&gt;  $ airnow_status        : chr [1:2] "Active" NA
+#&gt;  $ airnow_agencyID      : chr [1:2] "WA1" NA
+#&gt;  $ airnow_agencyName    : chr [1:2] "Washington Department of Ecology" NA
+#&gt;  $ airnow_EPARegion     : chr [1:2] "R10" NA
+#&gt;  $ airnow_GMTOffsetHours: num [1:2] -8 NA
+#&gt;  $ airnow_CBSA_ID       : chr [1:2] "47460" NA
+#&gt;  $ airnow_CBSA_Name     : chr [1:2] " Walla Walla, WA " NA
+#&gt;  $ airnow_stateAQSCode  : chr [1:2] "53" NA
+#&gt;  $ airnow_countyAQSCode : chr [1:2] "071" NA
+#&gt;  $ airnow_MSAName       : chr [1:2] NA NA
+#&gt;  $ address              : chr [1:2] "Walla Walla Fire District Station 1, West Birch Street, Walla Walla, WA 99362-5024, United States of America" NA
+#&gt;  $ deploymentType       : chr [1:2] "Permanent" NA</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
