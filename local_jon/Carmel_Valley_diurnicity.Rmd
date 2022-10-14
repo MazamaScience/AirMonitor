@@ -1,7 +1,7 @@
 ---
 title: "Carmel Valley Wildfire Smoke 'Diurnicity'"
 author: "Jonathan Callahan"
-date: "2021-12-14"
+date: "2022-10-14"
 output: html_document
 ---
 
@@ -11,30 +11,42 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Background
 
-Recent conversations brought up concerns about using midnight as the
-day-boundary when calculating daily average PM 2.5 levels. In locations where
-the daily max occurs at night, daily average PM2.5 levels might be reduced
-by splitting the highest values between two days. (This is likely to occur
-in valley locations that act as pour points for down-valley drainage of
-smoke during nighttime smoldering.)
+During the Soberanes Fire in California in 2016 [ref], the air quality monitoring 
+station in Carmel Valley showed very high levels of particulate matter (PM2.5)
+from wildfire smoke which presented a serious public health risk to local 
+residents, workers and firefighters. [ref] During the height of the smoke impacts
+in Carmel Valley, relatively calm weather lead to strong diurnal variations in 
+air quality as land and sea breezes pushed smoke up and down the valley without
+the winds ever being strong enough to clear out the smoke. [ref]
+
+The strong diurnal variation in air quality meant that, even during days with
+the worst daily average air quality, there were some hours when outside air 
+was in the GOOD or MODERATE categories according to the Air Quality Index (AQI). [ref] 
+This time-of-day variation in air quality can be supremely important information
+for those living in smoke-impacted areas as it allows them to plan when to hunker
+down inside and when to shop, check in on friends, or walk the dog.
 
 This document presents a method for identifying days in an air quality time
 series that display strong diurnal cycles during periods of elevated smoke. 
-We will call this _diurnicity_ for the time being.
+We will create a _diurnicity_ metric that can be applied elsewhere.
 
-Having identified days of interest, we then find the hour of the day at which
-a maximum value of PM 2.5 occurred so that we can assess whether a midnight
-day boundary will split high PM 2.5 values across two days. In a perfect world,
-our day boundaries would be shifted 12 hours from the time of each daily max.
+Having identified days of interest using the _diurnicity_ metric, we then 
+demonstrate how to find the hour of the day at which a maximum value of PM 2.5 
+occurred so that we can advise people when to stay indoors and when it is safe
+to breathe outdoor air.
 
 # Method
 
-During the Soberanes Fire in 2016, the air quality monitoring station in the 
-Carmel Valley showed very high levels of smoke and a very strong diurnal
-signal affected largely by land and sea breezes during otherwise calm weather.
-
-We will use the Carmel Valley monitoring data to develop an algorithm for
+We will use Carmel Valley monitoring data from 2016 to develop an algorithm for
 detecting _diurnicity_.
+
+We begin by downloading annual air quality data for 2016 and displaying an 
+interactive map of California monitors during the first week of August, 2016.
+This map displays monitors colored by the maximum hourly value experienced during
+that time period.
+
+The Carmel Valley monitor is located below San Francisco and is colored as
+HAZARDOUS.
 
 ```{r load_data, echo = FALSE}
 library(AirMonitor)
@@ -42,16 +54,25 @@ library(MazamaRollUtils)
 
 # ----- Download data ----------------------------------------------------------
 
-AirNow_2016 <-
-  PWFSLSmoke::airnow_loadAnnual(2016) %>%
-  monitor_fromPWFSLSmoke()
+airnow_2016 <- airnow_loadAnnual(2016)
+
+# Use interactive map to identify Carmel Valley deviceDeploymentID
+airnow_2016 %>%
+  monitor_filter(stateCode == "CA") %>%
+  monitor_filterDate(20160801, 20160808) %>%
+  monitor_dropEmpty() %>%
+  monitor_leaflet()
+
+Carmel_Valley <-
+  airnow_2016 %>%
+  monitor_select("a9572a904a4ed46d_840060530002")
 ```
 
-## Sobranes Fire
+## Soberanes Fire
 
 The Soberanes fire began on July 22, 2016 and was not fully extinguished until
 October 12, 2016. The bulk of the smoke impacts in the Carmel Valley occurred
-in the first three weeks of the fire.
+in the first three weeks of the fire. [ref]
 
 The following plot shows the diurnal cycle of PM 2.5 measurement with individual
 measurements plotted by time-of-day along with averages of all measurements for
@@ -62,21 +83,21 @@ each time-of-day. A strong diurnal signal is present with UNHEALTHY conditions
 
 # ----- What does a diurnal signal look like -----------------------------------
 
-AirMonitor::Carmel_Valley %>%
-  monitor_toPWFSLSmoke() %>%
+Carmel_Valley %>%
+  monitor_filterDate(20160722, 20160815) %>%
   AirMonitorPlots::monitor_ggDailyByHour_archival(
-    title = "Carmel Valley -- Sobranes Fire"
+    title = "Carmel Valley -- Soberanes Fire"
   )
 ```
 
 ## _"Diurnicity"_
 
 A simple metric to capture this diurnal signal during periods of strong
-health impacts can be calculated by first converting  PM 2.5 values to their
+health impacts can be calculated by first converting PM 2.5 values to their
 equivalent AQI Level (GOOD = 1, MODERATE = 2, _etc._) and then using rolling 
-versions of _max_, _mean_ and _min_ functions.
+versions of _max_, _mean_ and _min_ functions to calculate 24-hr averages.
 
-In vectorized pseudocode this would look like:
+In R pseudocode, this would look like:
 
 ```
 min <- roll_min(hourly_AQI_level)
@@ -86,9 +107,9 @@ max <- roll_max(hourly_AQI_level)
 diurnicity <- 10 * mean * (max - min)
 ```
 
-Each of `min`, `mean` and `max` will vary between 1 and 6. The factor of 10 is
-included so that _diurnicity_ will be visible when plotted on top of monitoring
-data.
+Each of `min`, `mean` and `max` will vary between AQI levels 1 and 6. The factor 
+of 10 is included so that _diurnicity_ will be visible when plotted on top of 
+monitoring data.
 
 During the worst days of the Soberanes fire, daily averages were at the 
 UNHEALTHY level and the _diurnicity_ would evalute to: 
@@ -107,10 +128,6 @@ be considered to have a both PM 2.5 levels of concern and a strong diurnal cycle
 ```{r diurnicity_plot, echo = FALSE}
 
 # ----- "Diurnicity:  Carmel Valley --------------------------------------------
-
-Carmel_Valley <-
-  AirNow_2016 %>%
-  monitor_filter(AQSID == "060530002")
 
 timezone <- Carmel_Valley$meta$timezone
 t <- Carmel_Valley$data$datetime
@@ -166,7 +183,7 @@ calculate a rolling 24-hour maximum to identify the local time-of-day.
 Combining them, we can identify and then tabulate the time-of-day for all
 days with a strong diurnal signal.
 
-In vectorized pseudocode:
+In R pseudocode:
 
 ```
 diurnal_day_mask <- diurnicity > 20
@@ -285,11 +302,6 @@ chunks for this.
 
 If we find enough periods with strong _diurnicity_, we could use clustering or
 other machine learning techniques to potentially categorize different types of
-locations or different types of fire behavior.
+locations, weather patterns or fire behavior.
 
-## Answer the question of best day-boundary
-
-A thorough analysis of all monitoring time series in the past decade should 
-give us a very good handle on whether midnight or some other time would make
-a good  day boundnary.
 
