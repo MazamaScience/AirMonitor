@@ -9,7 +9,8 @@ monitor_loadAnnual(
   archiveBaseUrl = paste0("https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
     "monitoring/v2"),
   archiveBaseDir = NULL,
-  QC_negativeValues = c("zero", "na", "ignore")
+  QC_negativeValues = c("zero", "na", "ignore"),
+  epaPreference = c("airnow", "epa_aqs")
 )
 }
 \arguments{
@@ -20,6 +21,9 @@ monitor_loadAnnual(
 \item{archiveBaseDir}{Local base directory for monitoring v2 data files.}
 
 \item{QC_negativeValues}{Type of QC to apply to negative values.}
+
+\item{epaPreference}{Preferred data source for EPA data when annual data
+files are available from both `epa_aqs` and `airnow`.}
 }
 \value{
 A \emph{mts_monitor} object with PM2.5 monitoring data. (A list with
@@ -41,11 +45,11 @@ For daily updates covering the most recent 45 days, use \code{monitor_loadDaily(
 For data extended more than 45 days into the past, use \code{monitor_load()}.
 }
 \note{
-The AirNow data stream contains data may also be available from AIRSIS
+The AirNow data stream contains data that may also be available from AIRSIS
 and WRCC. This can be detected by looking at the `locationID` associated with
-each time series. Wherever multiple time series share a `locationID`, the
-time series from AirNow or WRCC are removed so that each location is represented
-by a single time series coming from AirNow.
+each time series. When \code{epaPreference = "airnow"}, time series from
+AIRSIS or WRCC that share a `locationID` found in the AirNow data are removed
+so that each location is represented by a single time series coming from AirNow.
 }
 \examples{
 \dontrun{

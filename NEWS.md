@@ -1,3 +1,15 @@
+# AirMonitor 0.3.7
+
+* Added `epa_aqs_loadAnnual()`.
+* Updated `monitor_loadAnnual()` to load `epa_aqs` data.
+* Added `epaPreference` argument to `monitor_load()`.
+
+# AirMonitor 0.3.6
+
+* Updated vignettes.
+* Updated `NW_Megafires` dataset from corrected database.
+* Added "Save Data as CSV" article.
+
 # AirMonitor 0.3.5
 
 * Now depending on **MazamaTimeSeries** 0.2.8 for the `mts_selectWhere()` function.

@@ -313,7 +313,7 @@ which was heavily impacted by smoke from wildfires during the second half of
 August, 2015:
 
 ```{r Omak_nowcast}
-suppressPackageStartupMessages(library(AirMonitor))
+library(AirMonitor)
 
 Omak_ID <- "e5d75388f0cfcbf6_530470013"
 

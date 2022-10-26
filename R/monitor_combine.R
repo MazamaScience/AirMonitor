@@ -34,13 +34,13 @@
 #' # Washington State University
 #' Pullman <-
 #'   NW_Megafires %>%
-#'   monitor_select("089a067f92712ad1_530750003") %>%
+#'   monitor_select("450a822b4be1d190_530750003_04") %>%
 #'   monitor_filterDatetime(2015080118, 2015080203)
 #'
 #' # University of Idaho
 #' Moscow <-
 #'   NW_Megafires %>%
-#'   monitor_select("d121a99bc6c2ac7f_160570005") %>%
+#'   monitor_select("b5f1227cb753d2d8_160570005_03") %>%
 #'   monitor_filterDatetime(2015080200, 2015080206)
 #'
 #' monitor_combine(Pullman, Moscow) %>%

@@ -1,7 +1,7 @@
 ---
 title: "Example: Save Data as CSV"
 author: "Jonathan Callahan"
-date: "2022-03-29"
+date: "2022-10-14"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Example: Save Data as CSV}
@@ -34,19 +34,19 @@ library(AirMonitor)
 # AIRSIS in California
 #  - start with all AIRSIS monitors in 2019
 #  - subset for those where stateCode is one of "CA"
-airsis_ca <- 
-  airsis_loadAnnual(2019) %>%
+airnow_ca <- 
+  airnow_loadAnnual(2019) %>%
   monitor_filter(stateCode == "CA")
 
 # Interactive map to pick a monitor
-monitor_leaflet(airsis_ca)
+monitor_leaflet(airnow_ca)
 
 # Select a single monitor by deviceDeploymentID
-#  - start with airsis_ca
+#  - start with airnow_ca
 #  - subset for the "Mariposa" monitorID
 Mariposa <-
-  airsis_ca %>%
-  monitor_select("aa0cee2d9f2085f8_mariposa.1000")
+  airnow_ca %>%
+  monitor_select("9d60fd2e746019a5_840MMMPC1000")
 
 # Interactive graph to pick some time limits
 monitor_dygraph(Mariposa)
@@ -89,38 +89,41 @@ dplyr::glimpse(Mariposa$meta)
 # Alternatively, View the data (or metadata) in the RStudio table viewer:
 View(Mariposa$data)
 
-# Dump out airsis_ca meta to a CSV file
-airsis_ca %>%
-  monitor_toCSV(includeData = FALSE) %>%
-  cat(file = file.path(tempdir(), "airsis_CA_meta.csv"))
+# Set the output directory
+outputDir <- tempdir()
 
-# Dump out airsis_ca data to a CSV file
-airsis_ca %>%
+# Dump out airnow_ca meta to a CSV file
+airnow_ca %>%
+  monitor_toCSV(includeData = FALSE) %>%
+  cat(file = file.path(outputDir, "airnow_CA_meta.csv"))
+
+# Dump out airnow_ca data to a CSV file
+airnow_ca %>%
   monitor_toCSV(includeMeta = FALSE) %>%
-  cat(file = file.path(tempdir(), "airsis_CA_data.csv"))
+  cat(file = file.path(outputDir, "airnow_CA_data.csv"))
 
 # Alternatively, View() the metadata and data in RStudio:
-View(airsis_ca$meta)
-View(airsis_ca$data)
+View(airnow_ca$meta)
+View(airnow_ca$data)
 
 # ==============================================================================
 
 # Everything above also applies to monitoring data from other sources.
 # Just start with one of the following:
 
+# All of AIRSIS for 2019
+#airsis_loadAnnual(2019)
+
 # All of WRCC for 2019
 #wrcc_loadAnnual(2019)
-
-# All of AirNow for 2019
-#airnow_loadAnnual(2019)
 ```
 
-Finally, to emphasize what can be done with pipelines, the following calculates
-daily mean timeseries for each California monitor and displays the `data` 
-dataframe in the RStudio viewer:
+Finally, to emphasize the compact, expressiveness of "recipe"-style syntax, the 
+following calculates daily mean timeseries for each California monitor and 
+displays the `data` dataframe in the RStudio viewer:
 
 ```{r recipe, eval = FALSE}
-airsis_loadAnnual(2019) %>%
+airnow_loadAnnual(2019) %>%
   monitor_filter(stateCode == "CA") %>%
   monitor_filterDate(20191001, 20201101, timezone = "America/Los_Angeles") %>%
   monitor_trimDate(timezone = "America/Los_Angeles") %>%

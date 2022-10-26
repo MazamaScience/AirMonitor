@@ -6,6 +6,8 @@
 #' @param archiveBaseUrl Base URL for monitoring v2 data files.
 #' @param archiveBaseDir Local base directory for monitoring v2 data files.
 #' @param QC_negativeValues Type of QC to apply to negative values.
+#' @param epaPreference Preferred data source for EPA data when annual data
+#' files are available from both `epa_aqs` and `airnow`.
 #'
 #' @return A \emph{mts_monitor} object with PM2.5 monitoring data. (A list with
 #' \code{meta} and \code{data} dataframes.)
@@ -24,11 +26,11 @@
 #'
 #' For data extended more than 45 days into the past, use \code{monitor_load()}.
 #'
-#' @note The AirNow data stream contains data may also be available from AIRSIS
+#' @note The AirNow data stream contains data that may also be available from AIRSIS
 #' and WRCC. This can be detected by looking at the `locationID` associated with
-#' each time series. Wherever multiple time series share a `locationID`, the
-#' time series from AirNow or WRCC are removed so that each location is represented
-#' by a single time series coming from AirNow.
+#' each time series. When \code{epaPreference = "airnow"}, time series from
+#' AIRSIS or WRCC that share a `locationID` found in the AirNow data are removed
+#' so that each location is represented by a single time series coming from AirNow.
 #'
 # #' @seealso \code{\link{monitor_load}}
 #' @seealso \code{\link{monitor_loadDaily}}
@@ -47,41 +49,97 @@
 #' }
 
 monitor_loadAnnual <- function(
-  year = NULL,
-  archiveBaseUrl = paste0(
-    "https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
-    "monitoring/v2"
-  ),
-  archiveBaseDir = NULL,
-  QC_negativeValues = c("zero", "na", "ignore")
+    year = NULL,
+    archiveBaseUrl = paste0(
+      "https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
+      "monitoring/v2"
+    ),
+    archiveBaseDir = NULL,
+    QC_negativeValues = c("zero", "na", "ignore"),
+    epaPreference = c("airnow", "epa_aqs")
 ) {
 
   parameterName <- "PM2.5"
 
   # ----- Validate parameters --------------------------------------------------
 
+  # Cutoff years
+  firstAirnowYear <- 2014
+  firstAirsisYear <- 2004
+  firstWrccYear <- 2010
+  firstEpa88101Year <- 2008
+  firstEpa88502Year <- 1998
+
   MazamaCoreUtils::stopIfNull(year)
+  year <- as.numeric(year)
+  if ( year < firstEpa88502Year )
+    stop("no data available prior to 1998")
 
   QC_negativeValues <- match.arg(QC_negativeValues)
 
   if ( is.null(archiveBaseUrl) && is.null(archiveBaseDir) )
     stop("one of 'archiveBaseUrl' or 'archiveBaseDir' must be defined")
 
+  epaPreference <- match.arg(epaPreference)
+
   # ----- Load data ------------------------------------------------------------
 
   monitorList <- list()
 
-  try({
-    monitorList[["airnow"]] <- airnow_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterName)
-  }, silent = TRUE)
 
-  try({
-    monitorList[["airsis"]] <- airsis_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues)
-  }, silent = TRUE)
+  if ( year >= firstAirnowYear ) {
 
-  try({
-    monitorList[["wrcc"]] <- wrcc_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues)
-  }, silent = TRUE)
+    if ( epaPreference == "airnow" ) {
+
+      # AirNow annual files
+      try({
+        monitorList[["airnow"]] <- airnow_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterName)
+      }, silent = TRUE)
+
+    } else {
+
+      # EPA AQS 88101 files
+      try({
+        monitorList[["epa_aqs_88101"]] <- epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "88101")
+      }, silent = TRUE)
+
+      # EPA AQS 88502 files
+      try({
+        monitorList[["epa_aqs_88502"]] <- epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "88502")
+      }, silent = TRUE)
+
+    }
+
+  } else {
+
+    # EPA AQS 88101 files
+    if ( year >= firstEpa88101Year ) {
+      try({
+        monitorList[["epa_aqs_88101"]] <- epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "88101")
+      }, silent = TRUE)
+    }
+    # EPA AQS 88502 files
+    if ( year >= firstEpa88502Year ) {
+      try({
+        monitorList[["epa_aqs_88502"]] <- epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "88502")
+      }, silent = TRUE)
+    }
+
+  }
+
+  # AIRSIS annual files
+  if ( year >= firstAirsisYear ) {
+    try({
+      monitorList[["airsis"]] <- airsis_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues)
+    }, silent = TRUE)
+  }
+
+  # WRCC annual files
+  if ( year >= firstWrccYear ) {
+    try({
+      monitorList[["wrcc"]] <- wrcc_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues)
+    }, silent = TRUE)
+  }
 
   monitor_all <-
     monitor_combine(monitorList) %>%
@@ -89,17 +147,23 @@ monitor_loadAnnual <- function(
 
   # ----- Remove duplicate locations -------------------------------------------
 
+  # NOTE:  This applies only to AirNow data, not EPA AQS data.
+  # NOTE:
   # NOTE:  Whenever we have multiple monitors reporting from the same location,
   # NOTE:  we always favor the data fom AirNow over AIRSIS and WRCC.
   # NOTE:  Because airnow comes first in monitor_combine() above, AirNow data
   # NOTE:  will be preferentially retained.
 
-  ids <-
-    monitor_all$meta %>%
-    dplyr::distinct(.data$locationID, .keep_all = TRUE) %>%
-    dplyr::pull(.data$deviceDeploymentID)
+  if ( year >= firstAirnowYear && epaPreference == "airnow" ) {
 
-  monitor <- monitor_select(monitor_all, ids)
+    ids <-
+      monitor_all$meta %>%
+      dplyr::distinct(.data$locationID, .keep_all = TRUE) %>%
+      dplyr::pull(.data$deviceDeploymentID)
+
+    monitor <- monitor_select(monitor_all, ids)
+
+  }
 
   # ----- Return ---------------------------------------------------------------
 

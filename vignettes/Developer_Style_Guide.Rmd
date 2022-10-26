@@ -19,7 +19,7 @@ with other, related [Mazama Science packages](https://github.com/MazamaScience).
 ## Naming Objects
 
 Naming variables is one of the most important things to get right to make your 
-code readable and understandable to future readers of the code _(perhaps even 
+code readable and understandable to future readers of the code. _(Perhaps even 
 yourself!)_. Having a system for creating names also makes it easier to come up 
 with new ones.
 
@@ -152,7 +152,7 @@ to a function:
 ```
 
 Coding this way makes it easy to see which function arguments are being passed.
-It also eases future refactoring of the code when additional arguments need to
+It also eases future refactoring of the code when additional arguments needs to
 be added or the order of arguments need to be changed.
 
 -----

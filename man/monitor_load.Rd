@@ -11,7 +11,8 @@ monitor_load(
   archiveBaseUrl = paste0("https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
     "monitoring/v2"),
   archiveBaseDir = NULL,
-  QC_negativeValues = c("zero", "na", "ignore")
+  QC_negativeValues = c("zero", "na", "ignore"),
+  epaPreference = c("airnow", "epa_aqs")
 )
 }
 \arguments{
@@ -27,6 +28,9 @@ monitor_load(
 
 \item{QC_negativeValues}{Type of QC to apply to negative values.
 files are available from both `epa` and `airnow`.}
+
+\item{epaPreference}{Preferred data source for EPA data when annual data
+files are available from both `epa_aqs` and `airnow`.}
 }
 \value{
 A \emph{mts_monitor} object with PM2.5 monitoring data. (A list with

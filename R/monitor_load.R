@@ -9,6 +9,8 @@
 #' @param archiveBaseDir Local base directory for monitoring v2 data files.
 #' @param QC_negativeValues Type of QC to apply to negative values.
 #' files are available from both `epa` and `airnow`.
+#' @param epaPreference Preferred data source for EPA data when annual data
+#' files are available from both `epa_aqs` and `airnow`.
 #'
 #' @description Loads monitoring data for a given time range. Data from AirNow,
 #' AIRSIS and WRCC are combined into a single \emph{mts_monitor} object.
@@ -48,7 +50,8 @@ monitor_load <- function(
     "monitoring/v2"
   ),
   archiveBaseDir = NULL,
-  QC_negativeValues = c("zero", "na", "ignore")
+  QC_negativeValues = c("zero", "na", "ignore"),
+  epaPreference = c("airnow", "epa_aqs")
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -56,6 +59,7 @@ monitor_load <- function(
   MazamaCoreUtils::stopIfNull(startdate)
   MazamaCoreUtils::stopIfNull(enddate)
   QC_negativeValues <- match.arg(QC_negativeValues)
+  epaPreference <- match.arg(epaPreference)
 
   # Deal with missing timezones
   if ( is.null(timezone) ) {
@@ -94,7 +98,7 @@ monitor_load <- function(
 
     # NOTE:  Failure to load any annual data for a given year is not trapped.
     for ( year in y1:y2 ) {
-      monitorList[[as.character(year)]] <- monitor_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues)
+      monitorList[[as.character(year)]] <- monitor_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, epaPreference)
     }
 
     annualData <- monitor_combine(monitorList)

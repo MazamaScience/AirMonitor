@@ -71,6 +71,14 @@ airnow_monthly %>%
   monitor_select("fdd18ef585fcbb6b_001350010029") %>%
   monitor_timeseriesPlot(addAQI = TRUE)
 
+# ----- Test epa_aqs_loadAnnual ------------------------------------------------
+
+aqs_88101 <-
+  epa_aqs_loadAnnual(
+    2015,
+    parameterCode = "88101",
+    archiveDataDir = "~/Projects/AirFire/monitoring-data-ingest-v2/test/data"
+  )
 
 
 

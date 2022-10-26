@@ -34,14 +34,14 @@ be loaded with the following functions:
 * `~loadDaily()` -- load the most recent 45 days of data (updated once per day)
 * `~loadLatest()` -- load the most recent 10 days of data (updated every hour)
 
-Data archives go back over 10 years depending on the data source.
+Data archives go back to 2014 or earlier depending on the data source.
 
-## Data pipelines
+## Recipes
 
-We encourage people to embrace "data pipeline" style coding as encouraged by
+We encourage people to embrace "recipe" style coding as enabled by
 **dplyr** and related packages. The special `%>%` operator uses the output
 of one function as the first argument of the next function, thus allowing for 
-easy "chaining" of results.
+easy "chaining" of results to create a step-by-step recipe.
 
 With only a few exceptions, all the `monitor_` functions accept a _mts_monitor_ 
 object as their first argument and generate a _mts_monitor_ object as a result 
@@ -61,52 +61,68 @@ Let's say we are interested in the impact of smoke from the 2018
 [Camp Fire](https://en.wikipedia.org/wiki/Camp_Fire_(2018)) in the Sacramento
 area.
 
-We would begin by creating a `Camp_Fire` _mts_monitor_ object that has all the
-monitors in California for the period of interest:
+We would begin by creating a `Camp_Fire` object that has all the
+monitors in California for the period of interest. The recipe for creating `Camp_Fire` 
+has four steps: 1) load annual data; 2) filter for monitors in 
+California; 3) restrict the date range to Camp Fire dates; 4) remove any monitors 
+with no valid data in this range.
 
 ```
 Camp_Fire <-
+  # 1) load annual data
   monitor_loadAnnual(2018) %>%
+  # 2) filter for California
   monitor_filter(stateCode == 'CA') %>%
+  # 3) restrict date range
   monitor_filterDate(
     startdate = 20181108,
     enddate = 20181123,
     timezone = "America/Los_Angeles"
   ) %>%
+  # 4) remove monitors with no valid data
   monitor_dropEmpty()
 ```
 
-We can display these monitors (colored by maximum PM2.5 value) in an interactive
-map, zoom in and click on the monitor in downtown Sacramento to get it's 
-`deviceDeploymentID`:
+We can use the `monitor_leaflet()` function to display these monitors (colored 
+by maximum PM2.5 value) in an interactive map. This map allows us to
+zoom in and click on the monitor in downtown Sacramento to get it's 
+`deviceDeploymentID` -- "127e996697f9731c_840060670010".
 
 ```{r Sacramento_2}
 monitor_leaflet(Camp_Fire)
 ```
 
 We can use this `deviceDeploymentID` to create a _mts_monitor_ object for this 
-single monitor and take a look at a timeseries plot:
+single monitor and take a look at a timeseries plot. Day-night shading and AQI
+decorations create a publication-ready plot:
 
 ```{r Sacramento_3}
+# Create single-monitor Sacramento 
 Sacramento <-
+  # 1) start with Camp_Fire
   Camp_Fire %>%
+  # 2) select a specific device-deployment
   monitor_select("127e996697f9731c_840060670010")
 
+# Review timeseries plot
 Sacramento %>%
   monitor_timeseriesPlot(
     shadedNight = TRUE,
-    addAQI = TRUE
+    addAQI = TRUE,
+    main = "Hourly PM2.5 Concentration in Sacramento"
   )
 
 addAQILegend(cex = 0.8)
 ```
 
 Next, we can use this specific location to create a _mts_monitor_ object
-containing all monitors within 50 kilometers (31 miles) of Sacramento:
+containing all monitors within 50 kilometers (31 miles) of Sacramento.
 
 ```{r Sacramento_4}
 Sacramento_area <-
+  # 1) start with Camp_Fire
   Camp_Fire %>%
+  # 2) find all monitors within 50km of Sacramento
   monitor_filterByDistance(
     longitude = Sacramento$meta$longitude,
     latitude = Sacramento$meta$latitude,
@@ -116,7 +132,8 @@ Sacramento_area <-
 monitor_leaflet(Sacramento_area)
 ```
 
-We can display the hourly data for all the monitors and add day/night shading:
+We can use the same `monitor_timeseriesPlot()` to display the hourly data for 
+all the monitors in the Sacramennto area.
 
 ```{r Sacramento_5}
 Sacramento_area %>%
@@ -125,30 +142,39 @@ Sacramento_area %>%
     addAQI = TRUE,
     main = "Wildfire Smoke within 30 miles of Sacramento"
   )
-addAQILegend(lwd = 1, pch = NA, bg = "white")
+
+addAQILegend(lwd = 1, pch = NA, bg = "white", cex = 0.8)
 ```
 
-We can average together all the monitors and create a local-time daily average
-for the Sacramento area:
+Now we can average together all the monitors and create a local-time, daily average
+for the Sacramento area.
 
 ```{r Sacramento_6}
+# 1) start with Sacramento_area
 Sacramento_area %>%
+  # 2) average together all timeseries hour-by-hour
   monitor_collapse(
     deviceID = "Sacramento_area"
   ) %>%
+  # 3) calculate the local-time daily average (default)
   monitor_dailyStatistic() %>%
+  # 4) pull out the $data dataframe
   monitor_getData()
 ```
 
-Alternatively, we can plot the daily averages:
+Alternatively, we can plot the daily averages.
 
 ```{r Sacramento_7}
+# 1) start with Sacramento_area
 Sacramento_area %>%
+  # 2) average together all timeseries hour-by-hour
   monitor_collapse() %>%
+  # 3) create daily barplot
   monitor_dailyBarplot(
     main = "Daily Average PM2.5 in the Sacramento Area"
   )
-addAQILegend(pch = 15, bg = "white")
+
+addAQILegend(pch = 15, bg = "white", cex = 0.8)
 ```
 
 ----
