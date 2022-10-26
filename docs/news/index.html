@@ -71,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
       </span>
     </div>
 
@@ -105,6 +105,9 @@
     <li>
       <a href="../articles/articles/Citations.html">Citations</a>
     </li>
+    <li>
+      <a href="../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -135,6 +138,36 @@
       <small>Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="airmonitor-037" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.7">
+<a href="#airmonitor-037" class="anchor"></a>AirMonitor 0.3.7<small> Unreleased </small>
+</h1>
+<ul>
+<li>Added <code><a href="../reference/epa_aqs_loadAnnual.html">epa_aqs_loadAnnual()</a></code>.</li>
+<li>Updated <code><a href="../reference/monitor_loadAnnual.html">monitor_loadAnnual()</a></code> to load
+<code>epa_aqs</code> data.</li>
+<li>Added <code>epaPreference</code> argument to
+<code><a href="../reference/monitor_load.html">monitor_load()</a></code>.</li>
+<li>Updated <code><a href="../reference/monitor_combine.html">monitor_combine()</a></code> with an
+<code>overlapStrategy</code> argument. With
+<code>overlapStrategy = "replace all"</code>, values from later
+timeseries (including <code>NA</code>) always replace values from
+earlier timeseries. With <code>overlapStrategy = "replace na"</code>,
+values from later timeseries only replace <code>NA</code> values in
+earlier timeseries.</li>
+</ul>
+</div>
+    <div id="airmonitor-036" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.6">
+<a href="#airmonitor-036" class="anchor"></a>AirMonitor 0.3.6<small> Unreleased </small>
+</h1>
+<ul>
+<li>Updated vignettes.</li>
+<li>Updated <code>NW_Megafires</code> dataset from corrected
+database.</li>
+<li>Added “Save Data as CSV” article.</li>
+</ul>
+</div>
     <div id="airmonitor-035" class="section level1">
 <h1 class="page-header" data-toc-text="0.3.5">
 <a href="#airmonitor-035" class="anchor"></a>AirMonitor 0.3.5<small> Unreleased </small>
@@ -252,7 +285,7 @@ value.</li>
 <ul>
 <li>Further documentation updates.</li>
 <li>Rebuilt example datasets from latest data archives.</li>
-<li>Removed <code>epa_aqs_loadAnnual()</code> until those data files get
+<li>Removed <code><a href="../reference/epa_aqs_loadAnnual.html">epa_aqs_loadAnnual()</a></code> until those data files get
 rebuilt.</li>
 <li>Improved documentation examples.</li>
 <li>Added <code><a href="../reference/monitor_timeRange.html">monitor_timeRange()</a></code>.</li>
@@ -509,7 +542,7 @@ codes.</li>
 monitors.</li>
 <li>Added <code><a href="../reference/monitor_replaceValues.html">monitor_replaceValues()</a></code>.</li>
 <li>Added <code>QC_negativeValues</code> argument to
-<code>epa_aqs_loadAnnual()</code>
+<code><a href="../reference/epa_aqs_loadAnnual.html">epa_aqs_loadAnnual()</a></code>
 </li>
 </ul>
 </div>

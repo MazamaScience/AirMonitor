@@ -4,13 +4,20 @@
 \alias{monitor_combine}
 \title{Combine multiple \code{mts_monitor} objects}
 \usage{
-monitor_combine(..., replaceMeta = FALSE)
+monitor_combine(
+  ...,
+  replaceMeta = FALSE,
+  overlapStrategy = c("replace all", "replace na")
+)
 }
 \arguments{
 \item{...}{Any number of valid emph{mts_monitor} objects or a list of objects.}
 
 \item{replaceMeta}{Logical specifying whether to allow replacement of metadata
-associated with \code{deviceDeploymentIDs}.}
+associated when duplicate \code{deviceDeploymentIDs} are encountered.}
+
+\item{overlapStrategy}{Strategy to use when data found in time series
+overlaps.}
 }
 \value{
 A combined \code{mts_monitor} object. (A list with
@@ -31,27 +38,32 @@ non-identical metadata for the same \code{deviceDeploymentID} unless
 \code{replaceMeta = TRUE}.
 }
 \note{
-Data are combined with a "latest is best" sensibility where any
+Data are combined with a "later is better" sensibility where any
 data overlaps exist. Incoming \emph{mts_monitor} objects are ordered based on the
 time stamp of their last record. Any data records found in a "later" \emph{mts_monitor}
 will overwrite data associated with an "earlier" \emph{mts_monitor}.
+
+With \code{overlapStrategy = "replace all"}, any data records found
+in "later" \emph{mts_monitor} objects are preferentially retained before the "shared"
+data are finally reordered by ascending \code{datetime}.
+
+With \code{overlapStrategy = "replace missing"}, only missing values in "earlier"
+\emph{mts_monitor} objects are replaced with data records from "later" time series.
 }
 \examples{
 library(AirMonitor)
 
-# Washington State University
 Pullman <-
   NW_Megafires \%>\%
-  monitor_select("089a067f92712ad1_530750003") \%>\%
+  monitor_filter(AQSID == "530750003") \%>\%
   monitor_filterDatetime(2015080118, 2015080203)
 
-# University of Idaho
-Moscow <-
+Clarkston <-
   NW_Megafires \%>\%
-  monitor_select("d121a99bc6c2ac7f_160570005") \%>\%
+  monitor_filter(AQSID == "530030004") \%>\%
   monitor_filterDatetime(2015080200, 2015080206)
 
-monitor_combine(Pullman, Moscow) \%>\%
+monitor_combine(Pullman, Clarkston) \%>\%
   monitor_getData()
 
 

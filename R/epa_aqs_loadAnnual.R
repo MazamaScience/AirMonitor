@@ -4,10 +4,10 @@
 #' @title Load annual AirNow monitoring data
 #'
 #' @param year Year [YYYY].
-#' @param parameterCode One of the EPA AQS parameter codes.
 #' @param archiveBaseUrl Base URL for monitoring v2 data files.
 #' @param archiveBaseDir Local base directory for monitoring v2 data files.
 #' @param QC_negativeValues Type of QC to apply to negative values.
+#' @param parameterCode One of the EPA AQS criteria parameter codes.
 #'
 #' @return A \emph{mts_monitor} object with EPA AQS data. (A list with
 #' \code{meta} and \code{data} dataframes.)
@@ -18,13 +18,16 @@
 #' archive. Otherwise, data will be loaded from the monitoring data repository
 #' maintained by the USFS AirFire team.
 #'
-#' The files loaded by this function contain a single year's worth of data
+#' The files loaded by this function contain a single year's worth of data.
 #'
 #' Pre-processed AirNow exists for the following parameter codes:
 #' \enumerate{
 #' \item{88101 -- PM2.5 FRM/FEM Mass}
 #' \item{88502 -- PM2.5 non FRM/FEM Mass}
 #' }
+#'
+#' Specifying \code{parameterCode = "PM2.5"} will merge records from both
+#' sources.
 #'
 #' @examples
 #' \dontrun{
@@ -36,7 +39,7 @@
 #' # See https://en.wikipedia.org/wiki/2017_Montana_wildfires
 #'
 #' # Daily Barplot of Montana wildfires
-#' epa_aqs_loadAnnual(2015, "88101") \%>\%
+#' epa_aqs_loadAnnual(2015) \%>\%
 #'   monitor_filter(stateCode == "WA") \%>\%
 #'   monitor_filterDate(20150724, 20150907) \%>\%
 #'   monitor_dailyStatistic() \%>\%
@@ -56,7 +59,7 @@ epa_aqs_loadAnnual <- function(
   ),
   archiveBaseDir = NULL,
   QC_negativeValues = c("zero", "na", "ignore"),
-  parameterCode = c("88101", "88502")
+  parameterCode = c("PM2.5", "88101", "88502")
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -69,6 +72,12 @@ epa_aqs_loadAnnual <- function(
     stop("one of 'archiveBaseUrl' or 'archiveBaseDir' must be defined")
 
   parameterCode <- match.arg(parameterCode)
+
+  if ( parameterCode == "PM2.5" ) {
+    parameterCodes <- c("88101", "88502")
+  } else {
+    parameterCodes <- parameterCode
+  }
 
   # ----- Load data ------------------------------------------------------------
 
@@ -86,31 +95,70 @@ epa_aqs_loadAnnual <- function(
     dataDir <- file.path(archiveBaseDir, "epa_aqs", year, "data")
   }
 
-  metaFileName <- sprintf("epa_aqs_%s_%s_meta.rda", parameterCode, year)
-  dataFileName <- sprintf("epa_aqs_%s_%s_data.rda", parameterCode, year)
+  monitorList <- list()
 
-  meta <- MazamaCoreUtils::loadDataFile(metaFileName, dataUrl, dataDir)
-  data <- MazamaCoreUtils::loadDataFile(dataFileName, dataUrl, dataDir)
+  for ( parameterCode in parameterCodes ) {
 
-  # Guarantee that 'meta' and 'data' match
-  ids <- names(data)[-1]
+    result <- try({
 
-  meta <-
-    meta %>%
-    dplyr::filter(.data$deviceDeploymentID %in% ids)
+      suppressWarnings({
 
-  data <-
-    data %>%
-    dplyr::select(dplyr::all_of(c("datetime", meta$deviceDeploymentID))) %>%
-    # Replace any NaN that snuck in
-    dplyr::mutate(across(tidyselect::vars_select_helpers$where(is.numeric), function(x) ifelse(is.nan(x), NA, x)))
+        metaFileName <- sprintf("epa_aqs_%s_%s_meta.rda", parameterCode, year)
+        dataFileName <- sprintf("epa_aqs_%s_%s_data.rda", parameterCode, year)
 
-  # Create monitor object
-  monitor <- list(meta = meta, data = data)
+        meta <- MazamaCoreUtils::loadDataFile(metaFileName, dataUrl, dataDir)
+        data <- MazamaCoreUtils::loadDataFile(dataFileName, dataUrl, dataDir)
 
-  monitor <- structure(monitor, class = c("mts_monitor", "mts", class(monitor)))
+        # Guarantee that 'meta' and 'data' match
+        ids <- names(data)[-1]
 
-  MazamaTimeSeries::mts_check(monitor)
+        meta <-
+          meta %>%
+          dplyr::filter(.data$deviceDeploymentID %in% ids)
+
+        data <-
+          data %>%
+          dplyr::select(dplyr::all_of(c("datetime", meta$deviceDeploymentID))) %>%
+          # Replace any NaN that snuck in
+          dplyr::mutate(across(tidyselect::vars_select_helpers$where(is.numeric), function(x) ifelse(is.nan(x), NA, x)))
+
+        # Create monitor object
+        monitor <- list(meta = meta, data = data)
+
+        monitor <- structure(monitor, class = c("mts_monitor", "mts", class(monitor)))
+
+        MazamaTimeSeries::mts_check(monitor)
+
+        monitorList[[parameterCode]] <- monitor
+      })
+
+    }, silent = TRUE)
+
+  }
+
+  # Test for data
+  if ( length(monitorList) == 0 ) {
+    if ( is.null(dataDir) ) {
+      err_msg <- sprintf("no data could be loaded from dataUrl: %s\n\nDid you mean to specify dataDir?", dataUrl)
+    } else {
+      err_msg <- sprintf("no data could be loaded from dataDir: %s\n\nDid you mean to specify dataDir?", dataDir)
+    }
+    stop(err_msg)
+  }
+
+  if ( length(monitorList) > 1 ) {
+
+    # NOTE:  Combine with "replace na" to handle cases where identical
+    # NOTE:  deviceDeplomentIDs represent a "temporary" monitor from 88502 being
+    # NOTE:  replaced with a "permanent" monitor from 88101.
+    monitor <-
+      monitor_combine(
+        monitorList,
+        replaceMeta = TRUE,
+        overlapStrategy = "replace na"
+      )
+
+  }
 
   # ----- Apply QC -------------------------------------------------------------
 

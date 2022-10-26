@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
       </span>
     </div>
 
@@ -65,6 +65,9 @@
     <li>
       <a href="../articles/articles/Citations.html">Citations</a>
     </li>
+    <li>
+      <a href="../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -94,7 +97,7 @@
       <h1 data-toc-skip>Data Model</h1>
                         <h4 class="author">Jonathan Callahan</h4>
             
-            <h4 class="date">2022-03-28</h4>
+            <h4 class="date">2022-10-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MazamaScience/AirMonitor/blob/master/vignettes/Data_Model.Rmd"><code>vignettes/Data_Model.Rmd</code></a></small>
       <div class="hidden name"><code>Data_Model.Rmd</code></div>
@@ -107,16 +110,16 @@
 throughout the <strong>AirMonitor</strong> package to store and work
 with monitoring data.</p>
 <p>The <strong>AirMonitor</strong> package is designed to provide a
-compact, full-featured suite of utilities for working with PM 2.5 data.
-A uniform data model provides consistent data access across monitoring
+compact, full-featured suite of utilities for working with PM2.5 data. A
+uniform data model provides consistent data access across monitoring
 data available from different agencies. The core data model in this
 package is defined by the <code>mts_monitor</code> object used to store
 data associated with groups of individual monitors.</p>
 <p>To work efficiently with the package it is important to understand
-the structure of this data object and which functions operate on it.
-Package functions that begin with <code>monitor_</code>, expect objects
-of class <code>mts_monitor</code> as their first argument. (<em>‘mts_’
-stands for ‘Multiple Time Series’</em>)</p>
+the structure of this data object and the functions that operate on it.
+Package functions whose names begin with <code>monitor_</code>, expect
+objects of class <code>mts_monitor</code> as their first argument.
+(<em>‘mts’ stands for ‘Multiple Time Series’</em>)</p>
 <div id="data-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-model" class="anchor"></a>Data Model</h2>
@@ -125,11 +128,14 @@ model defined in <strong><a href="https://mazamascience.github.io/MazamaTimeSeri
 <p>In this data model, each unique time series is referred to as a
 <em>“device-deployment”</em> – a timeseries collected by a particular
 device at a specific location. Multiple device-deployments are stored in
-memory as a <em>monitor</em> object – an R list with two dataframes:</p>
+memory as a <em>mts_monitor</em> object, typically called
+<code>monitor</code>. Each <code>monitor</code> is just an R list with
+two dataframes:</p>
 <p><code>monitor$meta</code> – rows = unique device-deployments; cols =
 device/location metadata</p>
 <p><code>monitor$data</code> – rows = UTC times; cols =
-device-deployments (plus an additional <code>datetime</code> column)</p>
+device-deployment data (plus an additional <code>datetime</code>
+column)</p>
 <p>A key feature of this data model is the use of the
 <code>deviceDeploymentID</code> as a “foreign key” that allows
 <code>data</code> columns to be mapped onto the associated spatial and
@@ -137,9 +143,9 @@ device metadata in a <code>meta</code> row. The following will always be
 true:</p>
 <pre><code><a href="https://rdrr.io/r/base/identical.html">identical(names(monitor$data), c('datetime', monitor$meta$deviceDeploymentID))</a></code></pre>
 <p>Each column of <code>monitor$data</code> represents a timeseries
-associated with a particular device-deployment while each row represents
-a <em>synoptic</em> snapshot of all measurements made at a particular
-time.</p>
+associated with a particular device-deployment while each row of
+<code>monitor$data</code> represents a <em>synoptic</em> snapshot of all
+measurements made at a particular time.</p>
 <p>In this manner, software can create both timeseries plots and maps
 from a single <code>monitor</code> object in memory.</p>
 <p>The <code>data</code> dataframe contains all hourly measurements
@@ -152,7 +158,8 @@ guaranteed to be a regular hourly axis with no gaps.</p>
 device-deployments and is organized with rows as unique
 device-deployments and columns containing both location and device
 metadata. The following columns are guaranteed to exist in the
-<code>meta</code> dataframe:</p>
+<code>meta</code> dataframe. Those marked with “(optional)” may contain
+<code>NA</code>s.</p>
 <ul>
 <li>
 <code>deviceDeploymentID</code> – unique ID associated with a time
@@ -218,62 +225,69 @@ ingest instructions</li>
 <code>zip</code> – (optional)</li>
 <li>
 <code>AQSID</code> – (optional) EPA AQS unique identifier</li>
+<li>
+<code>fullAQSID</code> – (optional) EPA AQS unique identifier</li>
 </ul>
-<p>It is important to note that the <code>deviceDeploymentID</code> acts
-as a unique key that connects <code>data</code> with <code>meta</code>.
-The following will always be true:</p>
-<pre><code>rownames(mts_monitor$meta) == mts_monitor$meta$deviceDeploymentID
-colnames(mts_monitor$data) == c('datetime', mts_monitor$meta$deviceDeploymentID)</code></pre>
 <p><strong>Example 1: Exploring <code>mts_monitor</code>
 objects</strong></p>
 <p>We will use the built-in “NW_Megafires” dataset and various
 <code>monitor_filter~()</code> functions to subset a
 <code>mts_monitor</code> object which we then examine.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitor">AirMonitor</a></span><span class="op">)</span><span class="op">)</span>
 
-<span class="co"># Recipe to create Washington fires in August of 2014:</span>
+<span class="co"># Recipe to select Washington state monitors in August of 2014:</span>
 <span class="va">monitor</span> <span class="op">&lt;-</span>
-  <span class="co"># Start with NW Megafires</span>
+  <span class="co"># 1) start with NW Megafires</span>
   <span class="va">NW_Megafires</span> <span class="op">%&gt;%</span>
-  <span class="co"># Filter to only include Washington state</span>
+  <span class="co"># 2) filter to only include Washington state</span>
   <span class="fu"><a href="../reference/monitor_filterMeta.html">monitor_filter</a></span><span class="op">(</span><span class="va">stateCode</span> <span class="op">==</span> <span class="st">"WA"</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="co"># Filter to only include August</span>
-  <span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="fl">20150801</span>, <span class="fl">20150831</span><span class="op">)</span>
+  <span class="co"># 3) filter to only include August</span>
+  <span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="fl">20150801</span>, <span class="fl">20150901</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="co"># 4) remove monitors with all missing values</span>
+  <span class="fu"><a href="../reference/monitor_dropEmpty.html">monitor_dropEmpty</a></span><span class="op">(</span><span class="op">)</span>
 
 <span class="co"># 'mts_monitor' objects can be identified by their class</span>
 <span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "mts_monitor" "mts"         "list"</code></pre>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># They alwyas have two elements called 'meta' and 'data'</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "meta" "data"</code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Examine the 'meta' dataframe</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 99 43</code></pre>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<pre><code>## [1] 37 45</code></pre>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "deviceDeploymentID"    "deviceID"              "deviceType"           
-##  [4] "deviceDescription"     "deviceExtra"           "pollutant"            
-##  [7] "units"                 "dataIngestSource"      "dataIngestURL"        
-## [10] "dataIngestUnitID"      "dataIngestExtra"       "dataIngestDescription"
-## [13] "locationID"            "locationName"          "longitude"            
-## [16] "latitude"              "elevation"             "countryCode"          
-## [19] "stateCode"             "countyName"            "timezone"             
-## [22] "houseNumber"           "street"                "city"                 
-## [25] "zip"                   "AQSID"                 "fullAQSID"            
-## [28] "airnow_stationID"      "airnow_parameterName"  "airnow_monitorType"   
-## [31] "airnow_siteCode"       "airnow_status"         "airnow_agencyID"      
-## [34] "airnow_agencyName"     "airnow_EPARegion"      "airnow_GMTOffsetHours"
-## [37] "airnow_CBSA_ID"        "airnow_CBSA_Name"      "airnow_stateAQSCode"  
-## [40] "airnow_countyAQSCode"  "airnow_MSAName"        "address"              
-## [43] "deploymentType"</code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<pre><code>##  [1] "deviceDeploymentID"       "deviceID"                
+##  [3] "deviceType"               "deviceDescription"       
+##  [5] "deviceExtra"              "pollutant"               
+##  [7] "units"                    "dataIngestSource"        
+##  [9] "dataIngestURL"            "dataIngestUnitID"        
+## [11] "dataIngestExtra"          "dataIngestDescription"   
+## [13] "locationID"               "locationName"            
+## [15] "longitude"                "latitude"                
+## [17] "elevation"                "countryCode"             
+## [19] "stateCode"                "countyName"              
+## [21] "timezone"                 "houseNumber"             
+## [23] "street"                   "city"                    
+## [25] "zip"                      "AQSID"                   
+## [27] "fullAQSID"                "airnow_stationID"        
+## [29] "airnow_parameterName"     "airnow_monitorType"      
+## [31] "airnow_siteCode"          "airnow_status"           
+## [33] "airnow_agencyID"          "airnow_agencyName"       
+## [35] "airnow_EPARegion"         "airnow_GMTOffsetHours"   
+## [37] "airnow_CBSA_ID"           "airnow_CBSA_Name"        
+## [39] "airnow_stateAQSCode"      "airnow_countyAQSCode"    
+## [41] "airnow_MSAName"           "address"                 
+## [43] "deploymentType"           "airnow_countryFIPS"      
+## [45] "airnow_stateAbbreviation"</code></pre>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Examine the 'data' dataframe</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 720 100</code></pre>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<pre><code>## [1] 744  38</code></pre>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># This should always be true</span>
 <span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'datetime'</span>, <span class="va">monitor</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
@@ -299,40 +313,41 @@ include:</p>
 <code><a href="../reference/monitor_filterMeta.html">monitor_filterMeta()</a></code>)</li>
 <li><code><a href="../reference/monitor_filterByDistance.html">monitor_filterByDistance()</a></code></li>
 <li><code><a href="../reference/monitor_filterDate.html">monitor_filterDate()</a></code></li>
-<li><code>monitor_filterDateTime()</code></li>
+<li><code><a href="../reference/monitor_filterDatetime.html">monitor_filterDatetime()</a></code></li>
 <li><code><a href="../reference/monitor_mutate.html">monitor_mutate()</a></code></li>
 <li><code><a href="../reference/monitor_nowcast.html">monitor_nowcast()</a></code></li>
 <li><code><a href="../reference/monitor_replaceValues.html">monitor_replaceValues()</a></code></li>
 <li>
 <code><a href="../reference/monitor_select.html">monitor_select()</a></code> ( aka
 <code><a href="../reference/monitor_select.html">monitor_reorder()</a></code>)</li>
+<li><code><a href="../reference/monitor_selectWhere.html">monitor_selectWhere()</a></code></li>
 <li><code><a href="../reference/monitor_trimDate.html">monitor_trimDate()</a></code></li>
 </ul>
 <p>These functions can be used with the <strong>magrittr</strong>
 package <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> pipe as in the following example:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Calculate daily means for the Methow Valley from monitors in Twisp and Winthrop</span>
 <span class="va">TwispID</span> <span class="op">&lt;-</span> <span class="st">"40ffdacb421a5ee6_840530470010"</span>
 <span class="va">WinthropID</span> <span class="op">&lt;-</span> <span class="st">"450d08fb5a3e4ea0_530470009"</span>
 
 <span class="co"># Recipe to calculate Methow Valley August Means:</span>
 <span class="va">Methow_Valley_AugustMeans</span> <span class="op">&lt;-</span> 
-  <span class="co"># Start with NW Megafires</span>
+  <span class="co"># 1) start with NW Megafires</span>
   <span class="va">NW_Megafires</span> <span class="op">%&gt;%</span>
-  <span class="co"># Select monitors from Twisp and Winthrop</span>
+  <span class="co"># 2) select monitors from Twisp and Winthrop</span>
   <span class="fu"><a href="../reference/monitor_select.html">monitor_select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">TwispID</span>, <span class="va">WinthropID</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="co"># Average them together hour-by-hour</span>
+  <span class="co"># 3) average them together hour-by-hour</span>
   <span class="fu"><a href="../reference/monitor_collapse.html">monitor_collapse</a></span><span class="op">(</span>deviceID <span class="op">=</span> <span class="st">'MethowValley'</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="co"># Restrict data to of July</span>
+  <span class="co"># 4) restrict data to August</span>
   <span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="fl">20150801</span>, <span class="fl">20150901</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="co"># Calculate daily mean</span>
+  <span class="co"># 5) calculate daily mean</span>
   <span class="fu"><a href="../reference/monitor_dailyStatistic.html">monitor_dailyStatistic</a></span><span class="op">(</span><span class="va">mean</span>, minHours <span class="op">=</span> <span class="fl">18</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="co"># Round data to one decimal place</span>
+  <span class="co"># 6) round data to one decimal place</span>
   <span class="fu"><a href="../reference/monitor_mutate.html">monitor_mutate</a></span><span class="op">(</span><span class="va">round</span>, <span class="fl">1</span><span class="op">)</span>
 
 <span class="co"># Look at the first week</span>
 <span class="va">Methow_Valley_AugustMeans</span><span class="op">$</span><span class="va">data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span>,<span class="op">]</span></code></pre></div>
-<pre><code>##     datetime bbdd6c928df114fb_MethowValley
+<pre><code>##     datetime 40ffdacb421a5ee6_MethowValley
 ## 1 2015-08-01                           9.4
 ## 2 2015-08-02                          16.8
 ## 3 2015-08-03                          11.9
@@ -342,60 +357,131 @@ package <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> pipe as in th
 ## 7 2015-08-07                          10.6</code></pre>
 <p><strong>Example 3: Advanced manipulation of <code>mts_monitor</code>
 objects</strong></p>
-<p>The following code demonstrates user manipulation of the data from a
-<code>mts_monitor</code> object outside the scope of provided
-<code>monitor_~()</code> functions.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p>The following code demonstrates user creation of a custom function to
+manipulate of the data tibble from a <code>mts_monitor</code> with
+<code><a href="../reference/monitor_mutate.html">monitor_mutate()</a></code>.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Spokane area AQSIDs all begin with "53063"</span>
 <span class="va">Spokane</span> <span class="op">&lt;-</span>
   <span class="va">NW_Megafires</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/monitor_filterMeta.html">monitor_filter</a></span><span class="op">(</span><span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_detect.html">str_detect</a></span><span class="op">(</span><span class="va">AQSID</span>, <span class="st">"^53063"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="fl">20150801</span>, <span class="fl">20150808</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/monitor_filterByDistance.html">monitor_filterByDistance</a></span><span class="op">(</span><span class="op">-</span><span class="fl">117.42</span>, <span class="fl">47.70</span>, <span class="fl">100000</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="fl">20150801</span>, <span class="fl">20150901</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/monitor_dropEmpty.html">monitor_dropEmpty</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># Show the daily statistic</span>
+<span class="co"># Show the daily statistic for one week</span>
 <span class="va">Spokane</span> <span class="op">%&gt;%</span> 
+  <span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="fl">20150801</span>, <span class="fl">20150808</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/monitor_dailyStatistic.html">monitor_dailyStatistic</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/monitor_getDataFrame.html">monitor_getData</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 7 × 2
-##   datetime            fa8288b1da3b2a87_840530630047
-##   &lt;dttm&gt;                                      &lt;dbl&gt;
-## 1 2015-08-01 00:00:00                         18.2 
-## 2 2015-08-02 00:00:00                         47.1 
-## 3 2015-08-03 00:00:00                         37.1 
-## 4 2015-08-04 00:00:00                          7.31
-## 5 2015-08-05 00:00:00                          5.82
-## 6 2015-08-06 00:00:00                          3.74
-## 7 2015-08-07 00:00:00                          4.50</code></pre>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Use a custom function to convert from ug/m3 to oz/ft3 </span>
+<pre><code>## # A tibble: 7 × 12
+##   datetime            fa8288b1da3b2a87_8… aa4dc983f85e1698_8… a98152e7237071cb_…
+##   &lt;dttm&gt;                            &lt;dbl&gt;               &lt;dbl&gt;              &lt;dbl&gt;
+## 1 2015-08-01 00:00:00               18.2                22.3               12.3 
+## 2 2015-08-02 00:00:00               47.1                34.4               24.2 
+## 3 2015-08-03 00:00:00               37.1                31.3               17.4 
+## 4 2015-08-04 00:00:00                7.31                6.07               6.00
+## 5 2015-08-05 00:00:00                5.82                8.04               7.39
+## 6 2015-08-06 00:00:00                3.74                1.86               4.65
+## 7 2015-08-07 00:00:00                4.50                2.12               5.38
+## # … with 8 more variables: 8b4d2cd5634d7389_840160090011 &lt;dbl&gt;,
+## #   9b8e3d84ace997b6_840MMTUO1006 &lt;lgl&gt;, 9daf8768a33085fb_840160090010 &lt;dbl&gt;,
+## #   b21777e6aab321e0_840TT1010003 &lt;dbl&gt;, 4c7cd5a9dccb5020_840160790017 &lt;dbl&gt;,
+## #   95849478880b2404_840160170003 &lt;dbl&gt;, 2154163f854db40f_840160571000 &lt;lgl&gt;,
+## #   e5f5711c820ca393_840530010003 &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Custom function to convert from metric ug/m3 to imperial grain/gallon </span>
+<span class="va">my_FUN</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span> <span class="va">x</span> <span class="op">*</span> <span class="fl">15.43236</span> <span class="op">/</span> <span class="fl">0.004546</span> <span class="op">)</span> <span class="op">}</span>
 <span class="va">Spokane</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/monitor_mutate.html">monitor_mutate</a></span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span> <span class="op">(</span><span class="va">x</span> <span class="op">/</span> <span class="fl">28350</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="fl">.3048</span><span class="op">)</span><span class="op">^</span><span class="fl">3</span> <span class="op">)</span> <span class="op">}</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="fl">20150801</span>, <span class="fl">20150808</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/monitor_mutate.html">monitor_mutate</a></span><span class="op">(</span><span class="va">my_FUN</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/monitor_dailyStatistic.html">monitor_dailyStatistic</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/monitor_getDataFrame.html">monitor_getData</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 7 × 2
-##   datetime            fa8288b1da3b2a87_840530630047
-##   &lt;dttm&gt;                                      &lt;dbl&gt;
-## 1 2015-08-01 00:00:00                    0.0000182 
-## 2 2015-08-02 00:00:00                    0.0000471 
-## 3 2015-08-03 00:00:00                    0.0000371 
-## 4 2015-08-04 00:00:00                    0.00000730
-## 5 2015-08-05 00:00:00                    0.00000581
-## 6 2015-08-06 00:00:00                    0.00000373
-## 7 2015-08-07 00:00:00                    0.00000449</code></pre>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<pre><code>## # A tibble: 7 × 12
+##   datetime            fa8288b1da3b2a87_8… aa4dc983f85e1698_8… a98152e7237071cb_…
+##   &lt;dttm&gt;                            &lt;dbl&gt;               &lt;dbl&gt;              &lt;dbl&gt;
+## 1 2015-08-01 00:00:00              61812.              75617.             41656.
+## 2 2015-08-02 00:00:00             159990.             116608.             82194.
+## 3 2015-08-03 00:00:00             125944.             106127.             59082.
+## 4 2015-08-04 00:00:00              24824.              20595.             20382.
+## 5 2015-08-05 00:00:00              19746.              27291.             25078.
+## 6 2015-08-06 00:00:00              12688.               6311.             15800.
+## 7 2015-08-07 00:00:00              15262.               7185.             18247.
+## # … with 8 more variables: 8b4d2cd5634d7389_840160090011 &lt;dbl&gt;,
+## #   9b8e3d84ace997b6_840MMTUO1006 &lt;lgl&gt;, 9daf8768a33085fb_840160090010 &lt;dbl&gt;,
+## #   b21777e6aab321e0_840TT1010003 &lt;dbl&gt;, 4c7cd5a9dccb5020_840160790017 &lt;dbl&gt;,
+## #   95849478880b2404_840160170003 &lt;dbl&gt;, 2154163f854db40f_840160571000 &lt;lgl&gt;,
+## #   e5f5711c820ca393_840530010003 &lt;dbl&gt;</code></pre>
+<p>Understanding that <code>monitor$data</code> is a just a dataframe of
+measurements prepended with a <code>datetime</code> column, we can pull
+out the measurements and do analyses independ of the
+<code>mts_monitor</code> data model. Here we look for correlations among
+the PM2.5 time series.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Pull out the time series data to calculate correlations</span>
-<span class="va">Spokane</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="../reference/monitor_getDataFrame.html">monitor_getData</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span>use <span class="op">=</span> <span class="st">"complete.obs"</span><span class="op">)</span></code></pre></div>
-<pre><code>##                               fa8288b1da3b2a87_840530630047
-## fa8288b1da3b2a87_840530630047                             1</code></pre>
+<span class="va">Spokane_data</span> <span class="op">&lt;-</span> 
+  <span class="va">Spokane</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../reference/monitor_getDataFrame.html">monitor_getData</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>
+
+<span class="co"># Provide human readable names</span>
+<span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">Spokane_data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">Spokane</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">locationName</span>
+
+<span class="co"># Find correlation among monitors</span>
+<span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">Spokane_data</span>, use <span class="op">=</span> <span class="st">"complete.obs"</span><span class="op">)</span></code></pre></div>
+<pre><code>##                         Spokane-Monroe St. Wellpinit-Spokane Tribe
+## Spokane-Monroe St.               1.0000000               0.6318619
+## Wellpinit-Spokane Tribe          0.6318619               1.0000000
+## Rosalia-Josephine St             0.5596602               0.6122902
+## Plummer CDA Tribe                0.5839604               0.7430363
+## Mobile_White_Salmon              0.6351119               0.5158232
+## St. Maries                       0.6071487               0.8380308
+## Inchelium                        0.4551477               0.5645884
+## Pinehurst                        0.3894500               0.6464441
+## Sandpoint U of I                 0.6953661               0.7545191
+## Potlatch                         0.2251280               0.3282197
+## Ritzville-Alder St               0.3757756               0.3643187
+##                         Rosalia-Josephine St Plummer CDA Tribe
+## Spokane-Monroe St.                 0.5596602         0.5839604
+## Wellpinit-Spokane Tribe            0.6122902         0.7430363
+## Rosalia-Josephine St               1.0000000         0.8715402
+## Plummer CDA Tribe                  0.8715402         1.0000000
+## Mobile_White_Salmon                0.3809548         0.4303792
+## St. Maries                         0.6723935         0.7926190
+## Inchelium                          0.3221007         0.4553396
+## Pinehurst                          0.5351547         0.7367798
+## Sandpoint U of I                   0.5779714         0.6322896
+## Potlatch                           0.8059029         0.7616114
+## Ritzville-Alder St                 0.7974889         0.6449827
+##                         Mobile_White_Salmon St. Maries Inchelium Pinehurst
+## Spokane-Monroe St.                0.6351119  0.6071487 0.4551477 0.3894500
+## Wellpinit-Spokane Tribe           0.5158232  0.8380308 0.5645884 0.6464441
+## Rosalia-Josephine St              0.3809548  0.6723935 0.3221007 0.5351547
+## Plummer CDA Tribe                 0.4303792  0.7926190 0.4553396 0.7367798
+## Mobile_White_Salmon               1.0000000  0.4624221 0.4943332 0.3428037
+## St. Maries                        0.4624221  1.0000000 0.5843548 0.7333637
+## Inchelium                         0.4943332  0.5843548 1.0000000 0.5908660
+## Pinehurst                         0.3428037  0.7333637 0.5908660 1.0000000
+## Sandpoint U of I                  0.7416842  0.7484124 0.7297628 0.6302946
+## Potlatch                          0.1135776  0.4244730 0.2084568 0.5165429
+## Ritzville-Alder St                0.2836033  0.4547639 0.1159584 0.2553713
+##                         Sandpoint U of I  Potlatch Ritzville-Alder St 
+## Spokane-Monroe St.             0.6953661 0.2251280           0.3757756
+## Wellpinit-Spokane Tribe        0.7545191 0.3282197           0.3643187
+## Rosalia-Josephine St           0.5779714 0.8059029           0.7974889
+## Plummer CDA Tribe              0.6322896 0.7616114           0.6449827
+## Mobile_White_Salmon            0.7416842 0.1135776           0.2836033
+## St. Maries                     0.7484124 0.4244730           0.4547639
+## Inchelium                      0.7297628 0.2084568           0.1159584
+## Pinehurst                      0.6302946 0.5165429           0.2553713
+## Sandpoint U of I               1.0000000 0.2567470           0.3799819
+## Potlatch                       0.2567470 1.0000000           0.6684812
+## Ritzville-Alder St             0.3799819 0.6684812           1.0000000</code></pre>
 <hr>
 <p>This introduction to the <code>mts_monitor</code> data model should
-be enough to get you started. Lots more documentation and examples are
-available in the package documentation.</p>
-<p>Best of luck exploring and understanding PM 2.air quality data!</p>
+be enough to get you started. Lots more examples are available in the
+package documentation.</p>
+<p><em>Best of luck exploring and understanding PM 2.air quality
+data!</em></p>
 </div>
   </div>
 

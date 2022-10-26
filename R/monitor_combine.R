@@ -4,7 +4,9 @@
 #'
 #' @param ... Any number of valid emph{mts_monitor} objects or a list of objects.
 #' @param replaceMeta Logical specifying whether to allow replacement of metadata
-#' associated with \code{deviceDeploymentIDs}.
+#' associated when duplicate \code{deviceDeploymentIDs} are encountered.
+#' @param overlapStrategy Strategy to use when data found in time series
+#' overlaps.
 #'
 #' @return A combined \code{mts_monitor} object. (A list with
 #' \code{meta} and \code{data} dataframes.)
@@ -22,35 +24,41 @@
 #' non-identical metadata for the same \code{deviceDeploymentID} unless
 #' \code{replaceMeta = TRUE}.
 #'
-#' @note Data are combined with a "latest is best" sensibility where any
+#' @note Data are combined with a "later is better" sensibility where any
 #' data overlaps exist. Incoming \emph{mts_monitor} objects are ordered based on the
 #' time stamp of their last record. Any data records found in a "later" \emph{mts_monitor}
 #' will overwrite data associated with an "earlier" \emph{mts_monitor}.
+#'
+#' With \code{overlapStrategy = "replace all"}, any data records found
+#' in "later" \emph{mts_monitor} objects are preferentially retained before the "shared"
+#' data are finally reordered by ascending \code{datetime}.
+#'
+#' With \code{overlapStrategy = "replace missing"}, only missing values in "earlier"
+#' \emph{mts_monitor} objects are replaced with data records from "later" time series.
 #'
 #'
 #' @examples
 #' library(AirMonitor)
 #'
-#' # Washington State University
 #' Pullman <-
 #'   NW_Megafires %>%
-#'   monitor_select("450a822b4be1d190_530750003_04") %>%
+#'   monitor_filter(AQSID == "530750003") %>%
 #'   monitor_filterDatetime(2015080118, 2015080203)
 #'
-#' # University of Idaho
-#' Moscow <-
+#' Clarkston <-
 #'   NW_Megafires %>%
-#'   monitor_select("b5f1227cb753d2d8_160570005_03") %>%
+#'   monitor_filter(AQSID == "530030004") %>%
 #'   monitor_filterDatetime(2015080200, 2015080206)
 #'
-#' monitor_combine(Pullman, Moscow) %>%
+#' monitor_combine(Pullman, Clarkston) %>%
 #'   monitor_getData()
 #'
 #'
 
 monitor_combine <- function(
   ...,
-  replaceMeta = FALSE
+  replaceMeta = FALSE,
+  overlapStrategy = c("replace all", "replace na")
 ) {
 
   # Accept any number of monitor objects
@@ -61,10 +69,17 @@ monitor_combine <- function(
   if ( length(monitorList) == 0 )
     stop("no 'monitor' arguments provided")
 
+  overlapStrategy <- match.arg(overlapStrategy)
+
   # ----- Call MazamaTimeSeries function ---------------------------------------
 
   result <- try({
-    monitor <- MazamaTimeSeries::mts_combine(..., replaceMeta = replaceMeta)
+    monitor <-
+      MazamaTimeSeries::mts_combine(
+        ...,
+        replaceMeta = replaceMeta,
+        overlapStrategy = overlapStrategy
+      )
   }, silent = TRUE)
 
   # Handle errors

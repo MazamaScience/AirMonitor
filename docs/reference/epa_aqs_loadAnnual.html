@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Load annual EPA AQS monitoring data — epa_aqs_loadAnnual • AirMonitor</title>
+<title>Load annual AirNow monitoring data — epa_aqs_loadAnnual • AirMonitor</title>
 
 
 <!-- jquery -->
@@ -39,17 +39,19 @@
 
 
 
-<meta property="og:title" content="Load annual EPA AQS monitoring data — epa_aqs_loadAnnual" />
-<meta property="og:description" content="Loads pre-generated .RData files containing annual
-EPA data.
-EPA parameter codes include:
-44201 -- Ozone
-42101 -- CO
-88101 -- PM2.5 FRM/FEM Mass (begins in 2008)
-88502 -- PM2.5 non FRM/FEM Mass (begins in 1998)
-81102 -- PM10 Mass (begins in 1988)
+<meta property="og:title" content="Load annual AirNow monitoring data — epa_aqs_loadAnnual" />
+<meta property="og:description" content="Loads pre-generated .rda files containing hourly AirNow data.
+If archiveDataDir is defined, data will be loaded from this local
+archive. Otherwise, data will be loaded from the monitoring data repository
+maintained by the USFS AirFire team.
+The files loaded by this function contain a single year's worth of data.
+Pre-processed AirNow exists for the following parameter codes:
+88101 -- PM2.5 FRM/FEM Mass
+88502 -- PM2.5 non FRM/FEM Mass
 
-" />
+
+Specifying parameterCode = &quot;PM2.5&quot; will merge records from both
+sources." />
 
 
 
@@ -81,7 +83,7 @@ EPA parameter codes include:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
       </span>
     </div>
 
@@ -100,17 +102,23 @@ EPA parameter codes include:
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Data_Model.html">Data Model</a>
+    </li>
+    <li>
       <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
       <a href="../articles/articles/Citations.html">Citations</a>
+    </li>
+    <li>
+      <a href="../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
     </li>
   </ul>
 </li>
@@ -138,42 +146,41 @@ EPA parameter codes include:
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Load annual EPA AQS monitoring data</h1>
+    <h1>Load annual AirNow monitoring data</h1>
     <small class="dont-index">Source: <a href='https://github.com/MazamaScience/AirMonitor/blob/master/R/epa_aqs_loadAnnual.R'><code>R/epa_aqs_loadAnnual.R</code></a></small>
     <div class="hidden name"><code>epa_aqs_loadAnnual.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Loads pre-generated .RData files containing annual
-EPA data.</p>
-<p>EPA parameter codes include:</p><ol>
-<li><p>44201 -- Ozone</p></li>
-<li><p>42101 -- CO</p></li>
-<li><p>88101 -- PM2.5 FRM/FEM Mass (begins in 2008)</p></li>
-<li><p>88502 -- PM2.5 non FRM/FEM Mass (begins in 1998)</p></li>
-<li><p>81102 -- PM10 Mass (begins in 1988)</p></li>
+    <p>Loads pre-generated .rda files containing hourly AirNow data.</p>
+<p>If <code>archiveDataDir</code> is defined, data will be loaded from this local
+archive. Otherwise, data will be loaded from the monitoring data repository
+maintained by the USFS AirFire team.</p>
+<p>The files loaded by this function contain a single year's worth of data.</p>
+<p>Pre-processed AirNow exists for the following parameter codes:</p><ol>
+<li><p>88101 -- PM2.5 FRM/FEM Mass</p></li>
+<li><p>88502 -- PM2.5 non FRM/FEM Mass</p></li>
 </ol>
 
+<p>Specifying <code>parameterCode = "PM2.5"</code> will merge records from both
+sources.</p>
     </div>
 
     <pre class="usage"><span class='fu'>epa_aqs_loadAnnual</span><span class='op'>(</span>
-  parameterCode <span class='op'>=</span> <span class='cn'>NULL</span>,
   year <span class='op'>=</span> <span class='cn'>NULL</span>,
-  archiveBaseUrl <span class='op'>=</span> <span class='cn'>NULL</span>,
+  archiveBaseUrl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"https://airfire-data-exports.s3.us-west-2.amazonaws.com/"</span>,
+    <span class='st'>"monitoring/v2"</span><span class='op'>)</span>,
   archiveBaseDir <span class='op'>=</span> <span class='cn'>NULL</span>,
-  QC_negativeValues <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"zero"</span>, <span class='st'>"na"</span>, <span class='st'>"ignore"</span><span class='op'>)</span>
+  QC_negativeValues <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"zero"</span>, <span class='st'>"na"</span>, <span class='st'>"ignore"</span><span class='op'>)</span>,
+  parameterCode <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PM2.5"</span>, <span class='st'>"88101"</span>, <span class='st'>"88502"</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>parameterCode</th>
-      <td><p>EPA AQS Parameter Code.</p></td>
-    </tr>
-    <tr>
       <th>year</th>
-      <td><p>Desired year (integer or character representing YYYY).</p></td>
+      <td><p>Year [YYYY].</p></td>
     </tr>
     <tr>
       <th>archiveBaseUrl</th>
@@ -187,30 +194,19 @@ EPA data.</p>
       <th>QC_negativeValues</th>
       <td><p>Type of QC to apply to negative values.</p></td>
     </tr>
+    <tr>
+      <th>parameterCode</th>
+      <td><p>One of the EPA AQS criteria parameter codes.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <em>mts_monitor</em> object with EPA AQS data.</p>
-    <h2 class="hasAnchor" id="qc"><a class="anchor" href="#qc"></a>QC</h2>
+    <p>A <em>mts_monitor</em> object with EPA AQS data. (A list with
+<code>meta</code> and <code>data</code> dataframes.)</p>
 
-    
-
-<p>EPA AQS hourly files are highly vetted but may still have some problems. One
-particular issue is the presence of <em>aphysical</em>, negative values. (There
-is no such thing as a negative concentration.) These are most likely the
-result of instrument drift and could potentially be carefully adjusted if
-additional, enegineering-level raw data were available.</p>
-<p>But in the context of large collections of aggregated data, we must take a
-coarser appraoch. Three types of corrections are available through the
-<code>QC_negativeValues</code> parameter:</p>
-<ul>
-<li><p><code>"zero"</code> -- replace negative values with 0</p></li>
-<li><p><code>"na"</code> -- replace negative values with <code>NA</code></p></li>
-<li><p><code>"ignore"</code> -- do not replace negative values</p></li>
-</ul>
-
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

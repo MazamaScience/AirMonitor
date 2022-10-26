@@ -10,7 +10,7 @@ epa_aqs_loadAnnual(
     "monitoring/v2"),
   archiveBaseDir = NULL,
   QC_negativeValues = c("zero", "na", "ignore"),
-  parameterCode = c("88101", "88502")
+  parameterCode = c("PM2.5", "88101", "88502")
 )
 }
 \arguments{
@@ -22,7 +22,7 @@ epa_aqs_loadAnnual(
 
 \item{QC_negativeValues}{Type of QC to apply to negative values.}
 
-\item{parameterCode}{One of the EPA AQS parameter codes.}
+\item{parameterCode}{One of the EPA AQS criteria parameter codes.}
 }
 \value{
 A \emph{mts_monitor} object with EPA AQS data. (A list with
@@ -35,13 +35,16 @@ If \code{archiveDataDir} is defined, data will be loaded from this local
 archive. Otherwise, data will be loaded from the monitoring data repository
 maintained by the USFS AirFire team.
 
-The files loaded by this function contain a single year's worth of data
+The files loaded by this function contain a single year's worth of data.
 
 Pre-processed AirNow exists for the following parameter codes:
 \enumerate{
 \item{88101 -- PM2.5 FRM/FEM Mass}
 \item{88502 -- PM2.5 non FRM/FEM Mass}
 }
+
+Specifying \code{parameterCode = "PM2.5"} will merge records from both
+sources.
 }
 \examples{
 \dontrun{
@@ -53,7 +56,7 @@ try({
 # See https://en.wikipedia.org/wiki/2017_Montana_wildfires
 
 # Daily Barplot of Montana wildfires
-epa_aqs_loadAnnual(2015, "88101") \\%>\\%
+epa_aqs_loadAnnual(2015) \\%>\\%
   monitor_filter(stateCode == "WA") \\%>\\%
   monitor_filterDate(20150724, 20150907) \\%>\\%
   monitor_dailyStatistic() \\%>\\%

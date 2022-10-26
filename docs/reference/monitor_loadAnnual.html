@@ -79,7 +79,7 @@ For data extended more than 45 days into the past, use monitor_load()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
       </span>
     </div>
 
@@ -112,6 +112,9 @@ For data extended more than 45 days into the past, use monitor_load()." />
     </li>
     <li>
       <a href="../articles/articles/Citations.html">Citations</a>
+    </li>
+    <li>
+      <a href="../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
     </li>
   </ul>
 </li>
@@ -160,7 +163,8 @@ maintained by the USFS AirFire team.</p>
   archiveBaseUrl <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"https://airfire-data-exports.s3.us-west-2.amazonaws.com/"</span>,
     <span class='st'>"monitoring/v2"</span><span class='op'>)</span>,
   archiveBaseDir <span class='op'>=</span> <span class='cn'>NULL</span>,
-  QC_negativeValues <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"zero"</span>, <span class='st'>"na"</span>, <span class='st'>"ignore"</span><span class='op'>)</span>
+  QC_negativeValues <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"zero"</span>, <span class='st'>"na"</span>, <span class='st'>"ignore"</span><span class='op'>)</span>,
+  epaPreference <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"airnow"</span>, <span class='st'>"epa_aqs"</span><span class='op'>)</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -182,6 +186,11 @@ maintained by the USFS AirFire team.</p>
       <th>QC_negativeValues</th>
       <td><p>Type of QC to apply to negative values.</p></td>
     </tr>
+    <tr>
+      <th>epaPreference</th>
+      <td><p>Preferred data source for EPA data when annual data
+files are available from both `epa_aqs` and `airnow`.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -190,11 +199,11 @@ maintained by the USFS AirFire team.</p>
 <code>meta</code> and <code>data</code> dataframes.)</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The AirNow data stream contains data may also be available from AIRSIS
+    <p>The AirNow data stream contains data that may also be available from AIRSIS
 and WRCC. This can be detected by looking at the `locationID` associated with
-each time series. Wherever multiple time series share a `locationID`, the
-time series from AirNow or WRCC are removed so that each location is represented
-by a single time series coming from AirNow.</p>
+each time series. When <code>epaPreference = "airnow"</code>, time series from
+AIRSIS or WRCC that share a `locationID` found in the AirNow data are removed
+so that each location is represented by a single time series coming from AirNow.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='monitor_loadDaily.html'>monitor_loadDaily</a></code></p>

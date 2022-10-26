@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
       </span>
     </div>
 
@@ -50,7 +50,7 @@
   <a href="../../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -64,9 +64,6 @@
     </li>
     <li>
       <a href="../../articles/articles/Citations.html">Citations</a>
-    </li>
-    <li>
-      <a href="../../articles/articles/NowCast.html">NowCast</a>
     </li>
     <li>
       <a href="../../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
@@ -94,13 +91,13 @@
 
       
 
-      </header><script src="Save_Data_as_CSV_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><script src="Save_Data_as_CSV_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Example: Save Data as CSV</h1>
                         <h4 class="author">Jonathan Callahan</h4>
             
-            <h4 class="date">2022-03-29</h4>
+            <h4 class="date">2022-10-14</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MazamaScience/AirMonitor/blob/master/vignettes/articles/Save_Data_as_CSV.Rmd"><code>vignettes/articles/Save_Data_as_CSV.Rmd</code></a></small>
       <div class="hidden name"><code>Save_Data_as_CSV.Rmd</code></div>
@@ -112,9 +109,15 @@
 <blockquote>
 <p>How can I save data from temporary monitors to a CSV file?</p>
 </blockquote>
-<p>If you have <strong>AirMonitor</strong> installed, you should be able to copy and paste this code into the RStudio console.</p>
-<p>The coding style uses the “pipe” operator, <code><a href="../../reference/%&gt;%.html">%&gt;%</a></code>, which uses the output of the preceding function as the first argument of the next function. Package functions are specifically designed to work well in this manner, encouraging <strong><em>readable and understandable code</em></strong>.</p>
-<p>Think of each chunk as a <em>recipe</em> that begins with what you want to make and is followed by the steps needed to make it.</p>
+<p>If you have <strong>AirMonitor</strong> installed, you should be able
+to copy and paste this code into the RStudio console.</p>
+<p>The coding style uses the “pipe” operator, <code><a href="../../reference/%&gt;%.html">%&gt;%</a></code>, which
+uses the output of the preceding function as the first argument of the
+next function. Package functions are specifically designed to work well
+in this manner, encouraging <strong><em>readable and understandable
+code</em></strong>.</p>
+<p>Think of each chunk as a <em>recipe</em> that begins with what you
+want to make and is followed by the steps needed to make it.</p>
 <p>Enjoy!</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitor">AirMonitor</a></span><span class="op">)</span>
@@ -122,19 +125,19 @@
 <span class="co"># AIRSIS in California</span>
 <span class="co">#  - start with all AIRSIS monitors in 2019</span>
 <span class="co">#  - subset for those where stateCode is one of "CA"</span>
-<span class="va">airsis_ca</span> <span class="op">&lt;-</span> 
-  <span class="fu"><a href="../../reference/airsis_loadAnnual.html">airsis_loadAnnual</a></span><span class="op">(</span><span class="fl">2019</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<span class="va">airnow_ca</span> <span class="op">&lt;-</span> 
+  <span class="fu"><a href="../../reference/airnow_loadAnnual.html">airnow_loadAnnual</a></span><span class="op">(</span><span class="fl">2019</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../../reference/monitor_filterMeta.html">monitor_filter</a></span><span class="op">(</span><span class="va">stateCode</span> <span class="op">==</span> <span class="st">"CA"</span><span class="op">)</span>
 
 <span class="co"># Interactive map to pick a monitor</span>
-<span class="fu"><a href="../../reference/monitor_leaflet.html">monitor_leaflet</a></span><span class="op">(</span><span class="va">airsis_ca</span><span class="op">)</span>
+<span class="fu"><a href="../../reference/monitor_leaflet.html">monitor_leaflet</a></span><span class="op">(</span><span class="va">airnow_ca</span><span class="op">)</span>
 
 <span class="co"># Select a single monitor by deviceDeploymentID</span>
-<span class="co">#  - start with airsis_ca</span>
+<span class="co">#  - start with airnow_ca</span>
 <span class="co">#  - subset for the "Mariposa" monitorID</span>
 <span class="va">Mariposa</span> <span class="op">&lt;-</span>
-  <span class="va">airsis_ca</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/monitor_select.html">monitor_select</a></span><span class="op">(</span><span class="st">"aa0cee2d9f2085f8_mariposa.1000"</span><span class="op">)</span>
+  <span class="va">airnow_ca</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../../reference/monitor_select.html">monitor_select</a></span><span class="op">(</span><span class="st">"9d60fd2e746019a5_840MMMPC1000"</span><span class="op">)</span>
 
 <span class="co"># Interactive graph to pick some time limits</span>
 <span class="fu"><a href="../../reference/monitor_dygraph.html">monitor_dygraph</a></span><span class="op">(</span><span class="va">Mariposa</span><span class="op">)</span>
@@ -177,33 +180,39 @@
 <span class="co"># Alternatively, View the data (or metadata) in the RStudio table viewer:</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">Mariposa</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>
 
-<span class="co"># Dump out airsis_ca meta to a CSV file</span>
-<span class="va">airsis_ca</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="../../reference/monitor_toCSV.html">monitor_toCSV</a></span><span class="op">(</span>includeData <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"airsis_CA_meta.csv"</span><span class="op">)</span><span class="op">)</span>
+<span class="co"># Set the output directory</span>
+<span class="va">outputDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># Dump out airsis_ca data to a CSV file</span>
-<span class="va">airsis_ca</span> <span class="op">%&gt;%</span>
+<span class="co"># Dump out airnow_ca meta to a CSV file</span>
+<span class="va">airnow_ca</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="../../reference/monitor_toCSV.html">monitor_toCSV</a></span><span class="op">(</span>includeData <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">outputDir</span>, <span class="st">"airnow_CA_meta.csv"</span><span class="op">)</span><span class="op">)</span>
+
+<span class="co"># Dump out airnow_ca data to a CSV file</span>
+<span class="va">airnow_ca</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../../reference/monitor_toCSV.html">monitor_toCSV</a></span><span class="op">(</span>includeMeta <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"airsis_CA_data.csv"</span><span class="op">)</span><span class="op">)</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">outputDir</span>, <span class="st">"airnow_CA_data.csv"</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Alternatively, View() the metadata and data in RStudio:</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">airsis_ca</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">airsis_ca</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">airnow_ca</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/View.html">View</a></span><span class="op">(</span><span class="va">airnow_ca</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>
 
 <span class="co"># ==============================================================================</span>
 
 <span class="co"># Everything above also applies to monitoring data from other sources.</span>
 <span class="co"># Just start with one of the following:</span>
 
-<span class="co"># All of WRCC for 2019</span>
-<span class="co">#wrcc_loadAnnual(2019)</span>
+<span class="co"># All of AIRSIS for 2019</span>
+<span class="co">#airsis_loadAnnual(2019)</span>
 
-<span class="co"># All of AirNow for 2019</span>
-<span class="co">#airnow_loadAnnual(2019)</span></code></pre></div>
-<p>Finally, to emphasize what can be done with pipelines, the following calculates daily mean timeseries for each California monitor and displays the <code>data</code> dataframe in the RStudio viewer:</p>
+<span class="co"># All of WRCC for 2019</span>
+<span class="co">#wrcc_loadAnnual(2019)</span></code></pre></div>
+<p>Finally, to emphasize the compact, expressiveness of “recipe”-style
+syntax, the following calculates daily mean timeseries for each
+California monitor and displays the <code>data</code> dataframe in the
+RStudio viewer:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../../reference/airsis_loadAnnual.html">airsis_loadAnnual</a></span><span class="op">(</span><span class="fl">2019</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<code class="sourceCode R"><span class="fu"><a href="../../reference/airnow_loadAnnual.html">airnow_loadAnnual</a></span><span class="op">(</span><span class="fl">2019</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../../reference/monitor_filterMeta.html">monitor_filter</a></span><span class="op">(</span><span class="va">stateCode</span> <span class="op">==</span> <span class="st">"CA"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="fl">20191001</span>, <span class="fl">20201101</span>, timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../../reference/monitor_trimDate.html">monitor_trimDate</a></span><span class="op">(</span>timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span><span class="op">)</span> <span class="op">%&gt;%</span>

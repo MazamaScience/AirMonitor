@@ -81,7 +81,7 @@ replaceMeta = TRUE." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
       </span>
     </div>
 
@@ -114,6 +114,9 @@ replaceMeta = TRUE." />
     </li>
     <li>
       <a href="../articles/articles/Citations.html">Citations</a>
+    </li>
+    <li>
+      <a href="../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
     </li>
   </ul>
 </li>
@@ -159,7 +162,11 @@ non-identical metadata for the same <code>deviceDeploymentID</code> unless
 <code>replaceMeta = TRUE</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>monitor_combine</span><span class='op'>(</span><span class='va'>...</span>, replaceMeta <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>monitor_combine</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  replaceMeta <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  overlapStrategy <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"replace all"</span>, <span class='st'>"replace na"</span><span class='op'>)</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -171,7 +178,12 @@ non-identical metadata for the same <code>deviceDeploymentID</code> unless
     <tr>
       <th>replaceMeta</th>
       <td><p>Logical specifying whether to allow replacement of metadata
-associated with <code>deviceDeploymentIDs</code>.</p></td>
+associated when duplicate <code>deviceDeploymentIDs</code> are encountered.</p></td>
+    </tr>
+    <tr>
+      <th>overlapStrategy</th>
+      <td><p>Strategy to use when data found in time series
+overlaps.</p></td>
     </tr>
     </table>
 
@@ -181,41 +193,57 @@ associated with <code>deviceDeploymentIDs</code>.</p></td>
 <code>meta</code> and <code>data</code> dataframes.)</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Data are combined with a "latest is best" sensibility where any
+    <p>Data are combined with a "later is better" sensibility where any
 data overlaps exist. Incoming <em>mts_monitor</em> objects are ordered based on the
 time stamp of their last record. Any data records found in a "later" <em>mts_monitor</em>
 will overwrite data associated with an "earlier" <em>mts_monitor</em>.</p>
+<p>With <code>overlapStrategy = "replace all"</code>, any data records found
+in "later" <em>mts_monitor</em> objects are preferentially retained before the "shared"
+data are finally reordered by ascending <code>datetime</code>.</p>
+<p>With <code>overlapStrategy = "replace missing"</code>, only missing values in "earlier"
+<em>mts_monitor</em> objects are replaced with data records from "later" time series.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/AirMonitor'>AirMonitor</a></span><span class='op'>)</span>
 
-<span class='co'># Washington State University</span>
 <span class='va'>Pullman</span> <span class='op'>&lt;-</span>
   <span class='va'>NW_Megafires</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='monitor_select.html'>monitor_select</a></span><span class='op'>(</span><span class='st'>"089a067f92712ad1_530750003"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_filterMeta.html'>monitor_filter</a></span><span class='op'>(</span><span class='va'>AQSID</span> <span class='op'>==</span> <span class='st'>"530750003"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='monitor_filterDatetime.html'>monitor_filterDatetime</a></span><span class='op'>(</span><span class='fl'>2015080118</span>, <span class='fl'>2015080203</span><span class='op'>)</span>
 
-<span class='co'># University of Idaho</span>
-<span class='va'>Moscow</span> <span class='op'>&lt;-</span>
+<span class='va'>Clarkston</span> <span class='op'>&lt;-</span>
   <span class='va'>NW_Megafires</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='monitor_select.html'>monitor_select</a></span><span class='op'>(</span><span class='st'>"d121a99bc6c2ac7f_160570005"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='monitor_filterMeta.html'>monitor_filter</a></span><span class='op'>(</span><span class='va'>AQSID</span> <span class='op'>==</span> <span class='st'>"530030004"</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='monitor_filterDatetime.html'>monitor_filterDatetime</a></span><span class='op'>(</span><span class='fl'>2015080200</span>, <span class='fl'>2015080206</span><span class='op'>)</span>
 
-<span class='fu'>monitor_combine</span><span class='op'>(</span><span class='va'>Pullman</span>, <span class='va'>Moscow</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='fu'>monitor_combine</span><span class='op'>(</span><span class='va'>Pullman</span>, <span class='va'>Clarkston</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='monitor_getDataFrame.html'>monitor_getData</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;               datetime d121a99bc6c2ac7f_160570005 089a067f92712ad1_530750003
-#&gt; 1  2015-08-02 01:00:00                         NA                         NA
-#&gt; 2  2015-08-02 02:00:00                         NA                         NA
-#&gt; 3  2015-08-02 03:00:00                         NA                         NA
-#&gt; 4  2015-08-02 04:00:00                         NA                         NA
-#&gt; 5  2015-08-02 05:00:00                         NA                         NA
-#&gt; 6  2015-08-02 06:00:00                         NA                         NA
-#&gt; 7  2015-08-02 07:00:00                         NA                         NA
-#&gt; 8  2015-08-02 08:00:00                         NA                         NA
-#&gt; 9  2015-08-02 09:00:00                         NA                         NA
-#&gt; 10 2015-08-02 10:00:00                         NA                         NA
-#&gt; 11 2015-08-02 11:00:00                         NA                         NA
-#&gt; 12 2015-08-02 12:00:00                         NA                         NA</div><div class='input'>
+</div><div class='output co'>#&gt;               datetime d88027e0995edbda_840530030004
+#&gt; 1  2015-08-02 01:00:00                            NA
+#&gt; 2  2015-08-02 02:00:00                            NA
+#&gt; 3  2015-08-02 03:00:00                            NA
+#&gt; 4  2015-08-02 04:00:00                            NA
+#&gt; 5  2015-08-02 05:00:00                            NA
+#&gt; 6  2015-08-02 06:00:00                            NA
+#&gt; 7  2015-08-02 07:00:00                          31.1
+#&gt; 8  2015-08-02 08:00:00                          30.3
+#&gt; 9  2015-08-02 09:00:00                          30.0
+#&gt; 10 2015-08-02 10:00:00                          32.7
+#&gt; 11 2015-08-02 11:00:00                          35.0
+#&gt; 12 2015-08-02 12:00:00                          36.3
+#&gt;    089a067f92712ad1_840530750003
+#&gt; 1                           25.8
+#&gt; 2                           45.4
+#&gt; 3                           46.6
+#&gt; 4                           45.2
+#&gt; 5                           45.8
+#&gt; 6                           44.9
+#&gt; 7                           43.9
+#&gt; 8                           43.7
+#&gt; 9                           42.2
+#&gt; 10                            NA
+#&gt; 11                            NA
+#&gt; 12                            NA</div><div class='input'>
 
 </div></pre>
   </div>

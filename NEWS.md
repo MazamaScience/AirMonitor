@@ -3,6 +3,10 @@
 * Added `epa_aqs_loadAnnual()`.
 * Updated `monitor_loadAnnual()` to load `epa_aqs` data.
 * Added `epaPreference` argument to `monitor_load()`.
+* Updated `monitor_combine()` with an `overlapStrategy` argument. With
+`overlapStrategy = "replace all"`, values from later timeseries (including `NA`)
+always replace values from earlier timeseries. With `overlapStrategy = "replace na"`, 
+values from later timeseries only replace `NA` values in earlier timeseries.
 
 # AirMonitor 0.3.6
 
