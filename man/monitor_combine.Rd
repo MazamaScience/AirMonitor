@@ -53,18 +53,22 @@ With \code{overlapStrategy = "replace missing"}, only missing values in "earlier
 \examples{
 library(AirMonitor)
 
-Pullman <-
-  NW_Megafires \%>\%
-  monitor_filter(AQSID == "530750003") \%>\%
-  monitor_filterDatetime(2015080118, 2015080203)
+# Two monitors near Pendelton, Oregon
+#
+# Use the interactive map to get the deviceDeploymentIDs
+#   NW_Megafires \%>\% monitor_leaflet()
 
-Clarkston <-
+Pendleton_West <-
   NW_Megafires \%>\%
-  monitor_filter(AQSID == "530030004") \%>\%
-  monitor_filterDatetime(2015080200, 2015080206)
+  monitor_select("f187226671d1109a_410590121_03") \%>\%
+  monitor_filterDatetime(2015082300, 2015082305)
 
-monitor_combine(Pullman, Clarkston) \%>\%
+Pendleton_East <-
+  NW_Megafires \%>\%
+  monitor_select("6c906c6d1cf46b53_410597002_02") \%>\%
+  monitor_filterDatetime(2015082300, 2015082305)
+
+monitor_combine(Pendleton_West, Pendleton_East) \%>\%
   monitor_getData()
-
 
 }

@@ -59,24 +59,24 @@ missing values. See the R documentation for \code{min} for an explanation.
 \examples{
 library(AirMonitor)
 
-# Spokane county AQSIDs all begin with "53063"
-Spokane <-
+# Lane County, Oregon AQSIDs all begin with "41039"
+LaneCounty <-
   NW_Megafires \%>\%
-  monitor_filter(stringr::str_detect(AQSID, '^53063')) \%>\%
-  monitor_filterDate(20150801, 20150808)
+  monitor_filter(stringr::str_detect(AQSID, '^41039')) \%>\%
+  monitor_filterDate(20150821, 20150828)
 
 # Get min/max for all monitors
-Spokane_min <- monitor_collapse(Spokane, deviceID = 'Spokane_min', FUN = min)
-Spokane_max <- monitor_collapse(Spokane, deviceID = 'Spokane_max', FUN = max)
+LaneCounty_min <- monitor_collapse(LaneCounty, deviceID = 'LaneCounty_min', FUN = min)
+LaneCounty_max <- monitor_collapse(LaneCounty, deviceID = 'LaneCounty_max', FUN = max)
 
 # Create plot
 monitor_timeseriesPlot(
-  Spokane,
+  LaneCounty,
   shadedNight = TRUE,
-  main = "Spokane Range of PM2.5 Values"
+  main = "Lane County Range of PM2.5 Values"
 )
 
 # Add min/max lines
-monitor_timeseriesPlot(Spokane_max, col = 'red', type = 's', add = TRUE)
-monitor_timeseriesPlot(Spokane_min, col = 'blue', type = 's', add = TRUE)
+monitor_timeseriesPlot(LaneCounty_max, col = 'red', type = 's', add = TRUE)
+monitor_timeseriesPlot(LaneCounty_min, col = 'blue', type = 's', add = TRUE)
 }

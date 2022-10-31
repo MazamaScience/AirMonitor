@@ -49,7 +49,7 @@ variable names like:
 * `monitor`  — a _mts_monitor_ object
 
 We occasionally use ‘_’ to create classes of similar variables that are 
-otherwise hard to name, e.g.:
+otherwise hard to name, _e.g._:
 
 ```
 QC_negativeValues
@@ -58,7 +58,7 @@ QC_negativeValues
 ## Naming Functions
 
 Most functions should strive to be atomic in nature and should do one thing 
-really well. Think of them as individual _Lego_ bricks that we click together
+really well. Think of them as functional _Lego_ bricks that we click together
 to achieve more advanced functionality. Where objects are _**well described nouns**_, 
 functions are _**well described verbs**_ that describe what they do as in:
 
@@ -73,37 +73,38 @@ monitor_select()
 ```
 
 All of these functions begin with `monitor_` because they are for creating or working
-with _monitor_ objects. Many of these functions accept a _monitor_ object as their first 
-argument and return a modified _monitor_. This means that they can be used with the
+with _mts_monitor_ objects. Many of these functions accept a _mts_monitor_ object as their first 
+argument and return a modified _mts_monitor_. This means that they can be used with the
 `%>%` "pipe" operator and chained together as in:
 
 ```
+# Create a daily average dataframe (aka tibble)
 Sacramento_area_daily_avg <-
 
-  # Get all data for 2018
+  # get all data for 2018
   monitor_loadAnnual(2018) %>%
   
-  # Filter to a 2-week period
+  # filter to a 2-week period
   monitor_filterDate(
     startdate = 20181108,
     enddate = 20181123,
     timezone = "America/Los_Angeles"
   ) %>%
   
-  # Filter to monitors near Sacramento
+  # filter to monitors near Sacramento
   monitor_filterByDistance(
     longitude = -121.4931,
     latitude = 38.56844 ,
     radius = 50000
   )  %>%
   
-  # Combine by averaging hourly values from different monitors
+  # combine by averaging hourly values from different monitors
   monitor_collapse() %>%
   
-  # Calculate local time daily averages
+  # calculate local time daily averages
   monitor_dailyStatistic() %>%
   
-  # Extract daily average values from 'monitor' object
+  # extract daily average values from 'monitor' object
   monitor_getData()
 ```  
 
@@ -152,8 +153,8 @@ to a function:
 ```
 
 Coding this way makes it easy to see which function arguments are being passed.
-It also eases future refactoring of the code when additional arguments needs to
-be added or the order of arguments need to be changed.
+It also eases future refactoring of the code when additional arguments need to
+be added or the order of arguments needs to be changed.
 
 -----
 

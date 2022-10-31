@@ -1,7 +1,7 @@
 ---
 title: "Data Model"
 author: "Jonathan Callahan"
-date: "2022-10-14"
+date: "2022-10-31"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Data Model}
@@ -13,31 +13,32 @@ vignette: >
 knitr::opts_chunk$set(fig.width = 7, fig.height = 5)
 ```
 
-This vignette explores the `mts_monitor` data model used throughout the 
+This vignette explores the _mts_monitor_ data model used throughout the 
 **AirMonitor** package to store and work with monitoring data.
 
 The **AirMonitor** package is designed to provide a compact, full-featured suite 
 of utilities for working with PM2.5 data. A 
 uniform data model provides consistent data access across monitoring data 
 available from different agencies. The core data model in this package is 
-defined by the `mts_monitor` object used to store data associated with groups of 
+defined by the _mts_monitor_ object used to store data associated with groups of 
 individual monitors.
 
-To work efficiently with the package it is important to understand the structure 
+To work efficiently with the package it is important that you understand the structure 
 of this data object and the functions that operate on it. Package functions whose
-names begin with `monitor_`,  expect objects of class `mts_monitor` as their first 
+names begin with `monitor_`,  expect objects of class _mts_monitor_ as their first 
 argument. (*'mts' stands for 'Multiple Time Series'*)
 
 ## Data Model
 
-The **AirMonitor** package uses the _mts_ data model defined in 
-**[MazamaTimeSeries](https://mazamascience.github.io/MazamaTimeSeries/)**.
+The **AirMonitor** package uses the _mts_ data model defined in the
+**[MazamaTimeSeries](https://mazamascience.github.io/MazamaTimeSeries/)**
+package.
 
 In this data model, each unique time series is referred to as a 
-_"device-deployment"_ -- a timeseries collected by a particular device at a 
+_"device-deployment"_ -- a time series collected by a particular device at a 
 specific location. Multiple device-deployments are stored in memory as a
-_mts_monitor_ object, typically called `monitor`. Each `monitor` is just an R 
-list with two dataframes:
+_mts_monitor_ object, typically called `monitor`. Each `monitor` is just an \pkg{R} 
+list with two dataframes.
 
 `monitor$meta` -- rows = unique device-deployments; cols = device/location metadata
 
@@ -51,11 +52,11 @@ spatial and device metadata in a `meta` row. The following will always be true:
 identical(names(monitor$data), c('datetime', monitor$meta$deviceDeploymentID))
 ```
 
-Each column of `monitor$data` represents a timeseries associated with a particular
+Each column of `monitor$data` represents a time series associated with a particular
 device-deployment while each row of `monitor$data` represents a _synoptic_ snapshot of all
 measurements made at a particular time. 
 
-In this manner, software can create both timeseries plots and maps from a single
+In this manner, software can create both time series plots and maps from a single
 `monitor` object in memory.
 
 The `data` dataframe contains all hourly measurements organized with rows 
@@ -68,6 +69,7 @@ The `meta` dataframe contains all metadata associated with device-deployments
 and is organized with rows as unique device-deployments and columns containing
 both location and device metadata. The following columns are guaranteed to exist
 in the `meta` dataframe. Those marked with "(optional)" may contain `NA`s.
+Additional columns may also be present depending on the data source.
 
 * `deviceDeploymentID` -- unique ID associated with a time series
 * `deviceID` -- unique location ID
@@ -97,22 +99,26 @@ in the `meta` dataframe. Those marked with "(optional)" may contain `NA`s.
 * `AQSID` -- (optional) EPA AQS unique identifier
 * `fullAQSID` -- (optional) EPA AQS unique identifier
 
-**Example 1: Exploring `mts_monitor` objects**
+**Example 1: Exploring _mts_monitor_ objects**
 
 We will use the built-in "NW_Megafires" dataset and various `monitor_filter~()` 
-functions to subset a `mts_monitor` object which we then examine.
+functions to subset a _mts_monitor_ object which we then examine.
 
 ```{r data_model_1}
-suppressPackageStartupMessages(library(AirMonitor))
+library(AirMonitor)
 
 # Recipe to select Washington state monitors in August of 2014:
 monitor <-
+  
   # 1) start with NW Megafires
   NW_Megafires %>%
+  
   # 2) filter to only include Washington state
   monitor_filter(stateCode == "WA") %>%
+  
   # 3) filter to only include August
   monitor_filterDate(20150801, 20150901) %>%
+  
   # 4) remove monitors with all missing values
   monitor_dropEmpty()
 
@@ -133,15 +139,15 @@ dim(monitor$data)
 identical(names(monitor$data), c('datetime', monitor$meta$deviceDeploymentID))
 ```
   
-**Example 2: Basic manipulation of `mts_monitor` objects**
+**Example 2: Basic manipulation of _mts_monitor_ objects**
 
-The **AirMonitor** package has numerous functions that can work with 
-`mts_monitor` objects, all of which begin with `monitor_`. If you need to do 
+The **AirMonitor** package has numerous functions that work with 
+_mts_monitor_ objects, all of which begin with `monitor_`. If you need to do 
 something that the package functions do not provide, you can manipulate 
-`mts_monitor` objects directly as long as you retain the structure of the data 
+_mts_monitor_ objects directly as long as you retain the structure of the data 
 model.
 
-Functions that accept and return `mts_monitor` objects include:
+Functions that accept and return _mts_monitor_ objects include:
 
  * `monitor_aqi()`
  * `monitor_collapse()`
@@ -160,26 +166,38 @@ Functions that accept and return `mts_monitor` objects include:
  * `monitor_selectWhere()`
  * `monitor_trimDate()`
 
-These functions can be used with the **magrittr** package `%>%` pipe as in the 
-following example:
+These functions can be used with the **magrittr** package pipe operator (`%>%`)
+as in the following example:
+
+```{r monitor_leaflet, results = "hold"}
+# First, Obtain the monitor ids by clicking on dots in the interactive map:
+NW_Megafires %>% monitor_leaflet()
+```
 
 ```{r Methow_Valley, results = "hold"}
 # Calculate daily means for the Methow Valley from monitors in Twisp and Winthrop
-TwispID <- "40ffdacb421a5ee6_840530470010"
-WinthropID <- "450d08fb5a3e4ea0_530470009"
+
+TwispID <- "99a6ee8e126ff8cf_530470009_04"
+WinthropID <- "123035bbdc2bc702_530470010_04"
 
 # Recipe to calculate Methow Valley August Means:
 Methow_Valley_AugustMeans <- 
+  
   # 1) start with NW Megafires
   NW_Megafires %>%
+  
   # 2) select monitors from Twisp and Winthrop
   monitor_select(c(TwispID, WinthropID)) %>%
+  
   # 3) average them together hour-by-hour
   monitor_collapse(deviceID = 'MethowValley') %>%
+  
   # 4) restrict data to August
   monitor_filterDate(20150801, 20150901) %>%
+  
   # 5) calculate daily mean
   monitor_dailyStatistic(mean, minHours = 18) %>%
+  
   # 6) round data to one decimal place
   monitor_mutate(round, 1)
 
@@ -187,13 +205,13 @@ Methow_Valley_AugustMeans <-
 Methow_Valley_AugustMeans$data[1:7,]
 ```
 
-**Example 3: Advanced manipulation of `mts_monitor` objects**
+**Example 3: Advanced manipulation of _mts_monitor_ objects**
 
 The following code demonstrates user creation of a custom function to 
-manipulate of the data tibble from a `mts_monitor` with `monitor_mutate()`.
+manipulate the `data` tibble from a _mts_monitor_ object with `monitor_mutate()`.
 
 ```{r custom_use1}
-# Spokane area AQSIDs all begin with "53063"
+# Monitors within 100 km of Spokane, WA
 Spokane <-
   NW_Megafires %>%
   monitor_filterByDistance(-117.42, 47.70, 100000) %>%
@@ -217,7 +235,7 @@ Spokane %>%
 
 Understanding that `monitor$data` is a just a dataframe of measurements
 prepended with a `datetime` column, we can pull out the measurements and do analyses
-independ of the `mts_monitor` data model. Here we look for correlations among
+independent of the _mts_monitor_ data model. Here we look for correlations among
 the PM2.5 time series.
 
 ```{r custom_use2}
@@ -225,7 +243,7 @@ the PM2.5 time series.
 Spokane_data <- 
   Spokane %>%
   monitor_getData() %>%
-  dplyr::select(-1)
+  dplyr::select(-1) # omit 'datetime' column
 
 # Provide human readable names
 names(Spokane_data) <- Spokane$meta$locationName
@@ -234,9 +252,9 @@ names(Spokane_data) <- Spokane$meta$locationName
 cor(Spokane_data, use = "complete.obs")
 ```
 
-----
-
-This introduction to the `mts_monitor` data model should be enough to get you started.
+This introduction to the _mts_monitor_ data model should be enough to get you started.
 Lots more examples are available in the package documentation.
 
-_Best of luck exploring and understanding PM 2.air quality data!_
+----
+
+_Best of luck exploring and understanding PM 2.5 air quality data!_

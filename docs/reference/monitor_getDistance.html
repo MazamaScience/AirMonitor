@@ -74,7 +74,7 @@ mask identifying monitors within a certain radius of the location of interest." 
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.8</span>
       </span>
     </div>
 
@@ -107,6 +107,9 @@ mask identifying monitors within a certain radius of the location of interest." 
     </li>
     <li>
       <a href="../articles/articles/Citations.html">Citations</a>
+    </li>
+    <li>
+      <a href="../articles/articles/NowCast.html">NowCast</a>
     </li>
     <li>
       <a href="../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
@@ -199,56 +202,38 @@ calculated using <code>measure = "geodesic"</code>.</p>
 
 <span class='co'># Distance in meters</span>
 <span class='va'>distance</span><span class='op'>[</span><span class='va'>closestIndex</span><span class='op'>]</span>
-</div><div class='output co'>#&gt; 3f1e6dd0ed3ca0b1_840530710005 
-#&gt;                       1779.27 </div><div class='input'>
-<span class='co'># Monitor metadata</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>NW_Megafires</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>[</span><span class='va'>closestIndex</span>,<span class='op'>]</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; tibble [1 × 45] (S3: tbl_df/tbl/data.frame)
-#&gt;  $ deviceDeploymentID      : chr "3f1e6dd0ed3ca0b1_840530710005"
-#&gt;  $ deviceID                : chr "840530710005"
-#&gt;  $ deviceType              : chr NA
-#&gt;  $ deviceDescription       : chr NA
-#&gt;  $ deviceExtra             : chr NA
-#&gt;  $ pollutant               : chr "PM2.5"
-#&gt;  $ units                   : chr "UG/M3"
-#&gt;  $ dataIngestSource        : chr "AirNow"
-#&gt;  $ dataIngestURL           : chr "https://www.airnowapi.org/aq/data/"
-#&gt;  $ dataIngestUnitID        : chr NA
-#&gt;  $ dataIngestExtra         : chr NA
-#&gt;  $ dataIngestDescription   : chr NA
-#&gt;  $ locationID              : chr "3f1e6dd0ed3ca0b1"
-#&gt;  $ locationName            : chr "Walla Walla-12th St"
-#&gt;  $ longitude               : num -118
-#&gt;  $ latitude                : num 46.1
-#&gt;  $ elevation               : num 267
-#&gt;  $ countryCode             : chr "US"
-#&gt;  $ stateCode               : chr "WA"
-#&gt;  $ countyName              : chr "Walla Walla"
-#&gt;  $ timezone                : chr "America/Los_Angeles"
-#&gt;  $ houseNumber             : chr NA
-#&gt;  $ street                  : chr "West Birch Street"
-#&gt;  $ city                    : chr NA
-#&gt;  $ zip                     : chr "99362-5024"
-#&gt;  $ AQSID                   : chr "530710005"
-#&gt;  $ fullAQSID               : chr "840530710005"
-#&gt;  $ airnow_stationID        : chr "530710005"
-#&gt;  $ airnow_parameterName    : chr "PM2.5"
-#&gt;  $ airnow_monitorType      : chr "Permanent"
-#&gt;  $ airnow_siteCode         : chr "0005"
-#&gt;  $ airnow_status           : chr "Active"
-#&gt;  $ airnow_agencyID         : chr "WA1"
-#&gt;  $ airnow_agencyName       : chr "Washington Department of Ecology"
-#&gt;  $ airnow_EPARegion        : chr "R10"
-#&gt;  $ airnow_GMTOffsetHours   : num -8
-#&gt;  $ airnow_CBSA_ID          : chr "47460"
-#&gt;  $ airnow_CBSA_Name        : chr " Walla Walla, WA "
-#&gt;  $ airnow_stateAQSCode     : chr "53"
-#&gt;  $ airnow_countyAQSCode    : chr "071"
-#&gt;  $ airnow_MSAName          : chr NA
-#&gt;  $ address                 : chr "Walla Walla Fire District Station 1, West Birch Street, Walla Walla, WA 99362-5024, United States of America"
-#&gt;  $ deploymentType          : chr "Permanent"
-#&gt;  $ airnow_countryFIPS      : chr NA
-#&gt;  $ airnow_stateAbbreviation: chr NA</div><div class='input'>
+</div><div class='output co'>#&gt; 197dc3c0d27e2bd5_530710005_04 
+#&gt;                      1783.835 </div><div class='input'>
+<span class='co'># Monitor core metadata</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>NW_Megafires</span><span class='op'>$</span><span class='va'>meta</span><span class='op'>[</span><span class='va'>closestIndex</span>, <span class='fu'>AirMonitor</span><span class='fu'>::</span><span class='va'><a href='coreMetadataNames.html'>coreMetadataNames</a></span><span class='op'>]</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; tibble [1 × 27] (S3: tbl_df/tbl/data.frame)
+#&gt;  $ deviceDeploymentID   : chr "197dc3c0d27e2bd5_530710005_04"
+#&gt;  $ deviceID             : chr "530710005_04"
+#&gt;  $ deviceType           : chr NA
+#&gt;  $ deviceDescription    : chr "Correlated Radiance Research M903 With Heated Inlet - Nephelometry"
+#&gt;  $ deviceExtra          : chr NA
+#&gt;  $ pollutant            : chr "PM2.5"
+#&gt;  $ units                : chr "UG/M3"
+#&gt;  $ dataIngestSource     : chr "EPA AQS"
+#&gt;  $ dataIngestURL        : chr "https://aqs.epa.gov/aqsweb/airdata/download_files.html"
+#&gt;  $ dataIngestUnitID     : chr NA
+#&gt;  $ dataIngestExtra      : chr NA
+#&gt;  $ dataIngestDescription: chr NA
+#&gt;  $ locationID           : chr "197dc3c0d27e2bd5"
+#&gt;  $ locationName         : chr "Walla Wall - 12th St"
+#&gt;  $ longitude            : num -118
+#&gt;  $ latitude             : num 46.1
+#&gt;  $ elevation            : num 267
+#&gt;  $ countryCode          : chr "US"
+#&gt;  $ stateCode            : chr "WA"
+#&gt;  $ countyName           : chr "Walla Walla"
+#&gt;  $ timezone             : chr "America/Los_Angeles"
+#&gt;  $ houseNumber          : chr NA
+#&gt;  $ street               : chr NA
+#&gt;  $ city                 : chr NA
+#&gt;  $ zip                  : chr NA
+#&gt;  $ AQSID                : chr "530710005"
+#&gt;  $ fullAQSID            : chr NA</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

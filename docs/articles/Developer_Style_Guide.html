@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.8</span>
       </span>
     </div>
 
@@ -64,6 +64,9 @@
     </li>
     <li>
       <a href="../articles/articles/Citations.html">Citations</a>
+    </li>
+    <li>
+      <a href="../articles/articles/NowCast.html">NowCast</a>
     </li>
     <li>
       <a href="../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
@@ -152,14 +155,14 @@ it. We often use variable names like:</p>
 <code>monitor</code> — a <em>mts_monitor</em> object</li>
 </ul>
 <p>We occasionally use ’_’ to create classes of similar variables that
-are otherwise hard to name, e.g.:</p>
+are otherwise hard to name, <em>e.g.</em>:</p>
 <pre><code>QC_negativeValues</code></pre>
 </div>
 <div id="naming-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#naming-functions" class="anchor"></a>Naming Functions</h2>
 <p>Most functions should strive to be atomic in nature and should do one
-thing really well. Think of them as individual <em>Lego</em> bricks that
+thing really well. Think of them as functional <em>Lego</em> bricks that
 we click together to achieve more advanced functionality. Where objects
 are <em><strong>well described nouns</strong></em>, functions are
 <em><strong>well described verbs</strong></em> that describe what they
@@ -172,37 +175,38 @@ monitor_filterDate()
 monitor_select()
 ...</a></code></pre>
 <p>All of these functions begin with <code>monitor_</code> because they
-are for creating or working with <em>monitor</em> objects. Many of these
-functions accept a <em>monitor</em> object as their first argument and
-return a modified <em>monitor</em>. This means that they can be used
-with the <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> “pipe” operator and chained together as
-in:</p>
-<pre><code>Sacramento_area_daily_avg &lt;-
+are for creating or working with <em>mts_monitor</em> objects. Many of
+these functions accept a <em>mts_monitor</em> object as their first
+argument and return a modified <em>mts_monitor</em>. This means that
+they can be used with the <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> “pipe” operator and
+chained together as in:</p>
+<pre><code># Create a daily average dataframe (aka tibble)
+Sacramento_area_daily_avg &lt;-
 
-  # Get all data for 2018
+  # get all data for 2018
   monitor_loadAnnual(2018) %&gt;%
   
-  # Filter to a 2-week period
+  # filter to a 2-week period
   monitor_filterDate(
     startdate = 20181108,
     enddate = 20181123,
     timezone = "America/Los_Angeles"
   ) %&gt;%
   
-  # Filter to monitors near Sacramento
+  # filter to monitors near Sacramento
   monitor_filterByDistance(
     longitude = -121.4931,
     latitude = 38.56844 ,
     radius = 50000
   )  %&gt;%
   
-  # Combine by averaging hourly values from different monitors
+  # combine by averaging hourly values from different monitors
   monitor_collapse() %&gt;%
   
-  # Calculate local time daily averages
+  # calculate local time daily averages
   monitor_dailyStatistic() %&gt;%
   
-  # Extract daily average values from 'monitor' object
+  # extract daily average values from 'monitor' object
   monitor_getData()</code></pre>
 </div>
 <div id="naming-files" class="section level2">
@@ -246,7 +250,7 @@ regular lists and for named argument lists passed to a function:</p>
   ) %&gt;%</code></pre>
 <p>Coding this way makes it easy to see which function arguments are
 being passed. It also eases future refactoring of the code when
-additional arguments needs to be added or the order of arguments need to
+additional arguments need to be added or the order of arguments needs to
 be changed.</p>
 <hr>
 <p>It is our belief that good code should be both readable and

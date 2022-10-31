@@ -6,7 +6,7 @@
 \alias{NW_Megafires}
 \title{NW_Megafires example dataset}
 \format{
-A \emph{mts_monitor} object with 1080 rows and 141 columns of data.
+A \emph{mts_monitor} object with 1080 rows and 143 columns of data.
 }
 \usage{
 NW_Megafires
@@ -21,15 +21,16 @@ that led to many days of heavy smoke in eastern Washington, Oregon and
 northern Idaho. The NW_Megafires dataset contains monitoring data for the
 Pacific Northwest from July 24 through September 06, 2015.
 
-This dataset was generated on 2022-10-14 by running:
+This dataset was generated on 2022-10-28 by running:
 
 \preformatted{
 library(AirMonitor)
 
 NW_Megafires <-
-  airnow_loadAnnual(2015) \%>\%
-  monitor_filterMeta(stateCode \%in\% c("WA", "OR", "ID")) \%>\%
-  monitor_filterDate(20150724, 20150907)
+  monitor_loadAnnual(2015, epaPreference = "epa_aqs") %>%
+  monitor_filterMeta(stateCode %in% c("WA", "OR", "ID")) %>%
+  monitor_filterDate(20150724, 20150907, timezone = "America/Los_Angeles") %>%
+  monitor_dropEmpty()
 
 save(NW_Megafires, file = "data/NW_Megafires.rda")
 }

@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.8</span>
       </span>
     </div>
 
@@ -66,6 +66,9 @@
       <a href="../articles/articles/Citations.html">Citations</a>
     </li>
     <li>
+      <a href="../articles/articles/NowCast.html">NowCast</a>
+    </li>
+    <li>
       <a href="../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
     </li>
   </ul>
@@ -91,13 +94,16 @@
 
       
 
-      </header><script src="Data_Model_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
+      </header><script src="Data_Model_files/header-attrs-2.14/header-attrs.js"></script><script src="Data_Model_files/htmlwidgets-1.5.4/htmlwidgets.js"></script><script src="Data_Model_files/jquery-1.12.4/jquery.min.js"></script><link href="Data_Model_files/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="Data_Model_files/leaflet-1.3.1/leaflet.js"></script><link href="Data_Model_files/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="Data_Model_files/proj4-2.6.2/proj4.min.js"></script><script src="Data_Model_files/Proj4Leaflet-1.0.1/proj4leaflet.js"></script><link href="Data_Model_files/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="Data_Model_files/leaflet-binding-2.0.4.1/leaflet.js"></script><script src="Data_Model_files/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script><script src="Data_Model_files/leaflet-providers-plugin-2.0.4.1/leaflet-providers-plugin.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Data Model</h1>
                         <h4 class="author">Jonathan Callahan</h4>
             
-            <h4 class="date">2022-10-14</h4>
+            <h4 class="date">2022-10-31</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MazamaScience/AirMonitor/blob/master/vignettes/Data_Model.Rmd"><code>vignettes/Data_Model.Rmd</code></a></small>
       <div class="hidden name"><code>Data_Model.Rmd</code></div>
@@ -106,31 +112,33 @@
 
     
     
-<p>This vignette explores the <code>mts_monitor</code> data model used
+<p>This vignette explores the <em>mts_monitor</em> data model used
 throughout the <strong>AirMonitor</strong> package to store and work
 with monitoring data.</p>
 <p>The <strong>AirMonitor</strong> package is designed to provide a
 compact, full-featured suite of utilities for working with PM2.5 data. A
 uniform data model provides consistent data access across monitoring
 data available from different agencies. The core data model in this
-package is defined by the <code>mts_monitor</code> object used to store
-data associated with groups of individual monitors.</p>
-<p>To work efficiently with the package it is important to understand
-the structure of this data object and the functions that operate on it.
-Package functions whose names begin with <code>monitor_</code>, expect
-objects of class <code>mts_monitor</code> as their first argument.
-(<em>‘mts’ stands for ‘Multiple Time Series’</em>)</p>
+package is defined by the <em>mts_monitor</em> object used to store data
+associated with groups of individual monitors.</p>
+<p>To work efficiently with the package it is important that you
+understand the structure of this data object and the functions that
+operate on it. Package functions whose names begin with
+<code>monitor_</code>, expect objects of class <em>mts_monitor</em> as
+their first argument. (<em>‘mts’ stands for ‘Multiple Time
+Series’</em>)</p>
 <div id="data-model" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-model" class="anchor"></a>Data Model</h2>
 <p>The <strong>AirMonitor</strong> package uses the <em>mts</em> data
-model defined in <strong><a href="https://mazamascience.github.io/MazamaTimeSeries/">MazamaTimeSeries</a></strong>.</p>
+model defined in the <strong><a href="https://mazamascience.github.io/MazamaTimeSeries/">MazamaTimeSeries</a></strong>
+package.</p>
 <p>In this data model, each unique time series is referred to as a
-<em>“device-deployment”</em> – a timeseries collected by a particular
+<em>“device-deployment”</em> – a time series collected by a particular
 device at a specific location. Multiple device-deployments are stored in
 memory as a <em>mts_monitor</em> object, typically called
-<code>monitor</code>. Each <code>monitor</code> is just an R list with
-two dataframes:</p>
+<code>monitor</code>. Each <code>monitor</code> is just an list with two
+dataframes.</p>
 <p><code>monitor$meta</code> – rows = unique device-deployments; cols =
 device/location metadata</p>
 <p><code>monitor$data</code> – rows = UTC times; cols =
@@ -142,11 +150,11 @@ column)</p>
 device metadata in a <code>meta</code> row. The following will always be
 true:</p>
 <pre><code><a href="https://rdrr.io/r/base/identical.html">identical(names(monitor$data), c('datetime', monitor$meta$deviceDeploymentID))</a></code></pre>
-<p>Each column of <code>monitor$data</code> represents a timeseries
+<p>Each column of <code>monitor$data</code> represents a time series
 associated with a particular device-deployment while each row of
 <code>monitor$data</code> represents a <em>synoptic</em> snapshot of all
 measurements made at a particular time.</p>
-<p>In this manner, software can create both timeseries plots and maps
+<p>In this manner, software can create both time series plots and maps
 from a single <code>monitor</code> object in memory.</p>
 <p>The <code>data</code> dataframe contains all hourly measurements
 organized with rows (the ‘unlimited’ dimension) as unique timesteps and
@@ -159,7 +167,8 @@ device-deployments and is organized with rows as unique
 device-deployments and columns containing both location and device
 metadata. The following columns are guaranteed to exist in the
 <code>meta</code> dataframe. Those marked with “(optional)” may contain
-<code>NA</code>s.</p>
+<code>NA</code>s. Additional columns may also be present depending on
+the data source.</p>
 <ul>
 <li>
 <code>deviceDeploymentID</code> – unique ID associated with a time
@@ -228,22 +237,26 @@ ingest instructions</li>
 <li>
 <code>fullAQSID</code> – (optional) EPA AQS unique identifier</li>
 </ul>
-<p><strong>Example 1: Exploring <code>mts_monitor</code>
+<p><strong>Example 1: Exploring <em>mts_monitor</em>
 objects</strong></p>
 <p>We will use the built-in “NW_Megafires” dataset and various
 <code>monitor_filter~()</code> functions to subset a
-<code>mts_monitor</code> object which we then examine.</p>
+<em>mts_monitor</em> object which we then examine.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/message.html">suppressPackageStartupMessages</a></span><span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitor">AirMonitor</a></span><span class="op">)</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitor">AirMonitor</a></span><span class="op">)</span>
 
 <span class="co"># Recipe to select Washington state monitors in August of 2014:</span>
 <span class="va">monitor</span> <span class="op">&lt;-</span>
+  
   <span class="co"># 1) start with NW Megafires</span>
   <span class="va">NW_Megafires</span> <span class="op">%&gt;%</span>
+  
   <span class="co"># 2) filter to only include Washington state</span>
   <span class="fu"><a href="../reference/monitor_filterMeta.html">monitor_filter</a></span><span class="op">(</span><span class="va">stateCode</span> <span class="op">==</span> <span class="st">"WA"</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  
   <span class="co"># 3) filter to only include August</span>
   <span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="fl">20150801</span>, <span class="fl">20150901</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  
   <span class="co"># 4) remove monitors with all missing values</span>
   <span class="fu"><a href="../reference/monitor_dropEmpty.html">monitor_dropEmpty</a></span><span class="op">(</span><span class="op">)</span>
 
@@ -257,49 +270,54 @@ objects</strong></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Examine the 'meta' dataframe</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 37 45</code></pre>
+<pre><code>## [1] 67 82</code></pre>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">meta</span><span class="op">)</span></code></pre></div>
-<pre><code>##  [1] "deviceDeploymentID"       "deviceID"                
-##  [3] "deviceType"               "deviceDescription"       
-##  [5] "deviceExtra"              "pollutant"               
-##  [7] "units"                    "dataIngestSource"        
-##  [9] "dataIngestURL"            "dataIngestUnitID"        
-## [11] "dataIngestExtra"          "dataIngestDescription"   
-## [13] "locationID"               "locationName"            
-## [15] "longitude"                "latitude"                
-## [17] "elevation"                "countryCode"             
-## [19] "stateCode"                "countyName"              
-## [21] "timezone"                 "houseNumber"             
-## [23] "street"                   "city"                    
-## [25] "zip"                      "AQSID"                   
-## [27] "fullAQSID"                "airnow_stationID"        
-## [29] "airnow_parameterName"     "airnow_monitorType"      
-## [31] "airnow_siteCode"          "airnow_status"           
-## [33] "airnow_agencyID"          "airnow_agencyName"       
-## [35] "airnow_EPARegion"         "airnow_GMTOffsetHours"   
-## [37] "airnow_CBSA_ID"           "airnow_CBSA_Name"        
-## [39] "airnow_stateAQSCode"      "airnow_countyAQSCode"    
-## [41] "airnow_MSAName"           "address"                 
-## [43] "deploymentType"           "airnow_countryFIPS"      
-## [45] "airnow_stateAbbreviation"</code></pre>
+<pre><code>##  [1] "deviceDeploymentID"    "deviceID"              "deviceType"           
+##  [4] "deviceDescription"     "deviceExtra"           "pollutant"            
+##  [7] "units"                 "dataIngestSource"      "dataIngestURL"        
+## [10] "dataIngestUnitID"      "dataIngestExtra"       "dataIngestDescription"
+## [13] "locationID"            "locationName"          "longitude"            
+## [16] "latitude"              "elevation"             "countryCode"          
+## [19] "stateCode"             "countyName"            "timezone"             
+## [22] "houseNumber"           "street"                "city"                 
+## [25] "zip"                   "AQSID"                 "fullAQSID"            
+## [28] "airnow_stationID"      "airnow_parameterName"  "airnow_monitorType"   
+## [31] "airnow_siteCode"       "airnow_status"         "airnow_agencyID"      
+## [34] "airnow_agencyName"     "airnow_EPARegion"      "airnow_GMTOffsetHours"
+## [37] "airnow_CBSA_ID"        "airnow_CBSA_Name"      "airnow_stateAQSCode"  
+## [40] "airnow_countyAQSCode"  "airnow_MSAName"        "address"              
+## [43] "wrcc_type"             "wrcc_serialNumber"     "wrcc_monitorName"     
+## [46] "wrcc_monitorType"      "deploymentType"        "airnow_countryCode"   
+## [49] "airnow_stateCode"      "airnow_timezone"       "airnow_houseNumber"   
+## [52] "airnow_street"         "airnow_city"           "airnow_zip"           
+## [55] "airsis_Alias"          "airsis_dataFormat"     "airsis_provider"      
+## [58] "airsis_unitID"         "aqs_address"           "siteEstablishedDate"  
+## [61] "siteClosedDate"        "GMTOffset"             "owningAgency"         
+## [64] "cityName"              "CBSAName"              "tribeName"            
+## [67] "parameterCode"         "parameterName"         "POC"                  
+## [70] "firstYearOfData"       "lastSampleDate"        "monitorType"          
+## [73] "reportingAgency"       "PQAO"                  "collectingAgency"     
+## [76] "exclusions"            "monitoringObjective"   "lastMethodCode"       
+## [79] "lastMethod"            "measurementScale"      "NAAQSPrimaryMonitor"  
+## [82] "QAPrimaryMonitor"</code></pre>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Examine the 'data' dataframe</span>
 <span class="fu"><a href="https://rdrr.io/r/base/dim.html">dim</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 744  38</code></pre>
+<pre><code>## [1] 744  68</code></pre>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># This should always be true</span>
 <span class="fu"><a href="https://rdrr.io/r/base/identical.html">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'datetime'</span>, <span class="va">monitor</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<p><strong>Example 2: Basic manipulation of <code>mts_monitor</code>
+<p><strong>Example 2: Basic manipulation of <em>mts_monitor</em>
 objects</strong></p>
 <p>The <strong>AirMonitor</strong> package has numerous functions that
-can work with <code>mts_monitor</code> objects, all of which begin with
+work with <em>mts_monitor</em> objects, all of which begin with
 <code>monitor_</code>. If you need to do something that the package
-functions do not provide, you can manipulate <code>mts_monitor</code>
+functions do not provide, you can manipulate <em>mts_monitor</em>
 objects directly as long as you retain the structure of the data
 model.</p>
-<p>Functions that accept and return <code>mts_monitor</code> objects
+<p>Functions that accept and return <em>mts_monitor</em> objects
 include:</p>
 <ul>
 <li><code><a href="../reference/monitor_aqi.html">monitor_aqi()</a></code></li>
@@ -324,44 +342,56 @@ include:</p>
 <li><code><a href="../reference/monitor_trimDate.html">monitor_trimDate()</a></code></li>
 </ul>
 <p>These functions can be used with the <strong>magrittr</strong>
-package <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> pipe as in the following example:</p>
+package pipe operator (<code><a href="../reference/%&gt;%.html">%&gt;%</a></code>) as in the following
+example:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># First, Obtain the monitor ids by clicking on dots in the interactive map:</span>
+<span class="va">NW_Megafires</span> <span class="op">%&gt;%</span> <span class="fu"><a href="../reference/monitor_leaflet.html">monitor_leaflet</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<div id="htmlwidget-cd9bb5601877e8b0bc4d" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cd9bb5601877e8b0bc4d">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"fitBounds":[42.0138024270466,-124.624852022654,48.8874825259202,-111.809177855758,[]],"calls":[{"method":"addProviderTiles","args":["Esri.WorldTopoMap",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[[47.9569848608926,47.4234833667977,47.4231171792049,42.8765178630731,46.4254510984468,46.9726858334362,48.5448521665462,48.1294916063895,48.3655748099871,48.1145205621549,48.7105118853839,47.5923647545028,48.5202375837592,48.2979007736774,48.7631376305388,48.8208349531263,47.0298271404494,46.3177253397999,46.7243090924989,47.597430062321,47.3857141906484,47.9000049197073,47.4903870371348,44.1337348109969,48.0546689308712,48.0540531918898,46.2181451677078,47.6133306694838,47.2134263902725,47.3441577196231,43.5896824620138,47.8064815839188,47.5593927986925,43.8224470386858,46.663943962773,43.6820611075349,47.5682443907209,47.1860006020226,44.1049072315768,47.5305080703479,47.4682481189107,47.2652826924931,43.7440540272501,44.0634609567316,46.1399281341022,45.8637040514649,47.8996334695022,46.5749183416801,48.4768114720425,47.7545170108823,42.189345994858,42.3143218651398,48.1859983981879,46.0588333096187,44.2924674126074,47.4309218656545,43.600848208284,45.7689733543881,46.9935802045645,43.5806573273688,42.5649812533328,46.5985071080175,45.5285525382104,48.2467681599074,42.2899032727149,47.1301752994521,44.788126083592,44.5885523155121,45.3393445156487,45.2591725678392,44.8899381088196,42.8958031394987,47.7884246356212,45.470184316602,42.1941258704724,42.0138024270466,43.2263144361883,42.7435747676694,46.3805076773772,44.6310243813301,45.6432267608218,44.3960825956319,45.3006329153044,42.4345691254395,45.6642020882318,45.6526258649343,47.5987308201528,43.7996411509219,46.3753754181828,48.8665486077943,48.2918794033932,42.1937026247786,47.885739730027,44.0465777204395,44.8604047432022,45.2889038679668,44.779173128298,48.6019550706035,42.4763442791167,47.2317274355615,45.4964776821848,42.1621872758628,44.615306426656,47.1399799486101,48.4104963324299,46.8157982320697,44.0266039064653,45.0150525739445,47.1199870414045,48.3647944062834,46.993596991276,48.8874825259202,44.9426893636849,45.4259357429647,47.891574691889,47.3164412058854,42.9778356602144,44.0673428171404,45.6026994174812,44.1158358103453,44.2996565806752,47.6994509046508,45.3091088106901,48.0888324186633,45.1816308370846,47.3391012475158,44.4179375353334,42.3142743519974,42.1902360232322,45.9470237040567,46.4083432665987,47.5360527462555,42.6227953994951,44.4561307954559,48.5540046687911,45.9313138760461,47.8445539403486,46.7213670957956,45.4119374157013,42.9288209826087,48.4003719269286,46.2340853605154],[-124.383176446765,-122.338310454673,-122.339034637596,-112.460229060731,-117.06033840267,-123.831816384854,-117.903743665158,-122.779067779103,-124.609861206517,-123.436714769579,-119.434075197358,-122.627105242434,-122.613793994199,-124.624852022654,-122.440183083942,-117.396149844155,-122.821649567222,-117.984940087126,-117.179777899102,-122.319769288941,-122.230401191835,-120.142098413512,-121.772978522826,-118.970400886225,-122.171949338887,-122.171864401861,-119.204227031375,-122.201381003139,-123.100397877808,-124.28757449494,-119.049133575132,-122.316828078103,-122.338043570319,-115.839297762088,-122.967008747909,-114.371528773294,-122.308270673242,-122.451933762662,-115.972183690522,-122.321255398284,-123.847123800527,-122.386051847998,-122.480929961548,-121.3126614162,-122.962323252779,-122.410716846657,-120.141874178446,-119.002043557924,-120.190868550354,-122.281074198008,-120.354443452055,-122.971729703364,-117.04895294407,-118.351385571808,-121.555566150029,-120.341806291641,-116.348232225218,-122.771697554068,-120.545017955726,-116.56244249158,-114.494764755233,-120.499333714772,-122.972592842573,-121.602784100039,-123.232115962644,-119.273461564865,-117.844733796218,-123.267319258685,-118.095073765823,-122.588052596063,-116.106956324489,-122.136499968694,-116.80488202932,-122.816670858758,-122.708867747328,-111.809177855758,-123.364433036576,-122.48611746459,-120.332631412385,-121.131319374934,-122.587210666208,-122.730848117518,-117.813383858075,-123.348724881589,-118.688901189177,-118.823428625247,-120.665174070122,-123.053065355332,-120.729590448021,-118.204989470143,-116.55674262799,-122.708675039539,-117.988333846089,-123.017396130996,-117.088764498898,-121.782605593691,-122.616803041177,-118.120976291222,-122.801642122718,-117.368605778393,-122.603325184399,-123.648457487255,-123.091361131147,-122.300691684421,-122.337228720467,-117.873411052087,-123.083951379371,-122.79000663498,-118.38204661533,-120.121427629142,-120.5445797669,-118.606814722205,-123.00640259726,-117.296241281656,-120.154045980756,-116.571341280919,-112.4553719232,-123.140903050432,-121.203662536355,-123.120660201066,-120.844412164209,-117.426774253831,-117.733739569277,-119.78436541539,-113.890483105616,-116.885394215265,-118.950908722772,-122.879562774312,-121.731409283189,-117.450206483771,-116.99213972193,-116.236840510152,-122.809672540145,-118.709874346186,-117.909637238978,-116.116714619482,-120.010032486009,-116.96020835737,-116.329227880743,-122.946034405804,-119.518746220054,-116.248042204435],10,null,null,{"interactive":true,"className":"","stroke":false,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":["#00E400","#00E400","#00E400","#00E400","#00E400","#FFFF00","#FFFF00","#FFFF00","#FFFF00","#FFFF00","#FF7E00","#FF7E00","#FF7E00","#FF7E00","#FF7E00","#FF7E00","#FF7E00","#FF7E00","#FF7E00","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#FF0000","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#8F3F97","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023","#7E0023"],"fillOpacity":0.7},null,null,["<b>Smoke #66<\/b><br><b>2 µg/m3<\/b> on July 28, 2015 at 03:00 UTC<br><br><b>a5995d1268b9aa7b_wrcc.sm66<\/b><br>locationID = a5995d1268b9aa7b<br>deviceID = wrcc.sm66<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -124.383202, latitude = 47.956821<br><hr>","<b>Smoke #11<\/b><br><b>6 µg/m3<\/b> on August 21, 2015 at 03:00 UTC<br><br><b>4fbe603be276fa6e_wrcc.sm15<\/b><br>locationID = 4fbe603be276fa6e<br>deviceID = wrcc.sm15<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.338699, latitude = 47.423<br><hr>","<b>Smoke #11<\/b><br><b>8 µg/m3<\/b> on August 20, 2015 at 22:00 UTC<br><br><b>4fbe603be276fa6e_wrcc.sm68<\/b><br>locationID = 4fbe603be276fa6e<br>deviceID = wrcc.sm68<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.338699, latitude = 47.423<br><hr>","<b>Pocatello - Garrett And Gould<\/b><br><b>9 µg/m3<\/b> on July 26, 2015 at 14:00 UTC<br><br><b>feab1759d87c91e5_160050015_03<\/b><br>locationID = feab1759d87c91e5<br>deviceID = 160050015_03<br><br>Bannock County, ID<br>timezone = America/Boise<br>longitude = -112.460347, latitude = 42.876725<br><hr>","<b>Clarkston - 13th St<\/b><br><b>10 µg/m3<\/b> on July 24, 2015 at 16:00 UTC<br><br><b>e5e99ca178f6d64f_530030004_04<\/b><br>locationID = e5e99ca178f6d64f<br>deviceID = 530030004_04<br><br>Asotin County, WA<br>timezone = America/Los_Angeles<br>longitude = -117.060445, latitude = 46.425416<br><hr>","<b>Aberdeen - Division St<\/b><br><b>16 µg/m3<\/b> on August 22, 2015 at 21:00 UTC<br><br><b>5eb8f452a9146f31_530272002_04<\/b><br>locationID = 5eb8f452a9146f31<br>deviceID = 530272002_04<br><br>Grays Harbor County, WA<br>timezone = America/Los_Angeles<br>longitude = -123.83173, latitude = 46.97228<br><hr>","<b>Colville - Oak St S<\/b><br><b>20 µg/m3<\/b> on August 11, 2015 at 15:00 UTC<br><br><b>34936a7db3c40b9d_530650004_04<\/b><br>locationID = 34936a7db3c40b9d<br>deviceID = 530650004_04<br><br>Stevens County, WA<br>timezone = America/Los_Angeles<br>longitude = -117.903611, latitude = 48.544722<br><hr>","<b>Port Townsend-San Juan<\/b><br><b>22 µg/m3<\/b> on August 22, 2015 at 23:00 UTC<br><br><b>8b3004adfe363766_530310003_04<\/b><br>locationID = 8b3004adfe363766<br>deviceID = 530310003_04<br><br>Jefferson County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.77897, latitude = 48.12919<br><hr>","<b>Neah Bay 2-Makah Tribe<\/b><br><b>28 µg/m3<\/b> on August 25, 2015 at 17:00 UTC<br><br><b>21029a657b02ec19_530090015_04<\/b><br>locationID = 21029a657b02ec19<br>deviceID = 530090015_04<br><br>Clallam County, WA<br>timezone = America/Los_Angeles<br>longitude = -124.610045, latitude = 48.366058<br><hr>","<b>Port Angeles - 5th St<\/b><br><b>32 µg/m3<\/b> on August 22, 2015 at 22:00 UTC<br><br><b>df6c508a5d8befb0_530090017_04<\/b><br>locationID = df6c508a5d8befb0<br>deviceID = 530090017_04<br><br>Clallam County, WA<br>timezone = America/Los_Angeles<br>longitude = -123.436434, latitude = 48.115<br><hr>","<b>Smoke #16<\/b><br><b>40 µg/m3<\/b> on September 06, 2015 at 17:00 UTC<br><br><b>83712eb6c8f31ceb_wrcc.sm16<\/b><br>locationID = 83712eb6c8f31ceb<br>deviceID = wrcc.sm16<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -119.434097, latitude = 48.71048<br><hr>","<b>Bremerton-Spruce Ave<\/b><br><b>40 µg/m3<\/b> on August 23, 2015 at 21:00 UTC<br><br><b>f397732caac92a7a_530350007_03<\/b><br>locationID = f397732caac92a7a<br>deviceID = 530350007_03<br><br>Kitsap County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.627397, latitude = 47.592675<br><hr>","<b>Anacortes-202 Ave<\/b><br><b>41 µg/m3<\/b> on August 23, 2015 at 15:00 UTC<br><br><b>8b12e57dee8fc50c_530570011_03<\/b><br>locationID = 8b12e57dee8fc50c<br>deviceID = 530570011_03<br><br>Skagit County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.61428, latitude = 48.52059<br><hr>","<b>Cheeka Peak<\/b><br><b>43 µg/m3<\/b> on August 17, 2015 at 13:00 UTC<br><br><b>13152986cb623cf4_530090013_04<\/b><br>locationID = 13152986cb623cf4<br>deviceID = 530090013_04<br><br>Clallam County, WA<br>timezone = America/Los_Angeles<br>longitude = -124.62491, latitude = 48.29786<br><hr>","<b>Bellingham - Yew Street<\/b><br><b>48 µg/m3<\/b> on August 23, 2015 at 23:00 UTC<br><br><b>4305aaa00a88448e_530730015_03<\/b><br>locationID = 4305aaa00a88448e<br>deviceID = 530730015_03<br><br>Whatcom County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.44028, latitude = 48.76278<br><hr>","<b>Smoke #25<\/b><br><b>50 µg/m3<\/b> on August 05, 2015 at 02:00 UTC<br><br><b>8643ce85303bba40_wrcc.sm25<\/b><br>locationID = 8643ce85303bba40<br>deviceID = wrcc.sm25<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -117.396202, latitude = 48.820919<br><hr>","<b>Lacey - College St<\/b><br><b>51 µg/m3<\/b> on August 23, 2015 at 19:00 UTC<br><br><b>1c82a2689b393683_530670013_04<\/b><br>locationID = 1c82a2689b393683<br>deviceID = 530670013_04<br><br>Thurston County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.821548, latitude = 47.029396<br><hr>","<b>Dayton - W Main<\/b><br><b>52 µg/m3<\/b> on August 23, 2015 at 17:00 UTC<br><br><b>b972473551c0027a_530130002_04<\/b><br>locationID = b972473551c0027a<br>deviceID = 530130002_04<br><br>Columbia County, WA<br>timezone = America/Los_Angeles<br>longitude = -117.985, latitude = 46.318<br><hr>","<b>Pullman - Dexter Ave 4<\/b><br><b>52 µg/m3<\/b> on August 17, 2015 at 17:00 UTC<br><br><b>450a822b4be1d190_530750003_04<\/b><br>locationID = 450a822b4be1d190<br>deviceID = 530750003_04<br><br>Whitman County, WA<br>timezone = America/Los_Angeles<br>longitude = -117.18014, latitude = 46.72447<br><hr>","<b>Seattle-10th & Weller<\/b><br><b>56 µg/m3<\/b> on August 23, 2015 at 23:00 UTC<br><br><b>51b9bcb4eaac7c9d_530330030_03<\/b><br>locationID = 51b9bcb4eaac7c9d<br>deviceID = 530330030_03<br><br>King County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.319722, latitude = 47.597222<br><hr>","<b>Kent - James & Central<\/b><br><b>62 µg/m3<\/b> on August 24, 2015 at 02:00 UTC<br><br><b>ee570a428513c51d_530332004_03<\/b><br>locationID = ee570a428513c51d<br>deviceID = 530332004_03<br><br>King County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.230278, latitude = 47.386111<br><hr>","<b>Smoke E-BAM 231<\/b><br><b>63 µg/m3<\/b> on August 07, 2015 at 18:00 UTC<br><br><b>0d330fab658f7144_wrcc.s265<\/b><br>locationID = 0d330fab658f7144<br>deviceID = wrcc.s265<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -120.141998, latitude = 47.899929<br><hr>","<b>North Bend - North Bend Way<\/b><br><b>64 µg/m3<\/b> on August 24, 2015 at 02:00 UTC<br><br><b>eb84895e0f94eb95_530330017_04<\/b><br>locationID = eb84895e0f94eb95<br>deviceID = 530330017_04<br><br>King County, WA<br>timezone = America/Los_Angeles<br>longitude = -121.77278, latitude = 47.49022<br><hr>","<b>Smoke #15<\/b><br><b>66 µg/m3<\/b> on August 27, 2015 at 15:00 UTC<br><br><b>1a96efca783849a6_wrcc.sm15<\/b><br>locationID = 1a96efca783849a6<br>deviceID = wrcc.sm15<br><br>NA County, OR<br>timezone = America/Los_Angeles<br>longitude = -118.970398, latitude = 44.134201<br><hr>","<b>Marysville - 7th Ave (Marysville Junior High)<\/b><br><b>66 µg/m3<\/b> on August 23, 2015 at 16:00 UTC<br><br><b>1b6a36f981c2e241_530611007_03<\/b><br>locationID = 1b6a36f981c2e241<br>deviceID = 530611007_03<br><br>Snohomish County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.171529, latitude = 48.054315<br><hr>","<b>Marysville - 7th Ave (Marysville Junior High)<\/b><br><b>67 µg/m3<\/b> on August 23, 2015 at 16:00 UTC<br><br><b>1b6a36f981c2e241_530611007_04<\/b><br>locationID = 1b6a36f981c2e241<br>deviceID = 530611007_04<br><br>Snohomish County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.171529, latitude = 48.054315<br><hr>","<b>Kennewick - Metaline<\/b><br><b>67 µg/m3<\/b> on August 22, 2015 at 16:00 UTC<br><br><b>abb2b5817c23f0ed_530050002_04<\/b><br>locationID = abb2b5817c23f0ed<br>deviceID = 530050002_04<br><br>Benton County, WA<br>timezone = America/Los_Angeles<br>longitude = -119.204153, latitude = 46.21835<br><hr>","<b>Bellevue -  Bellevue Way Ne<\/b><br><b>68 µg/m3<\/b> on August 24, 2015 at 00:00 UTC<br><br><b>3636763f7b88779e_530330037_04<\/b><br>locationID = 3636763f7b88779e<br>deviceID = 530330037_04<br><br>King County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.20161, latitude = 47.61311<br><hr>","<b>Shelton - W Franklin<\/b><br><b>70 µg/m3<\/b> on August 22, 2015 at 23:00 UTC<br><br><b>2cf2fc2cbae653fb_530450007_04<\/b><br>locationID = 2cf2fc2cbae653fb<br>deviceID = 530450007_04<br><br>Mason County, WA<br>timezone = America/Los_Angeles<br>longitude = -123.10081, latitude = 47.21355<br><hr>","<b>Taholah-Chitwin Drive<\/b><br><b>73 µg/m3<\/b> on August 30, 2015 at 18:00 UTC<br><br><b>58a80a770dd152ff_530270011_04<\/b><br>locationID = 58a80a770dd152ff<br>deviceID = 530270011_04<br><br>Grays Harbor County, WA<br>timezone = America/Los_Angeles<br>longitude = -124.2879, latitude = 47.3442<br><hr>","<b>Burns - Washington Park (Bws)<\/b><br><b>75 µg/m3<\/b> on August 22, 2015 at 16:00 UTC<br><br><b>97df04dbe31f4bef_410250003_03<\/b><br>locationID = 97df04dbe31f4bef<br>deviceID = 410250003_03<br><br>Harney County, OR<br>timezone = America/Los_Angeles<br>longitude = -119.04872, latitude = 43.58925<br><hr>","<b>Lynnwood - 212th<\/b><br><b>75 µg/m3<\/b> on August 23, 2015 at 20:00 UTC<br><br><b>6a281b3bf452ce10_530610005_03<\/b><br>locationID = 6a281b3bf452ce10<br>deviceID = 530610005_03<br><br>Snohomish County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.3167, latitude = 47.8064<br><hr>","<b>Seattle - Duwamish<\/b><br><b>76 µg/m3<\/b> on August 23, 2015 at 21:00 UTC<br><br><b>4d814a92fb27a167_530330057_03<\/b><br>locationID = 4d814a92fb27a167<br>deviceID = 530330057_03<br><br>King County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.338265, latitude = 47.55975<br><hr>","<b>Idaho City<\/b><br><b>77 µg/m3<\/b> on August 22, 2015 at 00:00 UTC<br><br><b>89cf3d29e8798070_160150001_03<\/b><br>locationID = 89cf3d29e8798070<br>deviceID = 160150001_03<br><br>Boise County, ID<br>timezone = America/Boise<br>longitude = -115.8395, latitude = 43.82291<br><hr>","<b>Chehalis - Market Blvd<\/b><br><b>78 µg/m3<\/b> on August 23, 2015 at 02:00 UTC<br><br><b>8a7e5aac47583647_530410004_04<\/b><br>locationID = 8a7e5aac47583647<br>deviceID = 530410004_04<br><br>Lewis County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.96732, latitude = 46.66409<br><hr>","<b>Ketchum<\/b><br><b>79 µg/m3<\/b> on August 23, 2015 at 01:00 UTC<br><br><b>808fe7e9454d655f_160130004_03<\/b><br>locationID = 808fe7e9454d655f<br>deviceID = 160130004_03<br><br>Blaine County, ID<br>timezone = America/Boise<br>longitude = -114.371267, latitude = 43.6825<br><hr>","<b>Seattle - Beacon Hill<\/b><br><b>79 µg/m3<\/b> on August 22, 2015 at 06:00 UTC<br><br><b>8794186501ac94de_530330080_03<\/b><br>locationID = 8794186501ac94de<br>deviceID = 530330080_03<br><br>King County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.308628, latitude = 47.568236<br><hr>","<b>Tacoma - L Street<\/b><br><b>80 µg/m3<\/b> on August 23, 2015 at 20:00 UTC<br><br><b>9504ef7273a27752_530530029_03<\/b><br>locationID = 9504ef7273a27752<br>deviceID = 530530029_03<br><br>Pierce County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.4517, latitude = 47.1864<br><hr>","<b>Garden Valley<\/b><br><b>83 µg/m3<\/b> on August 25, 2015 at 17:00 UTC<br><br><b>f30ef89ce91eb5b4_160150002_03<\/b><br>locationID = f30ef89ce91eb5b4<br>deviceID = 160150002_03<br><br>Boise County, ID<br>timezone = America/Boise<br>longitude = -115.972386, latitude = 44.104498<br><hr>","<b>Seattle - South Park #2<\/b><br><b>83 µg/m3<\/b> on August 23, 2015 at 23:00 UTC<br><br><b>f801400ec04e3270_530331011_04<\/b><br>locationID = f801400ec04e3270<br>deviceID = 530331011_04<br><br>King County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.3208, latitude = 47.53091<br><hr>","<b>Smoke #21<\/b><br><b>83 µg/m3<\/b> on August 02, 2015 at 00:00 UTC<br><br><b>a2b0ded30448c01d_wrcc.sm21<\/b><br>locationID = a2b0ded30448c01d<br>deviceID = wrcc.sm21<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -123.847099, latitude = 47.468689<br><hr>","<b>Tacoma - Alexander Ave<\/b><br><b>88 µg/m3<\/b> on August 23, 2015 at 21:00 UTC<br><br><b>f788202175ff8413_530530031_04<\/b><br>locationID = f788202175ff8413<br>deviceID = 530530031_04<br><br>Pierce County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.3858, latitude = 47.2656<br><hr>","<b>Oakridge - (Oak)<\/b><br><b>89 µg/m3<\/b> on August 23, 2015 at 21:00 UTC<br><br><b>81ffbc303335a321_410392013_03<\/b><br>locationID = 81ffbc303335a321<br>deviceID = 410392013_03<br><br>Lane County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.480487, latitude = 43.744352<br><hr>","<b>Open Field/Residential Area By Deschutes River. City Pump Station.<\/b><br><b>89 µg/m3<\/b> on August 23, 2015 at 05:00 UTC<br><br><b>58ae344e3a2c7bb8_410170120_03<\/b><br>locationID = 58ae344e3a2c7bb8<br>deviceID = 410170120_03<br><br>Deschutes County, OR<br>timezone = America/Los_Angeles<br>longitude = -121.312554, latitude = 44.063916<br><hr>","<b>Longview - 30th Ave<\/b><br><b>90 µg/m3<\/b> on August 23, 2015 at 03:00 UTC<br><br><b>c405735e083b5ea0_530150015_04<\/b><br>locationID = c405735e083b5ea0<br>deviceID = 530150015_04<br><br>Cowlitz County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.961944, latitude = 46.139444<br><hr>","<b>Yacolt - Yacolt Rd<\/b><br><b>90 µg/m3<\/b> on August 23, 2015 at 05:00 UTC<br><br><b>44995e9d1d7b8d18_530110022_04<\/b><br>locationID = 44995e9d1d7b8d18<br>deviceID = 530110022_04<br><br>Clark County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.410889, latitude = 45.8639<br><hr>","<b>Smoke E-BAM 231<\/b><br><b>98 µg/m3<\/b> on August 26, 2015 at 02:00 UTC<br><br><b>0d330fab658f7144_wrcc.e231<\/b><br>locationID = 0d330fab658f7144<br>deviceID = wrcc.e231<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -120.141998, latitude = 47.899929<br><hr>","<b>Mesa - Pepoit Way<\/b><br><b>103 µg/m3<\/b> on August 22, 2015 at 07:00 UTC<br><br><b>fdcaf5745fd5667b_530210002_04<\/b><br>locationID = fdcaf5745fd5667b<br>deviceID = 530210002_04<br><br>Franklin County, WA<br>timezone = America/Los_Angeles<br>longitude = -119.0021, latitude = 46.5754<br><hr>","<b>Winthrop - Chewuch Rd<\/b><br><b>103 µg/m3<\/b> on August 03, 2015 at 01:00 UTC<br><br><b>123035bbdc2bc702_530470010_04<\/b><br>locationID = 123035bbdc2bc702<br>deviceID = 530470010_04<br><br>Okanogan County, WA<br>timezone = America/Los_Angeles<br>longitude = -120.19057, latitude = 48.47724<br><hr>","<b>Lake Forest Park Towne Center<\/b><br><b>105 µg/m3<\/b> on August 23, 2015 at 21:00 UTC<br><br><b>1b5a1e304bfb8f88_530330024_04<\/b><br>locationID = 1b5a1e304bfb8f88<br>deviceID = 530330024_04<br><br>King County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.2806, latitude = 47.755<br><hr>","<b>Lakeview, Center & M St.  (Lcm)<\/b><br><b>105 µg/m3<\/b> on August 02, 2015 at 17:00 UTC<br><br><b>7ad167363161f3b5_410370001_03<\/b><br>locationID = 7ad167363161f3b5<br>deviceID = 410370001_03<br><br>Lake County, OR<br>timezone = America/Los_Angeles<br>longitude = -120.353969, latitude = 42.189215<br><hr>","<b>Smoke 215<\/b><br><b>107 µg/m3<\/b> on August 07, 2015 at 02:00 UTC<br><br><b>dbed7c534d194ccf_wrcc.s215<\/b><br>locationID = dbed7c534d194ccf<br>deviceID = wrcc.s215<br><br>NA County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.971802, latitude = 42.314419<br><hr>","<b>Mobile_White_Salmon<\/b><br><b>112 µg/m3<\/b> on August 27, 2015 at 18:00 UTC<br><br><b>9b8e3d84ace997b6_wrcc.e925<\/b><br>locationID = 9b8e3d84ace997b6<br>deviceID = wrcc.e925<br><br>Pend Oreille County, WA<br>timezone = America/Los_Angeles<br>longitude = -117.049026, latitude = 48.186475<br><hr>","<b>Walla Wall - 12th St<\/b><br><b>112 µg/m3<\/b> on August 22, 2015 at 16:00 UTC<br><br><b>197dc3c0d27e2bd5_530710005_04<\/b><br>locationID = 197dc3c0d27e2bd5<br>deviceID = 530710005_04<br><br>Walla Walla County, WA<br>timezone = America/Los_Angeles<br>longitude = -118.35147, latitude = 46.05881<br><hr>","<b>Sisters Forest Service Station (Sfs)<\/b><br><b>116 µg/m3<\/b> on August 23, 2015 at 17:00 UTC<br><br><b>be65a029f5f56617_410170004_03<\/b><br>locationID = be65a029f5f56617<br>deviceID = 410170004_03<br><br>Deschutes County, OR<br>timezone = America/Los_Angeles<br>longitude = -121.5555, latitude = 44.2921<br><hr>","<b>Wenatchee-Fifth St<\/b><br><b>119 µg/m3<\/b> on August 16, 2015 at 21:00 UTC<br><br><b>8e54314f43eb8746_530070011_03<\/b><br>locationID = 8e54314f43eb8746<br>deviceID = 530070011_03<br><br>Chelan County, WA<br>timezone = America/Los_Angeles<br>longitude = -120.34195, latitude = 47.43061<br><hr>","<b>Meridian - St. Luke's<\/b><br><b>122 µg/m3<\/b> on August 24, 2015 at 09:00 UTC<br><br><b>5d641f79aaf5df9b_160010010_03<\/b><br>locationID = 5d641f79aaf5df9b<br>deviceID = 160010010_03<br><br>Ada County, ID<br>timezone = America/Boise<br>longitude = -116.347853, latitude = 43.600699<br><hr>","<b>Sauvie Island-Sis<\/b><br><b>123 µg/m3<\/b> on August 22, 2015 at 21:00 UTC<br><br><b>0a9604695e004216_410090004_03<\/b><br>locationID = 0a9604695e004216<br>deviceID = 410090004_03<br><br>Columbia County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.7721, latitude = 45.768531<br><hr>","<b>Ellensburg - Ruby St<\/b><br><b>124 µg/m3<\/b> on August 22, 2015 at 21:00 UTC<br><br><b>be69e79653237262_530370002_03<\/b><br>locationID = be69e79653237262<br>deviceID = 530370002_03<br><br>Kittitas County, WA<br>timezone = America/Los_Angeles<br>longitude = -120.545, latitude = 46.99364<br><hr>","<b>Nampa - Fire Station<\/b><br><b>127 µg/m3<\/b> on August 15, 2015 at 04:00 UTC<br><br><b>2b91f9ecd1ec7800_160270002_03<\/b><br>locationID = 2b91f9ecd1ec7800<br>deviceID = 160270002_03<br><br>Canyon County, ID<br>timezone = America/Boise<br>longitude = -116.562676, latitude = 43.58031<br><hr>","<b>Twin Falls<\/b><br><b>128 µg/m3<\/b> on August 15, 2015 at 09:00 UTC<br><br><b>b2efea2a420d1da0_160830007_04<\/b><br>locationID = b2efea2a420d1da0<br>deviceID = 160830007_04<br><br>Twin Falls County, ID<br>timezone = America/Boise<br>longitude = -114.494717, latitude = 42.565089<br><hr>","<b>Yakima - 4th Ave<\/b><br><b>130 µg/m3<\/b> on August 23, 2015 at 00:00 UTC<br><br><b>44fcdfcc0f6017d3_530770009_03<\/b><br>locationID = 44fcdfcc0f6017d3<br>deviceID = 530770009_03<br><br>Yakima County, WA<br>timezone = America/Los_Angeles<br>longitude = -120.499167, latitude = 46.598056<br><hr>","<b>Hillsboro - Hare Field<\/b><br><b>133 µg/m3<\/b> on August 22, 2015 at 22:00 UTC<br><br><b>6fcbf857f618b0d0_410670004_03<\/b><br>locationID = 6fcbf857f618b0d0<br>deviceID = 410670004_03<br><br>Washington County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.972398, latitude = 45.528501<br><hr>","<b>Darrington - Fir St (Darrington High School)<\/b><br><b>134 µg/m3<\/b> on August 23, 2015 at 01:00 UTC<br><br><b>2955952fbbe6ddc4_530610020_03<\/b><br>locationID = 2955952fbbe6ddc4<br>deviceID = 530610020_03<br><br>Snohomish County, WA<br>timezone = America/Los_Angeles<br>longitude = -121.6031, latitude = 48.2469<br><hr>","<b>Provolt, Or  At The Blm Seed Orchard<\/b><br><b>137 µg/m3<\/b> on August 03, 2015 at 19:00 UTC<br><br><b>b40d9f33740bce63_410330011_03<\/b><br>locationID = b40d9f33740bce63<br>deviceID = 410330011_03<br><br>Josephine County, OR<br>timezone = America/Los_Angeles<br>longitude = -123.2321, latitude = 42.290094<br><hr>","<b>Moses Lake - Balsam St<\/b><br><b>137 µg/m3<\/b> on August 22, 2015 at 04:00 UTC<br><br><b>daff0cadcada7ab9_530251002_04<\/b><br>locationID = daff0cadcada7ab9<br>deviceID = 530251002_04<br><br>Grant County, WA<br>timezone = America/Los_Angeles<br>longitude = -119.2737, latitude = 47.1303<br><hr>","<b>Us Forest Service Office - Baker City<\/b><br><b>137 µg/m3<\/b> on August 16, 2015 at 13:00 UTC<br><br><b>fbbe4efa98d8c27e_410010004_03<\/b><br>locationID = fbbe4efa98d8c27e<br>deviceID = 410010004_03<br><br>Baker County, OR<br>timezone = America/Los_Angeles<br>longitude = -117.8446, latitude = 44.78822<br><hr>","<b>Corvallis Circle Blvd. At Fd #3<\/b><br><b>139 µg/m3<\/b> on August 23, 2015 at 01:00 UTC<br><br><b>bcaad5cef5d9e0d4_410030013_03<\/b><br>locationID = bcaad5cef5d9e0d4<br>deviceID = 410030013_03<br><br>Benton County, OR<br>timezone = America/Los_Angeles<br>longitude = -123.2673, latitude = 44.5884<br><hr>","<b>La Grande Ash Street<\/b><br><b>139 µg/m3<\/b> on August 23, 2015 at 16:00 UTC<br><br><b>8e3fe0fc936d9820_410610119_03<\/b><br>locationID = 8e3fe0fc936d9820<br>deviceID = 410610119_03<br><br>Union County, OR<br>timezone = America/Los_Angeles<br>longitude = -118.095206, latitude = 45.339<br><hr>","<b>Carus Trailer/Spangler Rd<\/b><br><b>140 µg/m3<\/b> on August 22, 2015 at 20:00 UTC<br><br><b>f9c286fd6cf1c8c1_410050004_03<\/b><br>locationID = f9c286fd6cf1c8c1<br>deviceID = 410050004_03<br><br>Clackamas County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.588151, latitude = 45.25928<br><hr>","<b>Mccall<\/b><br><b>141 µg/m3<\/b> on August 17, 2015 at 17:00 UTC<br><br><b>b6cd6e44bd3626c7_160850002_03<\/b><br>locationID = b6cd6e44bd3626c7<br>deviceID = 160850002_03<br><br>Valley County, ID<br>timezone = America/Boise<br>longitude = -116.1065, latitude = 44.890197<br><hr>","<b>Crater Lake National Park - Maintenance Bldg (Clm)<\/b><br><b>141 µg/m3<\/b> on August 20, 2015 at 06:00 UTC<br><br><b>ab53a42b92f821e1_410351002_03<\/b><br>locationID = ab53a42b92f821e1<br>deviceID = 410351002_03<br><br>Klamath County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.13602, latitude = 42.895815<br><hr>","<b>Coeur D'alene - Lancaster Rd.<\/b><br><b>143 µg/m3<\/b> on August 24, 2015 at 04:00 UTC<br><br><b>a79f97f86cb2a7d7_160550003_03<\/b><br>locationID = a79f97f86cb2a7d7<br>deviceID = 160550003_03<br><br>Kootenai County, ID<br>timezone = America/Los_Angeles<br>longitude = -116.804539, latitude = 47.788908<br><hr>","<b>Beaverton - Highland Park<\/b><br><b>143 µg/m3<\/b> on August 22, 2015 at 22:00 UTC<br><br><b>adbc8c16311d46ff_410670111_03<\/b><br>locationID = adbc8c16311d46ff<br>deviceID = 410670111_03<br><br>Washington County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.816411, latitude = 45.470191<br><hr>","<b>Ashland Fire Dept<\/b><br><b>153 µg/m3<\/b> on August 24, 2015 at 03:00 UTC<br><br><b>4b01291491d9e57b_wrcc.s284<\/b><br>locationID = 4b01291491d9e57b<br>deviceID = wrcc.s284<br><br>Jackson County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.7086, latitude = 42.1941<br><hr>","<b>us.16_e0beef<\/b><br><b>154 µg/m3<\/b> on August 22, 2015 at 17:00 UTC<br><br><b>e0beef8785f58420_160410001_03<\/b><br>locationID = e0beef8785f58420<br>deviceID = 160410001_03<br><br>Franklin County, ID<br>timezone = America/Boise<br>longitude = -111.809167, latitude = 42.013333<br><hr>","<b>Roseburg, Or; Blm Office - Rgv<\/b><br><b>156 µg/m3<\/b> on July 30, 2015 at 17:00 UTC<br><br><b>20d6b00818c2fadb_410190002_03<\/b><br>locationID = 20d6b00818c2fadb<br>deviceID = 410190002_03<br><br>Douglas County, OR<br>timezone = America/Los_Angeles<br>longitude = -123.36479, latitude = 43.2266<br><hr>","<b>Smoke #16<\/b><br><b>157 µg/m3<\/b> on August 15, 2015 at 17:00 UTC<br><br><b>55a69cdf6e91b726_wrcc.sm16<\/b><br>locationID = 55a69cdf6e91b726<br>deviceID = wrcc.sm16<br><br>NA County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.486603, latitude = 42.743919<br><hr>","<b>Toppenish - Ward Rd (Yakama Tribe)<\/b><br><b>158 µg/m3<\/b> on August 22, 2015 at 18:00 UTC<br><br><b>0e086e0e25f447b7_530770015_04<\/b><br>locationID = 0e086e0e25f447b7<br>deviceID = 530770015_04<br><br>Yakima County, WA<br>timezone = America/Los_Angeles<br>longitude = -120.33266, latitude = 46.38024<br><hr>","<b>Madras Westside School<\/b><br><b>158 µg/m3<\/b> on August 13, 2015 at 04:00 UTC<br><br><b>37e292dd01243720_410310007_03<\/b><br>locationID = 37e292dd01243720<br>deviceID = 410310007_03<br><br>Jefferson County, OR<br>timezone = America/Los_Angeles<br>longitude = -121.13165, latitude = 44.63062<br><hr>","<b>Vancouver-Ne 84th Ave<\/b><br><b>159 µg/m3<\/b> on August 22, 2015 at 22:00 UTC<br><br><b>1e53fad2c07d9a0e_530110024_03<\/b><br>locationID = 1e53fad2c07d9a0e<br>deviceID = 530110024_03<br><br>Clark County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.58737, latitude = 45.64336<br><hr>","<b>Sweet Home - Fd  (Sfd)<\/b><br><b>160 µg/m3<\/b> on August 23, 2015 at 01:00 UTC<br><br><b>8e3f0e62b2af8cd7_410432002_03<\/b><br>locationID = 8e3f0e62b2af8cd7<br>deviceID = 410432002_03<br><br>Linn County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.7305, latitude = 44.3958<br><hr>","<b>Cove City Hall (Cch)<\/b><br><b>160 µg/m3<\/b> on August 23, 2015 at 10:00 UTC<br><br><b>f8a6733b198175e9_410610120_03<\/b><br>locationID = f8a6733b198175e9<br>deviceID = 410610120_03<br><br>Union County, OR<br>timezone = America/Los_Angeles<br>longitude = -117.812896, latitude = 45.300884<br><hr>","<b>Grants Pass Parkside School<\/b><br><b>161 µg/m3<\/b> on August 03, 2015 at 21:00 UTC<br><br><b>bd0300796a3d439d_410330114_03<\/b><br>locationID = bd0300796a3d439d<br>deviceID = 410330114_03<br><br>Josephine County, OR<br>timezone = America/Los_Angeles<br>longitude = -123.348466, latitude = 42.434139<br><hr>","<b>us.41_6c906c<\/b><br><b>164 µg/m3<\/b> on August 15, 2015 at 01:00 UTC<br><br><b>6c906c6d1cf46b53_410597002_02<\/b><br>locationID = 6c906c6d1cf46b53<br>deviceID = 410597002_02<br><br>Umatilla County, OR<br>timezone = America/Los_Angeles<br>longitude = -118.68909, latitude = 45.66408<br><hr>","<b>Pendleton - Mckay Creek<\/b><br><b>165 µg/m3<\/b> on August 22, 2015 at 18:00 UTC<br><br><b>f187226671d1109a_410590121_03<\/b><br>locationID = f187226671d1109a<br>deviceID = 410590121_03<br><br>Umatilla County, OR<br>timezone = America/Los_Angeles<br>longitude = -118.823033, latitude = 45.652231<br><hr>","<b>Leavenworth - Evans St<\/b><br><b>166 µg/m3<\/b> on August 22, 2015 at 20:00 UTC<br><br><b>b9491dcb8fedc5f2_530070010_04<\/b><br>locationID = b9491dcb8fedc5f2<br>deviceID = 530070010_04<br><br>Chelan County, WA<br>timezone = America/Los_Angeles<br>longitude = -120.664702, latitude = 47.598863<br><hr>","<b>Cottage Grove - City Shops (Cgc)<\/b><br><b>168 µg/m3<\/b> on August 23, 2015 at 05:00 UTC<br><br><b>4112ab2d10eeed3c_410399004_03<\/b><br>locationID = 4112ab2d10eeed3c<br>deviceID = 410399004_03<br><br>Lane County, OR<br>timezone = America/Los_Angeles<br>longitude = -123.053487, latitude = 43.799501<br><hr>","<b>White Swan-Yakama Tribe<\/b><br><b>173 µg/m3<\/b> on August 22, 2015 at 19:00 UTC<br><br><b>eaf41e9d52e5acaa_530770016_04<\/b><br>locationID = eaf41e9d52e5acaa<br>deviceID = 530770016_04<br><br>Yakima County, WA<br>timezone = America/Los_Angeles<br>longitude = -120.72932, latitude = 46.37543<br><hr>","<b>Smoke E-BAM 925<\/b><br><b>174 µg/m3<\/b> on September 01, 2015 at 16:00 UTC<br><br><b>3978f78a20ed3568_wrcc.e925<\/b><br>locationID = 3978f78a20ed3568<br>deviceID = wrcc.e925<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -118.205101, latitude = 48.866169<br><hr>","<b>Sandpoint<\/b><br><b>177 µg/m3<\/b> on August 21, 2015 at 22:00 UTC<br><br><b>e7dee084705d75eb_160170003_03<\/b><br>locationID = e7dee084705d75eb<br>deviceID = 160170003_03<br><br>Bonner County, ID<br>timezone = America/Los_Angeles<br>longitude = -116.556656, latitude = 48.292141<br><hr>","<b>Ashland Fire Dept<\/b><br><b>179 µg/m3<\/b> on August 07, 2015 at 01:00 UTC<br><br><b>4b01291491d9e57b_wrcc.s216<\/b><br>locationID = 4b01291491d9e57b<br>deviceID = wrcc.s216<br><br>Jackson County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.7086, latitude = 42.1941<br><hr>","<b>Spokane - Wellpinit  Ford Rd (Spokane Tribe)<\/b><br><b>181 µg/m3<\/b> on August 23, 2015 at 04:00 UTC<br><br><b>7216002af320d683_530650002_04<\/b><br>locationID = 7216002af320d683<br>deviceID = 530650002_04<br><br>Stevens County, WA<br>timezone = America/Los_Angeles<br>longitude = -117.98865, latitude = 47.88528<br><hr>","<b>Springfield - City Hall<\/b><br><b>182 µg/m3<\/b> on August 23, 2015 at 02:00 UTC<br><br><b>c69d9483556acb85_410391009_03<\/b><br>locationID = c69d9483556acb85<br>deviceID = 410391009_03<br><br>Lane County, OR<br>timezone = America/Los_Angeles<br>longitude = -123.017704, latitude = 44.046696<br><hr>","<b>MMFS10662<\/b><br><b>182 µg/m3<\/b> on August 25, 2015 at 20:00 UTC<br><br><b>1234f74c7dc64160_wrcc.sm68<\/b><br>locationID = 1234f74c7dc64160<br>deviceID = wrcc.sm68<br><br>Baker County, OR<br>timezone = America/Los_Angeles<br>longitude = -117.088364, latitude = 44.859932<br><hr>","<b>Multorpor-Ski Bowl, Mt. Hood Wilderness<\/b><br><b>183 µg/m3<\/b> on August 22, 2015 at 15:00 UTC<br><br><b>5a09be241c581054_410050102_03<\/b><br>locationID = 5a09be241c581054<br>deviceID = 410050102_03<br><br>Clackamas County, OR<br>timezone = America/Los_Angeles<br>longitude = -121.782775, latitude = 45.28845<br><hr>","<b>Lyons Mary-Lynn Elementary (Lml)<\/b><br><b>183 µg/m3<\/b> on August 22, 2015 at 23:00 UTC<br><br><b>9a9a97ed4e2715c7_410432003_03<\/b><br>locationID = 9a9a97ed4e2715c7<br>deviceID = 410432003_03<br><br>Linn County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.617048, latitude = 44.778743<br><hr>","<b>Smoke 215<\/b><br><b>183 µg/m3<\/b> on August 29, 2015 at 11:00 UTC<br><br><b>5acd647c2234836f_wrcc.s215<\/b><br>locationID = 5acd647c2234836f<br>deviceID = wrcc.s215<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -118.120697, latitude = 48.6017<br><hr>","<b>Smoke #19<\/b><br><b>183 µg/m3<\/b> on August 18, 2015 at 03:00 UTC<br><br><b>673ba56c2552b67c_wrcc.sm19<\/b><br>locationID = 673ba56c2552b67c<br>deviceID = wrcc.sm19<br><br>NA County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.802101, latitude = 42.47649<br><hr>","<b>Rosalia - Josephine St<\/b><br><b>185 µg/m3<\/b> on August 22, 2015 at 02:00 UTC<br><br><b>8c0517d4b648fe54_530750006_04<\/b><br>locationID = 8c0517d4b648fe54<br>deviceID = 530750006_04<br><br>Whitman County, WA<br>timezone = America/Los_Angeles<br>longitude = -117.36856, latitude = 47.23136<br><hr>","<b>Portland - Se Lafayette<\/b><br><b>187 µg/m3<\/b> on August 22, 2015 at 20:00 UTC<br><br><b>68a21258a8e9077a_410510080_03<\/b><br>locationID = 68a21258a8e9077a<br>deviceID = 410510080_03<br><br>Multnomah County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.602877, latitude = 45.496641<br><hr>","<b>Cave Junction - Usfs Office (Cjfs)<\/b><br><b>188 µg/m3<\/b> on August 23, 2015 at 19:00 UTC<br><br><b>c23b9faaa4982290_410330036_03<\/b><br>locationID = c23b9faaa4982290<br>deviceID = 410330036_03<br><br>Josephine County, OR<br>timezone = America/Los_Angeles<br>longitude = -123.64835, latitude = 42.1617<br><hr>","<b>Albany - Caliapooia School<\/b><br><b>188 µg/m3<\/b> on August 23, 2015 at 00:00 UTC<br><br><b>576152b1b07796a9_410430009_03<\/b><br>locationID = 576152b1b07796a9<br>deviceID = 410430009_03<br><br>Linn County, OR<br>timezone = America/Los_Angeles<br>longitude = -123.091457, latitude = 44.61569<br><hr>","<b>Puyallup - 128th St<\/b><br><b>188 µg/m3<\/b> on August 02, 2015 at 14:00 UTC<br><br><b>2771a56e2804e657_530531018_04<\/b><br>locationID = 2771a56e2804e657<br>deviceID = 530531018_04<br><br>Pierce County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.3003, latitude = 47.14<br><hr>","<b>Mt Vernon - 2nd Ave<\/b><br><b>189 µg/m3<\/b> on August 23, 2015 at 17:00 UTC<br><br><b>b7112fffbea7a5b7_530570015_04<\/b><br>locationID = b7112fffbea7a5b7<br>deviceID = 530570015_04<br><br>Skagit County, WA<br>timezone = America/Los_Angeles<br>longitude = -122.3376, latitude = 48.4102<br><hr>","<b>Lacarosse - Hill St<\/b><br><b>200 µg/m3<\/b> on August 23, 2015 at 16:00 UTC<br><br><b>c8ee4a1bfd7f4e7e_530750005_04<\/b><br>locationID = c8ee4a1bfd7f4e7e<br>deviceID = 530750005_04<br><br>Whitman County, WA<br>timezone = America/Los_Angeles<br>longitude = -117.8739, latitude = 46.8153<br><hr>","<b>Eugene - Amazon Park (Eap)<\/b><br><b>200 µg/m3<\/b> on August 23, 2015 at 03:00 UTC<br><br><b>eba98496f2495d0f_410390060_03<\/b><br>locationID = eba98496f2495d0f<br>deviceID = 410390060_03<br><br>Lane County, OR<br>timezone = America/Los_Angeles<br>longitude = -123.083737, latitude = 44.026312<br><hr>","<b>Silverton - (Sjw)<\/b><br><b>203 µg/m3<\/b> on August 22, 2015 at 22:00 UTC<br><br><b>19f386084f98cf0c_410470007_03<\/b><br>locationID = 19f386084f98cf0c<br>deviceID = 410470007_03<br><br>Marion County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.790382, latitude = 45.014998<br><hr>","<b>Ritzville - Alder St<\/b><br><b>203 µg/m3<\/b> on August 22, 2015 at 03:00 UTC<br><br><b>c891e750c3fc35ef_530010003_04<\/b><br>locationID = c891e750c3fc35ef<br>deviceID = 530010003_04<br><br>Adams County, WA<br>timezone = America/Los_Angeles<br>longitude = -118.3819, latitude = 47.12<br><hr>","<b>Twisp - Glover St<\/b><br><b>210 µg/m3<\/b> on August 20, 2015 at 04:00 UTC<br><br><b>99a6ee8e126ff8cf_530470009_04<\/b><br>locationID = 99a6ee8e126ff8cf<br>deviceID = 530470009_04<br><br>Okanogan County, WA<br>timezone = America/Los_Angeles<br>longitude = -120.121113, latitude = 48.36451<br><hr>","<b>Ellensburg - Ruby St<\/b><br><b>214 µg/m3<\/b> on August 22, 2015 at 20:00 UTC<br><br><b>be69e79653237262_530370002_04<\/b><br>locationID = be69e79653237262<br>deviceID = 530370002_04<br><br>Kittitas County, WA<br>timezone = America/Los_Angeles<br>longitude = -120.545, latitude = 46.99364<br><hr>","<b>Smoke #25<\/b><br><b>222 µg/m3<\/b> on August 20, 2015 at 00:00 UTC<br><br><b>f844f1f82d49f063_wrcc.sm25<\/b><br>locationID = f844f1f82d49f063<br>deviceID = wrcc.sm25<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -118.6064, latitude = 48.887161<br><hr>","<b>Salem - State Hospital<\/b><br><b>222 µg/m3<\/b> on August 22, 2015 at 22:00 UTC<br><br><b>1cb781e237789ba7_410470041_03<\/b><br>locationID = 1cb781e237789ba7<br>deviceID = 410470041_03<br><br>Marion County, OR<br>timezone = America/Los_Angeles<br>longitude = -123.005934, latitude = 44.943114<br><hr>","<b>Enterprise - Usfs<\/b><br><b>223 µg/m3<\/b> on August 23, 2015 at 01:00 UTC<br><br><b>53df6ad0d4655e77_410630001_03<\/b><br>locationID = 53df6ad0d4655e77<br>deviceID = 410630001_03<br><br>Wallowa County, OR<br>timezone = America/Los_Angeles<br>longitude = -117.296066, latitude = 45.426351<br><hr>","<b>MMNPS1013<\/b><br><b>229 µg/m3<\/b> on August 27, 2015 at 06:00 UTC<br><br><b>3e4e4def1d3a4cab_wrcc.e231<\/b><br>locationID = 3e4e4def1d3a4cab<br>deviceID = wrcc.e231<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -120.153608, latitude = 47.891668<br><hr>","<b>St. Maries<\/b><br><b>237 µg/m3<\/b> on August 22, 2015 at 05:00 UTC<br><br><b>7eb0c7f361adfacb_160090010_03<\/b><br>locationID = 7eb0c7f361adfacb<br>deviceID = 160090010_03<br><br>Benewah County, ID<br>timezone = America/Los_Angeles<br>longitude = -116.571281, latitude = 47.316577<br><hr>","<b>Ballard Road<\/b><br><b>239 µg/m3<\/b> on August 22, 2015 at 15:00 UTC<br><br><b>4d410cccefa50713_160050020_03<\/b><br>locationID = 4d410cccefa50713<br>deviceID = 160050020_03<br><br>Bannock County, ID<br>timezone = America/Boise<br>longitude = -112.455813, latitude = 42.978248<br><hr>","<b>Eugene - Hwy 99 (E99)<\/b><br><b>240 µg/m3<\/b> on August 23, 2015 at 02:00 UTC<br><br><b>3d1ac393596c511a_410390059_03<\/b><br>locationID = 3d1ac393596c511a<br>deviceID = 410390059_03<br><br>Lane County, OR<br>timezone = America/Los_Angeles<br>longitude = -123.141352, latitude = 44.067224<br><hr>","<b>The Dalles - Cherry Drive<\/b><br><b>244 µg/m3<\/b> on August 22, 2015 at 23:00 UTC<br><br><b>88f75107cbc4d5f4_410650007_03<\/b><br>locationID = 88f75107cbc4d5f4<br>deviceID = 410650007_03<br><br>Wasco County, OR<br>timezone = America/Los_Angeles<br>longitude = -121.203387, latitude = 45.602419<br><hr>","<b>Eugene  Wilkes Drive<\/b><br><b>257 µg/m3<\/b> on August 23, 2015 at 02:00 UTC<br><br><b>753019dc7f401908_410390101_03<\/b><br>locationID = 753019dc7f401908<br>deviceID = 410390101_03<br><br>Lane County, OR<br>timezone = America/Los_Angeles<br>longitude = -123.1211, latitude = 44.1158<br><hr>","<b>Prineville - Davidson Park<\/b><br><b>259 µg/m3<\/b> on August 14, 2015 at 02:00 UTC<br><br><b>6ccf91c5dcbf4f5e_410130100_03<\/b><br>locationID = 6ccf91c5dcbf4f5e<br>deviceID = 410130100_03<br><br>Crook County, OR<br>timezone = America/Los_Angeles<br>longitude = -120.844773, latitude = 44.299787<br><hr>","<b>Spokane - Monroe St<\/b><br><b>282 µg/m3<\/b> on August 22, 2015 at 01:00 UTC<br><br><b>70de0a70970655a0_530630047_04<\/b><br>locationID = 70de0a70970655a0<br>deviceID = 530630047_04<br><br>Spokane County, WA<br>timezone = America/Los_Angeles<br>longitude = -117.42635, latitude = 47.69978<br><hr>","<b>Mt. Fanny - Visability (Mtf)<\/b><br><b>294 µg/m3<\/b> on August 22, 2015 at 12:00 UTC<br><br><b>35bf3d5eeff3ee88_410610121_03<\/b><br>locationID = 35bf3d5eeff3ee88<br>deviceID = 410610121_03<br><br>Union County, OR<br>timezone = America/Los_Angeles<br>longitude = -117.733528, latitude = 45.309556<br><hr>","<b>Brewster_Mobile<\/b><br><b>305 µg/m3<\/b> on August 26, 2015 at 22:00 UTC<br><br><b>f8deadb1a0ebac96_wrcc.e866<\/b><br>locationID = f8deadb1a0ebac96<br>deviceID = wrcc.e866<br><br>Okanogan County, WA<br>timezone = America/Los_Angeles<br>longitude = -119.784558, latitude = 48.088789<br><hr>","<b>Salmon - Charles St.<\/b><br><b>325 µg/m3<\/b> on August 22, 2015 at 07:00 UTC<br><br><b>a18dacf2eabb6c79_160590004_04<\/b><br>locationID = a18dacf2eabb6c79<br>deviceID = 160590004_04<br><br>Lemhi County, ID<br>timezone = America/Boise<br>longitude = -113.890285, latitude = 45.181897<br><hr>","<b>us.16_345833<\/b><br><b>334 µg/m3<\/b> on August 22, 2015 at 02:00 UTC<br><br><b>345833eaf05eac18_160090011_03<\/b><br>locationID = 345833eaf05eac18<br>deviceID = 160090011_03<br><br>Benewah County, ID<br>timezone = America/Los_Angeles<br>longitude = -116.885623, latitude = 47.338605<br><hr>","<b>John Day Dayton (Jdd)<\/b><br><b>370 µg/m3<\/b> on August 15, 2015 at 19:00 UTC<br><br><b>d0764b16f4c2c47a_410230002_03<\/b><br>locationID = d0764b16f4c2c47a<br>deviceID = 410230002_03<br><br>Grant County, OR<br>timezone = America/Los_Angeles<br>longitude = -118.9513, latitude = 44.418<br><hr>","<b>Medford - Grant & Belmont Sts. (Mgb)<\/b><br><b>392 µg/m3<\/b> on August 01, 2015 at 01:00 UTC<br><br><b>70d48d7f681d0365_410290133_03<\/b><br>locationID = 70d48d7f681d0365<br>deviceID = 410290133_03<br><br>Jackson County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.87923, latitude = 42.31411<br><hr>","<b>Klamath Falls - Peterson School<\/b><br><b>406 µg/m3<\/b> on August 02, 2015 at 07:00 UTC<br><br><b>592fe9ccaaf39d3d_410350004_03<\/b><br>locationID = 592fe9ccaaf39d3d<br>deviceID = 410350004_03<br><br>Klamath County, OR<br>timezone = America/Los_Angeles<br>longitude = -121.731369, latitude = 42.190296<br><hr>","<b>Smoke #25<\/b><br><b>432 µg/m3<\/b> on September 01, 2015 at 12:00 UTC<br><br><b>bc02aad8e4b5f851_wrcc.sm25<\/b><br>locationID = bc02aad8e4b5f851<br>deviceID = wrcc.sm25<br><br>NA County, OR<br>timezone = America/Los_Angeles<br>longitude = -117.450203, latitude = 45.946579<br><hr>","<b>Lewiston<\/b><br><b>463 µg/m3<\/b> on August 23, 2015 at 20:00 UTC<br><br><b>d01b991c53583048_160690012_03<\/b><br>locationID = d01b991c53583048<br>deviceID = 160690012_03<br><br>Nez Perce County, ID<br>timezone = America/Los_Angeles<br>longitude = -116.992533, latitude = 46.408352<br><hr>","<b>Pinehurst<\/b><br><b>471 µg/m3<\/b> on August 26, 2015 at 19:00 UTC<br><br><b>b31e89974a3db049_160790017_04<\/b><br>locationID = b31e89974a3db049<br>deviceID = 160790017_04<br><br>Shoshone County, ID<br>timezone = America/Los_Angeles<br>longitude = -116.236667, latitude = 47.536389<br><hr>","<b>Shady Cove School (Scs)<\/b><br><b>491 µg/m3<\/b> on August 03, 2015 at 22:00 UTC<br><br><b>b6ef8130a407261b_410290019_03<\/b><br>locationID = b6ef8130a407261b<br>deviceID = 410290019_03<br><br>Jackson County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.810158, latitude = 42.623225<br><hr>","<b>Smoke E-BAM 840<\/b><br><b>504 µg/m3<\/b> on August 29, 2015 at 15:00 UTC<br><br><b>e88a501ff8ca2381_wrcc.e840<\/b><br>locationID = e88a501ff8ca2381<br>deviceID = wrcc.e840<br><br>NA County, OR<br>timezone = America/Los_Angeles<br>longitude = -118.709396, latitude = 44.45612<br><hr>","<b>Newport, WA<\/b><br><b>511 µg/m3<\/b> on August 24, 2015 at 23:00 UTC<br><br><b>4fe2fb388c488385_epa.1006<\/b><br>locationID = 4fe2fb388c488385<br>deviceID = epa.1006<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -117.9099, latitude = 48.5537<br><hr>","<b>Grangeville<\/b><br><b>527 µg/m3<\/b> on August 27, 2015 at 00:00 UTC<br><br><b>2969f5d581524295_160490002_03<\/b><br>locationID = 2969f5d581524295<br>deviceID = 160490002_03<br><br>Idaho County, ID<br>timezone = America/Los_Angeles<br>longitude = -116.116255, latitude = 45.931274<br><hr>","<b>Smoke #24<\/b><br><b>533 µg/m3<\/b> on August 18, 2015 at 16:00 UTC<br><br><b>b4aee7355b4c5a57_wrcc.sm24<\/b><br>locationID = b4aee7355b4c5a57<br>deviceID = wrcc.sm24<br><br>NA County, WA<br>timezone = America/Los_Angeles<br>longitude = -120.009697, latitude = 47.844879<br><hr>","<b>Moscow<\/b><br><b>642 µg/m3<\/b> on August 26, 2015 at 16:00 UTC<br><br><b>b5f1227cb753d2d8_160570005_03<\/b><br>locationID = b5f1227cb753d2d8<br>deviceID = 160570005_03<br><br>Latah County, ID<br>timezone = America/Los_Angeles<br>longitude = -116.960177, latitude = 46.72182<br><hr>","<b>MMNPS1005<\/b><br><b>676 µg/m3<\/b> on August 31, 2015 at 19:00 UTC<br><br><b>330c6bcaf70c9525_wrcc.1306<\/b><br>locationID = 330c6bcaf70c9525<br>deviceID = wrcc.1306<br><br>NA County, ID<br>timezone = America/Boise<br>longitude = -116.329615, latitude = 45.41203<br><hr>","<b>Smoke #23<\/b><br><b>682 µg/m3<\/b> on August 09, 2015 at 18:00 UTC<br><br><b>6e9aa9a32251c6dc_wrcc.sm23<\/b><br>locationID = 6e9aa9a32251c6dc<br>deviceID = wrcc.sm23<br><br>NA County, OR<br>timezone = America/Los_Angeles<br>longitude = -122.946503, latitude = 42.928848<br><hr>","<b>Omak-Colville Tribe<\/b><br><b>793 µg/m3<\/b> on August 23, 2015 at 19:00 UTC<br><br><b>decef259cdefa79f_530470013_04<\/b><br>locationID = decef259cdefa79f<br>deviceID = 530470013_04<br><br>Okanogan County, WA<br>timezone = America/Los_Angeles<br>longitude = -119.51896, latitude = 48.39999<br><hr>","<b>NPT1001<\/b><br><b>1675 µg/m3<\/b> on August 26, 2015 at 20:00 UTC<br><br><b>0817e1dfeb6a5296_apcd.1001<\/b><br>locationID = 0817e1dfeb6a5296<br>deviceID = apcd.1001<br><br>Lewis County, ID<br>timezone = America/Los_Angeles<br>longitude = -116.2478, latitude = 46.23396<br><hr>"],null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addLegend","args":[{"colors":["#7E0023","#8F3F97","#FF0000","#FF7E00","#FFFF00","#00E400"],"labels":["Hazardous","Very Unhealthy","Unhealthy","USG","Moderate","Good"],"na_color":null,"na_label":"NA","opacity":1,"position":"bottomright","type":"unknown","title":"Max PM2.5 AQI Level","extra":null,"layerId":null,"className":"info legend","group":null}]}],"limits":{"lat":[42.0138024270466,48.8874825259202],"lng":[-124.624852022654,-111.809177855758]}},"evals":[],"jsHooks":[]}</script><div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Calculate daily means for the Methow Valley from monitors in Twisp and Winthrop</span>
-<span class="va">TwispID</span> <span class="op">&lt;-</span> <span class="st">"40ffdacb421a5ee6_840530470010"</span>
-<span class="va">WinthropID</span> <span class="op">&lt;-</span> <span class="st">"450d08fb5a3e4ea0_530470009"</span>
+
+<span class="va">TwispID</span> <span class="op">&lt;-</span> <span class="st">"99a6ee8e126ff8cf_530470009_04"</span>
+<span class="va">WinthropID</span> <span class="op">&lt;-</span> <span class="st">"123035bbdc2bc702_530470010_04"</span>
 
 <span class="co"># Recipe to calculate Methow Valley August Means:</span>
 <span class="va">Methow_Valley_AugustMeans</span> <span class="op">&lt;-</span> 
+  
   <span class="co"># 1) start with NW Megafires</span>
   <span class="va">NW_Megafires</span> <span class="op">%&gt;%</span>
+  
   <span class="co"># 2) select monitors from Twisp and Winthrop</span>
   <span class="fu"><a href="../reference/monitor_select.html">monitor_select</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">TwispID</span>, <span class="va">WinthropID</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  
   <span class="co"># 3) average them together hour-by-hour</span>
   <span class="fu"><a href="../reference/monitor_collapse.html">monitor_collapse</a></span><span class="op">(</span>deviceID <span class="op">=</span> <span class="st">'MethowValley'</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  
   <span class="co"># 4) restrict data to August</span>
   <span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="fl">20150801</span>, <span class="fl">20150901</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  
   <span class="co"># 5) calculate daily mean</span>
   <span class="fu"><a href="../reference/monitor_dailyStatistic.html">monitor_dailyStatistic</a></span><span class="op">(</span><span class="va">mean</span>, minHours <span class="op">=</span> <span class="fl">18</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  
   <span class="co"># 6) round data to one decimal place</span>
   <span class="fu"><a href="../reference/monitor_mutate.html">monitor_mutate</a></span><span class="op">(</span><span class="va">round</span>, <span class="fl">1</span><span class="op">)</span>
 
 <span class="co"># Look at the first week</span>
 <span class="va">Methow_Valley_AugustMeans</span><span class="op">$</span><span class="va">data</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">7</span>,<span class="op">]</span></code></pre></div>
-<pre><code>##     datetime 40ffdacb421a5ee6_MethowValley
-## 1 2015-08-01                           9.4
-## 2 2015-08-02                          16.8
-## 3 2015-08-03                          11.9
-## 4 2015-08-04                           6.6
-## 5 2015-08-05                           3.5
-## 6 2015-08-06                           2.2
-## 7 2015-08-07                          10.6</code></pre>
-<p><strong>Example 3: Advanced manipulation of <code>mts_monitor</code>
+<pre><code>##     datetime c036ae80f8de73ca_MethowValley
+## 1 2015-08-01                          20.3
+## 2 2015-08-02                          30.7
+## 3 2015-08-03                          12.1
+## 4 2015-08-04                           9.0
+## 5 2015-08-05                           3.7
+## 6 2015-08-06                           3.2
+## 7 2015-08-07                          11.0</code></pre>
+<p><strong>Example 3: Advanced manipulation of <em>mts_monitor</em>
 objects</strong></p>
 <p>The following code demonstrates user creation of a custom function to
-manipulate of the data tibble from a <code>mts_monitor</code> with
-<code><a href="../reference/monitor_mutate.html">monitor_mutate()</a></code>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Spokane area AQSIDs all begin with "53063"</span>
+manipulate the <code>data</code> tibble from a <em>mts_monitor</em>
+object with <code><a href="../reference/monitor_mutate.html">monitor_mutate()</a></code>.</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Monitors within 100 km of Spokane, WA</span>
 <span class="va">Spokane</span> <span class="op">&lt;-</span>
   <span class="va">NW_Megafires</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/monitor_filterByDistance.html">monitor_filterByDistance</a></span><span class="op">(</span><span class="op">-</span><span class="fl">117.42</span>, <span class="fl">47.70</span>, <span class="fl">100000</span><span class="op">)</span> <span class="op">%&gt;%</span>
@@ -373,22 +403,21 @@ manipulate of the data tibble from a <code>mts_monitor</code> with
   <span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="fl">20150801</span>, <span class="fl">20150808</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/monitor_dailyStatistic.html">monitor_dailyStatistic</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/monitor_getDataFrame.html">monitor_getData</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 7 × 12
-##   datetime            fa8288b1da3b2a87_8… aa4dc983f85e1698_8… a98152e7237071cb_…
+<pre><code>## # A tibble: 7 × 11
+##   datetime            `70de0a70970655a0_… a79f97f86cb2a7d7_1… `7216002af320d683…
 ##   &lt;dttm&gt;                            &lt;dbl&gt;               &lt;dbl&gt;              &lt;dbl&gt;
-## 1 2015-08-01 00:00:00               18.2                22.3               12.3 
-## 2 2015-08-02 00:00:00               47.1                34.4               24.2 
-## 3 2015-08-03 00:00:00               37.1                31.3               17.4 
-## 4 2015-08-04 00:00:00                7.31                6.07               6.00
-## 5 2015-08-05 00:00:00                5.82                8.04               7.39
-## 6 2015-08-06 00:00:00                3.74                1.86               4.65
-## 7 2015-08-07 00:00:00                4.50                2.12               5.38
-## # … with 8 more variables: 8b4d2cd5634d7389_840160090011 &lt;dbl&gt;,
-## #   9b8e3d84ace997b6_840MMTUO1006 &lt;lgl&gt;, 9daf8768a33085fb_840160090010 &lt;dbl&gt;,
-## #   b21777e6aab321e0_840TT1010003 &lt;dbl&gt;, 4c7cd5a9dccb5020_840160790017 &lt;dbl&gt;,
-## #   95849478880b2404_840160170003 &lt;dbl&gt;, 2154163f854db40f_840160571000 &lt;lgl&gt;,
-## #   e5f5711c820ca393_840530010003 &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+## 1 2015-08-01 00:00:00               18.2                 9.83              22.3 
+## 2 2015-08-02 00:00:00               47.1                31.4               34.4 
+## 3 2015-08-03 00:00:00               37.1                33.7               31.3 
+## 4 2015-08-04 00:00:00                7.31                9.70               6.07
+## 5 2015-08-05 00:00:00                5.82                9.25               8.04
+## 6 2015-08-06 00:00:00                3.74                7.46               1.86
+## 7 2015-08-07 00:00:00                4.50                5.79               2.12
+## # … with 7 more variables: 8c0517d4b648fe54_530750006_04 &lt;dbl&gt;,
+## #   345833eaf05eac18_160090011_03 &lt;dbl&gt;, 9b8e3d84ace997b6_wrcc.e925 &lt;lgl&gt;,
+## #   7eb0c7f361adfacb_160090010_03 &lt;dbl&gt;, b31e89974a3db049_160790017_04 &lt;dbl&gt;,
+## #   e7dee084705d75eb_160170003_03 &lt;dbl&gt;, c891e750c3fc35ef_530010003_04 &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Custom function to convert from metric ug/m3 to imperial grain/gallon </span>
 <span class="va">my_FUN</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span> <span class="kw"><a href="https://rdrr.io/r/base/function.html">return</a></span><span class="op">(</span> <span class="va">x</span> <span class="op">*</span> <span class="fl">15.43236</span> <span class="op">/</span> <span class="fl">0.004546</span> <span class="op">)</span> <span class="op">}</span>
 <span class="va">Spokane</span> <span class="op">%&gt;%</span> 
@@ -396,91 +425,119 @@ manipulate of the data tibble from a <code>mts_monitor</code> with
   <span class="fu"><a href="../reference/monitor_mutate.html">monitor_mutate</a></span><span class="op">(</span><span class="va">my_FUN</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/monitor_dailyStatistic.html">monitor_dailyStatistic</a></span><span class="op">(</span><span class="va">mean</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/monitor_getDataFrame.html">monitor_getData</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## # A tibble: 7 × 12
-##   datetime            fa8288b1da3b2a87_8… aa4dc983f85e1698_8… a98152e7237071cb_…
+<pre><code>## # A tibble: 7 × 11
+##   datetime            `70de0a70970655a0_… a79f97f86cb2a7d7_1… `7216002af320d683…
 ##   &lt;dttm&gt;                            &lt;dbl&gt;               &lt;dbl&gt;              &lt;dbl&gt;
-## 1 2015-08-01 00:00:00              61812.              75617.             41656.
-## 2 2015-08-02 00:00:00             159990.             116608.             82194.
-## 3 2015-08-03 00:00:00             125944.             106127.             59082.
-## 4 2015-08-04 00:00:00              24824.              20595.             20382.
-## 5 2015-08-05 00:00:00              19746.              27291.             25078.
-## 6 2015-08-06 00:00:00              12688.               6311.             15800.
-## 7 2015-08-07 00:00:00              15262.               7185.             18247.
-## # … with 8 more variables: 8b4d2cd5634d7389_840160090011 &lt;dbl&gt;,
-## #   9b8e3d84ace997b6_840MMTUO1006 &lt;lgl&gt;, 9daf8768a33085fb_840160090010 &lt;dbl&gt;,
-## #   b21777e6aab321e0_840TT1010003 &lt;dbl&gt;, 4c7cd5a9dccb5020_840160790017 &lt;dbl&gt;,
-## #   95849478880b2404_840160170003 &lt;dbl&gt;, 2154163f854db40f_840160571000 &lt;lgl&gt;,
-## #   e5f5711c820ca393_840530010003 &lt;dbl&gt;</code></pre>
+## 1 2015-08-01 00:00:00              61812.              33381.             75617.
+## 2 2015-08-02 00:00:00             159990.             106509.            116608.
+## 3 2015-08-03 00:00:00             125944.             114289.            106127.
+## 4 2015-08-04 00:00:00              24824.              32914.             20595.
+## 5 2015-08-05 00:00:00              19746.              31401.             27291.
+## 6 2015-08-06 00:00:00              12688.              25319.              6311.
+## 7 2015-08-07 00:00:00              15262.              19661.              7185.
+## # … with 7 more variables: 8c0517d4b648fe54_530750006_04 &lt;dbl&gt;,
+## #   345833eaf05eac18_160090011_03 &lt;dbl&gt;, 9b8e3d84ace997b6_wrcc.e925 &lt;lgl&gt;,
+## #   7eb0c7f361adfacb_160090010_03 &lt;dbl&gt;, b31e89974a3db049_160790017_04 &lt;dbl&gt;,
+## #   e7dee084705d75eb_160170003_03 &lt;dbl&gt;, c891e750c3fc35ef_530010003_04 &lt;dbl&gt;</code></pre>
 <p>Understanding that <code>monitor$data</code> is a just a dataframe of
 measurements prepended with a <code>datetime</code> column, we can pull
-out the measurements and do analyses independ of the
-<code>mts_monitor</code> data model. Here we look for correlations among
-the PM2.5 time series.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+out the measurements and do analyses independent of the
+<em>mts_monitor</em> data model. Here we look for correlations among the
+PM2.5 time series.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Pull out the time series data to calculate correlations</span>
 <span class="va">Spokane_data</span> <span class="op">&lt;-</span> 
   <span class="va">Spokane</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../reference/monitor_getDataFrame.html">monitor_getData</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="co"># omit 'datetime' column</span>
 
 <span class="co"># Provide human readable names</span>
 <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">Spokane_data</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">Spokane</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">locationName</span>
 
 <span class="co"># Find correlation among monitors</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/cor.html">cor</a></span><span class="op">(</span><span class="va">Spokane_data</span>, use <span class="op">=</span> <span class="st">"complete.obs"</span><span class="op">)</span></code></pre></div>
-<pre><code>##                         Spokane-Monroe St. Wellpinit-Spokane Tribe
-## Spokane-Monroe St.               1.0000000               0.6318619
-## Wellpinit-Spokane Tribe          0.6318619               1.0000000
-## Rosalia-Josephine St             0.5596602               0.6122902
-## Plummer CDA Tribe                0.5839604               0.7430363
-## Mobile_White_Salmon              0.6351119               0.5158232
-## St. Maries                       0.6071487               0.8380308
-## Inchelium                        0.4551477               0.5645884
-## Pinehurst                        0.3894500               0.6464441
-## Sandpoint U of I                 0.6953661               0.7545191
-## Potlatch                         0.2251280               0.3282197
-## Ritzville-Alder St               0.3757756               0.3643187
-##                         Rosalia-Josephine St Plummer CDA Tribe
-## Spokane-Monroe St.                 0.5596602         0.5839604
-## Wellpinit-Spokane Tribe            0.6122902         0.7430363
-## Rosalia-Josephine St               1.0000000         0.8715402
-## Plummer CDA Tribe                  0.8715402         1.0000000
-## Mobile_White_Salmon                0.3809548         0.4303792
-## St. Maries                         0.6723935         0.7926190
-## Inchelium                          0.3221007         0.4553396
-## Pinehurst                          0.5351547         0.7367798
-## Sandpoint U of I                   0.5779714         0.6322896
-## Potlatch                           0.8059029         0.7616114
-## Ritzville-Alder St                 0.7974889         0.6449827
-##                         Mobile_White_Salmon St. Maries Inchelium Pinehurst
-## Spokane-Monroe St.                0.6351119  0.6071487 0.4551477 0.3894500
-## Wellpinit-Spokane Tribe           0.5158232  0.8380308 0.5645884 0.6464441
-## Rosalia-Josephine St              0.3809548  0.6723935 0.3221007 0.5351547
-## Plummer CDA Tribe                 0.4303792  0.7926190 0.4553396 0.7367798
-## Mobile_White_Salmon               1.0000000  0.4624221 0.4943332 0.3428037
-## St. Maries                        0.4624221  1.0000000 0.5843548 0.7333637
-## Inchelium                         0.4943332  0.5843548 1.0000000 0.5908660
-## Pinehurst                         0.3428037  0.7333637 0.5908660 1.0000000
-## Sandpoint U of I                  0.7416842  0.7484124 0.7297628 0.6302946
-## Potlatch                          0.1135776  0.4244730 0.2084568 0.5165429
-## Ritzville-Alder St                0.2836033  0.4547639 0.1159584 0.2553713
-##                         Sandpoint U of I  Potlatch Ritzville-Alder St 
-## Spokane-Monroe St.             0.6953661 0.2251280           0.3757756
-## Wellpinit-Spokane Tribe        0.7545191 0.3282197           0.3643187
-## Rosalia-Josephine St           0.5779714 0.8059029           0.7974889
-## Plummer CDA Tribe              0.6322896 0.7616114           0.6449827
-## Mobile_White_Salmon            0.7416842 0.1135776           0.2836033
-## St. Maries                     0.7484124 0.4244730           0.4547639
-## Inchelium                      0.7297628 0.2084568           0.1159584
-## Pinehurst                      0.6302946 0.5165429           0.2553713
-## Sandpoint U of I               1.0000000 0.2567470           0.3799819
-## Potlatch                       0.2567470 1.0000000           0.6684812
-## Ritzville-Alder St             0.3799819 0.6684812           1.0000000</code></pre>
-<hr>
-<p>This introduction to the <code>mts_monitor</code> data model should
-be enough to get you started. Lots more examples are available in the
+<pre><code>##                                              Spokane - Monroe St
+## Spokane - Monroe St                                    1.0000000
+## Coeur D'alene - Lancaster Rd.                          0.6069221
+## Spokane - Wellpinit  Ford Rd (Spokane Tribe)           0.5697110
+## Rosalia - Josephine St                                 0.5230965
+## us.16_345833                                           0.5377632
+## Mobile_White_Salmon                                    0.4789670
+## St. Maries                                             0.5269798
+## Pinehurst                                              0.3571274
+## Sandpoint                                              0.6250559
+## Ritzville - Alder St                                   0.2926409
+##                                              Coeur D'alene - Lancaster Rd.
+## Spokane - Monroe St                                              0.6069221
+## Coeur D'alene - Lancaster Rd.                                    1.0000000
+## Spokane - Wellpinit  Ford Rd (Spokane Tribe)                     0.7166013
+## Rosalia - Josephine St                                           0.6398958
+## us.16_345833                                                     0.6977911
+## Mobile_White_Salmon                                              0.5974232
+## St. Maries                                                       0.8067682
+## Pinehurst                                                        0.7513249
+## Sandpoint                                                        0.7680706
+## Ritzville - Alder St                                             0.3193411
+##                                              Spokane - Wellpinit  Ford Rd (Spokane Tribe)
+## Spokane - Monroe St                                                             0.5697110
+## Coeur D'alene - Lancaster Rd.                                                   0.7166013
+## Spokane - Wellpinit  Ford Rd (Spokane Tribe)                                    1.0000000
+## Rosalia - Josephine St                                                          0.5669491
+## us.16_345833                                                                    0.6838587
+## Mobile_White_Salmon                                                             0.5944653
+## St. Maries                                                                      0.6516175
+## Pinehurst                                                                       0.5916583
+## Sandpoint                                                                       0.7859552
+## Ritzville - Alder St                                                            0.3089826
+##                                              Rosalia - Josephine St
+## Spokane - Monroe St                                       0.5230965
+## Coeur D'alene - Lancaster Rd.                             0.6398958
+## Spokane - Wellpinit  Ford Rd (Spokane Tribe)              0.5669491
+## Rosalia - Josephine St                                    1.0000000
+## us.16_345833                                              0.8296218
+## Mobile_White_Salmon                                       0.2921147
+## St. Maries                                                0.6990201
+## Pinehurst                                                 0.5092533
+## Sandpoint                                                 0.5076184
+## Ritzville - Alder St                                      0.7953586
+##                                              us.16_345833 Mobile_White_Salmon
+## Spokane - Monroe St                             0.5377632           0.4789670
+## Coeur D'alene - Lancaster Rd.                   0.6977911           0.5974232
+## Spokane - Wellpinit  Ford Rd (Spokane Tribe)    0.6838587           0.5944653
+## Rosalia - Josephine St                          0.8296218           0.2921147
+## us.16_345833                                    1.0000000           0.4046114
+## Mobile_White_Salmon                             0.4046114           1.0000000
+## St. Maries                                      0.7906070           0.5136138
+## Pinehurst                                       0.7222093           0.5176399
+## Sandpoint                                       0.5780285           0.7119107
+## Ritzville - Alder St                            0.5874713           0.1093694
+##                                              St. Maries Pinehurst Sandpoint
+## Spokane - Monroe St                           0.5269798 0.3571274 0.6250559
+## Coeur D'alene - Lancaster Rd.                 0.8067682 0.7513249 0.7680706
+## Spokane - Wellpinit  Ford Rd (Spokane Tribe)  0.6516175 0.5916583 0.7859552
+## Rosalia - Josephine St                        0.6990201 0.5092533 0.5076184
+## us.16_345833                                  0.7906070 0.7222093 0.5780285
+## Mobile_White_Salmon                           0.5136138 0.5176399 0.7119107
+## St. Maries                                    1.0000000 0.7679051 0.6232813
+## Pinehurst                                     0.7679051 1.0000000 0.5626732
+## Sandpoint                                     0.6232813 0.5626732 1.0000000
+## Ritzville - Alder St                          0.3896507 0.2514426 0.2851257
+##                                              Ritzville - Alder St
+## Spokane - Monroe St                                     0.2926409
+## Coeur D'alene - Lancaster Rd.                           0.3193411
+## Spokane - Wellpinit  Ford Rd (Spokane Tribe)            0.3089826
+## Rosalia - Josephine St                                  0.7953586
+## us.16_345833                                            0.5874713
+## Mobile_White_Salmon                                     0.1093694
+## St. Maries                                              0.3896507
+## Pinehurst                                               0.2514426
+## Sandpoint                                               0.2851257
+## Ritzville - Alder St                                    1.0000000</code></pre>
+<p>This introduction to the <em>mts_monitor</em> data model should be
+enough to get you started. Lots more examples are available in the
 package documentation.</p>
-<p><em>Best of luck exploring and understanding PM 2.air quality
+<hr>
+<p><em>Best of luck exploring and understanding PM 2.5 air quality
 data!</em></p>
 </div>
   </div>

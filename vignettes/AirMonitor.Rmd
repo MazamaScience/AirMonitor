@@ -1,7 +1,7 @@
 ---
 title: "Introduction to AirMonitor"
 author: "Mazama Science"
-date: "2022-06-10"
+date: "2022-10-31"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to AirMonitor}
@@ -68,17 +68,22 @@ California; 3) restrict the date range to Camp Fire dates; 4) remove any monitor
 with no valid data in this range.
 
 ```
+# create the Camp_Fire 'mts_monitor' object
 Camp_Fire <-
+
   # 1) load annual data
   monitor_loadAnnual(2018) %>%
+  
   # 2) filter for California
   monitor_filter(stateCode == 'CA') %>%
+  
   # 3) restrict date range
   monitor_filterDate(
     startdate = 20181108,
     enddate = 20181123,
     timezone = "America/Los_Angeles"
   ) %>%
+  
   # 4) remove monitors with no valid data
   monitor_dropEmpty()
 ```
@@ -93,18 +98,20 @@ monitor_leaflet(Camp_Fire)
 ```
 
 We can use this `deviceDeploymentID` to create a _mts_monitor_ object for this 
-single monitor and take a look at a timeseries plot. Day-night shading and AQI
+single monitor and take a look at a time series plot. Day-night shading and AQI
 decorations create a publication-ready plot:
 
 ```{r Sacramento_3}
-# Create single-monitor Sacramento 
+# create single-monitor Sacramento 
 Sacramento <-
+  
   # 1) start with Camp_Fire
   Camp_Fire %>%
+  
   # 2) select a specific device-deployment
   monitor_select("127e996697f9731c_840060670010")
 
-# Review timeseries plot
+# review timeseries plot
 Sacramento %>%
   monitor_timeseriesPlot(
     shadedNight = TRUE,
@@ -112,6 +119,7 @@ Sacramento %>%
     main = "Hourly PM2.5 Concentration in Sacramento"
   )
 
+# add the AQI legend
 addAQILegend(cex = 0.8)
 ```
 
@@ -120,8 +128,10 @@ containing all monitors within 50 kilometers (31 miles) of Sacramento.
 
 ```{r Sacramento_4}
 Sacramento_area <-
+  
   # 1) start with Camp_Fire
   Camp_Fire %>%
+  
   # 2) find all monitors within 50km of Sacramento
   monitor_filterByDistance(
     longitude = Sacramento$meta$longitude,
@@ -132,8 +142,9 @@ Sacramento_area <-
 monitor_leaflet(Sacramento_area)
 ```
 
-We can use the same `monitor_timeseriesPlot()` to display the hourly data for 
-all the monitors in the Sacramennto area.
+We can use the same `monitor_timeseriesPlot()` function to display the hourly
+data for _all_ the monitors in the Sacramento area in a single plot. This gives
+a sense of the range of values within the area at any given hour.
 
 ```{r Sacramento_5}
 Sacramento_area %>%
@@ -152,12 +163,15 @@ for the Sacramento area.
 ```{r Sacramento_6}
 # 1) start with Sacramento_area
 Sacramento_area %>%
+  
   # 2) average together all timeseries hour-by-hour
   monitor_collapse(
     deviceID = "Sacramento_area"
   ) %>%
+  
   # 3) calculate the local-time daily average (default)
   monitor_dailyStatistic() %>%
+  
   # 4) pull out the $data dataframe
   monitor_getData()
 ```
@@ -167,13 +181,16 @@ Alternatively, we can plot the daily averages.
 ```{r Sacramento_7}
 # 1) start with Sacramento_area
 Sacramento_area %>%
+  
   # 2) average together all timeseries hour-by-hour
   monitor_collapse() %>%
+  
   # 3) create daily barplot
   monitor_dailyBarplot(
     main = "Daily Average PM2.5 in the Sacramento Area"
   )
 
+# add the AQI legend
 addAQILegend(pch = 15, bg = "white", cex = 0.8)
 ```
 

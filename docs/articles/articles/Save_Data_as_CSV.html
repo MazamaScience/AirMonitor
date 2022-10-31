@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.8</span>
       </span>
     </div>
 
@@ -64,6 +64,9 @@
     </li>
     <li>
       <a href="../../articles/articles/Citations.html">Citations</a>
+    </li>
+    <li>
+      <a href="../../articles/articles/NowCast.html">NowCast</a>
     </li>
     <li>
       <a href="../../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
@@ -111,11 +114,11 @@
 </blockquote>
 <p>If you have <strong>AirMonitor</strong> installed, you should be able
 to copy and paste this code into the RStudio console.</p>
-<p>The coding style uses the “pipe” operator, <code><a href="../../reference/%&gt;%.html">%&gt;%</a></code>, which
-uses the output of the preceding function as the first argument of the
-next function. Package functions are specifically designed to work well
-in this manner, encouraging <strong><em>readable and understandable
-code</em></strong>.</p>
+<p>The coding style takes advantage of the “pipe” operator,
+<code><a href="../../reference/%&gt;%.html">%&gt;%</a></code>, which uses the output of the preceding function as
+the first argument of the next function. Package functions are
+specifically designed to work well in this manner, encouraging
+<strong><em>readable and understandable code</em></strong>.</p>
 <p>Think of each chunk as a <em>recipe</em> that begins with what you
 want to make and is followed by the steps needed to make it.</p>
 <p>Enjoy!</p>
@@ -183,12 +186,12 @@ want to make and is followed by the steps needed to make it.</p>
 <span class="co"># Set the output directory</span>
 <span class="va">outputDir</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/tempfile.html">tempdir</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="co"># Dump out airnow_ca meta to a CSV file</span>
+<span class="co"># Dump out all of airnow_ca meta to a CSV file</span>
 <span class="va">airnow_ca</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../../reference/monitor_toCSV.html">monitor_toCSV</a></span><span class="op">(</span>includeData <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">outputDir</span>, <span class="st">"airnow_CA_meta.csv"</span><span class="op">)</span><span class="op">)</span>
 
-<span class="co"># Dump out airnow_ca data to a CSV file</span>
+<span class="co"># Dump out all of airnow_ca data to a CSV file</span>
 <span class="va">airnow_ca</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="../../reference/monitor_toCSV.html">monitor_toCSV</a></span><span class="op">(</span>includeMeta <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/cat.html">cat</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">outputDir</span>, <span class="st">"airnow_CA_data.csv"</span><span class="op">)</span><span class="op">)</span>

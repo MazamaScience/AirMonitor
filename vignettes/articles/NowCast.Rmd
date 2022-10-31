@@ -1,7 +1,7 @@
 ---
 title: "NowCast"
 author: "Rex Thompson and Jonathan Callahan"
-date: "2022-03-28"
+date: "2022-10-31"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{NowCast}
@@ -15,8 +15,8 @@ options(width = 105)
 ```
 
 This vignette documents the `monitor_nowcast()` function, which converts a 
-`mts_monitor` object's values to NowCast values. We provide details on the 
-NowCast algorithm and our implementation thereof. We also provide examples to 
+_mts_monitor_ object's values to NowCast values. We provide details on the 
+NowCast algorithm and our implementation of it. We also provide examples to 
 highlight specific attributes and potential points of confusion in the algorithm.  
 
 This vignette also briefly covers the `monitor_aqi()` function, which uses the 
@@ -34,33 +34,33 @@ make real-time air quality measurements roughly comparable to established
 regulatory air quality health thresholds (*e.g.* 24‐hour PM2.5 standards). 
 However, that method was shown to be slow to respond to rapidly changing air 
 quality conditions, which, at best, reduced public confidence in disseminated 
-AQI values, and at worst, had the potential to adversely affect the health of 
+AQI values an, at worst, had the potential to adversely affect the health of 
 those in high impact areas (*e.g.* near wildfires).  
 
 In response, EPA developed a new method -- the Reff method -- in 2013 to be more 
-responsive to rapidly changing air quality conditions. We provide technical 
-support for applying the new NowCast algorithm to hourly PM2.5, PM10, and O3 
+responsive to rapidly changing air quality conditions. The **AirMonitor**
+package provides support for applying the new NowCast algorithm to hourly PM2.5 
 data, though theoretically it could be applied to regular-interval time series 
 data of any type, including other criteria pollutants.  
 
-We provide algorithm specifics for PM2.5, PM10, and O3 below.  
+Algorithm specifics are provided below.  
 
 Sources:  
 
 * https://en.wikipedia.org/wiki/NowCast_(air_quality_index)
-* https://forum.airnowtech.org/t/the-nowcast-for-ozone-and-pm/172
+* https://forum.airnowtech.org/t/the-nowcast-for-pm2-5-and-pm10/172
 
 # The NowCast Algorithm (Reff Method)
 
-## NowCast Equation
+## NowCast Equation for PM Data (PM~2.5~ or PM~10~)
 
 The NowCast value for a given hour can be calculated as follows:
 
 $$
-NowCast = \frac{\sum_{i=1}^{N}{w^{i-1}c_i}}{\sum_{i=1}^{N}w^{i-1}}
+NowCast = \frac{\sum_{i=1}^{12}{w^{i-1}c_i}}{\sum_{i=1}^{12}w^{i-1}}
 $$
 
-where $i$, $N$, $w$ and $c$ are as defined in the sections below.
+where $i$, $w$ and $c$ are as defined in the sections below.
 
 Source:
 
@@ -68,12 +68,8 @@ Source:
 
 ## Data Selection
 
-The NowCast algorithm uses hourly averages from the prior $N$ clock hours, where 
-the value of $N$ depends on the pollutant being processed:
-
- - **PM2.5**: $N = 12$
- - **PM10**: $N = 12$
- - **O3**: $N = 8$
+For PM2.5 data, the NowCast algorithm uses hourly averages from the prior 12 
+clock hours.
 
 The hourly averages are denoted below by $c_i$, where $i$ represents the number 
 of hours before present. For example, $c_1$, $c_2$, $c_3$, $...$, $c_N$ represent 
@@ -81,11 +77,11 @@ the hourly averages for the most recent 1, 2, 3, $...$, $N$ hours.
 
 Source:
 
-* https://forum.airnowtech.org/t/the-nowcast-for-ozone-and-pm/172
+* https://forum.airnowtech.org/t/the-nowcast-for-pm2-5-and-pm10/172
 
 ## Weight Factor
 
-Using the $N$ data points specified above, define the weight factor $w^*$ as follows:
+Using data points as specified above, define the weight factor $w^*$ as follows:
 
 $$
 w^* = 1- \frac{c_{max}-c_{min}}{c_{max}} = \frac{c_{min}}{c_{max}}
@@ -102,7 +98,7 @@ basic forms, both of which are included above for reference. Note that both form
 Sources: 
 
 * https://en.wikipedia.org/wiki/NowCast_(air_quality_index)
-* https://forum.airnowtech.org/t/the-nowcast-for-ozone-and-pm/172
+* https://forum.airnowtech.org/t/the-nowcast-for-pm2-5-and-pm10/172
 
 ## Minimum Weight Factor
 
@@ -117,11 +113,9 @@ w^*         & \text{if} & w^*>\frac{1}{2} \\
 \end{cases}
 $$
 
-For O3, there is no minimum weight factor, so we define $w = w^*$
-
 Source
 
-* https://forum.airnowtech.org/t/the-nowcast-for-ozone-and-pm/172
+* https://forum.airnowtech.org/t/the-nowcast-for-pm2-5-and-pm10/172
 
 ## Truncation
 
@@ -129,15 +123,14 @@ Final NowCast values are truncated based on the type of data being processed:
 
 - **PM2.5**: 0.1 µg/m3
 - **PM10**: 1 µg/m3
-- **O3**: 1 ppb (0.001 ppm)
 
 Source:
 
-* https://forum.airnowtech.org/t/the-nowcast-for-ozone-and-pm/172
+* https://forum.airnowtech.org/t/the-nowcast-for-pm2-5-and-pm10/172
 
 # Algorithm Expansion
 
-For PM2.5, which uses 12 hours of data, the NowCast equation can be expanded as follows:
+For PM2.5, the NowCast equation can be expanded as follows:
 
 $$
 NowCast = \frac
@@ -208,14 +201,14 @@ first two hours are both valid)?
 
 We assert that it would be inappropriate to do so, _usually_.  
 
-In most cases a user will have created a mts_monitor object using one of the 
+In most cases a user will have created a _mts_monitor_ object using one of the 
 `~_load()`, functions, which return data for a 
 specific period of time. Data before this period is not necessarily invalid, it 
 was simply not retrieved. But the function itself has no way of knowing whether 
 such earlier data exists, so it has no choice but to consider earlier hours 
 "invalid". This means that, if followed by-the-book, the NowCast algorithm could 
 return different values for a given hour depending on whether or not the earlier 
-data had been retrieved. This is not a desirable behavior, so by default the 
+data had been retrieved. This is not a desirable behavior, so, by default, the 
 `monitor_nowcast()` returns invalid NowCast values until the $N$^th^ hour of data.  
 
 However, we provide a manual override in `includeShortTerm = TRUE` which causes 
@@ -237,20 +230,11 @@ themselves are not truly representative of the data for the past $N$ hours.
 In the NowCast literature we find no mention of negative values, which, while 
 aphysical, are common in air quality monitoring data. Thus, 
 we do not adjust negative values up to zero in the `monitor_nowcast()` function 
-itself. However, note that this may be done when creating a `mts_monitor` object 
-in the first place.
+itself.
 
-Negative values are handled prior to converting NowCast or other values to AQI.
-
-## Negative Weight Factors
-
-While PM2.5 and PM10 have minimum weight factors of $1/2$, there is no minimum 
-weight factor for O3. Does this mean O3 could have negative weight factors? We 
-find no mention of this in the NowCast literature; however, we assume $w_{min}$ 
-cannot be negative since otherwise the calculation could become overwhelmed by 
-outrageous weight factors, even as large as negative infinity 
-(e.g. if $c_{min}<0$ and $c_{max}=0$). This assumption is built into our 
-`monitor_nowcast()` function.
+Negative values should always be handled prior to converting  raw data to 
+NowCast or AQI values. All of the `~_load()` functions handle negative values 
+by _lifting_ them to zero as part of the data loading process.
 
 ## Argument: `version`
 
@@ -272,7 +256,7 @@ number of digits to which the final data is truncated (`digits`).
     + `digits <- 1`
 
 The default setting is `version = 'pm25'` since this is the parameter most 
-commonly stored in `mts_monitor` objects.  
+commonly stored in _mts_monitor_ objects.  
 
 `version = 'ozone'` supports the O3 NowCast as described above.
 
@@ -282,12 +266,9 @@ https://aqicn.org/faq/2015-03-15/air-quality-nowcast-a-beginners-guide/
 Although the NowCast algorithm itself supports PM10, we do not currently provide 
 functionality for this parameter in the `monitor_nowcast()` function.
 
-In the future we may allow manual override of the settings described above to 
-allow for custom NowCast-type algorithms.
-
 # NowCast and AQI Calculations
 
-The EPA uses an [Air Quality Index](https://www.airnow.gov/index.cfm?action=aqibasics.aqi) to put
+The EPA uses an [Air Quality Index](https://www.airnow.gov/aqi/aqi-basics/) to put
 different pollutants on the same scale. From their site:
 
 > Think of the AQI as a yardstick that runs from 0 to 500. The higher the AQI 
@@ -297,8 +278,7 @@ different pollutants on the same scale. From their site:
 > represents hazardous air quality.
 
 We provide the `monitor_aqi()` function to convert the PM2.5 data in a 
-`mts_monitor` object into 
-NowCast-based AQI values in the 0-500 range.
+_mts_monitor_ object into  NowCast-based AQI values in the 0-500 range.
 
 # Examples
 
@@ -315,24 +295,25 @@ August, 2015:
 ```{r Omak_nowcast}
 library(AirMonitor)
 
-Omak_ID <- "e5d75388f0cfcbf6_530470013"
+Omak_ID <- "decef259cdefa79f_530470013_04"
 
-# Recipe to create Omak
+# Recipe to obtain monitoring data for Omak, WA
 Omak <-
-  # Start with NW Megafires dataset
+  
+  # start with NW Megafires dataset
   NW_Megafires %>%
-  # Select the Omak timeseries
+  
+  # select the Omak time series
   monitor_select(Omak_ID) %>%
-  # Filter to include only August, 2015
+  
+  # filter to include only August, 2015
   monitor_filterDate(20150801, 20150901)
-
-Omak_nowcast <- monitor_nowcast(Omak)
 ```
 
 ```{r Omak_nowcast_plot, echo = FALSE}
 monitor_timeseriesPlot(Omak, type = 'l', lwd = 2)
 monitor_timeseriesPlot(
-  Omak_nowcast, 
+  monitor_nowcast(Omak), 
   add = TRUE, 
   type = 'l', 
   lwd = 2, 
@@ -341,13 +322,18 @@ monitor_timeseriesPlot(
 )
 addAQILines()
 addAQILegend('topleft', lwd = 1, pch = NULL)
-legend('topright', lwd=2, col=c('black','purple'), legend=c('hourly','nowcast'))
+legend(
+  'topright', 
+  lwd = 2, 
+  col = c('black', 'purple'), 
+  legend = c('hourly', 'nowcast')
+)
 ```
 
 ## Example 1: Basic Formula Verification
 
 In the code above we used the `monitor_nowcast()` function to calculate PM2.5 
-NowCast values for the Omak `mts_monitor` object. Let's see if we can verify the 
+NowCast values for the Omak _mts_monitor_ object. Let's see if we can verify the 
 function's output for a single hour.
 
 Below is the Omak PM2.5 data for the first 12 hours of 8/21/15. Let's see if we 
@@ -363,7 +349,7 @@ print(Omak_1$data)
 ```
 
 First we'll pull out just the values themselves, and reverse them so the most 
-recent values come first (i.e. so the vector represents $c_1$, $c_2$, $...$, $c_N$).
+recent values come first (_i.e._ so the vector represents $c_1$, $c_2$, $...$, $c_N$).
 
 ```{r example_1_values}
 example_1_values <-
@@ -433,7 +419,8 @@ which we truncate to one decimal place for a final NowCast value of
 So how does this compare to our `monitor_nowcast()` output for the same hour.
 
 ```{r}
-Omak_nowcast %>%
+Omak %>%
+  monitor_nowcast() %>%
   monitor_filterDatetime(2015082111, 2015082112, timezone = "UTC") %>%
   monitor_getData() %>%
   dplyr::pull(Omak_ID)
@@ -445,18 +432,20 @@ Right on!
 
 So we have verified the calculation for a period with 12 valid hours. But how
 does the function handle missing data periods? Let's take a look at a short
-period of missing data to find out.
+period of missing data to find out. We will invalidate a single hour and see
+how the NowCast algorithm responds.
 
 ```{r Omak_missing_data}
-# Recipe to create Omak
-Omak_2 <-
-  Omak %>%
-  monitor_filterDatetime(2015082412, 2015082500, timezone = "UTC")
+# Create Omak_2 with one value missing
+Omak_2 <- Omak
+Omak_2$data[564, 2] <- NA
 
-print(Omak_2$data)
+Omak_2 %>%
+  monitor_filterDatetime(2015082412, 2015082500, timezone = "UTC") %>%
+  monitor_getData()
 ```
 
-Here we see that the monitor data is missing for Hour 18. We want to verify that
+Here we see that the monitor data is missing for 18:00. We want to verify that
 this hour is properly excluded from the NowCast calculation for subsequent hours.
 We also want to ensure that NowCast returns valid values for all hours in the
 vicinity, since all hours meet the minimum data availability requirements (i.e.
@@ -471,6 +460,7 @@ We again begin by pulling out our vector of values $c_1$, $c_2$, $...$, $c_N$
 ```{r example_2_values}
 example_2_values <-
   Omak_2 %>% 
+  monitor_filterDatetime(2015082412, 2015082500, timezone = "UTC") %>%
   monitor_getData() %>%
   dplyr::pull(2) %>%
   rev()
@@ -501,7 +491,8 @@ We truncate the value above to one decimal place for a final NowCast value of
 So how does this compare to our `monitor_nowcast()` output for the same hour?
 
 ```{r}
-Omak_nowcast %>%
+Omak_2 %>%
+  monitor_nowcast() %>% 
   monitor_filterDatetime(2015082423, 2015082500, timezone = "UTC") %>%
   monitor_getData() %>%
   dplyr::pull(Omak_ID)
@@ -516,10 +507,14 @@ NowCast hours are valid except for the c~1~ moment when the monitoring data is
 also invalid.
 
 ```{r}
-tbl <- monitor_getData(Omak_2)
+tbl <- 
+  Omak_2 %>%
+  monitor_filterDatetime(2015082412, 2015082500, timezone = "UTC") %>%
+  monitor_getData()
 
-tbl$nowcast <- 
-  Omak_nowcast %>%
+tbl$nowcast <-
+  Omak_2 %>%
+  monitor_nowcast() %>%
   monitor_filterDatetime(2015082412, 2015082500, timezone = "UTC") %>%
   monitor_getData() %>%
   dplyr::pull(Omak_ID)
@@ -532,12 +527,13 @@ print(tbl)
 We now look at a longer period of missing data, from the day prior on 8/23/15.
 
 ```{r Omak_long_missing_data}
-# Recipe to create Omak
-Omak_3 <-
-  Omak %>%
-  monitor_filterDatetime(2015082312, 2015082400, timezone = "UTC")
+# Create Omak_3 with 5 missing values
+Omak_3 <- Omak
+Omak_3$data[538:542, 2] <- NA
 
-print(Omak_3$data)
+Omak_3 %>%
+  monitor_filterDatetime(2015082312, 2015082400, timezone = "UTC") %>%
+  monitor_getData()
 ```
 
 Here we see that the monitored data is missing for Hours 16-20. We again want to
@@ -554,7 +550,8 @@ We again begin by pulling out our vector of values $c_1$, $c_2$, $...$, $c_N$
 
 ```{r example_3_values}
 example_3_values <-
-  Omak_3 %>% 
+  Omak_3 %>%
+  monitor_filterDatetime(2015082312, 2015082400, timezone = "UTC") %>%
   monitor_getData() %>%
   dplyr::pull(2) %>%
   rev()
@@ -585,7 +582,8 @@ We truncate the value above to one decimal place for a final NowCast value of
 So how does this compare to our `monitor_nowcast()` output for the same hour?
 
 ```{r}
-Omak_nowcast %>%
+Omak_3 %>%
+  monitor_nowcast() %>%
   monitor_filterDatetime(2015082323, 2015082400, timezone = "UTC") %>%
   monitor_getData() %>%
   dplyr::pull(Omak_ID)
@@ -599,10 +597,14 @@ Now we'll look at the monitored data alongside the NowCast data to see how the
 validity of the NowCast data was affected by the missing monitored hours.
 
 ```{r}
-tbl <- monitor_getData(Omak_3)
+tbl <- 
+  Omak_3 %>%
+  monitor_filterDatetime(2015082312, 2015082400, timezone = "UTC") %>%
+  monitor_getData()
 
-tbl$nowcast <- 
-  Omak_nowcast %>%
+tbl$nowcast <-
+  Omak_3 %>%
+  monitor_nowcast() %>%
   monitor_filterDatetime(2015082312, 2015082400, timezone = "UTC") %>%
   monitor_getData() %>%
   dplyr::pull(Omak_ID)
@@ -687,27 +689,27 @@ For our final NowCast example we will explore the `includeShortTerm` argument,
 including a demonstration of why it defaults to `FALSE`.
 
 Suppose we wanted to know the NowCast values for Omak for the first half of
-8/25/15, since concentrations were extremely high at the time. A normal course
-of action might be to create a `mts_monitor` object for Omak for 8/25/15:
+8/25/15, since concentrations were extremely high at the time. Not thinking
+about the details of the NowCast algorithm, one might proceed by filtering 
+in time before creating the nowcast:
 
 ```{r}
-# Recipe to create Omak
-Omak_4 <-
-  Omak %>%
-  monitor_filterDatetime(2015082500, 2015082600, timezone = "UTC")
-
-Omak_4_nowcast <- monitor_nowcast(Omak_4)
-print(Omak_4_nowcast$data)
+Omak %>%
+  monitor_filterDatetime(2015082500, 2015082600, timezone = "UTC") %>%
+  monitor_nowcast() %>%
+  monitor_getData()
 ```
 
-Unfortunately, the first 12 hours are invalid. But you read in the documentation
+Unfortunately, the first 11 hours end up as invalid. But you read in the documentation
 that `includeShortTerm = TRUE` will return values for the second valid hour
 onwards. So you try again, this time setting `includeShortTerm = TRUE`. Let's
 check it out.
 
 ```{r}
-Omak_4_nowcast <- monitor_nowcast(Omak_4, includeShortTerm = TRUE)
-print(Omak_4_nowcast$data)
+Omak %>%
+  monitor_filterDatetime(2015082500, 2015082600, timezone = "UTC") %>%
+  monitor_nowcast(includeShortTerm = TRUE) %>%
+  monitor_getData()
 ```
 
 Nice. We were able to get NowCast values for all but the first hour!
@@ -720,13 +722,20 @@ As an experiment, let's see how the NowCast values would look if we calculated
 them from a larger dataset that includes the data prior to 8/25/15 Hour 0.
 
 ```{r}
-tbl <- 
-  Omak_nowcast %>%
+tbl <-
+  Omak %>%
+  # NowCast first
+  monitor_nowcast %>%
+  # then restrict times
   monitor_filterDatetime(2015082500, 2015082600, timezone = "UTC") %>%
   monitor_getData()
 
-tbl$shortTerm_T <- 
-  Omak_4_nowcast %>%
+tbl$shortTerm_T <-
+  Omak %>% 
+  # restrict times first
+  monitor_filterDatetime(2015082500, 2015082600, timezone = "UTC") %>%
+  # then NowCast
+  monitor_nowcast(includeShortTerm = TRUE) %>%
   monitor_getData() %>%
   dplyr::pull(Omak_ID)
 
@@ -746,5 +755,5 @@ of the period if you think you might want to calculate NowCast values on a datas
 
 ----
 
-Hopefully, we have thoroughly addressed any questions about the **AirMonitor** 
+Hopefully, we have thoroughly addressed any questions about the **AirMonitor**
 implementation of the NowCast algorithm.

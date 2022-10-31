@@ -82,10 +82,13 @@ monitor_loadAnnual <- function(
 
   epaPreference <- match.arg(epaPreference)
 
+  # Override epaPreference if year is before any AirNow data
+  if ( year < firstAirnowYear )
+    epaPreference <- "epa_aqs"
+
   # ----- Load data ------------------------------------------------------------
 
   monitorList <- list()
-
 
   if ( year >= firstAirnowYear ) {
 
@@ -98,30 +101,19 @@ monitor_loadAnnual <- function(
 
     } else {
 
-      # EPA AQS 88101 files
+      # EPA AQS 88101 + 88502 files
       try({
-        monitorList[["epa_aqs_88101"]] <- epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "88101")
-      }, silent = TRUE)
-
-      # EPA AQS 88502 files
-      try({
-        monitorList[["epa_aqs_88502"]] <- epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "88502")
+        monitorList[["epa_aqs"]] <- epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "PM2.5")
       }, silent = TRUE)
 
     }
 
   } else {
 
-    # EPA AQS 88101 files
+    # EPA AQS 88101 + 88502 files
     if ( year >= firstEpa88101Year ) {
       try({
-        monitorList[["epa_aqs_88101"]] <- epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "88101")
-      }, silent = TRUE)
-    }
-    # EPA AQS 88502 files
-    if ( year >= firstEpa88502Year ) {
-      try({
-        monitorList[["epa_aqs_88502"]] <- epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "88502")
+        monitorList[["epa_aqs"]] <- epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "PM2.5")
       }, silent = TRUE)
     }
 
@@ -162,6 +154,10 @@ monitor_loadAnnual <- function(
       dplyr::pull(.data$deviceDeploymentID)
 
     monitor <- monitor_select(monitor_all, ids)
+
+  } else {
+
+    monitor <- monitor_all
 
   }
 

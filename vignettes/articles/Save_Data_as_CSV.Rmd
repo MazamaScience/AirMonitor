@@ -18,7 +18,7 @@ knitr::opts_chunk$set(fig.width = 7, fig.height = 5)
 If you have **AirMonitor** installed, you should be able to copy and paste this
 code into the RStudio console.
 
-The coding style uses the "pipe" operator, `%>%`, which uses the output of the 
+The coding style takes advantage of the "pipe" operator, `%>%`, which uses the output of the 
 preceding function as the first argument of the next function. Package functions 
 are specifically designed to work well in this manner, encouraging **_readable 
 and understandable code_**.
@@ -92,12 +92,12 @@ View(Mariposa$data)
 # Set the output directory
 outputDir <- tempdir()
 
-# Dump out airnow_ca meta to a CSV file
+# Dump out all of airnow_ca meta to a CSV file
 airnow_ca %>%
   monitor_toCSV(includeData = FALSE) %>%
   cat(file = file.path(outputDir, "airnow_CA_meta.csv"))
 
-# Dump out airnow_ca data to a CSV file
+# Dump out all of airnow_ca data to a CSV file
 airnow_ca %>%
   monitor_toCSV(includeMeta = FALSE) %>%
   cat(file = file.path(outputDir, "airnow_CA_data.csv"))

@@ -1,3 +1,11 @@
+# AirMonitor 0.3.8
+
+* Fixed a bug in `monitor_loadAnnual()` when loading years before the first year
+of AirNow data.
+* Updated `NW_Megafires` dataset to combine data from EPA AQS, AirNow and WRCC.
+* Various improvements to examples used in documentation
+* Edited the old "NowCast" article for inclusion.
+
 # AirMonitor 0.3.7
 
 * Added `epa_aqs_loadAnnual()`.

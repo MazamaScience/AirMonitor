@@ -33,8 +33,8 @@
 #' # Distance in meters
 #' distance[closestIndex]
 #'
-#' # Monitor metadata
-#' str(NW_Megafires$meta[closestIndex,])
+#' # Monitor core metadata
+#' str(NW_Megafires$meta[closestIndex, AirMonitor::coreMetadataNames])
 #'
 
 monitor_getDistance <- function(
