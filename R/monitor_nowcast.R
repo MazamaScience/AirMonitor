@@ -159,7 +159,7 @@ monitor_nowcast <- function(
       # If the current hour is missing, no valid Nowcast will be reported
 
       # NOTE:  This conflicts with the algorithm as described here:
-      # NOTE:    https://www3.epa.gov/airnow/ani/pm25_aqi_reporting_nowcast_overview.pdf
+      # NOTE:    https://forum.airnowtech.org/t/daily-and-hourly-aqi-pm2-5/171
       # NOTE:
       # NOTE:  But experience shows that NowCast replacements for missing
       # NOTE:  PM2.5 values are very problematic.
