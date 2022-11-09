@@ -1,3 +1,7 @@
+# AirMonitor 0.3.9
+
+* Tweaks to pass CRAN checks.
+
 # AirMonitor 0.3.8
 
 * Fixed a bug in `monitor_loadAnnual()` when loading years before the first year

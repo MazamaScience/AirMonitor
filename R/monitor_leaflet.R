@@ -159,7 +159,7 @@ monitor_leaflet <- function(
 
     # * slice = character -----
 
-    if ( exists(slice) && (class(get(slice)) == "function") ) {
+    if ( exists(slice) && is.function(get(slice)) ) {
 
       # ** slice = function -----
 
