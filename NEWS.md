@@ -1,3 +1,7 @@
+# AirMonitor 0.3.10
+
+* Guarantee the existence of a `fullAQSID` field in all loaded data.
+
 # AirMonitor 0.3.9
 
 * Tweaks to pass CRAN checks.

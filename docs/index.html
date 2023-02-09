@@ -27,6 +27,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -39,18 +41,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.10</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="articles/AirMonitor.html">Get started</a>
 </li>
@@ -71,13 +67,13 @@
       <a href="articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
-      <a href="articles/articles/Citations.html">Citations</a>
+      <a href="articles/Citations.html">Citations</a>
     </li>
     <li>
-      <a href="articles/articles/NowCast.html">NowCast</a>
+      <a href="articles/NowCast.html">NowCast</a>
     </li>
     <li>
-      <a href="articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
+      <a href="articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
     </li>
   </ul>
 </li>
@@ -87,7 +83,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/MazamaScience/AirMonitor/">
+  <a href="https://github.com/MazamaScience/AirMonitor/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -106,80 +102,48 @@
   <div class="contents col-md-9">
 
 
-<div id="airmonitor" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#airmonitor" class="anchor"></a>AirMonitor</h1></div>
+<div class="section level1">
+<div class="page-header"><h1 id="airmonitor">AirMonitor<a class="anchor" aria-label="anchor" href="#airmonitor"></a>
+</h1></div>
 <pre><code>Utilities for working with hourly air quality monitoring data
 with a focus on small particulates (PM2.5). A compact data model is 
 structured as a list with two dataframes. A 'meta' dataframe contains 
 spatial and measuring device metadata associated with deployments at known 
 locations. A 'data' dataframe contains a 'datetime' column followed by 
 columns of measurements associated with each "device-deployment".</code></pre>
-<div id="background" class="section level2">
-<h2 class="hasAnchor">
-<a href="#background" class="anchor"></a>Background</h2>
-<p>The USFS AirFire group is focused on air quality measurements
-associated with wildfire smoke and maintains both historical and
-real-time databases of PM2.5 monitoring data obtained from stationary
-monitors. This data is used in operational displays and for
-retrospective analysis. Data ingest and management of air quality
-“stationary time series” are both important ongoing activities.</p>
+<div class="section level2">
+<h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
+</h2>
+<p>The USFS AirFire group is focused on air quality measurements associated with wildfire smoke and maintains both historical and real-time databases of PM2.5 monitoring data obtained from stationary monitors. This data is used in operational displays and for retrospective analysis. Data ingest and management of air quality “stationary time series” are both important ongoing activities.</p>
 </div>
-<div id="related-packages" class="section level2">
-<h2 class="hasAnchor">
-<a href="#related-packages" class="anchor"></a>Related Packages</h2>
-<p>The <strong><a href="https://github.com/pnwairfire/AirMonitorIngest/">AirMonitorIngest</a></strong>
-package is used to create data archives for the
-<strong>AirMonitor</strong> package and isolates the work of
-meticulously cleaning, validating and harmonizing data from various
-sources.</p>
-<p>The <strong>AirMonitor</strong> package contains data access
-functions to easily download harmonized data files as well as data
-manipulation functions that make it easy to create “recipe style”
-analysis pipelines. The combination allows analysts to work efficiently
-with short, readable R scripts. Interactive and base R plotting
-functions allow for visual review of the data.</p>
-<p>The <strong><a href="https://github.com/mazamascience/AirMonitorPlots">AirMonitorPlots</a></strong>
-package contains <strong>ggplot2</strong> based plotting functions for
-advanced plots.</p>
+<div class="section level2">
+<h2 id="related-packages">Related Packages<a class="anchor" aria-label="anchor" href="#related-packages"></a>
+</h2>
+<p>The <strong><a href="https://github.com/pnwairfire/AirMonitorIngest/" class="external-link">AirMonitorIngest</a></strong> package is used to create data archives for the <strong>AirMonitor</strong> package and isolates the work of meticulously cleaning, validating and harmonizing data from various sources.</p>
+<p>The <strong>AirMonitor</strong> package contains data access functions to easily download harmonized data files as well as data manipulation functions that make it easy to create “recipe style” analysis pipelines. The combination allows analysts to work efficiently with short, readable R scripts. Interactive and base R plotting functions allow for visual review of the data.</p>
+<p>The <strong><a href="https://github.com/mazamascience/AirMonitorPlots" class="external-link">AirMonitorPlots</a></strong> package contains <strong>ggplot2</strong> based plotting functions for advanced plots.</p>
 </div>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
 <p><em>NOTE: This package has not yet been uploaded to CRAN</em></p>
 <p>Install the latest version from GitHub with:</p>
-<p><code><a href="https://devtools.r-lib.org/reference/remote-reexports.html">devtools::install_github('mazamascience/AirMonitor')</a></code></p>
+<p><code>devtools::install_github('mazamascience/AirMonitor')</code></p>
 </div>
-<div id="data-model" class="section level2">
-<h2 class="hasAnchor">
-<a href="#data-model" class="anchor"></a>Data Model</h2>
-<p>The <strong>AirMonitor</strong> package uses the <em>mts</em> data
-model defined in <strong><a href="https://mazamascience.github.io/MazamaTimeSeries/">MazamaTimeSeries</a></strong>.</p>
-<p>In this data model, each unique time series is referred to as a
-<em>“device-deployment”</em> – a timeseries collected by a particular
-device at a specific location. Multiple device-deployments are stored in
-memory as a <em>monitor</em> object – an R list with two dataframes:</p>
-<p><code>monitor$meta</code> – rows = unique device-deployments; cols =
-device/location metadata</p>
-<p><code>monitor$data</code> – rows = UTC times; cols =
-device-deployments (plus an additional <code>datetime</code> column)</p>
-<p>A key feature of this data model is the use of the
-<code>deviceDeploymentID</code> as a “foreign key” that allows
-<code>data</code> columns to be mapped onto the associated spatial and
-device metadata in a <code>meta</code> row. The following will always be
-true:</p>
-<pre><code><a href="https://rdrr.io/r/base/identical.html">identical(names(monitor$data), c('datetime', monitor$meta$deviceDeploymentID))</a></code></pre>
-<p>Each column of <code>monitor$data</code> represents a timeseries
-associated with a particular device-deployment while each row represents
-a <em>synoptic</em> snapshot of all measurements made at a particular
-time.</p>
-<p>In this manner, software can create both timeseries plots and maps
-from a single <code>monitor</code> object in memory.</p>
-<p><em><strong>Note:</strong></em> The <code>monitor</code> object time
-axis specified in <code>data$datetime</code> is guaranteed to be a
-regular hourly axis with no gaps.</p>
+<div class="section level2">
+<h2 id="data-model">Data Model<a class="anchor" aria-label="anchor" href="#data-model"></a>
+</h2>
+<p>The <strong>AirMonitor</strong> package uses the <em>mts</em> data model defined in <strong><a href="https://mazamascience.github.io/MazamaTimeSeries/" class="external-link">MazamaTimeSeries</a></strong>.</p>
+<p>In this data model, each unique time series is referred to as a <em>“device-deployment”</em> – a timeseries collected by a particular device at a specific location. Multiple device-deployments are stored in memory as a <em>monitor</em> object – an R list with two dataframes:</p>
+<p><code>monitor$meta</code> – rows = unique device-deployments; cols = device/location metadata</p>
+<p><code>monitor$data</code> – rows = UTC times; cols = device-deployments (plus an additional <code>datetime</code> column)</p>
+<p>A key feature of this data model is the use of the <code>deviceDeploymentID</code> as a “foreign key” that allows <code>data</code> columns to be mapped onto the associated spatial and device metadata in a <code>meta</code> row. The following will always be true:</p>
+<pre><code><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'datetime'</span>, <span class="va">monitor</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+<p>Each column of <code>monitor$data</code> represents a timeseries associated with a particular device-deployment while each row represents a <em>synoptic</em> snapshot of all measurements made at a particular time.</p>
+<p>In this manner, software can create both timeseries plots and maps from a single <code>monitor</code> object in memory.</p>
+<p><em><strong>Note:</strong></em> The <code>monitor</code> object time axis specified in <code>data$datetime</code> is guaranteed to be a regular hourly axis with no gaps.</p>
 <hr>
-<p>This project is supported by the <a href="https://www.airfire.org">USFS AirFire</a> group.</p>
+<p>This project is supported by the <a href="https://www.airfire.org" class="external-link">USFS AirFire</a> group.</p>
 </div>
 </div>
 
@@ -187,49 +151,59 @@ regular hourly axis with no gaps.</p>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=AirMonitor">https://​cloud.r-project.org/​package=AirMonitor</a>
-</li>
-<li>Browse source code at <br><a href="https://github.com/MazamaScience/AirMonitor/">https://​github.com/​MazamaScience/​AirMonitor/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/MazamaScience/AirMonitor/issues">https://​github.com/​MazamaScience/​AirMonitor/​issues</a>
-</li>
-</ul>
-</div>
-<div class="license">
-<h2>License</h2>
-<ul class="list-unstyled">
-<li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
-</ul>
-</div>
-<div class="developers">
-<h2>Developers</h2>
-<ul class="list-unstyled">
-<li>Jonathan Callahan <br><small class="roles"> Author, maintainer </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="https://cloud.r-project.org/package=AirMonitor" class="external-link">View on CRAN</a></li>
+<li><a href="https://github.com/MazamaScience/AirMonitor/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/MazamaScience/AirMonitor/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="license">
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
-<li><a href="https://cran.r-project.org/package=AirMonitor"><img src="http://www.r-pkg.org/badges/version/AirMonitor" alt="CRAN_Status_Badge"></a></li>
-<li><a href="https://cran.r-project.org/package=AirMonitor"><img src="http://cranlogs.r-pkg.org/badges/AirMonitor" alt="Downloads"></a></li>
-<li><a href="https://travis-ci.org/MazamaScience/AirMonitor"><img src="https://travis-ci.org/MazamaScience/AirMonitor.svg?branch=master" alt="Build Status"></a></li>
-<li><a href="https://zenodo.org/badge/latestdoi/414793919"><img src="https://zenodo.org/badge/414793919.svg" alt="DOI"></a></li>
+<li><a href="https://www.r-project.org/Licenses/GPL-3" class="external-link">GPL-3</a></li>
 </ul>
 </div>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
+<ul class="list-unstyled">
+<li><a href="authors.html#citation">Citing AirMonitor</a></li>
+</ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Jonathan Callahan <br><small class="roles"> Author, maintainer </small>  </li>
+<li><a href="authors.html">More about authors...</a></li>
+</ul>
+</div>
+
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
+<ul class="list-unstyled">
+<li><a href="https://cran.r-project.org/package=AirMonitor" class="external-link"><img src="http://www.r-pkg.org/badges/version/AirMonitor" alt="CRAN_Status_Badge"></a></li>
+<li><a href="https://cran.r-project.org/package=AirMonitor" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/AirMonitor" alt="Downloads"></a></li>
+<li><a href="https://travis-ci.org/MazamaScience/AirMonitor" class="external-link"><img src="https://travis-ci.org/MazamaScience/AirMonitor.svg?branch=master" alt="Build Status"></a></li>
+<li><a href="https://zenodo.org/badge/latestdoi/414793919" class="external-link"><img src="https://zenodo.org/badge/414793919.svg" alt="DOI"></a></li>
+</ul>
+</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Jonathan Callahan.</p>
+  <p></p>
+<p>Developed by Jonathan Callahan.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -237,6 +211,8 @@ regular hourly axis with no gaps.</p>
 
   
 
+
+  
 
   </body>
 </html>

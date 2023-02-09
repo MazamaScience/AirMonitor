@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.8</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.10</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/AirMonitor.html">Get started</a>
 </li>
@@ -63,13 +59,13 @@
       <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
     </li>
     <li>
-      <a href="../articles/articles/Citations.html">Citations</a>
+      <a href="../articles/Citations.html">Citations</a>
     </li>
     <li>
-      <a href="../articles/articles/NowCast.html">NowCast</a>
+      <a href="../articles/NowCast.html">NowCast</a>
     </li>
     <li>
-      <a href="../articles/articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
+      <a href="../articles/Save_Data_as_CSV.html">Example: Save Data as CSV</a>
     </li>
   </ul>
 </li>
@@ -79,7 +75,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/MazamaScience/AirMonitor/">
+  <a href="https://github.com/MazamaScience/AirMonitor/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -94,31 +90,32 @@
 
       
 
-      </header><script src="Developer_Style_Guide_files/header-attrs-2.14/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Developer Style Guide</h1>
-                        <h4 class="author">Jonathan Callahan</h4>
+                        <h4 data-toc-skip class="author">Jonathan
+Callahan</h4>
             
-            <h4 class="date">2022-02-15</h4>
+            <h4 data-toc-skip class="date">2022-02-15</h4>
       
-      <small class="dont-index">Source: <a href="https://github.com/MazamaScience/AirMonitor/blob/master/vignettes/Developer_Style_Guide.Rmd"><code>vignettes/Developer_Style_Guide.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/MazamaScience/AirMonitor/blob/HEAD/vignettes/Developer_Style_Guide.Rmd" class="external-link"><code>vignettes/Developer_Style_Guide.Rmd</code></a></small>
       <div class="hidden name"><code>Developer_Style_Guide.Rmd</code></div>
 
     </div>
 
     
     
-<div id="r-style-guide" class="section level1">
-<h1 class="hasAnchor">
-<a href="#r-style-guide" class="anchor"></a>R Style Guide</h1>
+<div class="section level2">
+<h2 id="r-style-guide">R Style Guide<a class="anchor" aria-label="anchor" href="#r-style-guide"></a>
+</h2>
 <p>This document describes the coding style used within the package.
 Having a consistent style enhances the readability and
 “understandability” of the code and makes it easier for users and
-developers to work with this package and with other, related <a href="https://github.com/MazamaScience">Mazama Science packages</a>.</p>
-<div id="naming-objects" class="section level2">
-<h2 class="hasAnchor">
-<a href="#naming-objects" class="anchor"></a>Naming Objects</h2>
+developers to work with this package and with other, related <a href="https://github.com/MazamaScience" class="external-link">Mazama Science packages</a>.</p>
+<div class="section level3">
+<h3 id="naming-objects">Naming Objects<a class="anchor" aria-label="anchor" href="#naming-objects"></a>
+</h3>
 <p>Naming variables is one of the most important things to get right to
 make your code readable and understandable to future readers of the
 code. <em>(Perhaps even yourself!)</em>. Having a system for creating
@@ -156,78 +153,78 @@ it. We often use variable names like:</p>
 </ul>
 <p>We occasionally use ’_’ to create classes of similar variables that
 are otherwise hard to name, <em>e.g.</em>:</p>
-<pre><code>QC_negativeValues</code></pre>
+<pre><code><span><span class="va">QC_negativeValues</span></span></code></pre>
 </div>
-<div id="naming-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#naming-functions" class="anchor"></a>Naming Functions</h2>
+<div class="section level3">
+<h3 id="naming-functions">Naming Functions<a class="anchor" aria-label="anchor" href="#naming-functions"></a>
+</h3>
 <p>Most functions should strive to be atomic in nature and should do one
 thing really well. Think of them as functional <em>Lego</em> bricks that
 we click together to achieve more advanced functionality. Where objects
 are <em><strong>well described nouns</strong></em>, functions are
 <em><strong>well described verbs</strong></em> that describe what they
 do as in:</p>
-<pre><code><a href="../reference/monitor_collapse.html">monitor_collapse()
-monitor_combine()
-monitor_dropEmpty()
-monitor_filter()
-monitor_filterDate()
-monitor_select()
-...</a></code></pre>
+<pre><code><span><span class="fu"><a href="../reference/monitor_collapse.html">monitor_collapse</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/monitor_combine.html">monitor_combine</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/monitor_dropEmpty.html">monitor_dropEmpty</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/monitor_filterMeta.html">monitor_filter</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/monitor_select.html">monitor_select</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">...</span></span></code></pre>
 <p>All of these functions begin with <code>monitor_</code> because they
 are for creating or working with <em>mts_monitor</em> objects. Many of
 these functions accept a <em>mts_monitor</em> object as their first
 argument and return a modified <em>mts_monitor</em>. This means that
-they can be used with the <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> “pipe” operator and
+they can be used with the <code>%&gt;%</code> “pipe” operator and
 chained together as in:</p>
-<pre><code># Create a daily average dataframe (aka tibble)
-Sacramento_area_daily_avg &lt;-
-
-  # get all data for 2018
-  monitor_loadAnnual(2018) %&gt;%
-  
-  # filter to a 2-week period
-  monitor_filterDate(
-    startdate = 20181108,
-    enddate = 20181123,
-    timezone = "America/Los_Angeles"
-  ) %&gt;%
-  
-  # filter to monitors near Sacramento
-  monitor_filterByDistance(
-    longitude = -121.4931,
-    latitude = 38.56844 ,
-    radius = 50000
-  )  %&gt;%
-  
-  # combine by averaging hourly values from different monitors
-  monitor_collapse() %&gt;%
-  
-  # calculate local time daily averages
-  monitor_dailyStatistic() %&gt;%
-  
-  # extract daily average values from 'monitor' object
-  monitor_getData()</code></pre>
+<pre><code><span><span class="co"># Create a daily average dataframe (aka tibble)</span></span>
+<span><span class="va">Sacramento_area_daily_avg</span> <span class="op">&lt;-</span></span>
+<span></span>
+<span>  <span class="co"># get all data for 2018</span></span>
+<span>  <span class="fu"><a href="../reference/monitor_loadAnnual.html">monitor_loadAnnual</a></span><span class="op">(</span><span class="fl">2018</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  </span>
+<span>  <span class="co"># filter to a 2-week period</span></span>
+<span>  <span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span></span>
+<span>    startdate <span class="op">=</span> <span class="fl">20181108</span>,</span>
+<span>    enddate <span class="op">=</span> <span class="fl">20181123</span>,</span>
+<span>    timezone <span class="op">=</span> <span class="st">"America/Los_Angeles"</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  </span>
+<span>  <span class="co"># filter to monitors near Sacramento</span></span>
+<span>  <span class="fu"><a href="../reference/monitor_filterByDistance.html">monitor_filterByDistance</a></span><span class="op">(</span></span>
+<span>    longitude <span class="op">=</span> <span class="op">-</span><span class="fl">121.4931</span>,</span>
+<span>    latitude <span class="op">=</span> <span class="fl">38.56844</span> ,</span>
+<span>    radius <span class="op">=</span> <span class="fl">50000</span></span>
+<span>  <span class="op">)</span>  <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  </span>
+<span>  <span class="co"># combine by averaging hourly values from different monitors</span></span>
+<span>  <span class="fu"><a href="../reference/monitor_collapse.html">monitor_collapse</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  </span>
+<span>  <span class="co"># calculate local time daily averages</span></span>
+<span>  <span class="fu"><a href="../reference/monitor_dailyStatistic.html">monitor_dailyStatistic</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
+<span>  </span>
+<span>  <span class="co"># extract daily average values from 'monitor' object</span></span>
+<span>  <span class="fu"><a href="../reference/monitor_getDataFrame.html">monitor_getData</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-<div id="naming-files" class="section level2">
-<h2 class="hasAnchor">
-<a href="#naming-files" class="anchor"></a>Naming Files</h2>
+<div class="section level3">
+<h3 id="naming-files">Naming Files<a class="anchor" aria-label="anchor" href="#naming-files"></a>
+</h3>
 <p>Each file should contain a single function of the same name. Thus,
 the function named <code><a href="../reference/monitor_filterDate.html">monitor_filterDate()</a></code> is defined in
 <code>monitor_filterDate.R</code>. An exception is made for small,
 mostly internal functions used in conjunction with a particular type of
 object or activity. These can be stored together in a file named
 <code>utils-~</code>:</p>
-<pre><code>utils-monitor.R</code></pre>
+<pre><code><span><span class="va">utils</span><span class="op">-</span><span class="va">monitor.R</span></span></code></pre>
 </div>
-<div id="syntax" class="section level2">
-<h2 class="hasAnchor">
-<a href="#syntax" class="anchor"></a>Syntax</h2>
-<p>We generally adhere to the <a href="http://adv-r.had.co.nz/Style.html">Wickham Style Guide</a> for
+<div class="section level3">
+<h3 id="syntax">Syntax<a class="anchor" aria-label="anchor" href="#syntax"></a>
+</h3>
+<p>We generally adhere to the <a href="http://adv-r.had.co.nz/Style.html" class="external-link">Wickham Style Guide</a> for
 syntax with a few exceptions:</p>
-<div id="spacing" class="section level3">
-<h3 class="hasAnchor">
-<a href="#spacing" class="anchor"></a>Spacing</h3>
+<div class="section level4">
+<h4 id="spacing">Spacing<a class="anchor" aria-label="anchor" href="#spacing"></a>
+</h4>
 <p><strong>Do</strong> place spaces around code in parentheses if it is
 an <code>if</code> test:</p>
 <pre><code>if ( &lt;logical expression part1&gt; &amp;&amp; &lt;logical expression part2&gt; ) {
@@ -236,9 +233,9 @@ an <code>if</code> test:</p>
 <p>When debugging, this makes it much easier to select the logical test
 with a cursor and paste it into the RStudio console.</p>
 </div>
-<div id="lists" class="section level3">
-<h3 class="hasAnchor">
-<a href="#lists" class="anchor"></a>Lists</h3>
+<div class="section level4">
+<h4 id="lists">Lists<a class="anchor" aria-label="anchor" href="#lists"></a>
+</h4>
 <p>We generally like to specify R lists with each
 <code>parameter = value</code> pair on a separate line. This goes for
 regular lists and for named argument lists passed to a function:</p>
@@ -272,11 +269,13 @@ own.</p>
 
 
       <footer><div class="copyright">
-  <p>Developed by Jonathan Callahan.</p>
+  <p></p>
+<p>Developed by Jonathan Callahan.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
@@ -284,6 +283,8 @@ own.</p>
 
   
 
+
+  
 
   </body>
 </html>

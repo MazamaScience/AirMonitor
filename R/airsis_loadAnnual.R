@@ -146,6 +146,9 @@ airsis_loadAnnual <- function(
     meta %>%
     dplyr::filter(.data$deviceDeploymentID %in% ids)
 
+  # Guarantee presence of fullAQSID
+  if ( !"fullAQSID" %in% names(meta) ) meta$fullAQSID <- NA_character_
+
   data <-
     data %>%
     dplyr::select(dplyr::all_of(c("datetime", meta$deviceDeploymentID))) %>%
