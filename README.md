@@ -1,6 +1,7 @@
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/AirMonitor)](https://cran.r-project.org/package=AirMonitor) [![Downloads](http://cranlogs.r-pkg.org/badges/AirMonitor)](https://cran.r-project.org/package=AirMonitor)
-[![Build Status](https://travis-ci.org/MazamaScience/AirMonitor.svg?branch=master)](https://travis-ci.org/MazamaScience/AirMonitor)
 [![DOI](https://zenodo.org/badge/414793919.svg)](https://zenodo.org/badge/latestdoi/414793919)
+
+A dedicated Slack channel has been created for announcements, support and to help build a community of practice around this open source package. You may request an invitation to join from jonathan.callahan@dri.com.
 
 # AirMonitor
 
