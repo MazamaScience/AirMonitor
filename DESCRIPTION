@@ -1,6 +1,6 @@
 Type: Package
 Package: AirMonitor
-Version: 0.3.10
+Version: 0.3.11
 Title: Air Quality Data Analysis
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")),
@@ -31,7 +31,7 @@ Imports:
     magrittr,
     MazamaCoreUtils (>= 0.4.13),
     MazamaRollUtils (>= 0.1.3),
-    MazamaTimeSeries (>= 0.2.10),
+    MazamaTimeSeries (>= 0.2.12),
     readr,
     rlang (>= 1.0.0),
     stringr,
@@ -46,4 +46,4 @@ Suggests:
 Encoding: UTF-8
 LazyData: true
 VignetteBuilder: knitr
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3

@@ -1,3 +1,8 @@
+# AirMonitor 0.3.11
+
+* Added `monitor_arrange()` to reorder time series in a _mts_monitor_ object 
+based on a variable in `mts_monitor$meta`.
+
 # AirMonitor 0.3.10
 
 * Guarantee the existence of a `fullAQSID` field in all loaded data.
