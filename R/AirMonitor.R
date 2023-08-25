@@ -1,6 +1,7 @@
 #'
 #' @docType package
 #' @name AirMonitor
+#' @aliases AirMonitor-package
 #' @title Air Quality Data Analysis
 #' @description
 #' \code{

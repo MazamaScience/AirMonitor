@@ -24,7 +24,7 @@ For data extended more than 45 days into the past, use monitor_load()."><!-- mat
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.12</span>
       </span>
     </div>
 
@@ -134,11 +134,15 @@ files are available from both `epa_aqs` and `airnow`.</p></dd>
     </div>
     <div id="note">
     <h2>Note</h2>
-    <p>The AirNow data stream contains data that may also be available from AIRSIS
-and WRCC. This can be detected by looking at the `locationID` associated with
-each time series. When <code>epaPreference = "airnow"</code>, time series from
-AIRSIS or WRCC that share a `locationID` found in the AirNow data are removed
-so that each location is represented by a single time series coming from AirNow.</p>
+    <p>This function guarantees that only a single time series will be
+associated with each <code>locationID</code> using the following logic:</p><ol><li><p>AirNow data takes precedence over data from AIRSIS or WRCC</p></li>
+<li><p>more recent data takes precedence over older data</p></li>
+</ol><p>This relevant mostly for "temporary" monitors which may be replaced after they
+are initially deployed. If you want access to all device deployments associated
+with a specific <code>locationID</code>, you can use the provider specific functions:
+<code><a href="airnow_loadAnnual.html">airnow_loadAnnual</a></code>,
+<code><a href="airsis_loadAnnual.html">airsis_loadAnnual</a></code> and
+<code><a href="wrcc_loadAnnual.html">wrcc_loadAnnual</a></code></p>
     </div>
     <div id="see-also">
     <h2>See also</h2>

@@ -3,6 +3,7 @@
 \docType{package}
 \name{AirMonitor}
 \alias{AirMonitor}
+\alias{AirMonitor-package}
 \title{Air Quality Data Analysis}
 \description{
 \code{

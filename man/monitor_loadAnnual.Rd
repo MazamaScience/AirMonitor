@@ -45,11 +45,18 @@ For daily updates covering the most recent 45 days, use \code{monitor_loadDaily(
 For data extended more than 45 days into the past, use \code{monitor_load()}.
 }
 \note{
-The AirNow data stream contains data that may also be available from AIRSIS
-and WRCC. This can be detected by looking at the `locationID` associated with
-each time series. When \code{epaPreference = "airnow"}, time series from
-AIRSIS or WRCC that share a `locationID` found in the AirNow data are removed
-so that each location is represented by a single time series coming from AirNow.
+This function guarantees that only a single time series will be
+associated with each \code{locationID} using the following logic:
+\enumerate{
+\item{AirNow data takes precedence over data from AIRSIS or WRCC}
+\item{more recent data takes precedence over older data}
+}
+This relevant mostly for "temporary" monitors which may be replaced after they
+are initially deployed. If you want access to all device deployments associated
+with a specific \code{locationID}, you can use the provider specific functions:
+\code{\link{airnow_loadAnnual}},
+\code{\link{airsis_loadAnnual}} and
+\code{\link{wrcc_loadAnnual}}
 }
 \examples{
 \dontrun{

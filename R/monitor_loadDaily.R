@@ -31,9 +31,9 @@
 #' This relevant mostly for "temporary" monitors which may be replaced after they
 #' are initially deployed. If you want access to all device deployments associated
 #' with a specific \code{locationID}, you can use the provider specific functions:
-#' \code{\link{airnow_loadLatest}},
-#' \code{\link{airsis_loadLatest}} and
-#' \code{\link{wrcc_loadLatest}}
+#' \code{\link{airnow_loadDaily}},
+#' \code{\link{airsis_loadDaily}} and
+#' \code{\link{wrcc_loadDaily}}
 #'
 # #' @seealso \code{\link{monitor_load}}
 #' @seealso \code{\link{monitor_loadAnnual}}

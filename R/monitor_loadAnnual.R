@@ -26,11 +26,18 @@
 #'
 #' For data extended more than 45 days into the past, use \code{monitor_load()}.
 #'
-#' @note The AirNow data stream contains data that may also be available from AIRSIS
-#' and WRCC. This can be detected by looking at the `locationID` associated with
-#' each time series. When \code{epaPreference = "airnow"}, time series from
-#' AIRSIS or WRCC that share a `locationID` found in the AirNow data are removed
-#' so that each location is represented by a single time series coming from AirNow.
+#' @note This function guarantees that only a single time series will be
+#' associated with each \code{locationID} using the following logic:
+#' \enumerate{
+#' \item{AirNow data takes precedence over data from AIRSIS or WRCC}
+#' \item{more recent data takes precedence over older data}
+#' }
+#' This relevant mostly for "temporary" monitors which may be replaced after they
+#' are initially deployed. If you want access to all device deployments associated
+#' with a specific \code{locationID}, you can use the provider specific functions:
+#' \code{\link{airnow_loadAnnual}},
+#' \code{\link{airsis_loadAnnual}} and
+#' \code{\link{wrcc_loadAnnual}}
 #'
 # #' @seealso \code{\link{monitor_load}}
 #' @seealso \code{\link{monitor_loadDaily}}
@@ -96,14 +103,18 @@ monitor_loadAnnual <- function(
 
       # AirNow annual files
       try({
-        monitorList[["airnow"]] <- airnow_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterName)
+        monitorList[["airnow"]] <-
+          airnow_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterName) %>%
+          monitor_dropEmpty()
       }, silent = TRUE)
 
     } else {
 
       # EPA AQS 88101 + 88502 files
       try({
-        monitorList[["epa_aqs"]] <- epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "PM2.5")
+        monitorList[["epa_aqs"]] <-
+          epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "PM2.5") %>%
+          monitor_dropEmpty()
       }, silent = TRUE)
 
     }
@@ -113,7 +124,9 @@ monitor_loadAnnual <- function(
     # EPA AQS 88101 + 88502 files
     if ( year >= firstEpa88101Year ) {
       try({
-        monitorList[["epa_aqs"]] <- epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "PM2.5")
+        monitorList[["epa_aqs"]] <-
+          epa_aqs_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterCode = "PM2.5") %>%
+          monitor_dropEmpty()
       }, silent = TRUE)
     }
 
@@ -122,20 +135,79 @@ monitor_loadAnnual <- function(
   # AIRSIS annual files
   if ( year >= firstAirsisYear ) {
     try({
-      monitorList[["airsis"]] <- airsis_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues)
+      monitorList[["airsis"]] <-
+        airsis_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues) %>%
+        monitor_dropEmpty()
     }, silent = TRUE)
   }
 
   # WRCC annual files
   if ( year >= firstWrccYear ) {
     try({
-      monitorList[["wrcc"]] <- wrcc_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues)
+      monitorList[["wrcc"]] <-
+        wrcc_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues) %>%
+        monitor_dropEmpty()
     }, silent = TRUE)
   }
 
-  monitor_all <-
-    monitor_combine(monitorList) %>%
-    monitor_dropEmpty()
+  # ----- Remove older deployments ---------------------------------------------
+
+  for ( name in names(monitorList) ) {
+
+    monitor <- monitorList[[name]]
+
+    # Find locations with multiple deployments
+    duplicateLocationIDs <-
+      monitor$meta$locationID[duplicated(monitor$meta$locationID)] %>%
+      unique()
+
+    # Filter to include only locations with multiple deployments
+    monitor <-
+      monitor %>%
+      monitor_filter(.data$locationID %in% duplicateLocationIDs)
+
+    # Find last valid datum for each deployment (see monitor_getCurrentStatus.R)
+    monitor$meta$lastValidIndex <-
+      # Start with data
+      monitor$data %>%
+      # Ensure rows are arranged by datetime and then remove 'datetime'
+      dplyr::arrange(.data$datetime) %>%
+      dplyr::select(-.data$datetime) %>%
+      # Find last non-NA index
+      apply(2, function(x) { rev(which(!is.na(x)))[1] })
+
+    # Find deployments to be removed
+    deploymentList <- list()
+
+    for (locationID in duplicateLocationIDs) {
+      latestValid <-
+        monitor$meta %>%
+        dplyr::filter(.data$locationID == !!locationID) %>%
+        dplyr::pull(.data$lastValidIndex) %>%
+        max()
+
+      deploymentList[[locationID]] <-
+        monitor$meta %>%
+        dplyr::filter(.data$locationID == !!locationID) %>%
+        dplyr::filter(.data$lastValidIndex != !!latestValid) %>%
+        dplyr::pull(.data$deviceDeploymentID)
+    }
+
+    deploymentsToRemove <- unlist(deploymentList)
+
+    # Replace monitor object with only the most recent deployments
+    deploymentsToRetain <-
+      setdiff(monitorList[[name]]$meta$deviceDeploymentID, deploymentsToRemove)
+
+    monitorList[[name]] <-
+      monitorList[[name]] %>%
+      monitor_select(deploymentsToRetain)
+
+    # NOTE:  Some locations like the Rocky Mtn Fire Cache will have multiple
+    # NOTE:  monitors all producing data at the same time. in this case, we
+    # NOTE:  rely on dplyr::distinct() below to simply pick the first one.
+
+  }
 
   # ----- Remove duplicate locations -------------------------------------------
 
@@ -146,20 +218,15 @@ monitor_loadAnnual <- function(
   # NOTE:  Because airnow comes first in monitor_combine() above, AirNow data
   # NOTE:  will be preferentially retained.
 
-  if ( year >= firstAirnowYear && epaPreference == "airnow" ) {
+  monitor_all <-
+    monitor_combine(monitorList)
 
-    ids <-
-      monitor_all$meta %>%
-      dplyr::distinct(.data$locationID, .keep_all = TRUE) %>%
-      dplyr::pull(.data$deviceDeploymentID)
+  ids <-
+    monitor_all$meta %>%
+    dplyr::distinct(.data$locationID, .keep_all = TRUE) %>%
+    dplyr::pull(.data$deviceDeploymentID)
 
-    monitor <- monitor_select(monitor_all, ids)
-
-  } else {
-
-    monitor <- monitor_all
-
-  }
+  monitor <- monitor_select(monitor_all, ids)
 
   # ----- Return ---------------------------------------------------------------
 
