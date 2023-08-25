@@ -1,3 +1,12 @@
+# AirMonitor 0.3.12
+
+* Updated `monitor_loadLatest()` and `monitor_loadDaily()` with improved logic to handle multiple
+deployments at a single location. These functions intentionally only return a 
+single `deviceDeploymentID` per `locationID` and preferentially retain AirNow
+data over data from AIRSIS or WRCC. The new logic applies to cases where multiple
+deployments exist within AirNow (or AIRSIS or WRCC) and retains the 
+deployment that has the most recent data.
+
 # AirMonitor 0.3.11
 
 * Added `monitor_arrange()` to reorder time series in a _mts_monitor_ object 

@@ -22,11 +22,18 @@
 #'
 #' For data extended more than 45 days into the past, use \code{monitor_load()}.
 #'
-#' @note The AirNow data stream contains data may also be available from AIRSIS
-#' and WRCC. This can be detected by looking at the `locationID` associated with
-#' each time series. Wherever multiple time series share a `locationID`, the
-#' time series from AirNow or WRCC are removed so that each location is represented
-#' by a single time series coming from AirNow.
+#' @note This function guarantees that only a single time series will be
+#' associated with each \code{locationID} using the following logic:
+#' \enumerate{
+#' \item{AirNow data takes precedence over data from AIRSIS or WRCC}
+#' \item{more recent data takes precedence over older data}
+#' }
+#' This relevant mostly for "temporary" monitors which may be replaced after they
+#' are initially deployed. If you want access to all device deployments associated
+#' with a specific \code{locationID}, you can use the provider specific functions:
+#' \code{\link{airnow_loadLatest}},
+#' \code{\link{airsis_loadLatest}} and
+#' \code{\link{wrcc_loadLatest}}
 #'
 # #' @seealso \code{\link{monitor_load}}
 #' @seealso \code{\link{monitor_loadAnnual}}
@@ -67,34 +74,100 @@ monitor_loadLatest <- function(
   monitorList <- list()
 
   try({
-    monitorList[["airnow"]] <- airnow_loadLatest(archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterName)
+    monitorList[["airnow"]] <-
+      airnow_loadLatest(archiveBaseUrl, archiveBaseDir, QC_negativeValues, parameterName) %>%
+      monitor_dropEmpty()
   }, silent = TRUE)
 
   try({
-    monitorList[["airsis"]] <- airsis_loadLatest(archiveBaseUrl, archiveBaseDir, QC_negativeValues)
+    monitorList[["airsis"]] <-
+      airsis_loadLatest(archiveBaseUrl, archiveBaseDir, QC_negativeValues) %>%
+      monitor_dropEmpty()
   }, silent = TRUE)
 
   try({
-    monitorList[["wrcc"]] <- wrcc_loadLatest(archiveBaseUrl, archiveBaseDir, QC_negativeValues)
+    monitorList[["wrcc"]] <-
+      wrcc_loadLatest(archiveBaseUrl, archiveBaseDir, QC_negativeValues) %>%
+      monitor_dropEmpty()
   }, silent = TRUE)
 
-  monitor_all <-
-    monitor_combine(monitorList) %>%
-    monitor_dropEmpty()
+  # ----- Remove older deployments ---------------------------------------------
+
+  for ( name in names(monitorList) ) {
+
+    monitor <- monitorList[[name]]
+
+    # Find locations with multiple deployments
+    duplicateLocationIDs <-
+      monitor$meta$locationID[duplicated(monitor$meta$locationID)] %>%
+      unique()
+
+    # Filter to include only locations with multiple deployments
+    monitor <-
+      monitor %>%
+      monitor_filter(.data$locationID %in% duplicateLocationIDs)
+
+    # Find last valid datum for each deployment (see monitor_getCurrentStatus.R)
+    monitor$meta$lastValidIndex <-
+      # Start with data
+      monitor$data %>%
+      # Ensure rows are arranged by datetime and then remove 'datetime'
+      dplyr::arrange(.data$datetime) %>%
+      dplyr::select(-.data$datetime) %>%
+      # Find last non-NA index
+      apply(2, function(x) { rev(which(!is.na(x)))[1] })
+
+    # Find deployments to be removed
+    deploymentList <- list()
+
+    for (locationID in duplicateLocationIDs) {
+
+      latestValid <-
+        monitor$meta %>%
+        dplyr::filter(.data$locationID == !!locationID) %>%
+        dplyr::pull(.data$lastValidIndex) %>%
+        max()
+
+      deploymentList[[locationID]] <-
+        monitor$meta %>%
+        dplyr::filter(.data$locationID == !!locationID) %>%
+        dplyr::filter(.data$lastValidIndex != !!latestValid) %>%
+        dplyr::pull(.data$deviceDeploymentID)
+
+    }
+
+    deploymentsToRemove <- unlist(deploymentList)
+
+    # Replace monitor object with only the most recent deployments
+    deploymentsToRetain <-
+      setdiff(monitorList[[name]]$meta$deviceDeploymentID, deploymentsToRemove)
+
+    monitorList[[name]] <-
+      monitorList[[name]] %>%
+      monitor_select(deploymentsToRetain)
+
+    # NOTE:  Some locations like the Rocky Mtn Fire Cache will have multiple
+    # NOTE:  monitors all producing data at the same time. in this case, we
+    # NOTE:  rely on dplyr::distinct() below to simply pick the first one.
+
+  }
 
   # ----- Remove duplicate locations -------------------------------------------
 
   # NOTE:  Whenever we have multiple monitors reporting from the same location,
   # NOTE:  we always favor the data fom AirNow over AIRSIS and WRCC.
-  # NOTE:  Because airnow comes first in monitor_combine() above, AirNow data
+  # NOTE:  Because airnow comes first in monitorList, AirNow data
   # NOTE:  will be preferentially retained.
+
+  monitor_all <-
+    monitor_combine(monitorList)
 
   ids <-
     monitor_all$meta %>%
     dplyr::distinct(.data$locationID, .keep_all = TRUE) %>%
     dplyr::pull(.data$deviceDeploymentID)
 
-  monitor <- monitor_select(monitor_all, ids)
+  monitor <- monitor_all %>% monitor_select(ids)
 
   # ----- Return ---------------------------------------------------------------
 
