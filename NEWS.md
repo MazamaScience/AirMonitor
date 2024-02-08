@@ -1,3 +1,14 @@
+# AirMonitor 0.3.13
+
+Updated package dependencies:
+```
+MazamaCoreUtils (>= 0.5.2),
+MazamaRollUtils (>= 0.1.3),
+MazamaTimeSeries (>= 0.2.16),
+```
+
+* asdf
+
 # AirMonitor 0.3.12
 
 * Updated `monitor_loadLatest()`, `monitor_loadDaily()` and `monitor_loadAnnual()`
