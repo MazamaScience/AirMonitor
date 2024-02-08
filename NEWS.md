@@ -7,7 +7,9 @@ MazamaRollUtils (>= 0.1.3),
 MazamaTimeSeries (>= 0.2.16),
 ```
 
-* asdf
+* Added `monitor_pull()` to retrieve a vector of values from either `meta` or `data`.
+* Added `monitor_slice_head()` and `monitor_slice_tail()` to subset a
+_mts_monitor_ object after it has been been ordered by `monitor_arrange()`.
 
 # AirMonitor 0.3.12
 

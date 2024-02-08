@@ -35,14 +35,12 @@
 #' # Filter combining two fields
 #' Camp_Fire %>%
 #'   monitor_filter(latitude > 39.5, longitude > -121.5) %>%
-#'   monitor_getMeta() %>%
-#'   dplyr::pull(locationName)
+#'   monitor_pull("locationName")
 #'
 #' # Filter using string matching
 #' Camp_Fire %>%
 #'   monitor_filter(stringr::str_detect(locationName, "^San")) %>%
-#'   monitor_getMeta() %>%
-#'   dplyr::pull(locationName)
+#'   monitor_pull("locationName")
 #'
 
 monitor_filterMeta <- function(
