@@ -6,6 +6,7 @@
 #' @param version Name of the type of nowcast algorithm to be used.
 #' @param includeShortTerm Logical specifying whether to alcluate preliminary
 #' NowCast values starting with the 2nd hour.
+#' @param NAAQS Version of NAAQS levels to use. See Note.
 #'
 #' @return A modified \code{mts_monitor} object containing AQI values. (A list
 #' with \code{meta} and \code{data} dataframes.)
@@ -14,6 +15,18 @@
 #' monitor object. A modified \code{mts_monitor} object is returned whre values
 #' have been replaced with their Air Quality Index equivalents. See \link{monitor_nowcast}.
 #'
+#' @note
+#' On February 7, 2024, EPA strengthened the National Ambient Air Quality
+#' Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+#' from harmful and costly health impacts, such as heart attacks and premature
+#' death. Particle or soot pollution is one of the most dangerous forms of air
+#' pollution, and an extensive body of science links it to a range of serious
+#' and sometimes deadly illnesses. EPA is setting the level of the primary
+#' (health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+#' provide increased public health protection, consistent with the available
+#' health science.
+#' See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
+#'
 #' @references \url{https://en.wikipedia.org/wiki/Nowcast_(Air_Quality_Index)}
 #' @references \url{https://www.airnow.gov/aqi/aqi-basics/}
 #'
@@ -21,7 +34,8 @@
 monitor_aqi <- function(
   monitor,
   version = c("pm", "pmAsian", "ozone"),
-  includeShortTerm = FALSE
+  includeShortTerm = FALSE,
+  NAAQS = c("PM2.5", "PM2.5_2024")
 ) {
 
   parameterName <- "PM2.5"
@@ -31,6 +45,7 @@ monitor_aqi <- function(
   MazamaCoreUtils::stopIfNull(monitor)
   version <- match.arg(version)
   includeShortTerm <- MazamaCoreUtils::setIfNull(includeShortTerm, FALSE)
+  NAAQS = match.arg(NAAQS)
 
   # A little involved to catch the case where the user forgets to pass in 'monitor'
 
@@ -52,7 +67,7 @@ monitor_aqi <- function(
   # ----- AQI algorithm --------------------------------------------------------
 
   # Assign breakpoints
-  breakpointsTable <- .assignBreakpointsTable(parameterName)
+  breakpointsTable <- .assignBreakpointsTable(parameterName, NAAQS)
 
   # Calculate NowCast
   monitor <-
@@ -113,18 +128,28 @@ monitor_aqi <- function(
 
 # ===== Internal Functions =====================================================
 
-.assignBreakpointsTable <- function(parameterName = "PM2.5") {
+.assignBreakpointsTable <- function(parameterName = "PM2.5", NAAQS = "PM2.5") {
 
   # TODO: Add other breakpoint table options
 
   if ( parameterName == "PM2.5") {
-    # From Appendix G, Table 2 at https://www.ecfr.gov/current/title-40/part-58
-    breakpointsTable <- data.frame(
-      rangeLow = c(0.0, 12.1, 35.5, 55.5, 150.5, 250.5, 350.5),
-      rangeHigh = c(12.0, 35.4, 55.4, 150.4, 250.4, 350.4, 500.4),
-      aqiLow = c(0, 51, 101, 151, 201, 301, 401),
-      aqiHigh = c(50, 100, 150, 200, 300, 400, 500)
-    )
+    # PM2.5 -- From Appendix G, Table 2 at https://www.ecfr.gov/current/title-40/part-58
+    # PM2.5_2024 -- https://www.epa.gov/system/files/documents/2024-02/pm-naaqs-air-quality-index-fact-sheet.pdf
+    if ( NAAQS == "PM2.5" ) {
+      breakpointsTable <- data.frame(
+        rangeLow = c(0.0, 12.001, 35.5, 55.5, 150.5, 250.5, 350.5),
+        rangeHigh = c(12.0, 35.4, 55.4, 150.4, 250.4, 350.4, 500.4),
+        aqiLow = c(0, 51, 101, 151, 201, 301, 401),
+        aqiHigh = c(50, 100, 150, 200, 300, 400, 500)
+      )
+    } else {
+      breakpointsTable <- data.frame(
+        rangeLow = c(0.0, 9.1, 35.5, 55.5, 125.5, 225.5),
+        rangeHigh = c(9.0, 35.4, 55.4, 125.4, 225.4, 500),
+        aqiLow = c(0, 51, 101, 151, 201, 301, 401),
+        aqiHigh = c(50, 100, 150, 200, 300, 400, 500)
+      )
+    }
   } else {
     stop("only PM2.5 currently supported")
   }

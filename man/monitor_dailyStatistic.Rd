@@ -8,9 +8,9 @@ monitor_dailyStatistic(
   monitor = NULL,
   FUN = mean,
   na.rm = TRUE,
-  ...,
   minHours = 18,
-  dayBoundary = c("clock", "LST")
+  dayBoundary = c("clock", "LST"),
+  ...
 )
 }
 \arguments{
@@ -21,14 +21,14 @@ monitor_dailyStatistic(
 \item{na.rm}{Value passed on to \code{FUN}. If \code{FUN} does not use
 \code{na.rm}, this should be set to \code{NULL}.}
 
-\item{...}{Additional arguments to be passed to \code{FUN}.}
-
 \item{minHours}{Minimum number of valid hourly records per day required to
 calculate statistics. Days with fewer valid records will be assigned \code{NA}.}
 
 \item{dayBoundary}{Treatment of daylight savings time:  "clock" uses daylight
 savings time as defined in the local timezone, "LST" uses "local standard time"
 all year round.}
+
+\item{...}{Additional arguments to be passed to \code{FUN}.}
 }
 \value{
 A \emph{mts_monitor} object containing daily statistical summaries. (A list with

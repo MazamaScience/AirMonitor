@@ -8,7 +8,8 @@ aqiColors(
   x,
   pollutant = c("PM2.5", "AQI", "CO", "NO", "OZONE", "PM10", "SO2"),
   palette = c("EPA", "subdued", "deuteranopia"),
-  na.color = NA
+  na.color = NA,
+  NAAQS = c("PM2.5", "PM2.5_2024")
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ aqiColors(
 \item{palette}{Named color palette to use for AQI categories.}
 
 \item{na.color}{Color assigned to missing values.}
+
+\item{NAAQS}{Version of NAAQS levels to use. See Note.}
 }
 \value{
 A vector or matrix of AQI colors to be used in maps and plots.
@@ -26,6 +29,18 @@ A vector or matrix of AQI colors to be used in maps and plots.
 \description{
 This function uses the \code{leaflet::colorBin()} function to return a
 vector or matrix of colors derived from data values.
+}
+\note{
+On February 7, 2024, EPA strengthened the National Ambient Air Quality
+Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+from harmful and costly health impacts, such as heart attacks and premature
+death. Particle or soot pollution is one of the most dangerous forms of air
+pollution, and an extensive body of science links it to a range of serious
+and sometimes deadly illnesses. EPA is setting the level of the primary
+(health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+provide increased public health protection, consistent with the available
+health science.
+See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
 }
 \examples{
 library(AirMonitor)

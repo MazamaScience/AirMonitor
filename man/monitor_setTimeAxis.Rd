@@ -30,7 +30,7 @@ adding/removing time steps at the start and end and filling any new time
 steps with missing values. The resulting time axis is guaranteed to be
 a regular, hourly axis with no gaps using the same timezone as the incoming
 \emph{mts_monitor} object. This is useful when you want to place separate \emph{mts_monitor}
-objects on the same time axis for platting.
+objects on the same time axis for plotting.
 
 If either \code{startdate} or \code{enddate} is missing, the start or end of
 the timeseries in \code{monitor} will be used.

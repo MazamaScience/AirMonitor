@@ -23,10 +23,23 @@
 #' @param opacity Opacity to use for points. By default, an opacity is chosen based
 #' on the number of points so that trends are highlighted while outliers diminish
 #' in visual importance as the number of points increases.
+#' @param NAAQS Version of NAAQS levels to use. See Note.
 #' @param ... Additional arguments to be passed to \code{graphics::plot.default()}.
 #'
 #' @return No return value. This function is called to draw an air quality
 #' time series plot on the active graphics device.
+#'
+#' @note
+#' On February 7, 2024, EPA strengthened the National Ambient Air Quality
+#' Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+#' from harmful and costly health impacts, such as heart attacks and premature
+#' death. Particle or soot pollution is one of the most dangerous forms of air
+#' pollution, and an extensive body of science links it to a range of serious
+#' and sometimes deadly illnesses. ​ EPA is setting the level of the primary
+#' (health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+#' provide increased public health protection, consistent with the available
+#' health science.
+#' See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
 #'
 #' @examples
 #' library(AirMonitor)
@@ -48,6 +61,15 @@
 #'   )
 #' addAQILegend()
 #'
+#' # Standard extras using the updated PM NAAQS
+#' Carmel_Valley %>%
+#'   monitor_timeseriesPlot(
+#'     shadedNight = TRUE,
+#'     addAQI = TRUE,
+#'     NAAQS = "PM2.5_2024"
+#'   )
+#' addAQILegend(NAAQS = "PM2.5_2024")
+#'
 #' # Fancy plot based on pm2.5 values
 #' pm2.5 <- Carmel_Valley$data[,2]
 #' Carmel_Valley %>%
@@ -68,6 +90,7 @@ monitor_timeseriesPlot <- function(
   addAQI = FALSE,
   palette = c("EPA", "subdued", "deuteranopia"),
   opacity = NULL,
+  NAAQS = c("PM2.5", "PM2.5_2024"),
   ...
 ) {
 
@@ -78,6 +101,7 @@ monitor_timeseriesPlot <- function(
   add <- MazamaCoreUtils::setIfNull(add, FALSE)
   addAQI <- MazamaCoreUtils::setIfNull(addAQI, FALSE)
   palette <- match.arg(palette)
+  NAAQS = match.arg(NAAQS)
 
   # Subset 'monitor' to a single time series
   if ( !is.null(id) ) {
@@ -204,8 +228,8 @@ monitor_timeseriesPlot <- function(
 
     # Add AQI decorations underneath
     if ( addAQI ) {
-      addAQIStackedBar(pollutant = meta$pollutant[1], palette = palette)
-      addAQILines(pollutant = meta$pollutant[1], palette = palette)
+      addAQIStackedBar(pollutant = meta$pollutant[1], palette = palette, NAAQS = NAAQS)
+      addAQILines(pollutant = meta$pollutant[1], palette = palette, NAAQS = NAAQS)
     }
 
     # Put a box around the plot area

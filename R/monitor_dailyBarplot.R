@@ -19,15 +19,28 @@
 #' @param addAQI Logical specifying whether to add visual AQI decorations.
 #' @param palette Named color palette to use when adding AQI decorations.
 #' @param opacity Opacity to use for bars.
-#' @param ... Additional arguments to be passed to \code{graphics::barplot()}.
 #' @param minHours Minimum number of valid hourly records per day required to
 #' calculate statistics. Days with fewer valid records will be assigned \code{NA}.
 #' @param dayBoundary Treatment of daylight savings time:  "clock" uses daylight
 #' savings time as defined in the local timezone, "LST" uses "local standard time"
 #' all year round.
+#' @param NAAQS Version of NAAQS levels to use. See Note.
+#' @param ... Additional arguments to be passed to \code{graphics::barplot()}.
 #'
 #' @return No return value. This function is called to draw an air quality
 #' daily average plot on the active graphics device.
+#'
+#' @note
+#' On February 7, 2024, EPA strengthened the National Ambient Air Quality
+#' Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+#' from harmful and costly health impacts, such as heart attacks and premature
+#' death. Particle or soot pollution is one of the most dangerous forms of air
+#' pollution, and an extensive body of science links it to a range of serious
+#' and sometimes deadly illnesses. EPA is setting the level of the primary
+#' (health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+#' provide increased public health protection, consistent with the available
+#' health science.
+#' See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
 #'
 #' @import graphics
 #' @importFrom grDevices adjustcolor
@@ -36,19 +49,27 @@
 #' @examples
 #' library(AirMonitor)
 #'
-#' Carmel_Valley %>%
-#'   monitor_dailyBarplot()
+#' layout(matrix(seq(2)))
+#'
+#' Carmel_Valley %>% monitor_dailyBarplot()
+#' title("(pre-2024 PM NAAQS)", line = 0)
+#'
+#' Carmel_Valley %>% monitor_dailyBarplot(NAAQS = "PM2.5_2024")
+#' title("(updated PM NAAQS)", line = 0)
+#'
+#' layout(1)
 #'
 monitor_dailyBarplot <- function(
-  monitor = NULL,
-  id = NULL,
-  add = FALSE,
-  addAQI = FALSE,
-  palette = c("EPA", "subdued", "deuteranopia"),
-  opacity = NULL,
-  ...,
-  minHours = 18,
-  dayBoundary = c("clock", "LST")
+    monitor = NULL,
+    id = NULL,
+    add = FALSE,
+    addAQI = FALSE,
+    palette = c("EPA", "subdued", "deuteranopia"),
+    opacity = NULL,
+    minHours = 18,
+    dayBoundary = c("clock", "LST"),
+    NAAQS = c("PM2.5", "PM2.5_2024"),
+    ...
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -57,6 +78,7 @@ monitor_dailyBarplot <- function(
   palette <- match.arg(palette)
   MazamaCoreUtils::stopIfNull(minHours)
   dayBoundary <- match.arg(dayBoundary)
+  NAAQS = match.arg(NAAQS)
 
 
   # Subset 'monitor' to a single time series
@@ -112,7 +134,14 @@ monitor_dailyBarplot <- function(
 
   # Height and color
   argsList$height <- dailyAverage
-  argsList$col <- aqiColors(dailyAverage, pollutant, palette)
+  argsList$col <-
+    aqiColors(
+      dailyAverage,
+      pollutant = pollutant,
+      palette = palette,
+      na.color = NA,
+      NAAQS = NAAQS
+    )
 
   # X axis labeling is handled after the plot
 
@@ -157,8 +186,8 @@ monitor_dailyBarplot <- function(
 
   if ( addAQI ) {
     do.call(barplot, argsList)
-    addAQIStackedBar(pollutant = pollutant, palette = palette)
-    addAQILines(pollutant = pollutant, palette = palette)
+    addAQIStackedBar(pollutant = pollutant, palette = palette, NAAQS = NAAQS)
+    addAQILines(pollutant = pollutant, palette = palette, NAAQS = NAAQS)
     argsList$add <- TRUE
   }
 

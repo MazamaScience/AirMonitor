@@ -9,7 +9,8 @@ monitor_dailyThreshold(
   threshold = NULL,
   na.rm = TRUE,
   minHours = 18,
-  dayBoundary = c("clock", "LST")
+  dayBoundary = c("clock", "LST"),
+  NAAQS = c("PM2.5", "PM2.5_2024")
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ calculate statistics. Days with fewer valid records will be assigned \code{NA}.}
 \item{dayBoundary}{Treatment of daylight savings time:  "clock" uses daylight
 savings time as defined in the local timezone, "LST" uses "local standard time"
 all year round.}
+
+\item{NAAQS}{Version of NAAQS levels to use. See Note.}
 }
 \value{
 A \emph{mts_monitor} object containing daily counts of hours at or above
@@ -51,14 +54,32 @@ When \code{dayBoundary = "LST"}, the returned \code{monitor$data$datetime}
 time axis will be defined in "UTC" with times as they \emph{appear} in standard
 time in the local timezone. These days will be one hour off from clock
 time during DST but every day will consist of 24 hours.
+
+On February 7, 2024, EPA strengthened the National Ambient Air Quality
+Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+from harmful and costly health impacts, such as heart attacks and premature
+death. Particle or soot pollution is one of the most dangerous forms of air
+pollution, and an extensive body of science links it to a range of serious
+and sometimes deadly illnesses. ​ EPA is setting the level of the primary
+(health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+provide increased public health protection, consistent with the available
+health science.
+See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
 }
 \examples{
 library(AirMonitor)
 
+# Hours at MODERATE or above
 Carmel_Valley \%>\%
   monitor_dailyThreshold("Moderate") \%>\%
   monitor_getData()
 
+# Hours at MODERATE or above with the 2024 updated NAAQS
+Carmel_Valley \%>\%
+  monitor_dailyThreshold("Moderate", NAAQS = "PM2.5_2024") \%>\%
+  monitor_getData()
+
+# Hours at UNHEALTHY or above
 Carmel_Valley \%>\%
   monitor_dailyThreshold("Unhealthy") \%>\%
   monitor_getData()

@@ -10,6 +10,7 @@ addAQILegend(
   pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),
   palette = c("EPA", "subdued", "deuteranopia"),
   languageCode = c("eng", "spa"),
+  NAAQS = c("PM2.5", "PM2.5_2024"),
   ...
 )
 }
@@ -23,6 +24,8 @@ addAQILegend(
 \item{palette}{Named color palette to use for AQI categories.}
 
 \item{languageCode}{ISO 639-2 alpha-3 language code.}
+
+\item{NAAQS}{Version of NAAQS levels to use. See Note.}
 
 \item{...}{Additional arguments to be passed to \code{legend()}.}
 }
@@ -39,4 +42,16 @@ AQI categories are arranged with lower levels at the bottom of the legend
 to match the arrangement in the plot. This is different from the default
 "reading order" so you may wish to reverse the order of user supplied
 arguments with \code{rev()} .
+}
+\note{
+On February 7, 2024, EPA strengthened the National Ambient Air Quality
+Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+from harmful and costly health impacts, such as heart attacks and premature
+death. Particle or soot pollution is one of the most dangerous forms of air
+pollution, and an extensive body of science links it to a range of serious
+and sometimes deadly illnesses. EPA is setting the level of the primary
+(health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+provide increased public health protection, consistent with the available
+health science.
+See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
 }

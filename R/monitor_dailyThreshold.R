@@ -11,6 +11,7 @@
 #' @param dayBoundary Treatment of daylight savings time:  "clock" uses daylight
 #' savings time as defined in the local timezone, "LST" uses "local standard time"
 #' all year round.
+#' @param NAAQS Version of NAAQS levels to use. See Note.
 #'
 #' @return A \emph{mts_monitor} object containing daily counts of hours at or above
 #' a threshold value. (A list with
@@ -36,24 +37,45 @@
 #' time in the local timezone. These days will be one hour off from clock
 #' time during DST but every day will consist of 24 hours.
 #'
+#' @note
+#' On February 7, 2024, EPA strengthened the National Ambient Air Quality
+#' Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+#' from harmful and costly health impacts, such as heart attacks and premature
+#' death. Particle or soot pollution is one of the most dangerous forms of air
+#' pollution, and an extensive body of science links it to a range of serious
+#' and sometimes deadly illnesses. ​ EPA is setting the level of the primary
+#' (health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+#' provide increased public health protection, consistent with the available
+#' health science.
+#' See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
+#'
 #' @examples
 #' library(AirMonitor)
 #'
+#'# Hours at MODERATE or above
 #' Carmel_Valley %>%
 #'   monitor_dailyThreshold("Moderate") %>%
 #'   monitor_getData()
 #'
+#' # Hours at MODERATE or above with the 2024 updated NAAQS
+#' Carmel_Valley %>%
+#'   monitor_dailyThreshold("Moderate", NAAQS = "PM2.5_2024") %>%
+#'   monitor_getData()
+#'
+#'# Hours at UNHEALTHY or above
 #' Carmel_Valley %>%
 #'   monitor_dailyThreshold("Unhealthy") %>%
 #'   monitor_getData()
 #'
+
 
 monitor_dailyThreshold <- function(
   monitor = NULL,
   threshold = NULL,
   na.rm = TRUE,
   minHours = 18,
-  dayBoundary = c("clock", "LST")
+  dayBoundary = c("clock", "LST"),
+  NAAQS = c("PM2.5", "PM2.5_2024")
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -63,6 +85,7 @@ monitor_dailyThreshold <- function(
   na.rm <- MazamaCoreUtils::setIfNull(na.rm, TRUE)
   MazamaCoreUtils::stopIfNull(minHours)
   dayBoundary <- match.arg(dayBoundary)
+  NAAQS = match.arg(NAAQS)
 
   if ( length(unique(monitor$meta$timezone)) > 1 )
     stop("'monitor' has muliple timezones")
@@ -73,9 +96,13 @@ monitor_dailyThreshold <- function(
     if ( !tolower(threshold) %in% tolower(US_AQI$names_eng) )
       stop(sprintf("'%s' is not a recognized AQI level. Please use one from US_AQI$names_eng.", threshold))
 
-    # > US_AQI$breaks_PM2.5
-    # [1]  -Inf  12.0  35.5  55.5 150.5 250.5   Inf
+
     breaks <- US_AQI$breaks_PM2.5
+    # Handle the added NAAQS argument
+    if ( NAAQS == "PM2.5_2024" ) {
+      breaks <- US_AQI$breaks_PM2.5_2024
+    }
+
     breaks[1] <- 0
     index <- which(tolower(US_AQI$names_eng) == tolower(threshold))
     threshold <- breaks[index]

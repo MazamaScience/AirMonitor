@@ -1,4 +1,15 @@
-# AirMonitor 0.3.13
+# AirMonitor 0.4.0
+
+_NOTE:_ Minor changes throughout the code base to support the upcoming change to
+the PM_NAAQS See:
+(PM_NAAQS update)[https://www.epa.gov/system/files/documents/2024-02/pm-naaqs-air-quality-index-fact-sheet.pdf]
+
+Users will see an optional `NAAQS` parameter in plotting functions.
+This parameter defaults to "PM2.5" but also accepts "PM2.5_2024" to have things
+colored according to the updated NAAQS thresholds.
+
+The `monitor_aqi()` and `monitor_dailyThreshold()` functions also accept this 
+argument and will use updated NAAQS thresholds when specified.
 
 Updated package dependencies:
 ```

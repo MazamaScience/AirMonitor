@@ -7,6 +7,7 @@
 addAQILines(
   pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),
   palette = c("EPA", "subdued", "deuteranopia"),
+  NAAQS = c("PM2.5", "PM2.5_2024"),
   ...
 )
 }
@@ -14,6 +15,8 @@ addAQILines(
 \item{pollutant}{EPA AQS criteria pollutant.}
 
 \item{palette}{Named color palette to use for AQI categories.}
+
+\item{NAAQS}{Version of NAAQS levels to use. See Note.}
 
 \item{...}{additional arguments to be passed to \code{abline()}}
 }
@@ -25,4 +28,16 @@ Draws AQI lines across a plot at the levels appropriate for
 The \link{monitor_timeseriesPlot} function uses this function internally when
 specifying \code{addAQI = TRUE}.
 \code{pollutant}.
+}
+\note{
+On February 7, 2024, EPA strengthened the National Ambient Air Quality
+Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+from harmful and costly health impacts, such as heart attacks and premature
+death. Particle or soot pollution is one of the most dangerous forms of air
+pollution, and an extensive body of science links it to a range of serious
+and sometimes deadly illnesses. EPA is setting the level of the primary
+(health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+provide increased public health protection, consistent with the available
+health science.
+See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
 }

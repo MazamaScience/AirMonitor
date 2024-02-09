@@ -6,12 +6,25 @@
 #' @param pollutant EPA AQS criteria pollutant.
 #' @param palette Named color palette to use for AQI categories.
 #' @param na.color Color assigned to missing values.
+#' @param NAAQS Version of NAAQS levels to use. See Note.
 #'
 #' @return A vector or matrix of AQI colors to be used in maps and plots.
 #'
 #' @description
 #' This function uses the \code{leaflet::colorBin()} function to return a
 #' vector or matrix of colors derived from data values.
+#'
+#' @note
+#' On February 7, 2024, EPA strengthened the National Ambient Air Quality
+#' Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+#' from harmful and costly health impacts, such as heart attacks and premature
+#' death. Particle or soot pollution is one of the most dangerous forms of air
+#' pollution, and an extensive body of science links it to a range of serious
+#' and sometimes deadly illnesses. EPA is setting the level of the primary
+#' (health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+#' provide increased public health protection, consistent with the available
+#' health science.
+#' See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
 #'
 #' @examples
 #' library(AirMonitor)
@@ -32,16 +45,23 @@ aqiColors <- function(
   x,
   pollutant = c("PM2.5", "AQI", "CO", "NO", "OZONE", "PM10", "SO2"),
   palette = c("EPA", "subdued", "deuteranopia"),
-  na.color = NA
+  na.color = NA,
+  NAAQS = c("PM2.5", "PM2.5_2024")
 ) {
 
   # ----- Validate parameters --------------------------------------------------
 
   pollutant <- match.arg(pollutant)
   palette <- match.arg(palette)
+  NAAQS = match.arg(NAAQS)
 
   breaks <- US_AQI[[paste0("breaks_", pollutant)]]
   colors <- US_AQI[[paste0("colors_", palette)]]
+
+  # Handle the added NAAQS argument
+  if ( pollutant == "PM2.5" && NAAQS == "PM2.5_2024" ) {
+    breaks <- US_AQI$breaks_PM2.5_2024
+  }
 
   # ----- Prepare data ---------------------------------------------------------
 

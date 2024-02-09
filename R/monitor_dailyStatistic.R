@@ -6,12 +6,12 @@
 #' @param FUN Function used to create daily statistics.
 #' @param na.rm Value passed on to \code{FUN}. If \code{FUN} does not use
 #' \code{na.rm}, this should be set to \code{NULL}.
-#' @param ... Additional arguments to be passed to \code{FUN}.
 #' @param minHours Minimum number of valid hourly records per day required to
 #' calculate statistics. Days with fewer valid records will be assigned \code{NA}.
 #' @param dayBoundary Treatment of daylight savings time:  "clock" uses daylight
 #' savings time as defined in the local timezone, "LST" uses "local standard time"
 #' all year round.
+#' @param ... Additional arguments to be passed to \code{FUN}.
 #'
 #' @return A \emph{mts_monitor} object containing daily statistical summaries. (A list with
 #' \code{meta} and \code{data} dataframes.)
@@ -51,9 +51,9 @@ monitor_dailyStatistic <- function(
   monitor = NULL,
   FUN = mean,
   na.rm = TRUE,
-  ...,
   minHours = 18,
-  dayBoundary = c("clock", "LST")
+  dayBoundary = c("clock", "LST"),
+  ...
 ) {
 
   # ----- Validate parameters --------------------------------------------------

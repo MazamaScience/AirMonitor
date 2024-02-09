@@ -12,6 +12,7 @@ monitor_timeseriesPlot(
   addAQI = FALSE,
   palette = c("EPA", "subdued", "deuteranopia"),
   opacity = NULL,
+  NAAQS = c("PM2.5", "PM2.5_2024"),
   ...
 )
 }
@@ -33,6 +34,8 @@ series found in \code{monitor}.}
 on the number of points so that trends are highlighted while outliers diminish
 in visual importance as the number of points increases.}
 
+\item{NAAQS}{Version of NAAQS levels to use. See Note.}
+
 \item{...}{Additional arguments to be passed to \code{graphics::plot.default()}.}
 }
 \value{
@@ -47,6 +50,18 @@ are plotted from all monitors found in the \emph{mts_monitor} object.
 Reasonable defaults are chosen for annotations and plot characteristics.
 Users can override any defaults by passing in parameters accepted by
 \code{graphics::plot.default}.
+}
+\note{
+On February 7, 2024, EPA strengthened the National Ambient Air Quality
+Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+from harmful and costly health impacts, such as heart attacks and premature
+death. Particle or soot pollution is one of the most dangerous forms of air
+pollution, and an extensive body of science links it to a range of serious
+and sometimes deadly illnesses. ​ EPA is setting the level of the primary
+(health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+provide increased public health protection, consistent with the available
+health science.
+See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
 }
 \examples{
 library(AirMonitor)
@@ -67,6 +82,15 @@ Carmel_Valley \%>\%
     addAQI = TRUE
   )
 addAQILegend()
+
+# Standard extras using the updated PM NAAQS
+Carmel_Valley \%>\%
+  monitor_timeseriesPlot(
+    shadedNight = TRUE,
+    addAQI = TRUE,
+    NAAQS = "PM2.5_2024"
+  )
+addAQILegend(NAAQS = "PM2.5_2024")
 
 # Fancy plot based on pm2.5 values
 pm2.5 <- Carmel_Valley$data[,2]

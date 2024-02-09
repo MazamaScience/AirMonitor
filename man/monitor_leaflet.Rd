@@ -12,6 +12,7 @@ monitor_leaflet(
   maptype = "terrain",
   extraVars = NULL,
   jitter = 5e-04,
+  NAAQS = c("PM2.5", "PM2.5_2024"),
   ...
 )
 }
@@ -33,6 +34,8 @@ to be shown in leaflet popups.}
 \item{jitter}{Amount to use to slightly adjust locations so that multiple
 monitors at the same location can be seen. Use zero or \code{NA} to see
 precise locations.}
+
+\item{NAAQS}{Version of NAAQS levels to use. See Note.}
 
 \item{...}{Additional arguments passed to \code{leaflet::addCircleMarker()}.}
 }
@@ -68,15 +71,43 @@ underlying map tile if available. See
 \url{https://leaflet-extras.github.io/leaflet-providers/} for a list of
 "provider tiles" to use as the background map.
 }
+\note{
+On February 7, 2024, EPA strengthened the National Ambient Air Quality
+Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+from harmful and costly health impacts, such as heart attacks and premature
+death. Particle or soot pollution is one of the most dangerous forms of air
+pollution, and an extensive body of science links it to a range of serious
+and sometimes deadly illnesses. ​ EPA is setting the level of the primary
+(health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+provide increased public health protection, consistent with the available
+health science.
+See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
+}
 \examples{
 \dontrun{
 library(AirMonitor)
 # Fail gracefully if any resources are not available
 try({
 
+# Maximum AQI category at each site
 monitor_loadLatest() \%>\%
   monitor_filter(stateCode \%in\% CONUS) \%>\%
   monitor_leaflet()
+
+# Mean AQI category at each site
+monitor_loadLatest() \%>\%
+  monitor_filter(stateCode \%in\% CONUS) \%>\%
+  monitor_leaflet(
+    slice = "mean"
+  )
+
+# Mean AQI category at each site using the updated NAAQS
+monitor_loadLatest() \%>\%
+  monitor_filter(stateCode \%in\% CONUS) \%>\%
+  monitor_leaflet(
+    slice = "mean",
+    NAAQS = "PM2.5_2024"
+  )
 
 }, silent = FALSE)
 }

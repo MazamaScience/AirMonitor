@@ -9,7 +9,8 @@ addAQIStackedBar(
   palette = c("EPA", "subdued", "deuteranopia"),
   width = 0.01,
   height = 1,
-  pos = c("left", "right")
+  pos = c("left", "right"),
+  NAAQS = c("PM2.5", "PM2.5_2024")
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ addAQIStackedBar(
 \item{height}{Height of the bar as a fraction of the height of the plot area.}
 
 \item{pos}{Position of the stacked bar relative to the plot.}
+
+\item{NAAQS}{Version of NAAQS levels to use. See Note.}
 }
 \value{
 No return value, called to add color bars to a time series plot.
@@ -30,4 +33,16 @@ No return value, called to add color bars to a time series plot.
 Draws a stacked bar indicating AQI levels on one side of a plot
 The \link{monitor_timeseriesPlot} function uses this function internally when
 specifying \code{addAQI = TRUE}.
+}
+\note{
+On February 7, 2024, EPA strengthened the National Ambient Air Quality
+Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+from harmful and costly health impacts, such as heart attacks and premature
+death. Particle or soot pollution is one of the most dangerous forms of air
+pollution, and an extensive body of science links it to a range of serious
+and sometimes deadly illnesses. EPA is setting the level of the primary
+(health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+provide increased public health protection, consistent with the available
+health science.
+See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
 }

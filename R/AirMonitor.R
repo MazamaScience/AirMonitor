@@ -251,6 +251,7 @@ US_AQI <- list(
   breaks_NO2 = c(-Inf, 54, 101, 361, 650, 2501, Inf),
   breaks_OZONE = c(-Inf, 0, .125, .165, .205, .405, Inf),        # Using OZONE_1hr
   breaks_PM2.5 = c(-Inf, 12, 35.5, 55.5, 150.5, 250.5, Inf),     # Using PM2.5_24hr
+  breaks_PM2.5_2024 = c(-Inf, 9, 35, 55, 125, 225, Inf),         # https://www.epa.gov/system/files/documents/2024-02/pm-naaqs-air-quality-index-fact-sheet.pdf
   breaks_PM10 = c(-Inf, 55, 155, 255, 355, 425, Inf),
 
   # Special breaks
