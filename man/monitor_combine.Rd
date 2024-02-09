@@ -11,7 +11,7 @@ monitor_combine(
 )
 }
 \arguments{
-\item{...}{Any number of valid emph{mts_monitor} objects or a list of objects.}
+\item{...}{Any number of valid \emph{mts_monitor} objects or a list of objects.}
 
 \item{replaceMeta}{Logical specifying whether to allow replacement of metadata
 associated when duplicate \code{deviceDeploymentIDs} are encountered.}

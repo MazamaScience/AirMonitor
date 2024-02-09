@@ -1,18 +1,24 @@
 #' @export
 #'
-#' @title Generate AQI colors
+#' @title Generate AQI categroeis
 #'
 #' @param x Vector or matrix of PM2.5 values or an \emph{mts_monitor} object.
 #' @param pollutant EPA AQS criteria pollutant.
-#' @param palette Named color palette to use for AQI categories.
-#' @param na.color Color assigned to missing values.
 #' @param NAAQS Version of NAAQS levels to use. See Note.
+#' @param conversionArray Array of six text or other values to return instead of integers.
 #'
-#' @return A vector or matrix of AQI colors to be used in maps and plots.
+#' @return A vector or matrix of AQI category indices in the range 1:6.
 #'
 #' @description
-#' This function uses the \code{leaflet::colorBin()} function to return a
-#' vector or matrix of colors derived from data values.
+#' This function converts hourly PM2.5 measurements into AQI category levels.
+#' These levels can then be converted to colors or names using the arrays found
+#' in \code{\link{US_AQI}}.
+#'
+#' @details
+#' By default, return values will be integers in the range 1:6 or \code{NA}. The
+#' \code{conversionArray} parameter can be used to convert these integers into
+#' whatever is specified in the first six elements of \code{conversionArray}. A
+#' typical usage would be: \code{conversionArray = US_AQI$names_eng}.
 #'
 #' @note
 #' On February 7, 2024, EPA strengthened the National Ambient Air Quality
@@ -26,39 +32,38 @@
 #' health science.
 #' See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
 #'
-#' @seealso \code{\link{aqiCategories}}
+#' @seealso \code{\link{aqiColors}}
 #'
-#' @examples
+#' #' @examples
 #' library(AirMonitor)
 #'
-#' # Fancy plot based on pm2.5 values
-#' pm2.5 <- Carmel_Valley$data[,2]
-#' Carmel_Valley %>%
-#'   monitor_timeseriesPlot(
-#'     shadedNight = TRUE,
-#'     pch = 16,
-#'     cex = pmax(pm2.5 / 100, 0.5),
-#'     col = aqiColors(pm2.5),
-#'     opacity = 0.8
-#'   )
+#' # Lane County, Oregon AQSIDs all begin with "41039"
+#' LaneCounty <-
+#'   NW_Megafires %>%
+#'   monitor_filter(stringr::str_detect(AQSID, '^41039')) %>%
+#'   monitor_filterDate(20150822, 20150823)
+#'
+#' LaneCounty %>%
+#'   aqiCategories()
+#'
+#' LaneCounty %>%
+#'   aqiCategories(conversionArray = US_AQI$names_eng)
 
 
-aqiColors <- function(
+
+aqiCategories <- function(
   x,
   pollutant = c("PM2.5", "AQI", "CO", "NO", "OZONE", "PM10", "SO2"),
-  palette = c("EPA", "subdued", "deuteranopia"),
-  na.color = NA,
-  NAAQS = c("PM2.5", "PM2.5_2024")
+  NAAQS = c("PM2.5", "PM2.5_2024"),
+  conversionArray = NULL
 ) {
 
   # ----- Validate parameters --------------------------------------------------
 
   pollutant <- match.arg(pollutant)
-  palette <- match.arg(palette)
   NAAQS = match.arg(NAAQS)
 
   breaks <- US_AQI[[paste0("breaks_", pollutant)]]
-  colors <- US_AQI[[paste0("colors_", palette)]]
 
   # Handle the added NAAQS argument
   if ( pollutant == "PM2.5" && NAAQS == "PM2.5_2024" ) {
@@ -83,26 +88,21 @@ aqiColors <- function(
   # Force conversion to a numeric vector
   x <- as.numeric(x)
 
-  # ----- Create colors --------------------------------------------------------
+  # ----- Create categories ----------------------------------------------------
 
-  # Generate color function
-  colorFUN <- leaflet::colorBin(
-    palette = colors,
-    domain = c(0, 1e6),
-    bins = breaks,
-    na.color = na.color
-  )
+  categories <- .bincode(x, breaks)
 
-  # Assign colors
-  cols <- colorFUN(x)
+  if ( !is.null(conversionArray) ) {
+    categories <- conversionArray[categories]
+  }
 
   # ----- Return ---------------------------------------------------------------
 
   # Restore shape
   if ( ncol > 1 ) {
-    cols <- matrix(cols, ncol = ncol, byrow = FALSE)
+    categories <- matrix(categories, ncol = ncol, byrow = FALSE)
   }
 
-  return(cols)
+  return(categories)
 
 }

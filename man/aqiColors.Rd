@@ -56,3 +56,6 @@ Carmel_Valley \%>\%
     opacity = 0.8
   )
 }
+\seealso{
+\code{\link{aqiCategories}}
+}

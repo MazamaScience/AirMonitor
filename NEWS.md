@@ -1,7 +1,7 @@
 # AirMonitor 0.4.0
 
-_NOTE:_ Minor changes throughout the code base to support the upcoming change to
-the PM_NAAQS See:
+Version 0.4 includes several new convenience functions as well as minor changes 
+throughout the code base to support the upcoming change to the PM_NAAQS See:
 (PM_NAAQS update)[https://www.epa.gov/system/files/documents/2024-02/pm-naaqs-air-quality-index-fact-sheet.pdf]
 
 Users will see an optional `NAAQS` parameter in plotting functions.
@@ -11,18 +11,20 @@ colored according to the updated NAAQS thresholds.
 The `monitor_aqi()` and `monitor_dailyThreshold()` functions also accept this 
 argument and will use updated NAAQS thresholds when specified.
 
-Updated package dependencies:
+Version 0.4 has updated package dependencies:
 ```
 MazamaCoreUtils (>= 0.5.2),
 MazamaRollUtils (>= 0.1.3),
 MazamaTimeSeries (>= 0.2.16),
 ```
 
-* Added `monitor_pull()` to retrieve a vector of values from either `meta` or `data`.
+* Added `monitor_pull()` to retrieve a column of data from either `meta` or `data`.
 * Added `monitor_slice_head()` and `monitor_slice_tail()` to subset a
 _mts_monitor_ object after it has been been ordered by `monitor_arrange()`.
 * Added `monitor_setTimeAxis()` which is useful when you want to place separate 
 monitor objects on the same time axis for plotting.
+* Added `aqiCategories()` to return a matrix of integers or names associated
+with incoming PM2.5 values.
 
 # AirMonitor 0.3.12
 
