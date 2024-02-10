@@ -8,8 +8,9 @@ Users will see an optional `NAAQS` parameter in plotting functions.
 This parameter defaults to "PM2.5" but also accepts "PM2.5_2024" to have things
 colored according to the updated NAAQS thresholds.
 
-The `monitor_aqi()` and `monitor_dailyThreshold()` functions also accept this 
-argument and will use updated NAAQS thresholds when specified.
+The `monitor_aqi()`, `monitor_dailyThreshold()` and `monitor_toAQCTAble()` 
+functions also accept this argument and will use updated NAAQS thresholds when 
+specified.
 
 Version 0.4 has updated package dependencies:
 ```
@@ -25,6 +26,8 @@ _mts_monitor_ object after it has been been ordered by `monitor_arrange()`.
 monitor objects on the same time axis for plotting.
 * Added `aqiCategories()` to return a matrix of integers or names associated
 with incoming PM2.5 values.
+* Added `mnoitor_toAQCTable()` for easy generation of a table the number of hours
+or days each site spent in a particular AQ category.
 
 # AirMonitor 0.3.12
 

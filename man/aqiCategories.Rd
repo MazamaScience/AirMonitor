@@ -2,7 +2,7 @@
 % Please edit documentation in R/aqiCategories.R
 \name{aqiCategories}
 \alias{aqiCategories}
-\title{Generate AQI categroeis}
+\title{Generate AQI categories}
 \usage{
 aqiCategories(
   x,
@@ -46,21 +46,21 @@ provide increased public health protection, consistent with the available
 health science.
 See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
 }
-\seealso{
-\code{\link{aqiColors}}
-
-#' @examples
+\examples{
 library(AirMonitor)
 
 # Lane County, Oregon AQSIDs all begin with "41039"
 LaneCounty <-
-  NW_Megafires %>%
-  monitor_filter(stringr::str_detect(AQSID, '^41039')) %>%
+  NW_Megafires \%>\%
+  monitor_filter(stringr::str_detect(AQSID, '^41039')) \%>\%
   monitor_filterDate(20150822, 20150823)
 
-LaneCounty %>%
+LaneCounty \%>\%
   aqiCategories()
 
-LaneCounty %>%
+LaneCounty \%>\%
   aqiCategories(conversionArray = US_AQI$names_eng)
+}
+\seealso{
+\code{\link{aqiColors}}
 }

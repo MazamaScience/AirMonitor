@@ -57,7 +57,7 @@ Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
 from harmful and costly health impacts, such as heart attacks and premature
 death. Particle or soot pollution is one of the most dangerous forms of air
 pollution, and an extensive body of science links it to a range of serious
-and sometimes deadly illnesses. ​ EPA is setting the level of the primary
+and sometimes deadly illnesses. EPA is setting the level of the primary
 (health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
 provide increased public health protection, consistent with the available
 health science.

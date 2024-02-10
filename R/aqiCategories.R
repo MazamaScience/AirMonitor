@@ -1,6 +1,6 @@
 #' @export
 #'
-#' @title Generate AQI categroeis
+#' @title Generate AQI categories
 #'
 #' @param x Vector or matrix of PM2.5 values or an \emph{mts_monitor} object.
 #' @param pollutant EPA AQS criteria pollutant.
@@ -34,7 +34,7 @@
 #'
 #' @seealso \code{\link{aqiColors}}
 #'
-#' #' @examples
+#' @examples
 #' library(AirMonitor)
 #'
 #' # Lane County, Oregon AQSIDs all begin with "41039"
