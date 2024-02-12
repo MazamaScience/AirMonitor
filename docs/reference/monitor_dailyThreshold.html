@@ -21,7 +21,7 @@ only timeseries within a single time zone."><!-- mathjax --><script src="https:/
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
       </span>
     </div>
 
@@ -91,7 +91,8 @@ only timeseries within a single time zone.</p>
 <span>  threshold <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  minHours <span class="op">=</span> <span class="fl">18</span>,</span>
-<span>  dayBoundary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clock"</span>, <span class="st">"LST"</span><span class="op">)</span></span>
+<span>  dayBoundary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clock"</span>, <span class="st">"LST"</span><span class="op">)</span>,</span>
+<span>  NAAQS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PM2.5"</span>, <span class="st">"PM2.5_2024"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -120,6 +121,10 @@ calculate statistics. Days with fewer valid records will be assigned <code>NA</c
 savings time as defined in the local timezone, "LST" uses "local standard time"
 all year round.</p></dd>
 
+
+<dt>NAAQS</dt>
+<dd><p>Version of NAAQS levels to use. See Note.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
@@ -140,12 +145,23 @@ DST to standard time will result in a 23 hour day and standard to DST in a
 time axis will be defined in "UTC" with times as they <em>appear</em> in standard
 time in the local timezone. These days will be one hour off from clock
 time during DST but every day will consist of 24 hours.</p>
+<p>On February 7, 2024, EPA strengthened the National Ambient Air Quality
+Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+from harmful and costly health impacts, such as heart attacks and premature
+death. Particle or soot pollution is one of the most dangerous forms of air
+pollution, and an extensive body of science links it to a range of serious
+and sometimes deadly illnesses. EPA is setting the level of the primary
+(health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+provide increased public health protection, consistent with the available
+health science.
+See <a href="https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm" class="external-link">PM NAAQS update</a>.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitor" class="external-link">AirMonitor</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Hours at MODERATE or above</span></span></span>
 <span class="r-in"><span><span class="va">Carmel_Valley</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">monitor_dailyThreshold</span><span class="op">(</span><span class="st">"Moderate"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="monitor_getDataFrame.html">monitor_getData</a></span><span class="op">(</span><span class="op">)</span></span></span>
@@ -164,6 +180,26 @@ time during DST but every day will consist of 24 hours.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2016-07-31 <span style="color: #949494;">00:00:00</span>                            17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 14 more rows</span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Hours at MODERATE or above with the 2024 updated NAAQS</span></span></span>
+<span class="r-in"><span><span class="va">Carmel_Valley</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">monitor_dailyThreshold</span><span class="op">(</span><span class="st">"Moderate"</span>, NAAQS <span class="op">=</span> <span class="st">"PM2.5_2024"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="monitor_getDataFrame.html">monitor_getData</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 24 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    datetime            a9572a904a4ed46d_840060530002</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                                      <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 2016-07-22 <span style="color: #949494;">00:00:00</span>                             0</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 2016-07-23 <span style="color: #949494;">00:00:00</span>                             9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 2016-07-24 <span style="color: #949494;">00:00:00</span>                            13</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 2016-07-25 <span style="color: #949494;">00:00:00</span>                            24</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 2016-07-26 <span style="color: #949494;">00:00:00</span>                            19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 2016-07-27 <span style="color: #949494;">00:00:00</span>                            11</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 2016-07-28 <span style="color: #949494;">00:00:00</span>                             7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 2016-07-29 <span style="color: #949494;">00:00:00</span>                             5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 2016-07-30 <span style="color: #949494;">00:00:00</span>                             9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 2016-07-31 <span style="color: #949494;">00:00:00</span>                            19</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 14 more rows</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Hours at UNHEALTHY or above</span></span></span>
 <span class="r-in"><span><span class="va">Carmel_Valley</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">monitor_dailyThreshold</span><span class="op">(</span><span class="st">"Unhealthy"</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="monitor_getDataFrame.html">monitor_getData</a></span><span class="op">(</span><span class="op">)</span></span></span>

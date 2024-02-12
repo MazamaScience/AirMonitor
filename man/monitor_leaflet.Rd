@@ -59,7 +59,7 @@ functions must accept \code{na.rm} as an argument.
 The \code{maptype} argument is mapped onto leaflet "ProviderTile" names.
 Current map types include:
 
-\enumerate{
+\describe{
 \item{"roadmap"}{ -- "OpenStreetMap"}
 \item{"satellite"}{ -- "Esri.WorldImagery"}
 \item{"terrain"}{ -- "Esri.WorldTopoMap"}

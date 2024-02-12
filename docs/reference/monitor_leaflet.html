@@ -26,7 +26,7 @@ functions must accept na.rm as an argument."><!-- mathjax --><script src="https:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
       </span>
     </div>
 
@@ -104,6 +104,7 @@ functions must accept <code>na.rm</code> as an argument.</p>
 <span>  maptype <span class="op">=</span> <span class="st">"terrain"</span>,</span>
 <span>  extraVars <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  jitter <span class="op">=</span> <span class="fl">5e-04</span>,</span>
+<span>  NAAQS <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"PM2.5"</span>, <span class="st">"PM2.5_2024"</span><span class="op">)</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -142,6 +143,10 @@ monitors at the same location can be seen. Use zero or <code>NA</code> to see
 precise locations.</p></dd>
 
 
+<dt>NAAQS</dt>
+<dd><p>Version of NAAQS levels to use. See Note.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments passed to <code>leaflet::addCircleMarker()</code>.</p></dd>
 
@@ -156,14 +161,36 @@ precise locations.</p></dd>
     <h2>Details</h2>
     <p>The <code>maptype</code> argument is mapped onto leaflet "ProviderTile" names.
 Current map types include:</p>
-<ol><li><p>"roadmap" -- "OpenStreetMap"</p></li>
-<li><p>"satellite" -- "Esri.WorldImagery"</p></li>
-<li><p>"terrain" -- "Esri.WorldTopoMap"</p></li>
-<li><p>"toner" -- "Stamen.Toner"</p></li>
-</ol><p>If a character string not listed above is provided, it will be used as the
+<dl><dt>"roadmap"</dt>
+<dd><p>-- "OpenStreetMap"</p></dd>
+
+<dt>"satellite"</dt>
+<dd><p>-- "Esri.WorldImagery"</p></dd>
+
+<dt>"terrain"</dt>
+<dd><p>-- "Esri.WorldTopoMap"</p></dd>
+
+<dt>"toner"</dt>
+<dd><p>-- "Stamen.Toner"</p></dd>
+
+
+</dl><p>If a character string not listed above is provided, it will be used as the
 underlying map tile if available. See
 <a href="https://leaflet-extras.github.io/leaflet-providers/" class="external-link">https://leaflet-extras.github.io/leaflet-providers/</a> for a list of
 "provider tiles" to use as the background map.</p>
+    </div>
+    <div id="note">
+    <h2>Note</h2>
+    <p>On February 7, 2024, EPA strengthened the National Ambient Air Quality
+Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
+from harmful and costly health impacts, such as heart attacks and premature
+death. Particle or soot pollution is one of the most dangerous forms of air
+pollution, and an extensive body of science links it to a range of serious
+and sometimes deadly illnesses. EPA is setting the level of the primary
+(health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
+provide increased public health protection, consistent with the available
+health science.
+See <a href="https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm" class="external-link">PM NAAQS update</a>.</p>
     </div>
 
     <div id="ref-examples">
@@ -173,9 +200,25 @@ underlying map tile if available. See
 <span class="r-in"><span><span class="co"># Fail gracefully if any resources are not available</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="op">{</span></span></span>
 <span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Maximum AQI category at each site</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="monitor_loadLatest.html">monitor_loadLatest</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="monitor_filterMeta.html">monitor_filter</a></span><span class="op">(</span><span class="va">stateCode</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">CONUS</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
 <span class="r-in"><span>  <span class="fu">monitor_leaflet</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Mean AQI category at each site</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="monitor_loadLatest.html">monitor_loadLatest</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="monitor_filterMeta.html">monitor_filter</a></span><span class="op">(</span><span class="va">stateCode</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">CONUS</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">monitor_leaflet</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    slice <span class="op">=</span> <span class="st">"mean"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Mean AQI category at each site using the updated NAAQS</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="monitor_loadLatest.html">monitor_loadLatest</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="monitor_filterMeta.html">monitor_filter</a></span><span class="op">(</span><span class="va">stateCode</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">CONUS</span><span class="op">)</span> <span class="op"><a href="pipe.html">%&gt;%</a></span></span></span>
+<span class="r-in"><span>  <span class="fu">monitor_leaflet</span><span class="op">(</span></span></span>
+<span class="r-in"><span>    slice <span class="op">=</span> <span class="st">"mean"</span>,</span></span>
+<span class="r-in"><span>    NAAQS <span class="op">=</span> <span class="st">"PM2.5_2024"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span>, silent <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>

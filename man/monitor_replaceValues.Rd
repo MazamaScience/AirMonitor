@@ -9,7 +9,7 @@ monitor_replaceValues(monitor = NULL, filter = NULL, value = NULL)
 \arguments{
 \item{monitor}{\emph{mts_monitor} object.}
 
-\item{filter}{\R{R} expression used to identify values for replacement.}
+\item{filter}{R expression used to identify values for replacement.}
 
 \item{value}{Numeric replacement value.}
 }
@@ -20,7 +20,7 @@ A modified \code{mts_monitor} object. (A list with
 \description{
 Use an R expression to identify values for replacement.
 
-The \pkg{R} expression given in \code{filter} is used to identify elements
+The R expression given in \code{filter} is used to identify elements
 in \code{monitor$data} that should be replaced.  The \code{datetime} column
 will be retained unmodified. Typical usage would include
 

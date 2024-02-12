@@ -16,9 +16,9 @@
 #'
 #' Available versions include:
 #' \enumerate{
-#' \item{\code{pm}}: {hours = 12, weight = 0.5}
-#' \item{\code{pmAsian}}: {hours = 3, weight = 0.1}
-#' \item{\code{ozone}}: {hours = 8, weight = NA}
+#' \item{\code{pm}: hours = 12, weight = 0.5}
+#' \item{\code{pmAsian}: hours = 3, weight = 0.1}
+#' \item{\code{ozone}: hours = 8, weight = NA}
 #' }
 #'
 #' The default, \code{version = "pm"}, is appropriate for typical usage.

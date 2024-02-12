@@ -106,6 +106,9 @@
     <loc>/reference/airsis_loadLatest.html</loc>
   </url>
   <url>
+    <loc>/reference/aqiCategories.html</loc>
+  </url>
+  <url>
     <loc>/reference/aqiColors.html</loc>
   </url>
   <url>
@@ -220,6 +223,9 @@
     <loc>/reference/monitor_nowcast.html</loc>
   </url>
   <url>
+    <loc>/reference/monitor_pull.html</loc>
+  </url>
+  <url>
     <loc>/reference/monitor_replaceValues.html</loc>
   </url>
   <url>
@@ -229,6 +235,12 @@
     <loc>/reference/monitor_selectWhere.html</loc>
   </url>
   <url>
+    <loc>/reference/monitor_setTimeAxis.html</loc>
+  </url>
+  <url>
+    <loc>/reference/monitor_slice.html</loc>
+  </url>
+  <url>
     <loc>/reference/monitor_timeInfo.html</loc>
   </url>
   <url>
@@ -236,6 +248,9 @@
   </url>
   <url>
     <loc>/reference/monitor_timeseriesPlot.html</loc>
+  </url>
+  <url>
+    <loc>/reference/monitor_toAQCTable.html</loc>
   </url>
   <url>
     <loc>/reference/monitor_toCSV.html</loc>

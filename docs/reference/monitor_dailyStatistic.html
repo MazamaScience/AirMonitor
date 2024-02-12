@@ -21,7 +21,7 @@ timeseries associated with a single time zone."><!-- mathjax --><script src="htt
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
       </span>
     </div>
 
@@ -90,9 +90,9 @@ timeseries associated with a single time zone.</p>
 <span>  monitor <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  FUN <span class="op">=</span> <span class="va">mean</span>,</span>
 <span>  na.rm <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  <span class="va">...</span>,</span>
 <span>  minHours <span class="op">=</span> <span class="fl">18</span>,</span>
-<span>  dayBoundary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clock"</span>, <span class="st">"LST"</span><span class="op">)</span></span>
+<span>  dayBoundary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"clock"</span>, <span class="st">"LST"</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -111,10 +111,6 @@ timeseries associated with a single time zone.</p>
 <code>na.rm</code>, this should be set to <code>NULL</code>.</p></dd>
 
 
-<dt>...</dt>
-<dd><p>Additional arguments to be passed to <code>FUN</code>.</p></dd>
-
-
 <dt>minHours</dt>
 <dd><p>Minimum number of valid hourly records per day required to
 calculate statistics. Days with fewer valid records will be assigned <code>NA</code>.</p></dd>
@@ -124,6 +120,10 @@ calculate statistics. Days with fewer valid records will be assigned <code>NA</c
 <dd><p>Treatment of daylight savings time:  "clock" uses daylight
 savings time as defined in the local timezone, "LST" uses "local standard time"
 all year round.</p></dd>
+
+
+<dt>...</dt>
+<dd><p>Additional arguments to be passed to <code>FUN</code>.</p></dd>
 
 </dl></div>
     <div id="value">

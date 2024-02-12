@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.3.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.0</span>
       </span>
     </div>
 
@@ -73,12 +73,20 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.3.13" id="airmonitor-0313">AirMonitor 0.3.13<a class="anchor" aria-label="anchor" href="#airmonitor-0313"></a></h2>
-<p>Updated package dependencies:</p>
+<h2 class="page-header" data-toc-text="0.4.0" id="airmonitor-040">AirMonitor 0.4.0<small>2024-02-11</small><a class="anchor" aria-label="anchor" href="#airmonitor-040"></a></h2>
+<p>Version 0.4 includes several new convenience functions as well as minor changes throughout the code base to support the upcoming change to the PM_NAAQS See: (PM_NAAQS update)[<a href="https://www.epa.gov/system/files/documents/2024-02/pm-naaqs-air-quality-index-fact-sheet.pdf" class="external-link uri">https://www.epa.gov/system/files/documents/2024-02/pm-naaqs-air-quality-index-fact-sheet.pdf</a>]</p>
+<p>Users will see an optional <code>NAAQS</code> parameter in plotting functions. This parameter defaults to “PM2.5” but also accepts “PM2.5_2024” to have things colored according to the updated NAAQS thresholds.</p>
+<p>The <code><a href="../reference/monitor_aqi.html">monitor_aqi()</a></code>, <code><a href="../reference/monitor_dailyThreshold.html">monitor_dailyThreshold()</a></code> and <code>monitor_toAQCTAble()</code> functions also accept this argument and will use updated NAAQS thresholds when specified.</p>
+<p>Version 0.4 has updated package dependencies:</p>
 <pre><code>MazamaCoreUtils (&gt;= 0.5.2),
 MazamaRollUtils (&gt;= 0.1.3),
 MazamaTimeSeries (&gt;= 0.2.16),</code></pre>
-</div>
+<ul><li>Added <code><a href="../reference/monitor_pull.html">monitor_pull()</a></code> to retrieve a column of data from either <code>meta</code> or <code>data</code>.</li>
+<li>Added <code><a href="../reference/monitor_slice.html">monitor_slice_head()</a></code> and <code><a href="../reference/monitor_slice.html">monitor_slice_tail()</a></code> to subset a <em>mts_monitor</em> object after it has been been ordered by <code><a href="../reference/monitor_arrange.html">monitor_arrange()</a></code>.</li>
+<li>Added <code><a href="../reference/monitor_setTimeAxis.html">monitor_setTimeAxis()</a></code> which is useful when you want to place separate monitor objects on the same time axis for plotting.</li>
+<li>Added <code><a href="../reference/aqiCategories.html">aqiCategories()</a></code> to return a matrix of integers or names associated with incoming PM2.5 values.</li>
+<li>Added <code>mnoitor_toAQCTable()</code> for easy generation of a table the number of hours or days each site spent in a particular AQ category.</li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.3.12" id="airmonitor-0312">AirMonitor 0.3.12<small>2023-08-25</small><a class="anchor" aria-label="anchor" href="#airmonitor-0312"></a></h2>
 <ul><li>Updated <code><a href="../reference/monitor_loadLatest.html">monitor_loadLatest()</a></code>, <code><a href="../reference/monitor_loadDaily.html">monitor_loadDaily()</a></code> and <code><a href="../reference/monitor_loadAnnual.html">monitor_loadAnnual()</a></code> with improved logic to handle multiple deployments at a single location. These functions intentionally only return a single <code>deviceDeploymentID</code> per <code>locationID</code> and preferentially retain AirNow data over data from AIRSIS or WRCC. The new logic applies to cases where multiple deployments exist within AirNow (or AIRSIS or WRCC) and retains the deployment that has the most recent data.</li>
