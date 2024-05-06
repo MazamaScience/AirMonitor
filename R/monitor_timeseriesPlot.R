@@ -90,7 +90,7 @@ monitor_timeseriesPlot <- function(
   addAQI = FALSE,
   palette = c("EPA", "subdued", "deuteranopia"),
   opacity = NULL,
-  NAAQS = c("PM2.5", "PM2.5_2024"),
+  NAAQS = c("PM2.5_2024", "PM2.5"),
   ...
 ) {
 
@@ -136,7 +136,7 @@ monitor_timeseriesPlot <- function(
   argsList <- list(...)
 
   argsList$x <- data$datetime
-  argsList$y <- data %>% dplyr::pull(2)
+  argsList$y <- data %>% dplyr::pull(2) %>% round(digits = 1)
 
   # * Plot limits -----
 
@@ -260,7 +260,7 @@ monitor_timeseriesPlot <- function(
   }
 
   for ( id in meta$deviceDeploymentID ) {
-    argsList$y <- data[[id]] # same as data[, id]
+    argsList$y <- data[[id]] %>% round(digits = 1) # same as data[, id]
     argsList$col <- adjustcolor(my_col, alpha.f = opacity)
     # Add the points
     do.call(points, argsList)

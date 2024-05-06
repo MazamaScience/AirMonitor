@@ -13,7 +13,7 @@ monitor_dailyBarplot(
   opacity = NULL,
   minHours = 18,
   dayBoundary = c("clock", "LST"),
-  NAAQS = c("PM2.5", "PM2.5_2024"),
+  NAAQS = c("PM2.5_2024", "PM2.5"),
   ...
 )
 }

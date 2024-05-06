@@ -6,7 +6,7 @@
 \usage{
 monitor_toAQCTable(
   monitor,
-  NAAQS = c("PM2.5", "PM2.5_2024"),
+  NAAQS = c("PM2.5_2024", "PM2.5"),
   siteIdentifier = "locationName"
 )
 }

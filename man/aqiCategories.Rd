@@ -7,7 +7,7 @@
 aqiCategories(
   x,
   pollutant = c("PM2.5", "AQI", "CO", "NO", "OZONE", "PM10", "SO2"),
-  NAAQS = c("PM2.5", "PM2.5_2024"),
+  NAAQS = c("PM2.5_2024", "PM2.5"),
   conversionArray = NULL
 )
 }

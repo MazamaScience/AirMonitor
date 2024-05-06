@@ -12,7 +12,7 @@ monitor_leaflet(
   maptype = "terrain",
   extraVars = NULL,
   jitter = 5e-04,
-  NAAQS = c("PM2.5", "PM2.5_2024"),
+  NAAQS = c("PM2.5_2024", "PM2.5"),
   ...
 )
 }

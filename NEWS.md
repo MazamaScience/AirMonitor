@@ -1,3 +1,8 @@
+# AirMonitor 0.4.1
+
+Defaulting to the new PM_NAAQS update in all functions that accept the `NAAQS`
+parameter.
+
 # AirMonitor 0.4.0
 
 Version 0.4 includes several new convenience functions as well as minor changes 

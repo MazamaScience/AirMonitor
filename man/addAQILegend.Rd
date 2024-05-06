@@ -10,7 +10,7 @@ addAQILegend(
   pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),
   palette = c("EPA", "subdued", "deuteranopia"),
   languageCode = c("eng", "spa"),
-  NAAQS = c("PM2.5", "PM2.5_2024"),
+  NAAQS = c("PM2.5_2024", "PM2.5"),
   ...
 )
 }

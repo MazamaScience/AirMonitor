@@ -68,7 +68,7 @@ monitor_dailyBarplot <- function(
     opacity = NULL,
     minHours = 18,
     dayBoundary = c("clock", "LST"),
-    NAAQS = c("PM2.5", "PM2.5_2024"),
+    NAAQS = c("PM2.5_2024", "PM2.5"),
     ...
 ) {
 
@@ -123,7 +123,7 @@ monitor_dailyBarplot <- function(
 
   localTime <- data$datetime
 
-  dailyAverage <- data %>% dplyr::pull(2)
+  dailyAverage <- data %>% dplyr::pull(2) %>% round(digits = 1)
 
   if ( all(is.na(dailyAverage)) )
     stop("not enough data to calculate daily averages")

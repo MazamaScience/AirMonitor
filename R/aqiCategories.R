@@ -54,7 +54,7 @@
 aqiCategories <- function(
   x,
   pollutant = c("PM2.5", "AQI", "CO", "NO", "OZONE", "PM10", "SO2"),
-  NAAQS = c("PM2.5", "PM2.5_2024"),
+  NAAQS = c("PM2.5_2024", "PM2.5"),
   conversionArray = NULL
 ) {
 
@@ -90,7 +90,12 @@ aqiCategories <- function(
 
   # ----- Create categories ----------------------------------------------------
 
-  categories <- .bincode(x, breaks)
+  categories <- .bincode(
+    round(x, digits = 1),
+    breaks,
+    right = TRUE,
+    include.lowest = TRUE
+  )
 
   if ( !is.null(conversionArray) ) {
     categories <- conversionArray[categories]

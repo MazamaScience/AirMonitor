@@ -12,7 +12,7 @@ monitor_timeseriesPlot(
   addAQI = FALSE,
   palette = c("EPA", "subdued", "deuteranopia"),
   opacity = NULL,
-  NAAQS = c("PM2.5", "PM2.5_2024"),
+  NAAQS = c("PM2.5_2024", "PM2.5"),
   ...
 )
 }

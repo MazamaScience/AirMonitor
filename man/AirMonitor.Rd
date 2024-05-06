@@ -15,3 +15,23 @@ locations. A 'data' dataframe contains a 'datetime' column followed by
 columns of measurements associated with each "device-deployment".
 }
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/MazamaScience/AirMonitor}
+  \item \url{https://mazamascience.github.io/AirMonitor/}
+  \item Report bugs at \url{https://github.com/MazamaScience/AirMonitor/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Jonathan Callahan \email{jonathan.s.callahan@gmail.com}
+
+Other contributors:
+\itemize{
+  \item Spencer Pease \email{spencerpease618@gmail.com} [contributor]
+  \item Hans Martin \email{hansmrtn@gmail.com} [contributor]
+  \item Rex Thompson \email{rexs.thompson@gmail.com} [contributor]
+}
+
+}
