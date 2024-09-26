@@ -42,7 +42,7 @@
 #' incoming \emph{mts_monitor} object.
 #'
 #' @references \url{https://en.wikipedia.org/wiki/Nowcast_(Air_Quality_Index)}
-#' @references \href{https://www.airnow.gov/sites/default/files/2020-05/aqi-technical-assistance-document-sept2018.pdf}{AQI Technical Assistance Document}
+#' @references \href{https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf}{AQI Technical Assistance Document}
 #'
 
 # NOTE:  This script is based on the javascript code at:
@@ -65,9 +65,9 @@
 #    how many hours ago the concentration was measured.
 
 monitor_nowcast <- function(
-  monitor,
-  version = c("pm", "pmAsian", "ozone"),
-  includeShortTerm = FALSE
+    monitor,
+    version = c("pm", "pmAsian", "ozone"),
+    includeShortTerm = FALSE
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -93,7 +93,7 @@ monitor_nowcast <- function(
   if ( monitor_isEmpty(monitor) )
     stop("Parameter 'monitor' has no data.")
 
-# ----- Choose settings --------------------------------------------------------
+  # ----- Choose settings --------------------------------------------------------
 
   # Set parameters based on version
   if ( version == "pm" ) {
@@ -154,24 +154,27 @@ monitor_nowcast <- function(
 
       x[i] <- NA
 
-    } else if ( is.na(concByHour[1]) ) {
+      # NOTE:  This exception was removed on 2024-09-26 for version 4.0.2 so
+      # NOTE:  that NowCast calculations will exactly match the AirNow version.
 
-      # If the current hour is missing, no valid Nowcast will be reported
-
-      # NOTE:  This conflicts with the algorithm as described here:
-      # NOTE:    https://forum.airnowtech.org/t/daily-and-hourly-aqi-pm2-5/171
-      # NOTE:
-      # NOTE:  But experience shows that NowCast replacements for missing
-      # NOTE:  PM2.5 values are very problematic.
-      # NOTE:
-      # NOTE:  The Wikipedia page: https://en.wikipedia.org/wiki/NowCast_(air_quality_index)
-      # NOTE:  has the following statement without citation:
-      # NOTE:    "Because the most recent hours of data are weighted so heavily in the NowCast when
-      # NOTE:    PM levels are changing, EPA does not report the NowCast when data is missing for c1 or c2."
-      # NOTE:
-      # NOTE:  We take a compromise approach and only invalidate NowCast when data is missing for c1.
-
-      x[i] <- NA
+      # } else if ( is.na(concByHour[1]) ) {
+      #
+      #   # If the current hour is missing, no valid Nowcast will be reported
+      #
+      #   # NOTE:  This conflicts with the algorithm as described here:
+      #   # NOTE:    https://forum.airnowtech.org/t/daily-and-hourly-aqi-pm2-5/171
+      #   # NOTE:
+      #   # NOTE:  But experience shows that NowCast replacements for missing
+      #   # NOTE:  PM2.5 values are very problematic.
+      #   # NOTE:
+      #   # NOTE:  The Wikipedia page: https://en.wikipedia.org/wiki/NowCast_(air_quality_index)
+      #   # NOTE:  has the following statement without citation:
+      #   # NOTE:    "Because the most recent hours of data are weighted so heavily in the NowCast when
+      #   # NOTE:    PM levels are changing, EPA does not report the NowCast when data is missing for c1 or c2."
+      #   # NOTE:
+      #   # NOTE:  We take a compromise approach and only invalidate NowCast when data is missing for c1.
+      #
+      #   x[i] <- NA
 
     } else {
 

@@ -57,5 +57,5 @@ incoming \emph{mts_monitor} object.
 \references{
 \url{https://en.wikipedia.org/wiki/Nowcast_(Air_Quality_Index)}
 
-\href{https://www.airnow.gov/sites/default/files/2020-05/aqi-technical-assistance-document-sept2018.pdf}{AQI Technical Assistance Document}
+\href{https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf}{AQI Technical Assistance Document}
 }

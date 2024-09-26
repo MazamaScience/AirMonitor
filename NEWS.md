@@ -1,3 +1,11 @@
+# AirMonitor 0.4.2
+
+* Updated `monitor_nowcast()` to work in "forecast" mode -- retain NowCast 
+values in the final hour even when no PM2.5 value is available. This should 
+match the way NowCast is calculated at AirNow. See:
+
+https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf
+
 # AirMonitor 0.4.1
 
 Defaulting to the new PM_NAAQS update in all functions that accept the `NAAQS`
