@@ -6,7 +6,7 @@
 \alias{AirMonitor-package}
 \title{AirMonitor: Air Quality Data Analysis}
 \description{
-Utilities for working with hourly air quality monitoring data with a focus on small particulates (PM2.5). A compact data model is structured as a list with two dataframes. A 'meta' dataframe contains spatial and measuring device metadata associated with deployments at known locations. A 'data' dataframe contains a 'datetime' column followed by columns of measurements associated with each "device-deployment". Algorithms to calculate NowCast and the associated Air Quality Index (AQI) are defined at the US Environmental Projection Agency AirNow program: \url{https://www.airnow.gov/sites/default/files/2020-05/aqi-technical-assistance-document-sept2018.pdf}.
+Utilities for working with hourly air quality monitoring data with a focus on small particulates (PM2.5). A compact data model is structured as a list with two dataframes. A 'meta' dataframe contains spatial and measuring device metadata associated with deployments at known locations. A 'data' dataframe contains a 'datetime' column followed by columns of measurements associated with each "device-deployment". Algorithms to calculate NowCast and the associated Air Quality Index (AQI) are defined at the US Environmental Projection Agency AirNow program: \url{https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf}.
 
 \code{
 Utilities for working with hourly air quality monitoring data

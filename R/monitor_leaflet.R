@@ -135,7 +135,7 @@ monitor_leaflet <- function(
 
   # ----- Pollutant dependent AQI ----------------------------------------------
 
-  # See: https://www.airnow.gov/sites/default/files/2020-05/aqi-technical-assistance-document-sept2018.pdf
+  # See: https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf
 
   pollutant <- toupper(unique(monitor$meta$pollutant))
   if ( length(pollutant) > 1 ) {
