@@ -5,7 +5,7 @@
 #' @title Convert monitor data into an AQI category table
 #'
 #' @param monitor \emph{mts_monitor} object.
-#' @param NAAQS Version of NAAQS levels to use. See Note.
+#' @param NAAQS User provided NAAQS levels to use.
 #' @param siteIdentifier Metadata column used to identify sites or a character
 #' vector with site identifiers.
 #'
@@ -18,6 +18,10 @@
 #' order as \code{monitor$meta}.
 #'
 #' @return Table of AQI category counts.
+#'
+#' By default, an appropriate set of NAAQS levels will be chosen for \code{monitor$meta$pollutant}
+#' Users can override these values by providing an alternate
+#' set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 #'
 #' @note
 #' On February 7, 2024, EPA strengthened the National Ambient Air Quality
@@ -67,14 +71,13 @@
 
 monitor_toAQCTable <- function(
   monitor,
-  NAAQS = c("PM2.5_2024", "PM2.5"),
+  NAAQS = NULL,
   siteIdentifier = "locationName"
 ) {
 
   # ----- Validate parameters --------------------------------------------------
 
   MazamaCoreUtils::stopIfNull(monitor)
-  NAAQS = match.arg(NAAQS)
 
   if ( !monitor_isValid(monitor) )
     stop("Parameter 'monitor' is not a valid 'mts_monitor' object.")

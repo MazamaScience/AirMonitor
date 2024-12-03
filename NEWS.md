@@ -1,3 +1,34 @@
+# AirMonitor 0.5.0
+
+Version 0.5 uses the v3 database by default. The v3 database uses the 'geohash'
+algorithm to create locationIDs resulting in an entirely different set of
+`deviceDeploymentID` unique identifiers.
+
+Data processing at [USFS AirFire](https://www.airfire.org) has expanded to 
+include the complete set of global monitors available from AirNow for 
+multiple paramaters, initially focused on PM2.5, PM10 and CO.
+
+Data available from AIRSIS, WRCC and the EPA AQS archives will also be processed
+so that the v3 archives will be a superset of all monitoring data available to
+previous versions of the **AirMonitor** package.
+
+* Switched `coreMetadataNames$zip` to `coreMetadataNames$postalCode`.
+* Removed `monitor_to/fromPWFSLSmoke()`.
+* Updated `US_AQI`:
+  - Updated values in `US_AQI$breaks_~` to match the current NAAQS defined at:
+https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf
+  - Removed `US_AQI$colors_subdued` and `US_AQI$colors_deuteranopia`
+  - Added `US_AQI$colors_EPA_colorVisionAssist`
+  - Renamed all `US_AQI$breaks_~` to include the averaging period
+  - Added `US_AQI$breaks_<PARAMETER>` versions as simpler defaults
+  - Added `US_AQI$breaks_PM2.5_24hr_pre_2024`
+* Made the `NAAQS` parameter in various functions an optional override for
+the pollutant-based default.
+* Removed `version` and `NAAQS` arguments from `monitor_aqi()`. Appropriate, 
+2024 NAAQS will be chosen baed on `monitor$meta$pollutant`.
+
+
+
 # AirMonitor 0.4.2
 
 * Updated `monitor_nowcast()` to work in "forecast" mode -- retain NowCast 

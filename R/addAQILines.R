@@ -3,13 +3,17 @@
 #' @param pollutant EPA AQS criteria pollutant.
 #' @param palette Named color palette to use for AQI categories.
 #' @param ... additional arguments to be passed to \code{abline()}
-#' @param NAAQS Version of NAAQS levels to use. See Note.
+#' @param NAAQS User provided NAAQS levels to use.
 #'
 #' @description Draws AQI lines across a plot at the levels appropriate for
 #' The \link{monitor_timeseriesPlot} function uses this function internally when
 #' specifying \code{addAQI = TRUE}.
 #' \code{pollutant}.
 #' @return No return value, called to add lines to a time series plot.
+#'
+#' By default, an appropriate set of NAAQS levels will be chosen for each
+#' \code{pollutant}. Users can override these values by providing an alternate
+#' set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 #'
 #' @note
 #' On February 7, 2024, EPA strengthened the National Ambient Air Quality
@@ -27,21 +31,24 @@
 
 addAQILines <- function(
   pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),
-  palette = c("EPA", "subdued", "deuteranopia"),
-  NAAQS = c("PM2.5_2024", "PM2.5"),
+  palette = c("EPA", "EPA_colorVisionAssist"),
+  NAAQS = NULL,
   ...
 ) {
 
   pollutant <- match.arg(pollutant)
   palette <- match.arg(palette)
-  NAAQS = match.arg(NAAQS)
 
-  breaks <- US_AQI[[paste0("breaks_", pollutant)]]
   colors <- US_AQI[[paste0("colors_", palette)]]
+  breaks <- US_AQI[[paste0("breaks_", pollutant)]]
 
-  # Handle the added NAAQS argument
-  if ( pollutant == "PM2.5" && NAAQS == "PM2.5_2024" ) {
-    breaks <- US_AQI$breaks_PM2.5_2024
+  # Use NAAQS if provided and valid
+  if ( !is.null(NAAQS) ) {
+    if ( !is.numeric(NAAQS) || length(NAAQS) != 7 ) {
+      warning("User provided 'NAAQS' must have 7 numeric levels")
+    } else {
+      breaks <- NAAQS
+    }
   }
 
   graphics::abline(

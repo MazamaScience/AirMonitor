@@ -10,7 +10,7 @@ monitor_dailyThreshold(
   na.rm = TRUE,
   minHours = 18,
   dayBoundary = c("clock", "LST"),
-  NAAQS = c("PM2.5_2024", "PM2.5")
+  NAAQS = NULL
 )
 }
 \arguments{
@@ -28,7 +28,7 @@ calculate statistics. Days with fewer valid records will be assigned \code{NA}.}
 savings time as defined in the local timezone, "LST" uses "local standard time"
 all year round.}
 
-\item{NAAQS}{Version of NAAQS levels to use. See Note.}
+\item{NAAQS}{User provided NAAQS levels to use.}
 }
 \value{
 A \emph{mts_monitor} object containing daily counts of hours at or above
@@ -38,6 +38,10 @@ a threshold value. (A list with
 \description{
 Calculates the number of hours per day each time series in \code{monitor} was
 at or above a given threshold.
+
+By default, an appropriate set of NAAQS levels will be chosen for \code{monitor$meta$pollutant}
+Users can override these values by providing an alternate
+set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 
 Because the returned \emph{mts_monitor} object is defined on a daily axis in a
 specific time zone, it is important that the incoming \code{monitor} contain

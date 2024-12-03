@@ -7,7 +7,7 @@
 #' @param palette Named color palette to use for AQI categories.
 #' @param languageCode ISO 639-2 alpha-3 language code.
 #' @param ... Additional arguments to be passed to \code{legend()}.
-#' @param NAAQS Version of NAAQS levels to use. See Note.
+#' @param NAAQS User provided NAAQS levels to use.
 #'
 #' @description This function is a convenience wrapper around
 #' \code{graphics::legend()}. It will show the AQI colors and
@@ -19,6 +19,10 @@
 #' arguments with \code{rev()} .
 #' @return A list with components \code{rect} and \code{text} is returned
 #' invisbly. (See \link{legend}.)
+#'
+#' By default, an appropriate set of NAAQS levels will be chosen for each
+#' \code{pollutant}. Users can override these values by providing an alternate
+#' set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 #'
 #' @note
 #' On February 7, 2024, EPA strengthened the National Ambient Air Quality
@@ -38,9 +42,9 @@ addAQILegend <- function(
   x = "topright",
   y = NULL,
   pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),
-  palette = c("EPA", "subdued", "deuteranopia"),
+  palette = c("EPA", "EPA_colorVisionAssist"),
   languageCode = c("eng", "spa"),
-  NAAQS = c("PM2.5_2024", "PM2.5"),
+  NAAQS = NULL,
   ...
 ) {
 
@@ -49,14 +53,18 @@ addAQILegend <- function(
   pollutant <- match.arg(pollutant)
   palette <- match.arg(palette)
   languageCode <- match.arg(languageCode)
-  NAAQS = match.arg(NAAQS)
 
   colors <- US_AQI[[paste0("colors_", palette)]]
   names <- US_AQI[[paste0("names_", languageCode)]]
+  breaks <- US_AQI[[paste0("breaks_", pollutant)]]
 
-  # Handle the added NAAQS argument
-  if ( pollutant == "PM2.5" && NAAQS == "PM2.5_2024" ) {
-    breaks <- US_AQI$breaks_PM2.5_2024
+  # Use NAAQS if provided and valid
+  if ( !is.null(NAAQS) ) {
+    if ( !is.numeric(NAAQS) || length(NAAQS) != 7 ) {
+      warning("User provided 'NAAQS' must have 7 numeric levels")
+    } else {
+      breaks <- NAAQS
+    }
   }
 
   # ----- Create argsList ------------------------------------------------------

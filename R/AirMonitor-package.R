@@ -12,6 +12,11 @@
 #' locations. A 'data' dataframe contains a 'datetime' column followed by
 #' columns of measurements associated with each "device-deployment".
 #' }
+#'
+#' All conversion to AQI (Air Quality Index) values and all plotting
+#' functions adhere to the US EPA guidelines published in May, 2024:
+#'
+#' \href{https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf}{Technical Assistance Document for the Reporting of Daily Air Quality – the Air Quality Index (AQI)}
 
 NULL
 
@@ -63,7 +68,7 @@ coreMetadataNames <- c(
   "houseNumber",              # --
   "street",                   # --
   "city",                     # --
-  "zip",                      # --
+  "postalCode",               # --
 
   # Extras
   "AQSID",                    # -- EPA AQS site identifier (widely used for North American air quality data)
@@ -122,10 +127,10 @@ AirFire_S3_archiveBaseUrl <-
 #' @description
 #' State codes for the 48 contiguous states +DC that make up the CONtinental US.
 #'
-#' \code{
+#' \preformatted{
 #' CONUS <- c(
-#'   "AL","AZ","AR","CA","CO","CT","DE","FL","GA",
-#'   "ID","IL","IN","IA","KS","KY","LA","ME","MD",
+#'        "AL","AZ","AR","CA","CO","CT","DE","FL","GA",
+#'        "ID","IL","IN","IA","KS","KY","LA","ME","MD",
 #'   "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
 #'   "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
 #'   "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
@@ -152,7 +157,7 @@ CONUS <- c(
 #' @description
 #' State codes for the 50 states +DC +PR (Puerto Rico).
 #'
-#' \code{
+#' \preformatted{
 #' US_52 <- c(
 #'   "AK","AL","AZ","AR","CA","CO","CT","DE","FL","GA",
 #'   "HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
@@ -244,18 +249,28 @@ US_52 <- c(
 US_AQI <- list(
 
   # NOTE:  We must have default breaks with just the parameter name
-  # Breaks for all supported parameters
-  breaks_AQI = c(-Inf, 50, 100, 150, 200, 300, Inf),
-  breaks_CO = c(-Inf, 4.5, 9.5, 12.5, 15.5, 30.5, Inf),
-  breaks_NO2 = c(-Inf, 54, 101, 361, 650, 2501, Inf),
-  breaks_OZONE = c(-Inf, 0, .125, .165, .205, .405, Inf),        # Using OZONE_1hr
-  breaks_PM2.5 = c(-Inf, 12, 35.5, 55.5, 150.5, 250.5, Inf),     # Using PM2.5_24hr
-  breaks_PM2.5_2024 = c(-Inf, 9, 35, 55, 125, 225, Inf),         # https://www.epa.gov/system/files/documents/2024-02/pm-naaqs-air-quality-index-fact-sheet.pdf
-  breaks_PM10 = c(-Inf, 55, 155, 255, 355, 425, Inf),
+  # NOTE:  When breaks are used with .bincode(...), the default 'right = TRUE'
+  # NOTE:  means that the values we specify below will be part of the lower bin.
+  # NOTE:  So we take the upper value of each range defined at:
+  # NOTE:    https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf
+  # Detailed breaks for all supported parameters
+  breaks_OZONE_8hr = c(-Inf, 0.054, .070, .085, .105, .200, Inf),
+  breaks_OZONE_1hr = c(-Inf, 0, .124, .164, .204, .404, Inf),
+  breaks_PM2.5_24hr_pre_2024 = c(-Inf, 12, 35.4, 55.4, 150.4, 250.4, Inf),
+  breaks_PM2.5_24hr = c(-Inf, 9, 35.4, 55.4, 125.4, 225.4, Inf),
+  breaks_PM10_24hr = c(-Inf, 54, 154, 254, 354, 424, Inf),
+  breaks_CO_8hr = c(-Inf, 4.4, 9.4, 12.4, 15.4, 30.4, Inf),
+  breaks_SO2_1hr = c(-Inf, 35, 75, 185, 304, 604, Inf),
+  breaks_NO2_1hr = c(-Inf, 53, 100, 360, 649, 1249, Inf),
 
-  # Special breaks
-  breaks_OZONE_1hr = c(-Inf, 0, .125, .165, .205, .405, Inf),    # GOOD, MOD undefined at EPA
-  breaks_OZONE_8hr = c(-Inf, .055, .071, .086, .106, .405, Inf), # HAZ undefined at EPA
+  # Simple names for defaults
+  breaks_OZONE = c(-Inf, 0.054, .070, .085, .105, .200, Inf), # 8hr
+  breaks_PM2.5 = c(-Inf, 9, 35.4, 55.4, 125.4, 225.4, Inf),   # 24hr
+  breaks_PM10 = c(-Inf, 54, 154, 254, 354, 424, Inf),         # 24hr
+  breaks_CO = c(-Inf, 4.4, 9.4, 12.4, 15.4, 30.4, Inf),       # 8hr
+  breaks_SO2 = c(-Inf, 35, 75, 185, 304, 604, Inf),           # 1hr
+  breaks_NO2 = c(-Inf, 53, 100, 360, 649, 1249, Inf),         # 1hr
+  breaks_AQI = c(-Inf, 50, 100, 150, 200, 300, Inf),
 
   # Official EPA colors
   colors_EPA = c(
@@ -266,10 +281,14 @@ US_AQI <- list(
     grDevices::rgb(143/255,63/255,151/255),
     grDevices::rgb(126/255,0,35/255)
   ),
-  # Subdued colors used by USFS AirFire Monitoring (Mv4) site
-  colors_subdued = c("#2ecc71", "#f1c40f", "#e67e22", "#e74c3c", "#9b59b6", "#8c3a3a"),
-  # Color vision impaired colors recommended by Mazama Science
-  colors_deuteranopia = c("#8cddf5", "#ffef00", "#f7921f", "#ed1d24", "#a3064b", "#6d0526"),
+  colors_EPA_colorVisionAssist = c(
+    grDevices::rgb(158/255,255/255,145/255),
+    grDevices::rgb(255/255,201/255,5/255),
+    grDevices::rgb(255/255,130/255,5/255),
+    grDevices::rgb(240/255,34/255,0),
+    grDevices::rgb(137/255,9/255,151/255),
+    grDevices::rgb(100/255,0,21/255)
+  ),
 
   # Names in different languages
   names_eng = c('Good', 'Moderate', 'USG', 'Unhealthy', 'Very Unhealthy', 'Hazardous'),

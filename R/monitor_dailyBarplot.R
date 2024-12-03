@@ -24,11 +24,15 @@
 #' @param dayBoundary Treatment of daylight savings time:  "clock" uses daylight
 #' savings time as defined in the local timezone, "LST" uses "local standard time"
 #' all year round.
-#' @param NAAQS Version of NAAQS levels to use. See Note.
+#' @param NAAQS User provided NAAQS levels to use.
 #' @param ... Additional arguments to be passed to \code{graphics::barplot()}.
 #'
 #' @return No return value. This function is called to draw an air quality
 #' daily average plot on the active graphics device.
+#'
+#' By default, an appropriate set of NAAQS levels will be chosen for \code{monitor$meta$pollutant}
+#' Users can override these values by providing an alternate
+#' set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 #'
 #' @note
 #' On February 7, 2024, EPA strengthened the National Ambient Air Quality
@@ -51,10 +55,14 @@
 #'
 #' layout(matrix(seq(2)))
 #'
-#' Carmel_Valley %>% monitor_dailyBarplot()
+#' Carmel_Valley %>%
+#'   monitor_dailyBarplot(
+#'     NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024
+#'   )
 #' title("(pre-2024 PM NAAQS)", line = 0)
 #'
-#' Carmel_Valley %>% monitor_dailyBarplot(NAAQS = "PM2.5_2024")
+#' Carmel_Valley %>%
+#'   monitor_dailyBarplot()
 #' title("(updated PM NAAQS)", line = 0)
 #'
 #' layout(1)
@@ -68,7 +76,7 @@ monitor_dailyBarplot <- function(
     opacity = NULL,
     minHours = 18,
     dayBoundary = c("clock", "LST"),
-    NAAQS = c("PM2.5_2024", "PM2.5"),
+    NAAQS = NULL,
     ...
 ) {
 
@@ -78,8 +86,6 @@ monitor_dailyBarplot <- function(
   palette <- match.arg(palette)
   MazamaCoreUtils::stopIfNull(minHours)
   dayBoundary <- match.arg(dayBoundary)
-  NAAQS = match.arg(NAAQS)
-
 
   # Subset 'monitor' to a single time series
   if ( nrow(monitor$meta) > 1 ) {

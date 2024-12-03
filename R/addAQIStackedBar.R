@@ -5,12 +5,16 @@
 #' @param height Height of the bar as a fraction of the height of the plot area.
 #' @param pos Position of the stacked bar relative to the plot.
 #' @param palette Named color palette to use for AQI categories.
-#' @param NAAQS Version of NAAQS levels to use. See Note.
+#' @param NAAQS User provided NAAQS levels to use.
 #'
 #' @description Draws a stacked bar indicating AQI levels on one side of a plot
 #' The \link{monitor_timeseriesPlot} function uses this function internally when
 #' specifying \code{addAQI = TRUE}.
 #' @return No return value, called to add color bars to a time series plot.
+#'
+#' By default, an appropriate set of NAAQS levels will be chosen for each
+#' \code{pollutant}. Users can override these values by providing an alternate
+#' set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 #'
 #' @note
 #' On February 7, 2024, EPA strengthened the National Ambient Air Quality
@@ -28,17 +32,16 @@
 
 addAQIStackedBar <- function(
   pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),
-  palette = c("EPA", "subdued", "deuteranopia"),
+  palette = c("EPA", "EPA_colorVisionAssist"),
   width = .01,
   height = 1,
   pos = c("left", "right"),
-  NAAQS = c("PM2.5_2024", "PM2.5")
+  NAAQS = NULL
 ) {
 
   pollutant <- match.arg(pollutant)
   pos <- match.arg(pos)
   palette <- match.arg(palette)
-  NAAQS = match.arg(NAAQS)
 
   usr <- par("usr")
 
@@ -50,12 +53,16 @@ addAQIStackedBar <- function(
     r <- usr[1] + width*(usr[2] - usr[1])
   }
 
-  breaks <- US_AQI[[paste0("breaks_", pollutant)]]
   colors <- US_AQI[[paste0("colors_", palette)]]
+  breaks <- US_AQI[[paste0("breaks_", pollutant)]]
 
-  # Handle the added NAAQS argument
-  if ( pollutant == "PM2.5" && NAAQS == "PM2.5_2024" ) {
-    breaks <- US_AQI$breaks_PM2.5_2024
+  # Use NAAQS if provided and valid
+  if ( !is.null(NAAQS) ) {
+    if ( !is.numeric(NAAQS) || length(NAAQS) != 7 ) {
+      warning("User provided 'NAAQS' must have 7 numeric levels")
+    } else {
+      breaks <- NAAQS
+    }
   }
 
   for (i in 1:6) {

@@ -95,7 +95,7 @@ Additional columns may also be present depending on the data source.
 * `houseNumber` -- (optional) 
 * `street` -- (optional)
 * `city` -- (optional)
-* `zip` -- (optional)
+* `postalCode` -- (optional)
 * `AQSID` -- (optional) EPA AQS unique identifier
 * `fullAQSID` -- (optional) EPA AQS unique identifier
 

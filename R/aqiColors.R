@@ -6,13 +6,17 @@
 #' @param pollutant EPA AQS criteria pollutant.
 #' @param palette Named color palette to use for AQI categories.
 #' @param na.color Color assigned to missing values.
-#' @param NAAQS Version of NAAQS levels to use. See Note.
+#' @param NAAQS User provided NAAQS levels to use.
 #'
 #' @return A vector or matrix of AQI colors to be used in maps and plots.
 #'
 #' @description
 #' This function uses the \code{leaflet::colorBin()} function to return a
 #' vector or matrix of colors derived from data values.
+#'
+#' By default, an appropriate set of NAAQS levels will be chosen for each
+#' \code{pollutant}. Users can override these values by providing an alternate
+#' set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 #'
 #' @note
 #' On February 7, 2024, EPA strengthened the National Ambient Air Quality
@@ -45,10 +49,10 @@
 
 aqiColors <- function(
   x,
-  pollutant = c("PM2.5", "AQI", "CO", "NO", "OZONE", "PM10", "SO2"),
-  palette = c("EPA", "subdued", "deuteranopia"),
+  pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),
+  palette = c("EPA", "EPA_colorVisionAssist"),
   na.color = NA,
-  NAAQS = c("PM2.5_2024", "PM2.5")
+  NAAQS = NULL
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -57,12 +61,16 @@ aqiColors <- function(
   palette <- match.arg(palette)
   NAAQS = match.arg(NAAQS)
 
-  breaks <- US_AQI[[paste0("breaks_", pollutant)]]
   colors <- US_AQI[[paste0("colors_", palette)]]
+  breaks <- US_AQI[[paste0("breaks_", pollutant)]]
 
-  # Handle the added NAAQS argument
-  if ( pollutant == "PM2.5" && NAAQS == "PM2.5_2024" ) {
-    breaks <- US_AQI$breaks_PM2.5_2024
+  # Use NAAQS if provided and valid
+  if ( !is.null(NAAQS) ) {
+    if ( !is.numeric(NAAQS) || length(NAAQS) != 7 ) {
+      warning("User provided 'NAAQS' must have 7 numeric levels")
+    } else {
+      breaks <- NAAQS
+    }
   }
 
   # ----- Prepare data ---------------------------------------------------------

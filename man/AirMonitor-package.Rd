@@ -16,6 +16,11 @@ spatial and measuring device metadata associated with deployments at known
 locations. A 'data' dataframe contains a 'datetime' column followed by
 columns of measurements associated with each "device-deployment".
 }
+
+All conversion to AQI (Air Quality Index) values and all plotting
+functions adhere to the US EPA guidelines published in May, 2024:
+
+\href{https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf}{Technical Assistance Document for the Reporting of Daily Air Quality – the Air Quality Index (AQI)}
 }
 \seealso{
 Useful links:

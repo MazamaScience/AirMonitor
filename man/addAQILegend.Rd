@@ -8,9 +8,9 @@ addAQILegend(
   x = "topright",
   y = NULL,
   pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),
-  palette = c("EPA", "subdued", "deuteranopia"),
+  palette = c("EPA", "EPA_colorVisionAssist"),
   languageCode = c("eng", "spa"),
-  NAAQS = c("PM2.5_2024", "PM2.5"),
+  NAAQS = NULL,
   ...
 )
 }
@@ -25,13 +25,17 @@ addAQILegend(
 
 \item{languageCode}{ISO 639-2 alpha-3 language code.}
 
-\item{NAAQS}{Version of NAAQS levels to use. See Note.}
+\item{NAAQS}{User provided NAAQS levels to use.}
 
 \item{...}{Additional arguments to be passed to \code{legend()}.}
 }
 \value{
 A list with components \code{rect} and \code{text} is returned
 invisbly. (See \link{legend}.)
+
+By default, an appropriate set of NAAQS levels will be chosen for each
+\code{pollutant}. Users can override these values by providing an alternate
+set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 }
 \description{
 This function is a convenience wrapper around

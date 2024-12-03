@@ -20,7 +20,7 @@
 #' @param jitter Amount to use to slightly adjust locations so that multiple
 #' monitors at the same location can be seen. Use zero or \code{NA} to see
 #' precise locations.
-#' @param NAAQS Version of NAAQS levels to use. See Note.
+#' @param NAAQS User provided NAAQS levels to use.
 #' @param ... Additional arguments passed to \code{leaflet::addCircleMarker()}.
 #'
 #' @description
@@ -51,6 +51,10 @@
 #' underlying map tile if available. See
 #' \url{https://leaflet-extras.github.io/leaflet-providers/} for a list of
 #' "provider tiles" to use as the background map.
+#'
+#' By default, an appropriate set of NAAQS levels will be chosen for \code{monitor$meta$pollutant}
+#' Users can override these values by providing an alternate
+#' set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 #'
 #' @note
 #' On February 7, 2024, EPA strengthened the National Ambient Air Quality
@@ -84,12 +88,12 @@
 #'     slice = "mean"
 #'   )
 #'
-#' # Mean AQI category at each site using the updated NAAQS
+#' # Mean AQI category at each site using the pre-2024 NAAQS
 #' monitor_loadLatest() %>%
 #'   monitor_filter(stateCode %in% CONUS) %>%
 #'   monitor_leaflet(
 #'     slice = "mean",
-#'     NAAQS = "PM2.5_2024"
+#'     NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024
 #'   )
 #'
 #' }, silent = FALSE)
@@ -103,7 +107,7 @@ monitor_leaflet <- function(
   maptype = "terrain",
   extraVars = NULL,
   jitter = 5e-4,
-  NAAQS = c("PM2.5_2024", "PM2.5"),
+  NAAQS = NULL,
   ...
 ) {
 
@@ -130,8 +134,6 @@ monitor_leaflet <- function(
   if ( is.null(jitter) || is.na(jitter) ) {
     jitter <- 0
   }
-
-  NAAQS = match.arg(NAAQS)
 
   # ----- Pollutant dependent AQI ----------------------------------------------
 
@@ -161,13 +163,17 @@ monitor_leaflet <- function(
     digits <- 0
   }
 
-  AQI_breaks <- US_AQI[[paste0("breaks_", pollutant)]]
   AQI_colors <- US_AQI[[paste0("colors_", "EPA")]]
   AQI_names <- US_AQI$names_eng
+  AQI_breaks <- US_AQI[[paste0("breaks_", pollutant)]]
 
-  # Handle the added NAAQS argument
-  if ( pollutant == "PM2.5" && NAAQS == "PM2.5_2024" ) {
-    AQI_breaks <- US_AQI$breaks_PM2.5_2024
+  # Use NAAQS if provided and valid
+  if ( !is.null(NAAQS) ) {
+    if ( !is.numeric(NAAQS) || length(NAAQS) != 7 ) {
+      warning("User provided 'NAAQS' must have 7 numeric levels")
+    } else {
+      AQI_breaks <- NAAQS
+    }
   }
 
   breaks <- AQI_breaks

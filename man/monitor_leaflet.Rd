@@ -12,7 +12,7 @@ monitor_leaflet(
   maptype = "terrain",
   extraVars = NULL,
   jitter = 5e-04,
-  NAAQS = c("PM2.5_2024", "PM2.5"),
+  NAAQS = NULL,
   ...
 )
 }
@@ -35,7 +35,7 @@ to be shown in leaflet popups.}
 monitors at the same location can be seen. Use zero or \code{NA} to see
 precise locations.}
 
-\item{NAAQS}{Version of NAAQS levels to use. See Note.}
+\item{NAAQS}{User provided NAAQS levels to use.}
 
 \item{...}{Additional arguments passed to \code{leaflet::addCircleMarker()}.}
 }
@@ -70,6 +70,10 @@ If a character string not listed above is provided, it will be used as the
 underlying map tile if available. See
 \url{https://leaflet-extras.github.io/leaflet-providers/} for a list of
 "provider tiles" to use as the background map.
+
+By default, an appropriate set of NAAQS levels will be chosen for \code{monitor$meta$pollutant}
+Users can override these values by providing an alternate
+set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 }
 \note{
 On February 7, 2024, EPA strengthened the National Ambient Air Quality

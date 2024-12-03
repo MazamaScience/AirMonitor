@@ -6,8 +6,8 @@
 \usage{
 aqiCategories(
   x,
-  pollutant = c("PM2.5", "AQI", "CO", "NO", "OZONE", "PM10", "SO2"),
-  NAAQS = c("PM2.5_2024", "PM2.5"),
+  pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),
+  NAAQS = NULL,
   conversionArray = NULL
 )
 }
@@ -16,7 +16,7 @@ aqiCategories(
 
 \item{pollutant}{EPA AQS criteria pollutant.}
 
-\item{NAAQS}{Version of NAAQS levels to use. See Note.}
+\item{NAAQS}{User provided NAAQS levels to use.}
 
 \item{conversionArray}{Array of six text or other values to return instead of integers.}
 }
@@ -33,6 +33,10 @@ By default, return values will be integers in the range 1:6 or \code{NA}. The
 \code{conversionArray} parameter can be used to convert these integers into
 whatever is specified in the first six elements of \code{conversionArray}. A
 typical usage would be: \code{conversionArray = US_AQI$names_eng}.
+
+By default, an appropriate set of NAAQS levels will be chosen for each
+\code{pollutant}. Users can override these values by providing an alternate
+set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 }
 \note{
 On February 7, 2024, EPA strengthened the National Ambient Air Quality

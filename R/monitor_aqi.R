@@ -3,10 +3,8 @@
 #' @title Calculate hourly NowCast-based AQI values
 #'
 #' @param monitor \emph{mts_monitor} object.
-#' @param version Name of the type of nowcast algorithm to be used.
 #' @param includeShortTerm Logical specifying whether to alcluate preliminary
 #' NowCast values starting with the 2nd hour.
-#' @param NAAQS Version of NAAQS levels to use. See Note.
 #'
 #' @return A modified \code{mts_monitor} object containing AQI values. (A list
 #' with \code{meta} and \code{data} dataframes.)
@@ -15,37 +13,23 @@
 #' monitor object. A modified \code{mts_monitor} object is returned whre values
 #' have been replaced with their Air Quality Index equivalents. See \link{monitor_nowcast}.
 #'
-#' @note
-#' On February 7, 2024, EPA strengthened the National Ambient Air Quality
-#' Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
-#' from harmful and costly health impacts, such as heart attacks and premature
-#' death. Particle or soot pollution is one of the most dangerous forms of air
-#' pollution, and an extensive body of science links it to a range of serious
-#' and sometimes deadly illnesses. EPA is setting the level of the primary
-#' (health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
-#' provide increased public health protection, consistent with the available
-#' health science.
-#' See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
+#' By default, an appropriate set of NAAQS levels will be chosen for \code{monitor$meta$pollutant}.
+#' Users \strong{cannot} currently override these values..
 #'
 #' @references \url{https://en.wikipedia.org/wiki/Nowcast_(Air_Quality_Index)}
 #' @references \url{https://www.airnow.gov/aqi/aqi-basics/}
+#' @references \href{https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf}{AQI Technical Assistance Document}
 #'
 
 monitor_aqi <- function(
-  monitor,
-  version = c("pm", "pmAsian", "ozone"),
-  includeShortTerm = FALSE,
-  NAAQS = c("PM2.5_2024", "PM2.5")
+    monitor,
+    includeShortTerm = FALSE
 ) {
-
-  parameterName <- "PM2.5"
 
   # ----- Validate parameters --------------------------------------------------
 
   MazamaCoreUtils::stopIfNull(monitor)
-  version <- match.arg(version)
   includeShortTerm <- MazamaCoreUtils::setIfNull(includeShortTerm, FALSE)
-  NAAQS = match.arg(NAAQS)
 
   # A little involved to catch the case where the user forgets to pass in 'monitor'
 
@@ -66,26 +50,49 @@ monitor_aqi <- function(
 
   # ----- AQI algorithm --------------------------------------------------------
 
-  # Assign breakpoints
-  breakpointsTable <- .assignBreakpointsTable(parameterName, NAAQS)
+  pollutant <- toupper(unique(monitor$meta$pollutant))
+  if ( length(pollutant) > 1 ) {
+    pollutantString <- paste0(pollutant, collapse = ", ")
+    stop(sprintf("multiple pollutants found: %s", pollutantString))
+  }
 
-  # Calculate NowCast
-  monitor <-
-    monitor %>%
-    # NOTE: see https://forum.airnowtech.org/t/how-does-airnow-handle-negative-hourly-concentrations/143
-    monitor_replaceValues(data < 0, 0) %>%
-    monitor_nowcast(version = version, includeShortTerm = includeShortTerm)
+  if ( pollutant == "OZONE" ) {
+    version = "ozone"
+  } else {
+    version = "pm"
+  }
+
+  # TODO:  Should we use NowCast for non-PM, non-OZONE pollutants?
+
+  if ( pollutant %in% c("PM2.5", "PM10", "OZONE")) {
+    # Calculate NowCast
+    monitor <-
+      monitor %>%
+      # NOTE: see https://forum.airnowtech.org/t/how-does-airnow-handle-negative-hourly-concentrations/143
+      monitor_replaceValues(data < 0, 0) %>%
+      monitor_nowcast(version = version, includeShortTerm = includeShortTerm)
+  } else {
+    monitor <-
+      monitor %>%
+      monitor_replaceValues(data < 0, 0)
+  }
 
   # pull out data for AQI calculation
   data <- dplyr::select(monitor$data, -1)
 
-  # TODO: include/expand checks to ensure values are appropriately truncated
-  if ( parameterName == "PM2.5" || version == "pm" ) {
+  # NOTE:  See secion IV of:
+  # NOTE:    https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf
+  if ( pollutant == "PM2.5" || pollutant == "CO") {
     digits <- 1
+  } else if ( pollutant == "OZONE" ) {
+    digits <- 3
   } else {
     digits <- 0
   }
   data <- trunc(data*10^digits)/10^digits
+
+  # Assign breakpoints
+  breakpointsTable <- .assignBreakpointsTable(pollutant)
 
   # For each datapoint find the breakpointsTable row index that corresponds to the concentration
   rowIndex <- apply(
@@ -128,31 +135,52 @@ monitor_aqi <- function(
 
 # ===== Internal Functions =====================================================
 
-.assignBreakpointsTable <- function(parameterName = "PM2.5", NAAQS = "PM2.5") {
+.assignBreakpointsTable <- function(pollutant = "PM2.5") {
 
-  # TODO: Add other breakpoint table options
+  # TODO:  We could add older breakpoints from:
+  # TODO:    Appendix G, Table 2 at
 
-  if ( parameterName == "PM2.5") {
-    # PM2.5 -- From Appendix G, Table 2 at https://www.ecfr.gov/current/title-40/part-58
-    # PM2.5_2024 -- https://www.epa.gov/system/files/documents/2024-02/pm-naaqs-air-quality-index-fact-sheet.pdf
-    if ( NAAQS == "PM2.5" ) {
-      breakpointsTable <- data.frame(
-        rangeLow = c(0.0, 12.001, 35.5, 55.5, 150.5, 250.5, 350.5),
-        rangeHigh = c(12.0, 35.4, 55.4, 150.4, 250.4, 350.4, 500.4),
-        aqiLow = c(0, 51, 101, 151, 201, 301, 401),
-        aqiHigh = c(50, 100, 150, 200, 300, 400, 500)
-      )
-    } else {
-      breakpointsTable <- data.frame(
-        rangeLow = c(0.0, 9.1, 35.5, 55.5, 125.5, 225.5),
-        rangeHigh = c(9.0, 35.4, 55.4, 125.4, 225.4, 500),
-        aqiLow = c(0, 51, 101, 151, 201, 301, 401),
-        aqiHigh = c(50, 100, 150, 200, 300, 400, 500)
-      )
-    }
+  # NOTE:  Too hard to be clever so we just copy from here:
+  # NOTE:    https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf
+  # NOTE:
+  # NOTE:  For the last value in rangeHigh, see note 4 from Table 6, above.
+
+  if ( pollutant == "OZONE" ) {
+    breakpointsTable <- data.frame(
+      rangeLow = c(.0, .055, .071, .086, .106, .201),
+      rangeHigh = c(.054, .070, .085, .105, .200, .604)
+    )
+  } else if ( pollutant == "PM2.5") {
+    breakpointsTable <- data.frame(
+      rangeLow = c(0.0, 9.1, 35.5, 55.5, 125.5, 225.5),
+      rangeHigh = c(9.0, 35.4, 55.4, 125.4, 225.4, 325.4)
+    )
+  } else if ( pollutant == "PM10") {
+    breakpointsTable <- data.frame(
+      rangeLow = c(0.0, 55, 155, 255, 355, 425),
+      rangeHigh = c(54, 154, 254, 354, 424, 604)
+    )
+  } else if ( pollutant == "CO") {
+    breakpointsTable <- data.frame(
+      rangeLow = c(0.0, 4.5, 9.5, 12.5, 15.5, 30.5),
+      rangeHigh = c(4.4, 9.4, 12.4, 15.4, 30.4, 50.4)
+    )
+  } else if ( pollutant == "SO2") {
+    breakpointsTable <- data.frame(
+      rangeLow = c(0.0, 36, 76, 186, 305, 605),
+      rangeHigh = c(35, 75, 185, 304, 604, 1004)
+    )
+  } else if ( pollutant == "NO2") {
+    breakpointsTable <- data.frame(
+      rangeLow = c(0.0, 54, 101, 361, 650, 1250),
+      rangeHigh = c(53, 100, 360, 649, 1249, 2049)
+    )
   } else {
-    stop("only PM2.5 currently supported")
+    stop(sprintf("pollutant '%s' is not recognized", pollutant))
   }
+
+  breakpointsTable$aqiLow <- c(0, 51, 101, 151, 201, 301)
+  breakpointsTable$aqiHigh <- c(50, 100, 150, 200, 300, 500)
 
   return(breakpointsTable)
 

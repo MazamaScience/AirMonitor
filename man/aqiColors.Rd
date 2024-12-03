@@ -6,10 +6,10 @@
 \usage{
 aqiColors(
   x,
-  pollutant = c("PM2.5", "AQI", "CO", "NO", "OZONE", "PM10", "SO2"),
-  palette = c("EPA", "subdued", "deuteranopia"),
+  pollutant = c("PM2.5", "CO", "OZONE", "PM10", "AQI"),
+  palette = c("EPA", "EPA_colorVisionAssist"),
   na.color = NA,
-  NAAQS = c("PM2.5_2024", "PM2.5")
+  NAAQS = NULL
 )
 }
 \arguments{
@@ -21,7 +21,7 @@ aqiColors(
 
 \item{na.color}{Color assigned to missing values.}
 
-\item{NAAQS}{Version of NAAQS levels to use. See Note.}
+\item{NAAQS}{User provided NAAQS levels to use.}
 }
 \value{
 A vector or matrix of AQI colors to be used in maps and plots.
@@ -29,6 +29,10 @@ A vector or matrix of AQI colors to be used in maps and plots.
 \description{
 This function uses the \code{leaflet::colorBin()} function to return a
 vector or matrix of colors derived from data values.
+
+By default, an appropriate set of NAAQS levels will be chosen for each
+\code{pollutant}. Users can override these values by providing an alternate
+set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 }
 \note{
 On February 7, 2024, EPA strengthened the National Ambient Air Quality

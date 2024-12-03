@@ -11,7 +11,7 @@
 #' @param dayBoundary Treatment of daylight savings time:  "clock" uses daylight
 #' savings time as defined in the local timezone, "LST" uses "local standard time"
 #' all year round.
-#' @param NAAQS Version of NAAQS levels to use. See Note.
+#' @param NAAQS User provided NAAQS levels to use.
 #'
 #' @return A \emph{mts_monitor} object containing daily counts of hours at or above
 #' a threshold value. (A list with
@@ -20,6 +20,10 @@
 #' @description
 #' Calculates the number of hours per day each time series in \code{monitor} was
 #' at or above a given threshold.
+#'
+#' By default, an appropriate set of NAAQS levels will be chosen for \code{monitor$meta$pollutant}
+#' Users can override these values by providing an alternate
+#' set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 #'
 #' Because the returned \emph{mts_monitor} object is defined on a daily axis in a
 #' specific time zone, it is important that the incoming \code{monitor} contain
@@ -57,9 +61,12 @@
 #'   monitor_dailyThreshold("Moderate") %>%
 #'   monitor_getData()
 #'
-#' # Hours at MODERATE or above with the 2024 updated NAAQS
+#' # Hours at MODERATE or above with the pre-2024 NAAQS
 #' Carmel_Valley %>%
-#'   monitor_dailyThreshold("Moderate", NAAQS = "PM2.5_2024") %>%
+#'   monitor_dailyThreshold(
+#'     threshold = "Moderate",
+#'     NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024
+#'  ) %>%
 #'   monitor_getData()
 #'
 #'# Hours at UNHEALTHY or above
@@ -75,7 +82,7 @@ monitor_dailyThreshold <- function(
   na.rm = TRUE,
   minHours = 18,
   dayBoundary = c("clock", "LST"),
-  NAAQS = c("PM2.5_2024", "PM2.5")
+  NAAQS = NULL
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -85,7 +92,6 @@ monitor_dailyThreshold <- function(
   na.rm <- MazamaCoreUtils::setIfNull(na.rm, TRUE)
   MazamaCoreUtils::stopIfNull(minHours)
   dayBoundary <- match.arg(dayBoundary)
-  NAAQS = match.arg(NAAQS)
 
   if ( length(unique(monitor$meta$timezone)) > 1 )
     stop("'monitor' has muliple timezones")
@@ -96,18 +102,28 @@ monitor_dailyThreshold <- function(
     if ( !tolower(threshold) %in% tolower(US_AQI$names_eng) )
       stop(sprintf("'%s' is not a recognized AQI level. Please use one from US_AQI$names_eng.", threshold))
 
+    pollutant <- toupper(unique(monitor$meta$pollutant))
+    if ( length(pollutant) > 1 ) {
+      pollutantString <- paste0(pollutant, collapse = ", ")
+      stop(sprintf("multiple pollutants found: %s", pollutantString))
+    }
 
-    breaks <- US_AQI$breaks_PM2.5
-    # Handle the added NAAQS argument
-    if ( NAAQS == "PM2.5_2024" ) {
-      breaks <- US_AQI$breaks_PM2.5_2024
+    breaks <- US_AQI[[paste0("breaks_", pollutant)]]
+
+    # Use NAAQS if provided and valid
+    if ( !is.null(NAAQS) ) {
+      if ( !is.numeric(NAAQS) || length(NAAQS) != 7 ) {
+        warning("User provided 'NAAQS' must have 7 numeric levels")
+      } else {
+        breaks <- NAAQS
+      }
     }
 
     breaks[1] <- 0
     index <- which(tolower(US_AQI$names_eng) == tolower(threshold))
     threshold <- breaks[index]
 
-  }
+  } # Otherwise, threshold is numeric so just use it
 
   # ----- Create threshold count -----------------------------------------------
 

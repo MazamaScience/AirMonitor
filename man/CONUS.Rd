@@ -13,10 +13,10 @@ CONUS
 \description{
 State codes for the 48 contiguous states +DC that make up the CONtinental US.
 
-\code{
+\preformatted{
 CONUS <- c(
-  "AL","AZ","AR","CA","CO","CT","DE","FL","GA",
-  "ID","IL","IN","IA","KS","KY","LA","ME","MD",
+       "AL","AZ","AR","CA","CO","CT","DE","FL","GA",
+       "ID","IL","IN","IA","KS","KY","LA","ME","MD",
   "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
   "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
   "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
