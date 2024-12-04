@@ -59,7 +59,6 @@ aqiColors <- function(
 
   pollutant <- match.arg(pollutant)
   palette <- match.arg(palette)
-  NAAQS = match.arg(NAAQS)
 
   colors <- US_AQI[[paste0("colors_", palette)]]
   breaks <- US_AQI[[paste0("breaks_", pollutant)]]

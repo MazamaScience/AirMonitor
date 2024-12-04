@@ -3,7 +3,7 @@
 #' @title Calculate hourly NowCast-based AQI values
 #'
 #' @param monitor \emph{mts_monitor} object.
-#' @param includeShortTerm Logical specifying whether to alcluate preliminary
+#' @param includeShortTerm Logical specifying whether to calculate preliminary
 #' NowCast values starting with the 2nd hour.
 #'
 #' @return A modified \code{mts_monitor} object containing AQI values. (A list
@@ -138,7 +138,7 @@ monitor_aqi <- function(
 .assignBreakpointsTable <- function(pollutant = "PM2.5") {
 
   # TODO:  We could add older breakpoints from:
-  # TODO:    Appendix G, Table 2 at
+  # TODO:    Appendix G, Table 2 at https://www.ecfr.gov/current/title-40/part-58
 
   # NOTE:  Too hard to be clever so we just copy from here:
   # NOTE:    https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf

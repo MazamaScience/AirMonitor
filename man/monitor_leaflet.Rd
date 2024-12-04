@@ -105,12 +105,12 @@ monitor_loadLatest() \%>\%
     slice = "mean"
   )
 
-# Mean AQI category at each site using the updated NAAQS
+# Mean AQI category at each site using the pre-2024 NAAQS
 monitor_loadLatest() \%>\%
   monitor_filter(stateCode \%in\% CONUS) \%>\%
   monitor_leaflet(
     slice = "mean",
-    NAAQS = "PM2.5_2024"
+    NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024
   )
 
 }, silent = FALSE)

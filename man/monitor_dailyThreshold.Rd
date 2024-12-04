@@ -78,9 +78,12 @@ Carmel_Valley \%>\%
   monitor_dailyThreshold("Moderate") \%>\%
   monitor_getData()
 
-# Hours at MODERATE or above with the 2024 updated NAAQS
+# Hours at MODERATE or above with the pre-2024 NAAQS
 Carmel_Valley \%>\%
-  monitor_dailyThreshold("Moderate", NAAQS = "PM2.5_2024") \%>\%
+  monitor_dailyThreshold(
+    threshold = "Moderate",
+    NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024
+ ) \%>\%
   monitor_getData()
 
 # Hours at UNHEALTHY or above

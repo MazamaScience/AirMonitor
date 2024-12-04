@@ -4,22 +4,13 @@
 \alias{monitor_aqi}
 \title{Calculate hourly NowCast-based AQI values}
 \usage{
-monitor_aqi(
-  monitor,
-  version = c("pm", "pmAsian", "ozone"),
-  includeShortTerm = FALSE,
-  NAAQS = c("PM2.5_2024", "PM2.5")
-)
+monitor_aqi(monitor, includeShortTerm = FALSE)
 }
 \arguments{
 \item{monitor}{\emph{mts_monitor} object.}
 
-\item{version}{Name of the type of nowcast algorithm to be used.}
-
-\item{includeShortTerm}{Logical specifying whether to alcluate preliminary
+\item{includeShortTerm}{Logical specifying whether to calculate preliminary
 NowCast values starting with the 2nd hour.}
-
-\item{NAAQS}{Version of NAAQS levels to use. See Note.}
 }
 \value{
 A modified \code{mts_monitor} object containing AQI values. (A list
@@ -29,21 +20,14 @@ with \code{meta} and \code{data} dataframes.)
 Nowcast and AQI algorithms are applied to the data in the
 monitor object. A modified \code{mts_monitor} object is returned whre values
 have been replaced with their Air Quality Index equivalents. See \link{monitor_nowcast}.
-}
-\note{
-On February 7, 2024, EPA strengthened the National Ambient Air Quality
-Standards for Particulate Matter (PM NAAQS) to protect millions of Americans
-from harmful and costly health impacts, such as heart attacks and premature
-death. Particle or soot pollution is one of the most dangerous forms of air
-pollution, and an extensive body of science links it to a range of serious
-and sometimes deadly illnesses. EPA is setting the level of the primary
-(health-based) annual PM2.5 standard at 9.0 micrograms per cubic meter to
-provide increased public health protection, consistent with the available
-health science.
-See \href{https://www.epa.gov/pm-pollution/final-reconsideration-national-ambient-air-quality-standards-particulate-matter-pm}{PM NAAQS update}.
+
+By default, an appropriate set of NAAQS levels will be chosen for \code{monitor$meta$pollutant}.
+Users \strong{cannot} currently override these values..
 }
 \references{
 \url{https://en.wikipedia.org/wiki/Nowcast_(Air_Quality_Index)}
 
 \url{https://www.airnow.gov/aqi/aqi-basics/}
+
+\href{https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf}{AQI Technical Assistance Document}
 }

@@ -29,7 +29,7 @@
 #' \enumerate{
 # #' \item{BARPR}
 # #' \item{BC}
-# #' \item{CO}
+#' \item{CO}
 # #' \item{NO}
 # #' \item{NO2}
 # #' \item{NO2Y}
@@ -93,7 +93,7 @@ airnow_loadLatest <- function(
   validParameterNames <- c(
     # "BARPR",
     # "BC",
-    # "CO",
+    "CO",
     # "NO",
     # "NO2",
     # "NO2Y",
@@ -118,7 +118,7 @@ airnow_loadLatest <- function(
   parameterName <- as.character(parameterName)
   if ( !parameterName %in% validParameterNames ) {
     stop(sprintf(
-      "data for parameterName '%s' has not been processed",
+      "data for parameter '%s' is not yet being processed",
       parameterName
     ))
   }

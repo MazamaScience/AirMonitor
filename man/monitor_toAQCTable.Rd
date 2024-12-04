@@ -4,22 +4,22 @@
 \alias{monitor_toAQCTable}
 \title{Convert monitor data into an AQI category table}
 \usage{
-monitor_toAQCTable(
-  monitor,
-  NAAQS = c("PM2.5_2024", "PM2.5"),
-  siteIdentifier = "locationName"
-)
+monitor_toAQCTable(monitor, NAAQS = NULL, siteIdentifier = "locationName")
 }
 \arguments{
 \item{monitor}{\emph{mts_monitor} object.}
 
-\item{NAAQS}{Version of NAAQS levels to use. See Note.}
+\item{NAAQS}{User provided NAAQS levels to use.}
 
 \item{siteIdentifier}{Metadata column used to identify sites or a character
 vector with site identifiers.}
 }
 \value{
 Table of AQI category counts.
+
+By default, an appropriate set of NAAQS levels will be chosen for \code{monitor$meta$pollutant}
+Users can override these values by providing an alternate
+set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 }
 \description{
 Creates a table of AQI category vs monitoring site with a count

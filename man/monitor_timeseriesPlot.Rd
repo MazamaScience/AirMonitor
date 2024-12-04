@@ -12,7 +12,7 @@ monitor_timeseriesPlot(
   addAQI = FALSE,
   palette = c("EPA", "subdued", "deuteranopia"),
   opacity = NULL,
-  NAAQS = c("PM2.5_2024", "PM2.5"),
+  NAAQS = NULL,
   ...
 )
 }
@@ -34,13 +34,17 @@ series found in \code{monitor}.}
 on the number of points so that trends are highlighted while outliers diminish
 in visual importance as the number of points increases.}
 
-\item{NAAQS}{Version of NAAQS levels to use. See Note.}
+\item{NAAQS}{User provided NAAQS levels to use.}
 
 \item{...}{Additional arguments to be passed to \code{graphics::plot.default()}.}
 }
 \value{
 No return value. This function is called to draw an air quality
 time series plot on the active graphics device.
+
+By default, an appropriate set of NAAQS levels will be chosen for \code{monitor$meta$pollutant}
+Users can override these values by providing an alternate
+set of breaks, \emph{e.g.}, \code{NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024}.
 }
 \description{
 Creates a time series plot of data from a \emph{mts_monitor} object.
@@ -83,14 +87,14 @@ Carmel_Valley \%>\%
   )
 addAQILegend()
 
-# Standard extras using the updated PM NAAQS
+# Standard extras using the pre-2024 NAAQS
 Carmel_Valley \%>\%
   monitor_timeseriesPlot(
     shadedNight = TRUE,
     addAQI = TRUE,
-    NAAQS = "PM2.5_2024"
+    NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024
   )
-addAQILegend(NAAQS = "PM2.5_2024")
+addAQILegend(NAAQS = US_AQI$breaks_PM2.5_24hr_pre_2024)
 
 # Fancy plot based on pm2.5 values
 pm2.5 <- Carmel_Valley$data[,2]

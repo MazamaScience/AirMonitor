@@ -1,10 +1,29 @@
-# Version 0.3.0
-
-# ----- Test airnow_latest -----------------------------------------------------
+# Version 0.5.x
 
 library(AirMonitor)
 
+# ===== LATEST =================================================================
+
+# ----- Test v2 database compatibility -----------------------------------------
+
 archiveBaseUrl <- "https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitoring/v2"
+
+airnow_latest <- airnow_loadLatest(archiveBaseUrl = archiveBaseUrl)
+
+# Check New Mexico
+airnow_latest %>%
+  monitor_filter(stateCode == "NM") %>%
+  monitor_leaflet()
+
+# Taos, NM
+airnow_latest %>%
+  monitor_select("1958e8a372add8da_840350550005") %>%
+  monitor_timeseriesPlot(shadedNight = TRUE, addAQI = TRUE)
+
+
+# ----- Test airnow_latest PM2.5 -----------------------------------------------
+
+archiveBaseUrl <- "https://airfire-data-exports.s3.us-west-2.amazonaws.com/monitors/v3"
 
 airnow_latest <- airnow_loadLatest(archiveBaseUrl = archiveBaseUrl)
 
@@ -13,23 +32,58 @@ table(stringr::str_length(airnow_latest$meta$deviceID))
 
 # Deployment type should be known for all monitors in sites_meta
 any(is.na(airnow_latest$meta$deploymentType))
-monitor_filterMeta(airnow_latest, is.na(deploymentType)) %>% monitor_leaflet()
 
 # Are we lifting up negative values?
 any(airnow_latest$data[,-1] < 0, na.rm = TRUE) # Should be FALSE
 
 # Do we have any duplicated locations?
-any(duplicated(airnow_latest$meta$locationID)) # Should be FALSE
+any(duplicated(airnow_latest$meta$locationID)) # Should be FALSE ???
+
+# Check non-US
+airnow_latest %>%
+  monitor_filter(!countryCode %in% c("CA", "US", "MX")) %>%
+  monitor_leaflet()
 
 # Check New Mexico
 airnow_latest %>%
   monitor_filter(stateCode == "NM") %>%
   monitor_leaflet()
 
-# Anthony, NM
+# Taos, NM
 airnow_latest %>%
-  monitor_select("c733850d59531f1e_840350130016") %>%
+  monitor_select("9wkyvrk_840350550005") %>%
   monitor_timeseriesPlot(shadedNight = TRUE, addAQI = TRUE)
+
+
+# ----- Test airnow_latest CO --------------------------------------------------
+
+airnow_latest <-
+  airnow_loadLatest(
+    archiveBaseUrl = archiveBaseUrl,
+    parameterName = "CO"
+  )
+
+# How many monitors?
+nrow(airnow_latest$meta)
+
+airnow_latest %>% monitor_leaflet()
+
+# Sur, Mexico
+airnow_latest %>%
+  monitor_select("9ezk22c_484800010001") %>%
+  monitor_timeseriesPlot(shadedNight = TRUE, addAQI = TRUE, ylim = c(0, 20))
+
+
+# ----- Test airnow_latest PM10 ------------------------------------------------
+
+airnow_latest <-
+  airnow_loadLatest(
+    archiveBaseUrl = archiveBaseUrl,
+    parameterName = "PM10"
+  )
+
+
+# ===== DAILY ==================================================================
 
 # ----- Test airnow_daily ------------------------------------------------------
 
