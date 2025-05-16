@@ -42,6 +42,7 @@ For data extended more than 45 days into the past, use \code{airnow_loadAnnual()
 
 Pre-processed AirNow exists for the following parameters:
 \enumerate{
+\item{CO}
 \item{PM2.5}
 \item{PM2.5_nowcast}
 }
