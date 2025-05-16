@@ -19,22 +19,17 @@ columns of measurements associated with each "device-deployment".
 
 ## Background
 
-The USFS AirFire group is focused on air quality measurements associated with 
+The USFS AirFire group works with air quality measurements associated with 
 wildfire smoke and maintains both historical and real-time databases of PM2.5 
 monitoring data obtained from stationary monitors. This data is used in 
 operational displays and for retrospective analysis. Data ingest and management 
-of air quality “stationary time series” are both important ongoing activities.
+of air quality “stationary time series” are important ongoing activities.
 
 ## Related Packages
 
-The **[AirMonitorIngest](https://github.com/pnwairfire/AirMonitorIngest/)** 
-package is used to create data archives for the **AirMonitor** package and 
-isolates the work of meticulously cleaning, validating and harmonizing data from 
-various sources.
-
 The **AirMonitor** package contains data access functions to easily download 
 harmonized data files as well as data manipulation functions that
-make it easy to create "recipe style" analysis pipelines. The combination allows
+make it easy to create "recipe style" analysis pipelines. This combination allows
 analysts to work efficiently with short, readable R scripts. Interactive and
 base R plotting functions allow for visual review of the data.
 
@@ -43,7 +38,9 @@ package contains **ggplot2** based plotting functions for advanced plots.
 
 ## Installation
 
-*NOTE:  This package has not yet been uploaded to CRAN*
+Install from CRAN with:
+
+`install.packages('AirMonitor')`
 
 Install the latest version from GitHub with:
 
@@ -72,10 +69,10 @@ identical(names(monitor$data), c('datetime', monitor$meta$deviceDeploymentID))
 ```
 
 Each column of `monitor$data` represents a timeseries associated with a particular
-device-deployment while each row represents a _synoptic_ snapshot of all
+ID while each row of `monitor$data` represents a _synoptic_ snapshot of all
 measurements made at a particular time. 
 
-In this manner, software can create both timeseries plots and maps from a single
+In this manner, both timeseries plots and maps can be created from a single
 `monitor` object in memory.
 
 _**Note:**_ The `monitor` object time axis specified in `data$datetime` is 
@@ -84,5 +81,5 @@ guaranteed to be a regular hourly axis with no gaps.
 
 ------------------------------------------------------------------------
 
-This project is supported by the [USFS AirFire](https://www.airfire.org) group.
+This project is supported by the [USFS AirFire](https://www.airfire.org) team.
 

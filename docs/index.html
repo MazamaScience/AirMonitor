@@ -6,21 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Air Quality Data Analysis • AirMonitor</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Air Quality Data Analysis">
-<meta property="og:description" content='Utilities for working with hourly air quality monitoring data
-    with a focus on small particulates (PM2.5). A compact data model is 
-    structured as a list with two dataframes. A meta dataframe contains 
-    spatial and measuring device metadata associated with deployments at known 
-    locations. A data dataframe contains a datetime column followed by 
-    columns of measurements associated with each "device-deployment".
-    Algorithms to calculate NowCast and the associated Air Quality Index (AQI)
-    are defined at the US Environmental Projection Agency AirNow program:
-    &lt;https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf&gt;.'>
+<meta property="og:description" content='Utilities for working with hourly air quality monitoring data with a focus on small particulates (PM2.5). A compact data model is structured as a list with two dataframes. A meta dataframe contains spatial and measuring device metadata associated with deployments at known locations. A data dataframe contains a datetime column followed by columns of measurements associated with each "device-deployment". Algorithms to calculate NowCast and the associated Air Quality Index (AQI) are defined at the US Environmental Projection Agency AirNow program: &lt;https://document.airnow.gov/technical-assistance-document-for-the-reporting-of-daily-air-quailty.pdf&gt;.'>
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -41,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.3</span>
       </span>
     </div>
 
@@ -61,13 +53,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/Citations.html">Citations</a>
+    </li>
+    <li>
       <a href="articles/Data_Model.html">Data Model</a>
     </li>
     <li>
       <a href="articles/Developer_Style_Guide.html">Developer Style Guide</a>
-    </li>
-    <li>
-      <a href="articles/Citations.html">Citations</a>
     </li>
     <li>
       <a href="articles/NowCast.html">NowCast</a>
@@ -115,19 +107,19 @@ columns of measurements associated with each "device-deployment".</code></pre>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
-<p>The USFS AirFire group is focused on air quality measurements associated with wildfire smoke and maintains both historical and real-time databases of PM2.5 monitoring data obtained from stationary monitors. This data is used in operational displays and for retrospective analysis. Data ingest and management of air quality “stationary time series” are both important ongoing activities.</p>
+<p>The USFS AirFire group works with air quality measurements associated with wildfire smoke and maintains both historical and real-time databases of PM2.5 monitoring data obtained from stationary monitors. This data is used in operational displays and for retrospective analysis. Data ingest and management of air quality “stationary time series” are important ongoing activities.</p>
 </div>
 <div class="section level2">
 <h2 id="related-packages">Related Packages<a class="anchor" aria-label="anchor" href="#related-packages"></a>
 </h2>
-<p>The <strong><a href="https://github.com/pnwairfire/AirMonitorIngest/" class="external-link">AirMonitorIngest</a></strong> package is used to create data archives for the <strong>AirMonitor</strong> package and isolates the work of meticulously cleaning, validating and harmonizing data from various sources.</p>
-<p>The <strong>AirMonitor</strong> package contains data access functions to easily download harmonized data files as well as data manipulation functions that make it easy to create “recipe style” analysis pipelines. The combination allows analysts to work efficiently with short, readable R scripts. Interactive and base R plotting functions allow for visual review of the data.</p>
+<p>The <strong>AirMonitor</strong> package contains data access functions to easily download harmonized data files as well as data manipulation functions that make it easy to create “recipe style” analysis pipelines. This combination allows analysts to work efficiently with short, readable R scripts. Interactive and base R plotting functions allow for visual review of the data.</p>
 <p>The <strong><a href="https://github.com/mazamascience/AirMonitorPlots" class="external-link">AirMonitorPlots</a></strong> package contains <strong>ggplot2</strong> based plotting functions for advanced plots.</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p><em>NOTE: This package has not yet been uploaded to CRAN</em></p>
+<p>Install from CRAN with:</p>
+<p><code>install.packages('AirMonitor')</code></p>
 <p>Install the latest version from GitHub with:</p>
 <p><code>devtools::install_github('mazamascience/AirMonitor')</code></p>
 </div>
@@ -140,11 +132,11 @@ columns of measurements associated with each "device-deployment".</code></pre>
 <p><code>monitor$data</code> – rows = UTC times; cols = device-deployments (plus an additional <code>datetime</code> column)</p>
 <p>A key feature of this data model is the use of the <code>deviceDeploymentID</code> as a “foreign key” that allows <code>data</code> columns to be mapped onto the associated spatial and device metadata in a <code>meta</code> row. The following will always be true:</p>
 <pre><code><span><span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">monitor</span><span class="op">$</span><span class="va">data</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'datetime'</span>, <span class="va">monitor</span><span class="op">$</span><span class="va">meta</span><span class="op">$</span><span class="va">deviceDeploymentID</span><span class="op">)</span><span class="op">)</span></span></code></pre>
-<p>Each column of <code>monitor$data</code> represents a timeseries associated with a particular device-deployment while each row represents a <em>synoptic</em> snapshot of all measurements made at a particular time.</p>
-<p>In this manner, software can create both timeseries plots and maps from a single <code>monitor</code> object in memory.</p>
+<p>Each column of <code>monitor$data</code> represents a timeseries associated with a particular ID while each row of <code>monitor$data</code> represents a <em>synoptic</em> snapshot of all measurements made at a particular time.</p>
+<p>In this manner, both timeseries plots and maps can be created from a single <code>monitor</code> object in memory.</p>
 <p><em><strong>Note:</strong></em> The <code>monitor</code> object time axis specified in <code>data$datetime</code> is guaranteed to be a regular hourly axis with no gaps.</p>
 <hr>
-<p>This project is supported by the <a href="https://www.airfire.org" class="external-link">USFS AirFire</a> group.</p>
+<p>This project is supported by the <a href="https://www.airfire.org" class="external-link">USFS AirFire</a> team.</p>
 </div>
 </div>
 
@@ -203,7 +195,7 @@ columns of measurements associated with each "device-deployment".</code></pre>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
 </div>
 
       </footer>

@@ -1,3 +1,7 @@
+# AirMonitor 0.4.3
+
+Minor documentation updates.
+
 # AirMonitor 0.4.2
 
 * Updated `monitor_nowcast()` to work in "forecast" mode -- retain NowCast 
