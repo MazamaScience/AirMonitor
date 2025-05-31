@@ -101,30 +101,13 @@ allmonitors_24hr <-
   ) %>%
   monitor_dropEmpty()
 
-monitor_leaflet(allmonitors_24hr, radius = 6)
-
-# allmonitors_24hr %>%
-#   monitor_timeseriesPlot(
-#     addAQI = TRUE,
-#     palette = "EPA",
-#     NAAQS = "PM2.5_2024",
-#     ylim = c(0,1200),
-#     main = "2024 24-hr PM2.5"
-#   )
-#
-# allmonitors_24hr %>%
-#   monitor_timeseriesPlot(
-#     col = aqiColors(allmonitors_24hr),
-#     opacity = 0.8
-#   )
+### monitor_leaflet(allmonitors_24hr, radius = 6)
 
 ids <- allmonitors_24hr$meta$deviceDeploymentID
 
-monitor <-
-  allmonitors_24hr %>%
-  monitor_select(ids[1])
-
-monitor %>%
+# First blank plot to get the labeling
+allmonitors_24hr %>%
+  monitor_select(ids[1]) %>%
   monitor_timeseriesPlot(
     addAQI = TRUE,
     col = 'transparent',
@@ -133,13 +116,16 @@ monitor %>%
     main = "2024 24-hr PM2.5"
   )
 
+# No 'add' each monitor plot individually
+for ( i in seq_along(ids) ) {
 
-for ( id in ids ) {
+  if ( i %% 10 == 0 )
+    message(sprintf("Working on %d of %d monitors", i, length(ids)))
 
-  message(sprintf("working on %s", id))
+  id <- ids[i]
 
   monitor <-
-    all_monitors %>%
+    allmonitors_24hr %>%
     monitor_select(id)
 
   monitor %>%
