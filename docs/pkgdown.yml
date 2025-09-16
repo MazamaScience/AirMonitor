@@ -1,4 +1,4 @@
-pandoc: '3.2'
+pandoc: 3.6.3
 pkgdown: 2.0.9
 pkgdown_sha: ~
 articles:
@@ -6,7 +6,8 @@ articles:
   Citations: Citations.html
   Data_Model: Data_Model.html
   Developer_Style_Guide: Developer_Style_Guide.html
+  Hourly_Barplot: Hourly_Barplot.html
   NowCast: NowCast.html
   Save_Data_as_CSV: Save_Data_as_CSV.html
-last_built: 2025-05-16T23:49Z
+last_built: 2025-09-16T21:47Z
 
