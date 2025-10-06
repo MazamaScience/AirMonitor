@@ -119,7 +119,7 @@ View(airnow_ca$data)
 ```
 
 Finally, to emphasize the compact, expressiveness of "recipe"-style syntax, the 
-following calculates daily mean timeseries for each California monitor and 
+following calculates daily mean tmeseries for each California monitor and 
 displays the `data` dataframe in the RStudio viewer:
 
 ```{r recipe, eval = FALSE}

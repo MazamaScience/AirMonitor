@@ -12,7 +12,7 @@ monitor_arrange(monitor, ...)
 \item{...}{variables in \code{mts$meta}.}
 }
 \value{
-A reorderd version of the incoming \emph{mts} time series object.
+A reordered version of the incoming \emph{mts} time series object.
 (A list with \code{meta} and \code{data} dataframes.)
 }
 \description{

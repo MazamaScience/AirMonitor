@@ -125,7 +125,7 @@ monitor <-
 # 'mts_monitor' objects can be identified by their class
 class(monitor)
 
-# They alwyas have two elements called 'meta' and 'data'
+# They always have two elements called 'meta' and 'data'
 names(monitor)
 
 # Examine the 'meta' dataframe
@@ -149,6 +149,7 @@ model.
 
 Functions that accept and return _mts_monitor_ objects include:
 
+ * `monitor_arrange()`
  * `monitor_aqi()`
  * `monitor_collapse()`
  * `monitor_combine()`
@@ -164,6 +165,7 @@ Functions that accept and return _mts_monitor_ objects include:
  * `monitor_replaceValues()`
  * `monitor_select()` ( aka `monitor_reorder()`)
  * `monitor_selectWhere()`
+ * `monitor_slice()`
  * `monitor_trimDate()`
 
 These functions can be used with the **magrittr** package pipe operator (`%>%`)

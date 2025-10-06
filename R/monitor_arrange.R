@@ -10,7 +10,7 @@
 #' function uses \code{\link[dplyr]{arrange}} on \code{monitor$meta} and then
 #' reorders \code{monitor$data} to match.
 #'
-#' @return A reorderd version of the incoming \emph{mts} time series object.
+#' @return A reordered version of the incoming \emph{mts} time series object.
 #' (A list with \code{meta} and \code{data} dataframes.)
 #'
 #' @seealso \link{monitor_select}

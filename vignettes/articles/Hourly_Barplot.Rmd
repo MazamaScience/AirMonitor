@@ -1,0 +1,116 @@
+---
+title: "Example: Hourly Barplot"
+author: "Jonathan Callahan"
+date: "2025-09-16"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Example: Hourly Barplot}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(fig.width = 7, fig.height = 5)
+```
+
+> How can I create an hourly barplot?
+
+If you have **AirMonitor** installed, you should be able to copy and paste this
+code into the RStudio console.
+
+The `monitor_timeseriesPlot()` function can be used to create an hourly barplot
+as seen on many websites with each bar colored by PM2.5 level. The following 
+code shows how this is done for a single monitor and is ready to paste into
+RStudio.
+
+Enjoy!
+
+```{r functionDefinition, eval = FALSE}
+library(AirMonitor)
+
+# Define the monitor_hourlyBarplot() function
+monitor_hourlyBarplot <- function(
+  monitor = NULL,
+  id = NULL,
+  shadedNight = FALSE,
+  addAQI = FALSE,
+  lwd = 3,
+  ...
+){ 
+  # ----- Validate parameters --------------------------------------------------
+
+  MazamaCoreUtils::stopIfNull(monitor)
+
+  # Subset 'monitor' to a single time series
+  if ( nrow(monitor$meta) > 1 ) {
+
+    MazamaCoreUtils::stopIfNull(id)
+    if ( !id %in% monitor$meta$deviceDeploymentID )
+      stop("id = \"%s\" is not found in 'monitor'")
+
+    monitor <-
+      monitor %>%
+      monitor_filter(.data$deviceDeploymentID == !!id)
+
+  }
+
+  monitor <- monitor_dropEmpty(monitor)
+
+  if ( ncol(monitor$data) < 2 )
+    stop("no valid data in 'monitor'")
+
+  if ( nrow(monitor$meta) > 1 )
+    stop("multiple records found in 'monitor$meta'")
+
+  # ----- Hourly Barplot -------------------------------------------------------
+  
+  # Pull out PM2.5 data for colors
+  pm2.5 <- monitor$data %>% dplyr::pull(monitor$meta$deviceDeploymentID)
+  
+  monitor_timeseriesPlot(
+    monitor = monitor,
+    id = id,
+    shadedNight = shadedNight,
+    addAQI = addAQI,
+    type = 'h',        # bars
+    lwd = lwd,         # barplot width
+    lend = 1,          # barplot square ends
+    col = aqiColors(pm2.5),
+    ...
+  )
+  
+}
+```
+
+Now we can put this function to use with some examples:
+
+```{r exampleUsage, eval = FALSE}
+# Example 1) simple
+
+AirMonitor::Carmel_Valley %>%
+  monitor_hourlyBarplot(
+    shadedNight = TRUE
+  )
+
+# Example 2) recent data for King County, Washington
+
+# Load recent data
+airnow <- airnow_loadLatest()
+enddate <- lubridate::now("UTC")
+startdate <- enddate - lubridate::ddays(3)
+
+airnow %>% 
+  # King County Washington
+  monitor_filter(stateCode == "WA" & countyName == "King") %>%
+  # Trim to last 3 days
+  monitor_filterDate(startdate, enddate) %>%
+  # Average together hour by hour
+  monitor_collapse(FUN = mean) %>%
+  # Hourly barplot with enhancements
+  monitor_hourlyBarplot(
+    main = "Average PM2.5 for King County, Washington",
+    shadedNight = TRUE,
+    lwd = 5,
+    xlab = ''
+  )
+```
