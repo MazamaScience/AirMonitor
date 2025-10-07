@@ -70,6 +70,8 @@ monitor_load <- function(
     }
   }
 
+  # NOTE:  MazamaCoreUtils::dateRange() will return properly ordered times
+  # NOTE:  even if startdate > enddate.
   tRange <- MazamaCoreUtils::dateRange(
     startdate = startdate,
     enddate = enddate,
@@ -82,10 +84,25 @@ monitor_load <- function(
   starttime <- tRange[1]
   endtime <- tRange[2]
 
-  now <- lubridate::now(tzone = "UTC")
+  now <- lubridate::now(tzone = "UTC") %>% lubridate::floor_date(unit = "hours")
   now_m1 <- now - lubridate::ddays(1)
   now_m10 <- now - lubridate::ddays(10)
   now_m45 <- now - lubridate::ddays(45)
+
+  if ( starttime > now ) {
+    stop(sprintf("Both dates are in the future: startdate: %s, enddate: %s",
+                    strftime(starttime, "%Y-%m-%d %H:%M UTC", tz = "UTC"),
+                    strftime(endtime, "%Y-%m-%d %H:%M UTC", tz = "UTC")
+    ))
+  }
+
+  if ( endtime > now ) {
+    message(sprintf("enddate: %s is a future date. Changing enddate to now: %s",
+                    strftime(endtime, "%Y-%m-%d %H:%M UTC", tz = "UTC"),
+                    strftime(now, "%Y-%m-%d %H:%M UTC", tz = "UTC")
+    ))
+    endtime <- now
+  }
 
   # ----- Load annual data -----------------------------------------------------
 
@@ -104,7 +121,11 @@ monitor_load <- function(
     if ( length(monitorList) == 1 ) {
       annualData <- monitorList[[1]]
     } else {
-      annualData <- monitor_combine(monitorList)
+      annualData <- monitor_combine(
+        monitorList,
+        replaceMeta = TRUE,
+        overlapStrategy = "replace na"
+      )
     }
 
   }
@@ -137,7 +158,7 @@ monitor_load <- function(
         monitor,
         dailyData,
         replaceMeta = TRUE,
-        overlapStrategy = "replace all"
+        overlapStrategy = "replace na"
       )
     } else {
       monitor <- dailyData
@@ -150,7 +171,7 @@ monitor_load <- function(
         monitor,
         dailyData,
         replaceMeta = TRUE,
-        overlapStrategy = "replace all"
+        overlapStrategy = "replace na"
       )
     } else {
       monitor <- latestData
