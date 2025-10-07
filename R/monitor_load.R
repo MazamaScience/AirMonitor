@@ -42,16 +42,16 @@
 #' }
 
 monitor_load <- function(
-  startdate = NULL,
-  enddate = NULL,
-  timezone = NULL,
-  archiveBaseUrl = paste0(
-    "https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
-    "monitoring/v2"
-  ),
-  archiveBaseDir = NULL,
-  QC_negativeValues = c("zero", "na", "ignore"),
-  epaPreference = c("airnow", "epa_aqs")
+    startdate = NULL,
+    enddate = NULL,
+    timezone = NULL,
+    archiveBaseUrl = paste0(
+      "https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
+      "monitoring/v2"
+    ),
+    archiveBaseDir = NULL,
+    QC_negativeValues = c("zero", "na", "ignore"),
+    epaPreference = c("airnow", "epa_aqs")
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -101,7 +101,11 @@ monitor_load <- function(
       monitorList[[as.character(year)]] <- monitor_loadAnnual(year, archiveBaseUrl, archiveBaseDir, QC_negativeValues, epaPreference)
     }
 
-    annualData <- monitor_combine(monitorList)
+    if ( length(monitorList) == 1 ) {
+      annualData <- monitorList[[1]]
+    } else {
+      annualData <- monitor_combine(monitorList)
+    }
 
   }
 
@@ -128,16 +132,26 @@ monitor_load <- function(
   }
 
   if ( exists("dailyData") ) {
-    if ( exists("mts_monitor") ) {
-      monitor <- monitor_combine(monitor, dailyData)
+    if ( exists("monitor") ) {
+      monitor <- monitor_combine(
+        monitor,
+        dailyData,
+        replaceMeta = TRUE,
+        overlapStrategy = "replace all"
+      )
     } else {
       monitor <- dailyData
     }
   }
 
   if ( exists("latestData") ) {
-    if ( exists("mts_monitor") ) {
-      monitor <- monitor_combine(monitor, latestData)
+    if ( exists("monitor") ) {
+      monitor <- monitor_combine(
+        monitor,
+        dailyData,
+        replaceMeta = TRUE,
+        overlapStrategy = "replace all"
+      )
     } else {
       monitor <- latestData
     }

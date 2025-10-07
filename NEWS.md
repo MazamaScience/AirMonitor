@@ -1,3 +1,7 @@
+# AirMonitor 0.4.4
+
+* Fixed bug in `monitor_load()`.
+
 # AirMonitor 0.4.3
 
 Minor documentation updates.
