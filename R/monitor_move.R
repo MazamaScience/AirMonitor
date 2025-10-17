@@ -124,7 +124,7 @@ monitor_move <- function(
     monitor_combine(
       mon,
       replaceMeta = TRUE,
-      overlapStrategy = "replace all"
+      overlapStrategy = "replace na"
     )
 
   # ----- Return ---------------------------------------------------------------
