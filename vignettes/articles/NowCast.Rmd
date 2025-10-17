@@ -311,6 +311,9 @@ Omak <-
 ```
 
 ```{r Omak_nowcast_plot, echo = FALSE}
+#| fig.alt: >
+#|   Timeseris plot of hourly and Nowcast PM2.5 values in Omak in 2015. The 
+#|   Nowcast values lie almost directly on top of the hourly values.
 monitor_timeseriesPlot(Omak, type = 'l', lwd = 2)
 monitor_timeseriesPlot(
   monitor_nowcast(Omak), 

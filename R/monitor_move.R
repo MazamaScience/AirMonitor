@@ -1,6 +1,6 @@
 #' @export
 #'
-#' @title Move an \code{mts_monitor} object to a new location
+#' @title Move an \emph{mts_monitor} object to a new location
 #'
 #' @param monitor \emph{mts_monitor} object.
 #' @param id \code{deviceDeploymentID} for a single time series found in \code{monitor}.

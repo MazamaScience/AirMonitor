@@ -57,8 +57,8 @@ library(AirMonitor)
 # Fail gracefully if any resources are not available
 try({
 
-airsis_loadLatest()\ \%>\\%
-  monitor_filter(stateCode == "CA") \\%>\\%
+airsis_loadLatest() \%>\%
+  monitor_filter(stateCode == "CA") \%>\%
   monitor_leaflet()
 
 }, silent = FALSE)

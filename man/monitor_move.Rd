@@ -2,7 +2,7 @@
 % Please edit documentation in R/monitor_move.R
 \name{monitor_move}
 \alias{monitor_move}
-\title{Move an \code{mts_monitor} object to a new location}
+\title{Move an \emph{mts_monitor} object to a new location}
 \usage{
 monitor_move(
   monitor,

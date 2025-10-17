@@ -29,8 +29,8 @@ This dataset was generated on 2022-10-12 by running:
 library(AirMonitor)
 
 Carmel_Valley <-
-  airnow_loadAnnual(2016) \%>\%
-  monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_840060530002") \%>\%
+  airnow_loadAnnual(2016) %>%
+  monitor_filterMeta(deviceDeploymentID == "a9572a904a4ed46d_840060530002") %>%
   monitor_filterDate(20160722, 20160815)
 
 save(Carmel_Valley, file = "data/Carmel_Valley.rda")

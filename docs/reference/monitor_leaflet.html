@@ -12,7 +12,7 @@ functions must accept na.rm as an argument."><!-- mathjax --><script src="https:
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -26,7 +26,7 @@ functions must accept na.rm as an argument."><!-- mathjax --><script src="https:
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.5</span>
       </span>
     </div>
 
@@ -40,7 +40,7 @@ functions must accept na.rm as an argument."><!-- mathjax --><script src="https:
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
@@ -68,14 +68,14 @@ functions must accept na.rm as an argument."><!-- mathjax --><script src="https:
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/MazamaScience/AirMonitor/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
@@ -114,67 +114,67 @@ functions must accept <code>na.rm</code> as an argument.</p>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>monitor</dt>
+
+
+<dl><dt id="arg-monitor">monitor<a class="anchor" aria-label="anchor" href="#arg-monitor"></a></dt>
 <dd><p><em>mts_monitor</em> object.</p></dd>
 
 
-<dt>slice</dt>
+<dt id="arg-slice">slice<a class="anchor" aria-label="anchor" href="#arg-slice"></a></dt>
 <dd><p>Either a formatted time string, a time index, the name of a
 (potentially user defined) function used to collapse the time axis.</p></dd>
 
 
-<dt>radius</dt>
+<dt id="arg-radius">radius<a class="anchor" aria-label="anchor" href="#arg-radius"></a></dt>
 <dd><p>radius of monitor circles</p></dd>
 
 
-<dt>opacity</dt>
+<dt id="arg-opacity">opacity<a class="anchor" aria-label="anchor" href="#arg-opacity"></a></dt>
 <dd><p>opacity of monitor circles</p></dd>
 
 
-<dt>maptype</dt>
+<dt id="arg-maptype">maptype<a class="anchor" aria-label="anchor" href="#arg-maptype"></a></dt>
 <dd><p>optional name of leaflet ProviderTiles to use, e.g. "terrain"</p></dd>
 
 
-<dt>extraVars</dt>
+<dt id="arg-extravars">extraVars<a class="anchor" aria-label="anchor" href="#arg-extravars"></a></dt>
 <dd><p>Character vector of additional column names from <code>monitor$meta</code>
 to be shown in leaflet popups.</p></dd>
 
 
-<dt>jitter</dt>
+<dt id="arg-jitter">jitter<a class="anchor" aria-label="anchor" href="#arg-jitter"></a></dt>
 <dd><p>Amount to use to slightly adjust locations so that multiple
 monitors at the same location can be seen. Use zero or <code>NA</code> to see
 precise locations.</p></dd>
 
 
-<dt>NAAQS</dt>
+<dt id="arg-naaqs">NAAQS<a class="anchor" aria-label="anchor" href="#arg-naaqs"></a></dt>
 <dd><p>Version of NAAQS levels to use. See Note.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Additional arguments passed to <code>leaflet::addCircleMarker()</code>.</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>Invisibly returns a leaflet map of class "leaflet".</p>
+    <p>Invisibly returns a leaflet map of class "leaflet".</p>
     </div>
     <div id="details">
     <h2>Details</h2>
     <p>The <code>maptype</code> argument is mapped onto leaflet "ProviderTile" names.
 Current map types include:</p>
 <dl><dt>"roadmap"</dt>
-<dd><p>-- "OpenStreetMap"</p></dd>
+<dd><p>– "OpenStreetMap"</p></dd>
 
 <dt>"satellite"</dt>
-<dd><p>-- "Esri.WorldImagery"</p></dd>
+<dd><p>– "Esri.WorldImagery"</p></dd>
 
 <dt>"terrain"</dt>
-<dd><p>-- "Esri.WorldTopoMap"</p></dd>
+<dd><p>– "Esri.WorldTopoMap"</p></dd>
 
 <dt>"toner"</dt>
-<dd><p>-- "Stamen.Toner"</p></dd>
+<dd><p>– "Stamen.Toner"</p></dd>
 
 
 </dl><p>If a character string not listed above is provided, it will be used as the
@@ -198,7 +198,7 @@ See <a href="https://www.epa.gov/pm-pollution/final-reconsideration-national-amb
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span> <span class="co"># \dontrun{</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/AirMonitor" class="external-link">AirMonitor</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># Fail gracefully if any resources are not available</span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/try.html" class="external-link">try</a></span><span class="op">(</span><span class="op">{</span></span></span>
@@ -224,7 +224,7 @@ See <a href="https://www.epa.gov/pm-pollution/final-reconsideration-national-amb
 <span class="r-in"><span>  <span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="op">}</span>, silent <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span><span class="op">}</span> <span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -239,15 +239,15 @@ See <a href="https://www.epa.gov/pm-pollution/final-reconsideration-national-amb
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 

@@ -30,13 +30,13 @@ This dataset was was generated on 2022-10-12 by running:
 library(AirMonitor)
 
 Camp_Fire <-
-  monitor_loadAnnual(2018) \%>\%
-  monitor_filter(stateCode == 'CA') \%>\%
+  monitor_loadAnnual(2018) %>%
+  monitor_filter(stateCode == 'CA') %>%
   monitor_filterDate(
     startdate = 20181108,
     enddate = 20181123,
     timezone = "America/Los_Angeles"
- ) \%>\%
+ ) %>%
  monitor_dropEmpty()
 
 save(Camp_Fire, file = "data/Camp_Fire.rda")

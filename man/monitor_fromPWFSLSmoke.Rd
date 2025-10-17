@@ -2,7 +2,7 @@
 % Please edit documentation in R/monitor_fromPWFSLSmoke.R
 \name{monitor_fromPWFSLSmoke}
 \alias{monitor_fromPWFSLSmoke}
-\title{Convert a ws_monitor object from the PWFSLSmoke package}
+\title{Convert a \emph{ws_monitor} object from the PWFSLSmoke package}
 \usage{
 monitor_fromPWFSLSmoke(ws_monitor = NULL)
 }

@@ -62,10 +62,10 @@ try({
 # See https://en.wikipedia.org/wiki/Camp_Fire_(2018)
 
 # AIRSIS monitors during the Camp Fire
-airsis_loadAnnual(2018) \\%>\\%
-  monitor_filter(stateCode == "CA") \\%>\\%
-  monitor_filterDate(20181101, 20181201) \\%>\\%
-  monitor_dropEmpty() \\%>\\%
+airsis_loadAnnual(2018) \%>\%
+  monitor_filter(stateCode == "CA") \%>\%
+  monitor_filterDate(20181101, 20181201) \%>\%
+  monitor_dropEmpty() \%>\%
   monitor_leaflet()
 
 }, silent = FALSE)

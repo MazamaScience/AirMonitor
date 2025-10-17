@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils-monitor.R
 \name{monitor_check}
 \alias{monitor_check}
-\title{Check an \emph{mts_monitor} object for validity.}
+\title{Check an \emph{mts_monitor} object for validity}
 \usage{
 monitor_check(monitor)
 }

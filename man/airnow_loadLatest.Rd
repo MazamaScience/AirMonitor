@@ -53,8 +53,8 @@ library(AirMonitor)
 # Fail gracefully if any resources are not available
 try({
 
-airnow_loadLatest() \\%>\\%
-  monitor_filter(stateCode == "WA") \\%>\\%
+airnow_loadLatest() \%>\%
+  monitor_filter(stateCode == "WA") \%>\%
   monitor_leaflet()
 
 }, silent = FALSE)

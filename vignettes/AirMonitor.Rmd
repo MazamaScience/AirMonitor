@@ -102,6 +102,10 @@ single monitor and take a look at a time series plot. Day-night shading and AQI
 decorations create a publication-ready plot:
 
 ```{r Sacramento_3}
+#| fig.alt: >
+#|   Tmeseries plot of hourly PM2.5 concentration in Sacramento during the
+#|   2018 Camp Fire. Several days in mid-November had hours with VERY UNHEALTHY or
+#|   HAZARDOUS air quality.
 # create single-monitor Sacramento 
 Sacramento <-
   
@@ -147,6 +151,10 @@ data for _all_ the monitors in the Sacramento area in a single plot. This gives
 a sense of the range of values within the area at any given hour.
 
 ```{r Sacramento_5}
+#| fig.alt: >
+#|   Tmeseries plot of hourly PM2.5 concentration in the greater Sacramento area during the
+#|   2018 Camp Fire. Several days in mid-November had hours with VERY UNHEALTHY or
+#|   HAZARDOUS air quality.
 Sacramento_area %>%
   monitor_timeseriesPlot(
     shadedNight = TRUE,
@@ -179,6 +187,10 @@ Sacramento_area %>%
 Alternatively, we can plot the daily averages.
 
 ```{r Sacramento_7}
+#| fig.alt: >
+#|   Barplot of daily averaged PM2.5 concentration in the greater Sacramento area during the
+#|   2018 Camp Fire. Several days in mid-November had daily average values in
+#|   the UNHEALTHY or VERY UNHEALTHY categories.
 # 1) start with Sacramento_area
 Sacramento_area %>%
   

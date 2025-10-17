@@ -1,6 +1,6 @@
 #' @export
 #'
-#' @title Datetime filtering for \code{mts_monitor} objects
+#' @title Datetime filtering for \emph{mts_monitor} objects
 #'
 #' @param monitor \emph{mts_monitor} object.
 #' @param startdate Desired start datetime (ISO 8601).

@@ -2,7 +2,7 @@
 % Please edit documentation in R/monitor_collapse.R
 \name{monitor_collapse}
 \alias{monitor_collapse}
-\title{Collapse an \code{mts_monitor} object into a single time series}
+\title{Collapse an \emph{mts_monitor} object into a single time series}
 \usage{
 monitor_collapse(
   monitor,

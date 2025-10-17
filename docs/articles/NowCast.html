@@ -12,14 +12,13 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="NowCast">
-<meta property="og:description" content="AirMonitor">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -33,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.5</span>
       </span>
     </div>
 
@@ -48,7 +47,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -80,7 +79,7 @@
 <li>
   <a href="https://github.com/MazamaScience/AirMonitor/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -91,7 +90,7 @@
 </div>
 <!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
@@ -153,11 +152,15 @@ including other criteria pollutants.</p>
 PM<sub>10</sub>)<a class="anchor" aria-label="anchor" href="#nowcast-equation-for-pm-data-pm2-5-or-pm10"></a>
 </h3>
 <p>The NowCast value for a given hour can be calculated as follows:</p>
-<p><span class="math display">\[
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>o</mi><mi>w</mi><mi>C</mi><mi>a</mi><mi>s</mi><mi>t</mi><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>12</mn></munderover><mrow><msup><mi>w</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow></msup><msub><mi>c</mi><mi>i</mi></msub></mrow></mrow><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>12</mn></munderover><msup><mi>w</mi><mrow><mi>i</mi><mo>−</mo><mn>1</mn></mrow></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">
 NowCast = \frac{\sum_{i=1}^{12}{w^{i-1}c_i}}{\sum_{i=1}^{12}w^{i-1}}
-\]</span></p>
-<p>where <span class="math inline">\(i\)</span>, <span class="math inline">\(w\)</span> and <span class="math inline">\(c\)</span> are as defined in the sections
-below.</p>
+</annotation></semantics></math></p>
+<p>where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>c</mi><annotation encoding="application/x-tex">c</annotation></semantics></math>
+are as defined in the sections below.</p>
 <p>Source:</p>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/NowCast_(air_quality_index)" class="external-link uri">https://en.wikipedia.org/wiki/NowCast_(air_quality_index)</a></li>
@@ -168,9 +171,20 @@ below.</p>
 </h3>
 <p>For PM2.5 data, the NowCast algorithm uses hourly averages from the
 prior 12 clock hours.</p>
-<p>The hourly averages are denoted below by <span class="math inline">\(c_i\)</span>, where <span class="math inline">\(i\)</span> represents the number of hours before
-present. For example, <span class="math inline">\(c_1\)</span>, <span class="math inline">\(c_2\)</span>, <span class="math inline">\(c_3\)</span>, <span class="math inline">\(...\)</span>, <span class="math inline">\(c_N\)</span> represent the hourly averages for the
-most recent 1, 2, 3, <span class="math inline">\(...\)</span>, <span class="math inline">\(N\)</span> hours.</p>
+<p>The hourly averages are denoted below by
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mi>i</mi></msub><annotation encoding="application/x-tex">c_i</annotation></semantics></math>,
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>i</mi><annotation encoding="application/x-tex">i</annotation></semantics></math>
+represents the number of hours before present. For example,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>1</mn></msub><annotation encoding="application/x-tex">c_1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>2</mn></msub><annotation encoding="application/x-tex">c_2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>3</mn></msub><annotation encoding="application/x-tex">c_3</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">...</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mi>N</mi></msub><annotation encoding="application/x-tex">c_N</annotation></semantics></math>
+represent the hourly averages for the most recent 1, 2, 3,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">...</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+hours.</p>
 <p>Source:</p>
 <ul>
 <li><a href="https://forum.airnowtech.org/t/the-nowcast-for-pm2-5-and-pm10/172" class="external-link uri">https://forum.airnowtech.org/t/the-nowcast-for-pm2-5-and-pm10/172</a></li>
@@ -179,24 +193,33 @@ most recent 1, 2, 3, <span class="math inline">\(...\)</span>, <span class="math
 <div class="section level3">
 <h3 id="weight-factor">Weight Factor<a class="anchor" aria-label="anchor" href="#weight-factor"></a>
 </h3>
-<p>Using data points as specified above, define the weight factor <span class="math inline">\(w^*\)</span> as follows:</p>
-<p><span class="math display">\[
+<p>Using data points as specified above, define the weight factor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>w</mi><mo>*</mo></msup><annotation encoding="application/x-tex">w^*</annotation></semantics></math>
+as follows:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>w</mi><mo>*</mo></msup><mo>=</mo><mn>1</mn><mo>−</mo><mfrac><mrow><msub><mi>c</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><mo>−</mo><msub><mi>c</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub></mrow><msub><mi>c</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mfrac><mo>=</mo><mfrac><msub><mi>c</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><msub><mi>c</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mfrac></mrow><annotation encoding="application/x-tex">
 w^* = 1- \frac{c_{max}-c_{min}}{c_{max}} = \frac{c_{min}}{c_{max}}
-\]</span></p>
+</annotation></semantics></math></p>
 <p>where</p>
 <ul>
 <li>
-<span class="math inline">\(c_{max}\)</span> = the highest value in
-<span class="math inline">\(c_1\)</span>, <span class="math inline">\(...\)</span>, <span class="math inline">\(c_N\)</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub><annotation encoding="application/x-tex">c_{max}</annotation></semantics></math>
+= the highest value in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>1</mn></msub><annotation encoding="application/x-tex">c_1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">...</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mi>N</mi></msub><annotation encoding="application/x-tex">c_N</annotation></semantics></math>
 </li>
 <li>
-<span class="math inline">\(c_{min}\)</span> = the lowest value in
-<span class="math inline">\(c_1\)</span>, <span class="math inline">\(...\)</span>, <span class="math inline">\(c_N\)</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">c_{min}</annotation></semantics></math>
+= the lowest value in
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>1</mn></msub><annotation encoding="application/x-tex">c_1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">...</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mi>N</mi></msub><annotation encoding="application/x-tex">c_N</annotation></semantics></math>
 </li>
 </ul>
-<p>NowCast-related literature usually gives the equation for <span class="math inline">\(w^*\)</span> in one of two basic forms, both of
-which are included above for reference. Note that both forms are
-equivalent.</p>
+<p>NowCast-related literature usually gives the equation for
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>w</mi><mo>*</mo></msup><annotation encoding="application/x-tex">w^*</annotation></semantics></math>
+in one of two basic forms, both of which are included above for
+reference. Note that both forms are equivalent.</p>
 <p>Sources:</p>
 <ul>
 <li><a href="https://en.wikipedia.org/wiki/NowCast_(air_quality_index)" class="external-link uri">https://en.wikipedia.org/wiki/NowCast_(air_quality_index)</a></li>
@@ -206,14 +229,18 @@ equivalent.</p>
 <div class="section level3">
 <h3 id="minimum-weight-factor">Minimum Weight Factor<a class="anchor" aria-label="anchor" href="#minimum-weight-factor"></a>
 </h3>
-<p>Before plugging into the NowCast equation, <span class="math inline">\(w*\)</span> is updated to <span class="math inline">\(w\)</span> for PM2.5 and PM10 as follows:</p>
-<p><span class="math display">\[
-w =
+<p>Before plugging into the NowCast equation,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>*</mo></mrow><annotation encoding="application/x-tex">w*</annotation></semantics></math>
+is updated to
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math>
+for PM2.5 and PM10 as follows:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>=</mo><mrow><mo stretchy="true" form="prefix">{</mo><mtable><mtr><mtd columnalign="left" style="text-align: left"><msup><mi>w</mi><mo>*</mo></msup></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">if</mtext></mtd><mtd columnalign="left" style="text-align: left"><msup><mi>w</mi><mo>*</mo></msup><mo>&gt;</mo><mfrac><mn>1</mn><mn>2</mn></mfrac></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"><mfrac><mn>1</mn><mn>2</mn></mfrac></mtd><mtd columnalign="left" style="text-align: left"><mtext mathvariant="normal">if</mtext></mtd><mtd columnalign="left" style="text-align: left"><msup><mi>w</mi><mo>*</mo></msup><mo>≤</mo><mfrac><mn>1</mn><mn>2</mn></mfrac></mtd></mtr><mtr><mtd columnalign="left" style="text-align: left"></mtd></mtr></mtable></mrow></mrow><annotation encoding="application/x-tex">
+w = 
 \begin{cases}
 w^*         &amp; \text{if} &amp; w^*&gt;\frac{1}{2} \\
 \frac{1}{2} &amp; \text{if} &amp; w^*\leq \frac{1}{2}  \\
 \end{cases}
-\]</span></p>
+</annotation></semantics></math></p>
 <p>Source</p>
 <ul>
 <li><a href="https://forum.airnowtech.org/t/the-nowcast-for-pm2-5-and-pm10/172" class="external-link uri">https://forum.airnowtech.org/t/the-nowcast-for-pm2-5-and-pm10/172</a></li>
@@ -240,35 +267,50 @@ processed:</p>
 <h2 id="algorithm-expansion">Algorithm Expansion<a class="anchor" aria-label="anchor" href="#algorithm-expansion"></a>
 </h2>
 <p>For PM2.5, the NowCast equation can be expanded as follows:</p>
-<p><span class="math display">\[
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>o</mi><mi>w</mi><mi>C</mi><mi>a</mi><mi>s</mi><mi>t</mi><mo>=</mo><mfrac><mrow><msup><mi>w</mi><mn>0</mn></msup><msub><mi>c</mi><mn>1</mn></msub><mo>+</mo><msup><mi>w</mi><mn>1</mn></msup><msub><mi>c</mi><mn>2</mn></msub><mo>+</mo><msup><mi>w</mi><mn>2</mn></msup><msub><mi>c</mi><mn>3</mn></msub><mo>+</mo><msup><mi>w</mi><mn>3</mn></msup><msub><mi>c</mi><mn>4</mn></msub><mo>+</mo><msup><mi>w</mi><mn>4</mn></msup><msub><mi>c</mi><mn>5</mn></msub><mo>+</mo><msup><mi>w</mi><mn>5</mn></msup><msub><mi>c</mi><mn>6</mn></msub><mo>+</mo><msup><mi>w</mi><mn>6</mn></msup><msub><mi>c</mi><mn>7</mn></msub><mo>+</mo><msup><mi>w</mi><mn>7</mn></msup><msub><mi>c</mi><mn>8</mn></msub><mo>+</mo><msup><mi>w</mi><mn>8</mn></msup><msub><mi>c</mi><mn>9</mn></msub><mo>+</mo><msup><mi>w</mi><mn>9</mn></msup><msub><mi>c</mi><mn>10</mn></msub><mo>+</mo><msup><mi>w</mi><mn>10</mn></msup><msub><mi>c</mi><mn>11</mn></msub><mo>+</mo><msup><mi>w</mi><mn>11</mn></msup><msub><mi>c</mi><mn>12</mn></msub></mrow><mrow><msup><mi>w</mi><mn>0</mn></msup><mo>+</mo><msup><mi>w</mi><mn>1</mn></msup><mo>+</mo><msup><mi>w</mi><mn>2</mn></msup><mo>+</mo><msup><mi>w</mi><mn>3</mn></msup><mo>+</mo><msup><mi>w</mi><mn>4</mn></msup><mo>+</mo><msup><mi>w</mi><mn>5</mn></msup><mo>+</mo><msup><mi>w</mi><mn>6</mn></msup><mo>+</mo><msup><mi>w</mi><mn>7</mn></msup><mo>+</mo><msup><mi>w</mi><mn>8</mn></msup><mo>+</mo><msup><mi>w</mi><mn>9</mn></msup><mo>+</mo><msup><mi>w</mi><mn>10</mn></msup><mo>+</mo><msup><mi>w</mi><mn>11</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">
 NowCast = \frac
-{w^0c_1 + w^1c_2 + w^2c_3 + w^3c_4 + w^4c_5 + w^5c_6 + w^6c_7 + w^7c_8 +
-w^8c_9 + w^9c_{10} + w^{10}c_{11} + w^{11}c_{12}}
-{w^0 + w^1 + w^2 + w^3 + w^4 + w^5 + w^6 + w^7 + w^8 + w^9 + w^{10} +
-w^{11}}
-\]</span></p>
+{w^0c_1 + w^1c_2 + w^2c_3 + w^3c_4 + w^4c_5 + w^5c_6 + w^6c_7 + w^7c_8 + w^8c_9 + w^9c_{10} + w^{10}c_{11} + w^{11}c_{12}}
+{w^0 + w^1 + w^2 + w^3 + w^4 + w^5 + w^6 + w^7 + w^8 + w^9 + w^{10} + w^{11}}
+</annotation></semantics></math></p>
 <p>Note that:</p>
 <ul>
 <li>
-<span class="math inline">\(w^0\)</span>, <span class="math inline">\(w^1\)</span>, <span class="math inline">\(w^2\)</span>, <span class="math inline">\(...\)</span> represent <span class="math inline">\(w\)</span> to the power of 0, 1, 2, <span class="math inline">\(...\)</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>w</mi><mn>0</mn></msup><annotation encoding="application/x-tex">w^0</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>w</mi><mn>1</mn></msup><annotation encoding="application/x-tex">w^1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>w</mi><mn>2</mn></msup><annotation encoding="application/x-tex">w^2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">...</annotation></semantics></math>
+represent
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math>
+to the power of 0, 1, 2,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">...</annotation></semantics></math>
 </li>
 <li>
-<span class="math inline">\(c_1\)</span>, <span class="math inline">\(c_2\)</span>, <span class="math inline">\(c_3\)</span>, <span class="math inline">\(...\)</span> represent the hourly average for the
-most recent 1, 2, 3, <span class="math inline">\(...\)</span>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>1</mn></msub><annotation encoding="application/x-tex">c_1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>2</mn></msub><annotation encoding="application/x-tex">c_2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>3</mn></msub><annotation encoding="application/x-tex">c_3</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">...</annotation></semantics></math>
+represent the hourly average for the most recent 1, 2, 3,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">...</annotation></semantics></math>
 hours.</li>
 </ul>
 <p>When written this way, it is easy to see that in the extreme case
-where <span class="math inline">\(w = 1\)</span> (i.e. if <span class="math inline">\(c_{min} = c_{max}\)</span>) the equation above
-reduces to:</p>
-<p><span class="math display">\[
+where
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">w = 1</annotation></semantics></math>
+(i.e. if
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>c</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><mo>=</mo><msub><mi>c</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mrow><annotation encoding="application/x-tex">c_{min} = c_{max}</annotation></semantics></math>)
+the equation above reduces to:</p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>o</mi><mi>w</mi><mi>C</mi><mi>a</mi><mi>s</mi><mi>t</mi><mo>=</mo><mfrac><mrow><munderover><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mn>12</mn></munderover><msub><mi>c</mi><mi>i</mi></msub></mrow><mn>12</mn></mfrac></mrow><annotation encoding="application/x-tex">
 NowCast = \frac{\sum_{i=1}^{12}{c_i}}{12}
-\]</span></p>
+</annotation></semantics></math></p>
 <p>which is just a simple 12-hour arithmetic average. Incidentally, all
 12 hourly averages and the 12-hour average itself would all be
 equivalent in this case.</p>
-<p>In the case of highly variable PM2.5 data, <span class="math inline">\(w\)</span> would be set to the minimum value of
-<span class="math inline">\(1/2\)</span>, and the most recent data would
-carry the majority of the weight in the equation above.</p>
+<p>In the case of highly variable PM2.5 data,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math>
+would be set to the minimum value of
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><mi>/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">1/2</annotation></semantics></math>,
+and the most recent data would carry the majority of the weight in the
+equation above.</p>
 </div>
 <div class="section level2">
 <h2 id="implementation-details">Implementation Details<a class="anchor" aria-label="anchor" href="#implementation-details"></a>
@@ -280,13 +322,11 @@ carry the majority of the weight in the equation above.</p>
 a valid observation is not available. For example, suppose PM2.5 is
 invalid for all but the first three and last three hours of a 12-hour
 period. Then the PM2.5 NowCast equation takes the following form:</p>
-<p><span class="math display">\[
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mi>o</mi><mi>w</mi><mi>C</mi><mi>a</mi><mi>s</mi><mi>t</mi><mo>=</mo><mfrac><mrow><msup><mi>w</mi><mn>0</mn></msup><msub><mi>c</mi><mn>1</mn></msub><mo>+</mo><msup><mi>w</mi><mn>1</mn></msup><msub><mi>c</mi><mn>2</mn></msub><mo>+</mo><msup><mi>w</mi><mn>2</mn></msup><msub><mi>c</mi><mn>3</mn></msub><mo>+</mo><mtext mathvariant="normal">[note: middle values ignored]</mtext><mo>+</mo><msup><mi>w</mi><mn>9</mn></msup><msub><mi>c</mi><mn>10</mn></msub><mo>+</mo><msup><mi>w</mi><mn>10</mn></msup><msub><mi>c</mi><mn>11</mn></msub><mo>+</mo><msup><mi>w</mi><mn>11</mn></msup><msub><mi>c</mi><mn>12</mn></msub></mrow><mrow><msup><mi>w</mi><mn>0</mn></msup><mo>+</mo><msup><mi>w</mi><mn>1</mn></msup><mo>+</mo><msup><mi>w</mi><mn>2</mn></msup><mo>+</mo><mtext mathvariant="normal">[note: middle values ignored]</mtext><mo>+</mo><msup><mi>w</mi><mn>9</mn></msup><mo>+</mo><msup><mi>w</mi><mn>10</mn></msup><mo>+</mo><msup><mi>w</mi><mn>11</mn></msup></mrow></mfrac></mrow><annotation encoding="application/x-tex">
 NowCast = \frac
-{w^0c_1 + w^1c_2 + w^2c_3 + \color{gray}{\text{[note: middle values
-ignored]}} + w^9c_{10} + w^{10}c_{11} + w^{11}c_{12}}
-{w^0 + w^1 + w^2 + \color{gray}{\text{[note: middle values ignored]}} +
-w^9 + w^{10} + w^{11}}
-\]</span></p>
+{w^0c_1 + w^1c_2 + w^2c_3 + \color{gray}{\text{[note: middle values ignored]}} + w^9c_{10} + w^{10}c_{11} + w^{11}c_{12}}
+{w^0 + w^1 + w^2 + \color{gray}{\text{[note: middle values ignored]}} + w^9 + w^{10} + w^{11}}
+</annotation></semantics></math></p>
 <p>Minimum data availability requirements do apply, however. See the
 following section for details.</p>
 </div>
@@ -330,7 +370,8 @@ by-the-book, the NowCast algorithm could return different values for a
 given hour depending on whether or not the earlier data had been
 retrieved. This is not a desirable behavior, so, by default, the
 <code><a href="../reference/monitor_nowcast.html">monitor_nowcast()</a></code> returns invalid NowCast values until the
-<span class="math inline">\(N\)</span><sup>th</sup> hour of data.</p>
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math><sup>th</sup>
+hour of data.</p>
 <p>However, we provide a manual override in
 <code>includeShortTerm = TRUE</code> which causes the function to return
 valid values as per the bare-bones data availability requirements
@@ -344,7 +385,9 @@ case, data prior to the first hour is truly invalid since it does not
 exist. The argument may also be useful for field personnel looking to
 ensure that their monitor has been successfully plugged in to the data
 processing pipeline, even if the values themselves are not truly
-representative of the data for the past <span class="math inline">\(N\)</span> hours.</p>
+representative of the data for the past
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+hours.</p>
 </div>
 <div class="section level3">
 <h3 id="negative-values">Negative Values<a class="anchor" aria-label="anchor" href="#negative-values"></a>
@@ -362,10 +405,12 @@ data loading process.</p>
 <h3 id="argument-version">Argument: <code>version</code><a class="anchor" aria-label="anchor" href="#argument-version"></a>
 </h3>
 <p>The <code>version</code> argument sets defaults for the number of
-hours in the lookback <span class="math inline">\(N\)</span>
-(<code>numHrs</code>), the minimum weight factor <span class="math inline">\(c_{min}\)</span> (<code>weightFactorMin</code>),
-and the number of digits to which the final data is truncated
-(<code>digits</code>).</p>
+hours in the lookback
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+(<code>numHrs</code>), the minimum weight factor
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><annotation encoding="application/x-tex">c_{min}</annotation></semantics></math>
+(<code>weightFactorMin</code>), and the number of digits to which the
+final data is truncated (<code>digits</code>).</p>
 <ul>
 <li>
 <code>version='pm25'</code> (default)
@@ -448,7 +493,7 @@ from wildfires during the second half of August, 2015:</p>
 <span>  </span>
 <span>  <span class="co"># filter to include only August, 2015</span></span>
 <span>  <span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="fl">20150801</span>, <span class="fl">20150901</span><span class="op">)</span></span></code></pre></div>
-<p><img src="NowCast_files/figure-html/Omak_nowcast_plot-1.png" width="672"></p>
+<p><img src="NowCast_files/figure-html/Omak_nowcast_plot-1.png" alt="Timeseris plot of hourly and Nowcast PM2.5 values in Omak in 2015. The  Nowcast values lie almost directly on top of the hourly values." width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="example-1-basic-formula-verification">Example 1: Basic Formula Verification<a class="anchor" aria-label="anchor" href="#example-1-basic-formula-verification"></a>
@@ -481,7 +526,11 @@ in this series, 8/21/15 Hour 11.</p>
 12 2015-08-21 11:00:00                          46.3</code></pre>
 <p>First we’ll pull out just the values themselves, and reverse them so
 the most recent values come first (<em>i.e.</em> so the vector
-represents <span class="math inline">\(c_1\)</span>, <span class="math inline">\(c_2\)</span>, <span class="math inline">\(...\)</span>, <span class="math inline">\(c_N\)</span>).</p>
+represents
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>1</mn></msub><annotation encoding="application/x-tex">c_1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>2</mn></msub><annotation encoding="application/x-tex">c_2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">...</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mi>N</mi></msub><annotation encoding="application/x-tex">c_N</annotation></semantics></math>).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_1_values</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">Omak_1</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -491,39 +540,40 @@ represents <span class="math inline">\(c_1\)</span>, <span class="math inline">\
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">example_1_values</span><span class="op">)</span></span></code></pre></div>
 <pre><code> [1]  46.3  27.4  59.8 129.2 130.6 215.4 143.2  93.7 101.8  49.3  80.2 123.3</code></pre>
-<p>Per the NowCast algorithm, we define <span class="math inline">\(w*\)</span> as <span class="math inline">\(\frac{c_{min}}{c_{max}}\)</span>:</p>
+<p>Per the NowCast algorithm, we define
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>*</mo></mrow><annotation encoding="application/x-tex">w*</annotation></semantics></math>
+as
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mfrac><msub><mi>c</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><msub><mi>c</mi><mrow><mi>m</mi><mi>a</mi><mi>x</mi></mrow></msub></mfrac><annotation encoding="application/x-tex">\frac{c_{min}}{c_{max}}</annotation></semantics></math>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">w_star</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">example_1_values</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">example_1_values</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>[1] 0.1272052</code></pre>
-<p>We now define <span class="math inline">\(w\)</span> based on <span class="math inline">\(w^*\)</span> and the minimum weight factor; recall
-that <span class="math inline">\(w_{min}=\frac{1}{2}\)</span> for
-PM2.5:</p>
+<p>We now define
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math>
+based on
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msup><mi>w</mi><mo>*</mo></msup><annotation encoding="application/x-tex">w^*</annotation></semantics></math>
+and the minimum weight factor; recall that
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>w</mi><mrow><mi>m</mi><mi>i</mi><mi>n</mi></mrow></msub><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac></mrow><annotation encoding="application/x-tex">w_{min}=\frac{1}{2}</annotation></semantics></math>
+for PM2.5:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, <span class="va">w_star</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>[1] 0.5</code></pre>
 <p>Thus, the numerator of the NowCast equation for Hour 11</p>
-<p><span class="math display">\[
-w^0c_1 + w^1c_2 + w^2c_3 + w^3c_4 + w^4c_5 + w^5c_6 + w^6c_7 + w^7c_8 +
-w^8c_9 + w^9c_{10} + w^{10}c_{11} + w^{11}c_{12}
-\]</span></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>w</mi><mn>0</mn></msup><msub><mi>c</mi><mn>1</mn></msub><mo>+</mo><msup><mi>w</mi><mn>1</mn></msup><msub><mi>c</mi><mn>2</mn></msub><mo>+</mo><msup><mi>w</mi><mn>2</mn></msup><msub><mi>c</mi><mn>3</mn></msub><mo>+</mo><msup><mi>w</mi><mn>3</mn></msup><msub><mi>c</mi><mn>4</mn></msub><mo>+</mo><msup><mi>w</mi><mn>4</mn></msup><msub><mi>c</mi><mn>5</mn></msub><mo>+</mo><msup><mi>w</mi><mn>5</mn></msup><msub><mi>c</mi><mn>6</mn></msub><mo>+</mo><msup><mi>w</mi><mn>6</mn></msup><msub><mi>c</mi><mn>7</mn></msub><mo>+</mo><msup><mi>w</mi><mn>7</mn></msup><msub><mi>c</mi><mn>8</mn></msub><mo>+</mo><msup><mi>w</mi><mn>8</mn></msup><msub><mi>c</mi><mn>9</mn></msub><mo>+</mo><msup><mi>w</mi><mn>9</mn></msup><msub><mi>c</mi><mn>10</mn></msub><mo>+</mo><msup><mi>w</mi><mn>10</mn></msup><msub><mi>c</mi><mn>11</mn></msub><mo>+</mo><msup><mi>w</mi><mn>11</mn></msup><msub><mi>c</mi><mn>12</mn></msub></mrow><annotation encoding="application/x-tex">
+w^0c_1 + w^1c_2 + w^2c_3 + w^3c_4 + w^4c_5 + w^5c_6 + w^6c_7 + w^7c_8 + w^8c_9 + w^9c_{10} + w^{10}c_{11} + w^{11}c_{12}
+</annotation></semantics></math></p>
 <p>becomes the following:</p>
-<p><span class="math inline">\(0.5^0 \times 46.3 + 0.5^1 \times 27.4 +
-0.5^2 \times 59.8 + 0.5^3 \times 129.2 + 0.5^4 \times 130.6 + 0.5^5
-\times 215.4\)</span> +<br><span class="math inline">\(0.5^6 \times 143.2 + 0.5^7 \times 93.7 +
-0.5^8 \times 101.8 + 0.5^9 \times 49.3 + 0.5^{10} \times 80.2 + 0.5^{11}
-\times 123.3\)</span></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>0.5</mn><mn>0</mn></msup><mo>×</mo><mn>46.3</mn><mo>+</mo><msup><mn>0.5</mn><mn>1</mn></msup><mo>×</mo><mn>27.4</mn><mo>+</mo><msup><mn>0.5</mn><mn>2</mn></msup><mo>×</mo><mn>59.8</mn><mo>+</mo><msup><mn>0.5</mn><mn>3</mn></msup><mo>×</mo><mn>129.2</mn><mo>+</mo><msup><mn>0.5</mn><mn>4</mn></msup><mo>×</mo><mn>130.6</mn><mo>+</mo><msup><mn>0.5</mn><mn>5</mn></msup><mo>×</mo><mn>215.4</mn></mrow><annotation encoding="application/x-tex">0.5^0 \times 46.3 + 0.5^1 \times 27.4 + 0.5^2 \times 59.8 + 0.5^3 \times 129.2 + 0.5^4 \times 130.6 + 0.5^5 \times 215.4</annotation></semantics></math>
++<br><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>0.5</mn><mn>6</mn></msup><mo>×</mo><mn>143.2</mn><mo>+</mo><msup><mn>0.5</mn><mn>7</mn></msup><mo>×</mo><mn>93.7</mn><mo>+</mo><msup><mn>0.5</mn><mn>8</mn></msup><mo>×</mo><mn>101.8</mn><mo>+</mo><msup><mn>0.5</mn><mn>9</mn></msup><mo>×</mo><mn>49.3</mn><mo>+</mo><msup><mn>0.5</mn><mn>10</mn></msup><mo>×</mo><mn>80.2</mn><mo>+</mo><msup><mn>0.5</mn><mn>11</mn></msup><mo>×</mo><mn>123.3</mn></mrow><annotation encoding="application/x-tex">0.5^6 \times 143.2 + 0.5^7 \times 93.7 + 0.5^8 \times 101.8 + 0.5^9 \times 49.3 + 0.5^{10} \times 80.2 + 0.5^{11} \times 123.3</annotation></semantics></math></p>
 <p>which we can calculate in R as follows</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">numerator</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">w</span><span class="op">^</span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span> <span class="op">*</span> <span class="va">example_1_values</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>[1] 109.5958</code></pre>
 <p>Meanwhile, the denominator</p>
-<p><span class="math display">\[
-w^0 + w^1 + w^2 + w^3 + w^4 + w^5 + w^6 + w^7 + w^8 + w^9 + w^{10} +
-w^{11}
-\]</span></p>
+<p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>w</mi><mn>0</mn></msup><mo>+</mo><msup><mi>w</mi><mn>1</mn></msup><mo>+</mo><msup><mi>w</mi><mn>2</mn></msup><mo>+</mo><msup><mi>w</mi><mn>3</mn></msup><mo>+</mo><msup><mi>w</mi><mn>4</mn></msup><mo>+</mo><msup><mi>w</mi><mn>5</mn></msup><mo>+</mo><msup><mi>w</mi><mn>6</mn></msup><mo>+</mo><msup><mi>w</mi><mn>7</mn></msup><mo>+</mo><msup><mi>w</mi><mn>8</mn></msup><mo>+</mo><msup><mi>w</mi><mn>9</mn></msup><mo>+</mo><msup><mi>w</mi><mn>10</mn></msup><mo>+</mo><msup><mi>w</mi><mn>11</mn></msup></mrow><annotation encoding="application/x-tex">
+w^0 + w^1 + w^2 + w^3 + w^4 + w^5 + w^6 + w^7 + w^8 + w^9 + w^{10} + w^{11}
+</annotation></semantics></math></p>
 <p>becomes the following:</p>
-<p><span class="math inline">\(0.5^0 + 0.5^1 + 0.5^2 + 0.5^3 + 0.5^4 +
-0.5^5 + 0.5^6 + 0.5^7 + 0.5^8 + 0.5^9 + 0.5^{10} + 0.5^{11}\)</span></p>
+<p><math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>0.5</mn><mn>0</mn></msup><mo>+</mo><msup><mn>0.5</mn><mn>1</mn></msup><mo>+</mo><msup><mn>0.5</mn><mn>2</mn></msup><mo>+</mo><msup><mn>0.5</mn><mn>3</mn></msup><mo>+</mo><msup><mn>0.5</mn><mn>4</mn></msup><mo>+</mo><msup><mn>0.5</mn><mn>5</mn></msup><mo>+</mo><msup><mn>0.5</mn><mn>6</mn></msup><mo>+</mo><msup><mn>0.5</mn><mn>7</mn></msup><mo>+</mo><msup><mn>0.5</mn><mn>8</mn></msup><mo>+</mo><msup><mn>0.5</mn><mn>9</mn></msup><mo>+</mo><msup><mn>0.5</mn><mn>10</mn></msup><mo>+</mo><msup><mn>0.5</mn><mn>11</mn></msup></mrow><annotation encoding="application/x-tex">0.5^0 + 0.5^1 + 0.5^2 + 0.5^3 + 0.5^4 + 0.5^5 + 0.5^6 + 0.5^7 + 0.5^8 + 0.5^9 + 0.5^{10} + 0.5^{11}</annotation></semantics></math></p>
 <p>which we can calculate in R as follows</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">denominator</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">w</span><span class="op">^</span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">11</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -582,7 +632,11 @@ valid).</p>
 </h4>
 <p>Let’s see if we can verify the accuracy of the NowCast value for Hour
 23.</p>
-<p>We again begin by pulling out our vector of values <span class="math inline">\(c_1\)</span>, <span class="math inline">\(c_2\)</span>, <span class="math inline">\(...\)</span>, <span class="math inline">\(c_N\)</span></p>
+<p>We again begin by pulling out our vector of values
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>1</mn></msub><annotation encoding="application/x-tex">c_1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>2</mn></msub><annotation encoding="application/x-tex">c_2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">...</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mi>N</mi></msub><annotation encoding="application/x-tex">c_N</annotation></semantics></math></p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_2_values</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">Omak_2</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span> </span>
@@ -593,14 +647,18 @@ valid).</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">example_2_values</span><span class="op">)</span></span></code></pre></div>
 <pre><code> [1] 478.5 504.6 589.8 683.3 711.0    NA 745.5 645.7 583.0 510.4 486.2 461.7</code></pre>
-<p>and calculating <span class="math inline">\(w*\)</span> and <span class="math inline">\(w\)</span></p>
+<p>and calculating
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>*</mo></mrow><annotation encoding="application/x-tex">w*</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math></p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w_star</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">example_2_values</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">example_2_values</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, <span class="va">w_star</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>[1] 0.6193159</code></pre>
 <p>This time our numerator and denominator should both exclude the 6th
-term, since <span class="math inline">\(c_6\)</span> is invalid. So we
-have</p>
+term, since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>6</mn></msub><annotation encoding="application/x-tex">c_6</annotation></semantics></math>
+is invalid. So we have</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">validIndexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">example_2_values</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">numerator</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">w</span><span class="op">^</span><span class="op">(</span><span class="va">validIndexes</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">example_2_values</span><span class="op">[</span><span class="va">validIndexes</span><span class="op">]</span><span class="op">)</span></span>
@@ -692,7 +750,11 @@ most recent hours valid).</p>
 </h4>
 <p>Let’s see if we can verify the accuracy of the NowCast value for Hour
 23.</p>
-<p>We again begin by pulling out our vector of values <span class="math inline">\(c_1\)</span>, <span class="math inline">\(c_2\)</span>, <span class="math inline">\(...\)</span>, <span class="math inline">\(c_N\)</span></p>
+<p>We again begin by pulling out our vector of values
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>1</mn></msub><annotation encoding="application/x-tex">c_1</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>2</mn></msub><annotation encoding="application/x-tex">c_2</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>.</mi><mi>.</mi><mi>.</mi></mrow><annotation encoding="application/x-tex">...</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mi>N</mi></msub><annotation encoding="application/x-tex">c_N</annotation></semantics></math></p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">example_3_values</span> <span class="op">&lt;-</span></span>
 <span>  <span class="va">Omak_3</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
@@ -703,13 +765,23 @@ most recent hours valid).</p>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">example_3_values</span><span class="op">)</span></span></code></pre></div>
 <pre><code> [1] 149.5 149.9 238.6    NA    NA    NA    NA    NA 763.8 744.6 734.0 711.8</code></pre>
-<p>and calculating <span class="math inline">\(w*\)</span> and <span class="math inline">\(w\)</span></p>
+<p>and calculating
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>w</mi><mo>*</mo></mrow><annotation encoding="application/x-tex">w*</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>w</mi><annotation encoding="application/x-tex">w</annotation></semantics></math></p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w_star</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">example_3_values</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">example_3_values</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">(</span><span class="va">w</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="fl">1</span><span class="op">/</span><span class="fl">2</span>, <span class="va">w_star</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <pre><code>[1] 0.5</code></pre>
 <p>This time our numerator and denominator should both exclude the
-4th-8th terms, since <span class="math inline">\(c_4\)</span>, <span class="math inline">\(c_5\)</span>, <span class="math inline">\(c_6\)</span>, <span class="math inline">\(c_7\)</span> and <span class="math inline">\(c_8\)</span> are invalid. So we have</p>
+4th-8th terms, since
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>4</mn></msub><annotation encoding="application/x-tex">c_4</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>5</mn></msub><annotation encoding="application/x-tex">c_5</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>6</mn></msub><annotation encoding="application/x-tex">c_6</annotation></semantics></math>,
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>7</mn></msub><annotation encoding="application/x-tex">c_7</annotation></semantics></math>
+and
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><msub><mi>c</mi><mn>8</mn></msub><annotation encoding="application/x-tex">c_8</annotation></semantics></math>
+are invalid. So we have</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">validIndexes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">example_3_values</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">numerator</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">w</span><span class="op">^</span><span class="op">(</span><span class="va">validIndexes</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span> <span class="op">*</span> <span class="va">example_3_values</span><span class="op">[</span><span class="va">validIndexes</span><span class="op">]</span><span class="op">)</span></span>
@@ -826,7 +898,9 @@ most recent hours” is for speed of updates. Suppose it is 12:04, and a
 measurement just came in at 12:00 (the Hour 11 measurement). It would be
 inappropriate to wait until 13:00 to calculate the updated NowCast
 value. For this reason, we calculate NowCast values using the monitored
-data for the “current” hour and the <span class="math inline">\(N-1\)</span> prior hours.</p>
+data for the “current” hour and the
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi><mo>−</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">N-1</annotation></semantics></math>
+prior hours.</p>
 </div>
 </div>
 <div class="section level4">
@@ -962,8 +1036,9 @@ calculated by the different approaches, even as late as the 11th hour of
 the period. As expected, the values match from the 12th hour on.</p>
 <p>The discrepancies displayed above are why, by default,
 <code>includeShortTerm = FALSE</code>. It should be used only when
-necessary, and with an understanding that the first <span class="math inline">\(N\)</span> hours’ values might not necessarily be
-true NowCast values.</p>
+necessary, and with an understanding that the first
+<math display="inline" xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mi>N</mi><annotation encoding="application/x-tex">N</annotation></semantics></math>
+hours’ values might not necessarily be true NowCast values.</p>
 <p>If it exists, we recommend always grabbing an extra day of data at
 the beginning of the period if you think you might want to calculate
 NowCast values on a dataset.</p>
@@ -977,9 +1052,7 @@ NowCast values on a dataset.</p>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
 
-        <nav id="toc" data-toggle="toc"><h2 data-toc-skip>Contents</h2>
-    </nav>
-</div>
+      </div>
 
 </div>
 
@@ -992,16 +1065,16 @@ NowCast values on a dataset.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
       </footer>
 </div>
 
-  
 
 
-  
+
+
 
   </body>
 </html>

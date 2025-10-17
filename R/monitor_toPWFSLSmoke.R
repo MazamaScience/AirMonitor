@@ -1,7 +1,7 @@
 #' @export
 #' @importFrom dplyr all_of
 #'
-#' @title Convert a mts_monitor object to a ws_monitor object for the PWFSLSmoke package
+#' @title Convert a mts_monitor object to a \emph{ws_monitor} object for the PWFSLSmoke package
 #'
 #' @param monitor \emph{mts_monitor} object
 #'

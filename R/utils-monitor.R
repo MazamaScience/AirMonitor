@@ -1,6 +1,6 @@
 #' @export
 #'
-#' @title Check an \emph{mts_monitor} object for validity.
+#' @title Check an \emph{mts_monitor} object for validity
 #'
 #' @param monitor \emph{mts_monitor} object.
 #'
@@ -138,7 +138,7 @@ monitor_isEmpty <- function(monitor) {
 #' @importFrom rlang .data
 #' @export
 #'
-#' @title Retain only distinct data records in monitor$data
+#' @title Retain only distinct data records in \code{monitor$data}
 #'
 #' @param monitor \emph{mts_monitor} object
 #'

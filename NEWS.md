@@ -1,3 +1,10 @@
+# AirMonitor 0.4.5
+
+* Added functions to load Clarity sensor data: `clarity_loadLatest()` and
+`clarity_loadAnnual()`.
+* Fixed example documentation using "%>%".
+* Minor documentation cleanup.
+
 # AirMonitor 0.4.4
 
 * Fixed bug in `monitor_load()`.

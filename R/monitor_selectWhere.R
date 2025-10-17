@@ -1,7 +1,7 @@
 #' @export
 #' @importFrom rlang .data
 #'
-#' @title Data-based subsetting of time series within an \emph{mts_monitor} object.
+#' @title Data-based subsetting of time series within an \emph{mts_monitor} object
 #'
 #' @param monitor \emph{mts_monitor} object.
 #' @param FUN A function applied to time series data that returns TRUE or FALSE.

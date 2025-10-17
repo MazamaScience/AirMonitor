@@ -2,7 +2,7 @@
 % Please edit documentation in R/epa_aqs_loadAnnual.R
 \name{epa_aqs_loadAnnual}
 \alias{epa_aqs_loadAnnual}
-\title{Load annual AirNow monitoring data}
+\title{Load annual EPA AQS monitoring data}
 \usage{
 epa_aqs_loadAnnual(
   year = NULL,
@@ -56,10 +56,10 @@ try({
 # See https://en.wikipedia.org/wiki/2017_Montana_wildfires
 
 # Daily Barplot of Montana wildfires
-epa_aqs_loadAnnual(2015) \\%>\\%
-  monitor_filter(stateCode == "WA") \\%>\\%
-  monitor_filterDate(20150724, 20150907) \\%>\\%
-  monitor_dailyStatistic() \\%>\\%
+epa_aqs_loadAnnual(2015) \%>\%
+  monitor_filter(stateCode == "WA") \%>\%
+  monitor_filterDate(20150724, 20150907) \%>\%
+  monitor_dailyStatistic() \%>\%
   monitor_timeseriesPlot(
     main = "Washington 2015 -- AirNow Daily Average PM2.5"
   )

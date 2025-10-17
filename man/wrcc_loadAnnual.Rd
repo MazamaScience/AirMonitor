@@ -62,9 +62,9 @@ try({
 # See https://en.wikipedia.org/wiki/Snake_River_Complex_Fire
 
 # WRCC monitors during the Snake River Complex Fire
-wrcc_loadAnnual(2021) \\%>\\%
-  monitor_filter(stateCode \\%in\\% c("ID", "MT")) \\%>\\%
-  monitor_filterDate(20210707, 20210820, timezone = "America/Denver") \\%>\\%
+wrcc_loadAnnual(2021) \%>\%
+  monitor_filter(stateCode \%in\% c("ID", "MT")) \%>\%
+  monitor_filterDate(20210707, 20210820, timezone = "America/Denver") \%>\%
   monitor_timeseriesPlot(
     ylim = c(0, 300),
     xpd = NA,

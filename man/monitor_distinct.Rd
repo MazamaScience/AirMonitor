@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils-monitor.R
 \name{monitor_distinct}
 \alias{monitor_distinct}
-\title{Retain only distinct data records in monitor$data}
+\title{Retain only distinct data records in \code{monitor$data}}
 \usage{
 monitor_distinct(monitor)
 }

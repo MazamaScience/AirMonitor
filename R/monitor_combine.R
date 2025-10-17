@@ -1,6 +1,6 @@
 #' @export
 #'
-#' @title Combine multiple \code{mts_monitor} objects
+#' @title Combine multiple \emph{mts_monitor} objects
 #'
 #' @param ... Any number of valid \emph{mts_monitor} objects or a list of objects.
 #' @param replaceMeta Logical specifying whether to allow replacement of metadata

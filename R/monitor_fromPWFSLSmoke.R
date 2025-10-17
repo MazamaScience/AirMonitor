@@ -1,7 +1,7 @@
 #' @export
 #' @importFrom dplyr all_of
 #'
-#' @title Convert a ws_monitor object from the PWFSLSmoke package
+#' @title Convert a \emph{ws_monitor} object from the PWFSLSmoke package
 #'
 #' @param ws_monitor \emph{ws_monitor} object. (A list with
 #' \code{meta} and \code{data} dataframes.)

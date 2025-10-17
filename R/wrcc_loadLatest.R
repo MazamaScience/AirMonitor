@@ -45,7 +45,7 @@
 #' # Fail gracefully if any resources are not available
 #' try({
 #'
-#' wrcc_loadLatest() \%>\%
+#' wrcc_loadLatest() %>%
 #'   monitor_leaflet()
 #'
 #' }, silent = FALSE)

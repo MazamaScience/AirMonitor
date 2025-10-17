@@ -2,7 +2,7 @@
 % Please edit documentation in R/monitor_combine.R
 \name{monitor_combine}
 \alias{monitor_combine}
-\title{Combine multiple \code{mts_monitor} objects}
+\title{Combine multiple \emph{mts_monitor} objects}
 \usage{
 monitor_combine(
   ...,

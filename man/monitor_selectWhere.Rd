@@ -2,7 +2,7 @@
 % Please edit documentation in R/monitor_selectWhere.R
 \name{monitor_selectWhere}
 \alias{monitor_selectWhere}
-\title{Data-based subsetting of time series within an \emph{mts_monitor} object.}
+\title{Data-based subsetting of time series within an \emph{mts_monitor} object}
 \usage{
 monitor_selectWhere(monitor, FUN)
 }

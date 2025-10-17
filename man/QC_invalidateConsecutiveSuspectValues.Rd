@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils-QC.R
 \name{QC_invalidateConsecutiveSuspectValues}
 \alias{QC_invalidateConsecutiveSuspectValues}
-\title{Invalidate consecutive suspect values.}
+\title{Invalidate consecutive suspect values}
 \usage{
 QC_invalidateConsecutiveSuspectValues(
   x = NULL,

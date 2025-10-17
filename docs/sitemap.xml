@@ -1,285 +1,96 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/articles/AirMonitor.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Citations.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Data_Model.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Developer_Style_Guide.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Hourly_Barplot.html</loc>
-  </url>
-  <url>
-    <loc>/articles/NowCast.html</loc>
-  </url>
-  <url>
-    <loc>/articles/Save_Data_as_CSV.html</loc>
-  </url>
-  <url>
-    <loc>/articles/articles/Citations.html</loc>
-  </url>
-  <url>
-    <loc>/articles/articles/NowCast.html</loc>
-  </url>
-  <url>
-    <loc>/articles/articles/Save_Data_as_CSV.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/AirFire_S3_archiveBaseUrl.html</loc>
-  </url>
-  <url>
-    <loc>/reference/AirMonitor-package.html</loc>
-  </url>
-  <url>
-    <loc>/reference/AirMonitor.html</loc>
-  </url>
-  <url>
-    <loc>/reference/CONUS.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Camp_Fire.html</loc>
-  </url>
-  <url>
-    <loc>/reference/Carmel_Valley.html</loc>
-  </url>
-  <url>
-    <loc>/reference/NW_Megafires.html</loc>
-  </url>
-  <url>
-    <loc>/reference/QC_invalidateConsecutiveSuspectValues.html</loc>
-  </url>
-  <url>
-    <loc>/reference/US_52.html</loc>
-  </url>
-  <url>
-    <loc>/reference/US_AQI.html</loc>
-  </url>
-  <url>
-    <loc>/reference/addAQILegend.html</loc>
-  </url>
-  <url>
-    <loc>/reference/addAQILines.html</loc>
-  </url>
-  <url>
-    <loc>/reference/addAQIStackedBar.html</loc>
-  </url>
-  <url>
-    <loc>/reference/addShadedNight.html</loc>
-  </url>
-  <url>
-    <loc>/reference/airnow_loadAnnual.html</loc>
-  </url>
-  <url>
-    <loc>/reference/airnow_loadDaily.html</loc>
-  </url>
-  <url>
-    <loc>/reference/airnow_loadLatest.html</loc>
-  </url>
-  <url>
-    <loc>/reference/airnow_loadMonthly.html</loc>
-  </url>
-  <url>
-    <loc>/reference/airsis_loadAnnual.html</loc>
-  </url>
-  <url>
-    <loc>/reference/airsis_loadDaily.html</loc>
-  </url>
-  <url>
-    <loc>/reference/airsis_loadLatest.html</loc>
-  </url>
-  <url>
-    <loc>/reference/aqiCategories.html</loc>
-  </url>
-  <url>
-    <loc>/reference/aqiColors.html</loc>
-  </url>
-  <url>
-    <loc>/reference/coreMetadataNames.html</loc>
-  </url>
-  <url>
-    <loc>/reference/epa_aqs_loadAnnual.html</loc>
-  </url>
-  <url>
-    <loc>/reference/epa_loadAnnual.html</loc>
-  </url>
-  <url>
-    <loc>/reference/example_88101.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_aqi.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_arrange.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_bestTimezone.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_check.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_collapse.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_combine.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_dailyBarplot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_dailyStatistic.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_dailyThreshold.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_distance.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_distinct.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_dropEmpty.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_dygraph.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_extractDataFrame.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_filterByDistance.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_filterData.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_filterDate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_filterDatetime.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_filterMeta.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_fromPWFSLSmoke.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_getCurrentStatus.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_getDataFrame.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_getDistance.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_isEmpty.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_isValid.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_leaflet.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_load.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_loadAnnual.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_loadDaily.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_loadLatest.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_mutate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_nowcast.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_pull.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_replaceValues.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_select.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_selectWhere.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_setTimeAxis.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_slice.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_timeInfo.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_timeRange.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_timeseriesPlot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_toAQCTable.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_toCSV.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_toPWFSLSmoke.html</loc>
-  </url>
-  <url>
-    <loc>/reference/monitor_trimDate.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pipe.html</loc>
-  </url>
-  <url>
-    <loc>/reference/pollutantNames.html</loc>
-  </url>
-  <url>
-    <loc>/reference/wrcc_loadAnnual.html</loc>
-  </url>
-  <url>
-    <loc>/reference/wrcc_loadDaily.html</loc>
-  </url>
-  <url>
-    <loc>/reference/wrcc_loadLatest.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>/404.html</loc></url>
+<url><loc>/LICENSE-text.html</loc></url>
+<url><loc>/articles/AirMonitor.html</loc></url>
+<url><loc>/articles/Citations.html</loc></url>
+<url><loc>/articles/Data_Model.html</loc></url>
+<url><loc>/articles/Developer_Style_Guide.html</loc></url>
+<url><loc>/articles/Hourly_Barplot.html</loc></url>
+<url><loc>/articles/NowCast.html</loc></url>
+<url><loc>/articles/Save_Data_as_CSV.html</loc></url>
+<url><loc>/articles/index.html</loc></url>
+<url><loc>/authors.html</loc></url>
+<url><loc>/index.html</loc></url>
+<url><loc>/news/index.html</loc></url>
+<url><loc>/reference/AirFire_S3_archiveBaseUrl.html</loc></url>
+<url><loc>/reference/AirMonitor-package.html</loc></url>
+<url><loc>/reference/CONUS.html</loc></url>
+<url><loc>/reference/Camp_Fire.html</loc></url>
+<url><loc>/reference/Carmel_Valley.html</loc></url>
+<url><loc>/reference/NW_Megafires.html</loc></url>
+<url><loc>/reference/QC_invalidateConsecutiveSuspectValues.html</loc></url>
+<url><loc>/reference/US_52.html</loc></url>
+<url><loc>/reference/US_AQI.html</loc></url>
+<url><loc>/reference/addAQILegend.html</loc></url>
+<url><loc>/reference/addAQILines.html</loc></url>
+<url><loc>/reference/addAQIStackedBar.html</loc></url>
+<url><loc>/reference/addShadedNight.html</loc></url>
+<url><loc>/reference/airnow_loadAnnual.html</loc></url>
+<url><loc>/reference/airnow_loadDaily.html</loc></url>
+<url><loc>/reference/airnow_loadLatest.html</loc></url>
+<url><loc>/reference/airnow_loadMonthly.html</loc></url>
+<url><loc>/reference/airsis_loadAnnual.html</loc></url>
+<url><loc>/reference/airsis_loadDaily.html</loc></url>
+<url><loc>/reference/airsis_loadLatest.html</loc></url>
+<url><loc>/reference/aqiCategories.html</loc></url>
+<url><loc>/reference/aqiColors.html</loc></url>
+<url><loc>/reference/clarity_loadAnnual.html</loc></url>
+<url><loc>/reference/clarity_loadLatest.html</loc></url>
+<url><loc>/reference/coreMetadataNames.html</loc></url>
+<url><loc>/reference/epa_aqs_loadAnnual.html</loc></url>
+<url><loc>/reference/epa_loadAnnual.html</loc></url>
+<url><loc>/reference/example_88101.html</loc></url>
+<url><loc>/reference/index.html</loc></url>
+<url><loc>/reference/monitor_aqi.html</loc></url>
+<url><loc>/reference/monitor_arrange.html</loc></url>
+<url><loc>/reference/monitor_bestTimezone.html</loc></url>
+<url><loc>/reference/monitor_check.html</loc></url>
+<url><loc>/reference/monitor_collapse.html</loc></url>
+<url><loc>/reference/monitor_combine.html</loc></url>
+<url><loc>/reference/monitor_dailyBarplot.html</loc></url>
+<url><loc>/reference/monitor_dailyStatistic.html</loc></url>
+<url><loc>/reference/monitor_dailyThreshold.html</loc></url>
+<url><loc>/reference/monitor_distance.html</loc></url>
+<url><loc>/reference/monitor_distinct.html</loc></url>
+<url><loc>/reference/monitor_dropEmpty.html</loc></url>
+<url><loc>/reference/monitor_dygraph.html</loc></url>
+<url><loc>/reference/monitor_extractDataFrame.html</loc></url>
+<url><loc>/reference/monitor_filterByDistance.html</loc></url>
+<url><loc>/reference/monitor_filterData.html</loc></url>
+<url><loc>/reference/monitor_filterDate.html</loc></url>
+<url><loc>/reference/monitor_filterDatetime.html</loc></url>
+<url><loc>/reference/monitor_filterMeta.html</loc></url>
+<url><loc>/reference/monitor_fromPWFSLSmoke.html</loc></url>
+<url><loc>/reference/monitor_getCurrentStatus.html</loc></url>
+<url><loc>/reference/monitor_getDataFrame.html</loc></url>
+<url><loc>/reference/monitor_getDistance.html</loc></url>
+<url><loc>/reference/monitor_isEmpty.html</loc></url>
+<url><loc>/reference/monitor_isValid.html</loc></url>
+<url><loc>/reference/monitor_leaflet.html</loc></url>
+<url><loc>/reference/monitor_load.html</loc></url>
+<url><loc>/reference/monitor_loadAnnual.html</loc></url>
+<url><loc>/reference/monitor_loadDaily.html</loc></url>
+<url><loc>/reference/monitor_loadLatest.html</loc></url>
+<url><loc>/reference/monitor_move.html</loc></url>
+<url><loc>/reference/monitor_mutate.html</loc></url>
+<url><loc>/reference/monitor_nowcast.html</loc></url>
+<url><loc>/reference/monitor_pull.html</loc></url>
+<url><loc>/reference/monitor_replaceValues.html</loc></url>
+<url><loc>/reference/monitor_select.html</loc></url>
+<url><loc>/reference/monitor_selectWhere.html</loc></url>
+<url><loc>/reference/monitor_setTimeAxis.html</loc></url>
+<url><loc>/reference/monitor_slice.html</loc></url>
+<url><loc>/reference/monitor_timeInfo.html</loc></url>
+<url><loc>/reference/monitor_timeRange.html</loc></url>
+<url><loc>/reference/monitor_timeseriesPlot.html</loc></url>
+<url><loc>/reference/monitor_toAQCTable.html</loc></url>
+<url><loc>/reference/monitor_toCSV.html</loc></url>
+<url><loc>/reference/monitor_toPWFSLSmoke.html</loc></url>
+<url><loc>/reference/monitor_trimDate.html</loc></url>
+<url><loc>/reference/pipe.html</loc></url>
+<url><loc>/reference/pollutantNames.html</loc></url>
+<url><loc>/reference/wrcc_loadAnnual.html</loc></url>
+<url><loc>/reference/wrcc_loadDaily.html</loc></url>
+<url><loc>/reference/wrcc_loadLatest.html</loc></url>
 </urlset>
+

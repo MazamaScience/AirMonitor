@@ -1,6 +1,6 @@
 #' @export
 #'
-#' @title Collapse an \code{mts_monitor} object into a single time series
+#' @title Collapse an \emph{mts_monitor} object into a single time series
 #'
 #' @param monitor \emph{mts_monitor} object.
 #' @param longitude Longitude of the collapsed time series.

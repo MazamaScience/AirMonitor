@@ -45,7 +45,7 @@
 #' # Fail gracefully if any resources are not available
 #' try({
 #'
-#' wrcc_loadDaily() \%>\%
+#' wrcc_loadDaily() %>%
 #'   monitor_leaflet()
 #'
 #' }, silent = FALSE)

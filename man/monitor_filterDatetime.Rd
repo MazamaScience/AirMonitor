@@ -2,7 +2,7 @@
 % Please edit documentation in R/monitor_filterDatetime.R
 \name{monitor_filterDatetime}
 \alias{monitor_filterDatetime}
-\title{Datetime filtering for \code{mts_monitor} objects}
+\title{Datetime filtering for \emph{mts_monitor} objects}
 \usage{
 monitor_filterDatetime(
   monitor = NULL,

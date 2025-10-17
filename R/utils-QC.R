@@ -1,6 +1,6 @@
 #' @export
 #'
-#' @title Invalidate consecutive suspect values.
+#' @title Invalidate consecutive suspect values
 #'
 #' @param x Timeseries data.
 #' @param suspectValues Vector of numeric values considered suspect.
