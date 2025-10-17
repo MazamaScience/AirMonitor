@@ -1,9 +1,8 @@
 #' @export
 #' @importFrom dplyr across
 #'
-#' @title Load annual Clarity monitoring data
+#' @title Load most recent Clarity monitoring data
 #'
-#' @param year Year [YYYY].
 #' @param archiveBaseUrl Base URL for monitoring v2 data files.
 #' @param archiveBaseDir Local base directory for monitoring v2 data files.
 #' @param QC_negativeValues Type of QC to apply to negative values.
@@ -12,16 +11,17 @@
 #' @return A \emph{mts_monitor} object with Clarity data. (A list with
 #' \code{meta} and \code{data} dataframes.)
 #'
-#' @description Loads pre-generated .rda files containing annual
+#' @description Loads pre-generated .rda files containing the most recent
 #' Clarity data.
 #'
 #' If \code{archiveDataDir} is defined, data will be loaded from this local
 #' archive. Otherwise, data will be loaded from the monitoring data repository
 #' maintained by the USFS AirFire team.
 #'
-#' Current year files loaded by this function are updated once per week.
+#' The files loaded by this function are updated multiple times an hour and
+#' contain data for the previous 10 days.
 #'
-#' For the most recent data in the last 10 days, use \code{clarity_loadLatest()}.
+#' For data extended more than 10 days into the past, use \code{clarity_loadAnnual()}.
 #'
 #' @note
 #' The \code{QC_calibration} argument specifies the calibration/correction
@@ -37,7 +37,7 @@
 #' provided with no guarantee of completeness or future maintenance. They may be
 #' removed at any time with no warning.
 #'
-#' @seealso \code{\link{clarity_loadLatest}}
+#' @seealso \code{\link{clarity_loadAnnual}}
 #'
 #' @examples
 #' \dontrun{
@@ -46,21 +46,13 @@
 #' # Fail gracefully if any resources are not available
 #' try({
 #'
-#' # 2025 Emigrant Fire
-#' # See https://inciweb.wildfire.gov/incident-information/orwif-emigrant-fire
-#'
-#' # Clarity monitors in Oak Ridge, OR (-122.4670, 43.7473)
-#' clarity_loadAnnual(2025) %>%
-#'   monitor_filterByDistance(-122.4670, 43.7473, 10000) %>%
-#'   monitor_collapse(deviceID = "Oak_Ridge") %>%
-#'   monitor_filterDate(20250815, 20250915, timezone = "America/Los_Angeles") %>%
-#'   monitor_dailyBarplot(main = "Clarity Monitors in Oak Ridge, Oregon")
+#' clarity_loadLatest() %>%
+#'   monitor_leaflet()
 #'
 #' }, silent = FALSE)
 #' }
 
-clarity_loadAnnual <- function(
-  year = NULL,
+clarity_loadLatest <- function(
   archiveBaseUrl = paste0(
     "https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
     "sensors/v3/PM2.5"
@@ -72,18 +64,12 @@ clarity_loadAnnual <- function(
 
   parameterName <- "PM2.5"
 
+  # ----- Validate parameters --------------------------------------------------
 
-  MazamaCoreUtils::stopIfNull(year)
   MazamaCoreUtils::stopIfNull(parameterName)
 
   QC_negativeValues <- match.arg(QC_negativeValues)
   QC_calibration <- match.arg(QC_calibration)
-
-  if ( (as.numeric(year) < 2025) && (QC_calibration == "global PM2.5 v2.1"))
-    stop(paste0("No Clarity data using the 'v2.1' calibration is available before 2025"))
-
-  if ( as.numeric(year) < 2023 )
-    stop(paste0("No Clarity data is available before 2023"))
 
   if ( is.null(archiveBaseUrl) && is.null(archiveBaseDir) )
     stop("one of 'archiveBaseUrl' or 'archiveBaseDir' must be defined")
@@ -129,17 +115,17 @@ clarity_loadAnnual <- function(
   if ( is.null(archiveBaseUrl) ) {
     dataUrl <- NULL
   } else {
-    dataUrl <- file.path(archiveBaseUrl, "clarity", year, "data")
+    dataUrl <- file.path(archiveBaseUrl, "latest/data")
   }
 
   if ( is.null(archiveBaseDir) ) {
     dataDir <- NULL
   } else {
-    dataDir <- file.path(archiveBaseDir, "clarity", year, "data")
+    dataDir <- file.path(archiveBaseDir, "latest/data")
   }
 
-  metaFileName <- sprintf("clarity_%s_%s_meta.rda", parameterName, year)
-  dataFileName <- sprintf("clarity_%s_%s_data.rda", parameterName, year)
+  metaFileName <- sprintf("clarity_%s_latest_meta.rda", parameterName)
+  dataFileName <- sprintf("clarity_%s_latest_data.rda", parameterName)
 
   meta <- MazamaCoreUtils::loadDataFile(metaFileName, dataUrl, dataDir)
   data <- MazamaCoreUtils::loadDataFile(dataFileName, dataUrl, dataDir)
@@ -200,17 +186,10 @@ clarity_loadAnnual <- function(
 if ( FALSE ) {
 
 
-  year <- 2024
   archiveBaseUrl <- "https://airfire-data-exports.s3.us-west-2.amazonaws.com/sensors/v3/PM2.5"
   archiveBaseDir <- NULL
   QC_negativeValues <- "zero"
   QC_calibration <- "global PM2.5 v2.1"
 
-
-clarity_loadAnnual(2025) %>%
-    monitor_filterByDistance(-122.4670, 43.7473, 10000) %>%
-    monitor_collapse(deviceID = "Oak_Ridge") %>%
-    monitor_filterDate(20250815, 20250915, timezone = "America/Los_Angeles") %>%
-    monitor_dailyBarplot(main = "Clarity Monitors in Oak Ridge, Oregon")
 
 }

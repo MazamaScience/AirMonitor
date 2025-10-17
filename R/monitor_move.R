@@ -16,7 +16,7 @@
 #' @description
 #' Changes the location associated with an existing time series. This will update
 #' the following fields in \code{monitor$meta}: \code{longitude}, \code{latitude},
-#' \code{locationID} and \{deviceDeploymentID} as well as the column name of this
+#' \code{locationID} and \code{deviceDeploymentID} as well as the column name of this
 #' time series in \code{monitor$data}.
 #'
 #' @details
