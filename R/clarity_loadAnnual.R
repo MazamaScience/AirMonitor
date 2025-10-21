@@ -62,7 +62,7 @@
 clarity_loadAnnual <- function(
   year = NULL,
   archiveBaseUrl = paste0(
-    "https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
+    "INSERT_BASE_HERE",
     "sensors/v3/PM2.5"
   ),
   archiveBaseDir = NULL,

@@ -37,6 +37,7 @@
 #' provided with no guarantee of completeness or future maintenance. They may be
 #' removed at any time with no warning.
 #'
+#'
 #' @seealso \code{\link{clarity_loadAnnual}}
 #'
 #' @examples
@@ -54,7 +55,7 @@
 
 clarity_loadLatest <- function(
   archiveBaseUrl = paste0(
-    "https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
+    "INSERT_BASE_HERE",
     "sensors/v3/PM2.5"
   ),
   archiveBaseDir = NULL,

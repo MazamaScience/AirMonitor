@@ -6,8 +6,7 @@
 \usage{
 clarity_loadAnnual(
   year = NULL,
-  archiveBaseUrl = paste0("https://airfire-data-exports.s3.us-west-2.amazonaws.com/",
-    "sensors/v3/PM2.5"),
+  archiveBaseUrl = paste0("INSERT_BASE_HERE", "sensors/v3/PM2.5"),
   archiveBaseDir = NULL,
   QC_negativeValues = c("zero", "na", "ignore"),
   QC_calibration = c("global PM2.5 v2.1", "all")
