@@ -337,18 +337,6 @@ following section for details.</p>
 valid data for at least two of the three most recent clock hours. This
 means that a valid NowCast value can be calculated from as little as two
 valid hours, even if 12 hours are typically used in the calculation.</p>
-<p>However, note that <a href="https://en.wikipedia.org/wiki/NowCast_(air_quality_index)" class="external-link uri">https://en.wikipedia.org/wiki/NowCast_(air_quality_index)</a>
-says:</p>
-<blockquote>
-<p>Because the most recent hours of data are weighted so heavily in the
-NowCast when PM levels are changing, EPA does not report the NowCast
-when data is missing for c<sub>1</sub> or c<sub>2</sub>.</p>
-</blockquote>
-<p>While this seems like a reasonable approach, we could not find a
-source for this statement (in the Wikipedia page sources or elsewhere).
-We take a compromise approach and still allow valid NowCast values to be
-calculated when c<sub>2</sub> is invalid but return <code>NA</code> when
-c<sub>1</sub> is invalid.</p>
 </div>
 <div class="section level3">
 <h3 id="argument-includeshortterm">Argument: <code>includeShortTerm</code><a class="anchor" aria-label="anchor" href="#argument-includeshortterm"></a>
@@ -493,7 +481,7 @@ from wildfires during the second half of August, 2015:</p>
 <span>  </span>
 <span>  <span class="co"># filter to include only August, 2015</span></span>
 <span>  <span class="fu"><a href="../reference/monitor_filterDate.html">monitor_filterDate</a></span><span class="op">(</span><span class="fl">20150801</span>, <span class="fl">20150901</span><span class="op">)</span></span></code></pre></div>
-<p><img src="NowCast_files/figure-html/Omak_nowcast_plot-1.png" alt="Timeseris plot of hourly and Nowcast PM2.5 values in Omak in 2015. The  Nowcast values lie almost directly on top of the hourly values." width="672"></p>
+<p><img src="NowCast_files/figure-html/Omak_nowcast_plot-1.png" class="r-plt" alt="Timeseris plot of hourly and Nowcast PM2.5 values in Omak in 2015. The  Nowcast values lie almost directly on top of the hourly values." width="672"></p>
 </div>
 <div class="section level3">
 <h3 id="example-1-basic-formula-verification">Example 1: Basic Formula Verification<a class="anchor" aria-label="anchor" href="#example-1-basic-formula-verification"></a>
@@ -1065,7 +1053,7 @@ NowCast values on a dataset.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>

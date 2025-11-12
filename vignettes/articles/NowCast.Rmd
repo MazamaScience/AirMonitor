@@ -181,17 +181,6 @@ for at least two of the three most recent clock hours. This means that a valid
 NowCast value can be calculated from as little as two valid hours, even if 12 
 hours are typically used in the calculation.
 
-However, note that https://en.wikipedia.org/wiki/NowCast_(air_quality_index) says:
-
-> Because the most recent hours of data are weighted so heavily in the NowCast 
-> when PM levels are changing, EPA does not report the NowCast when data is 
-> missing for c~1~ or c~2~.  
-
-While this seems like a reasonable approach, we could not find a source for 
-this statement (in the Wikipedia page sources or elsewhere). We take a 
-compromise approach  and still allow valid NowCast values to be calculated when 
-c~2~ is invalid but return `NA` when c~1~ is invalid.
-
 ## Argument: `includeShortTerm`
 
 As mentioned above, the NowCast algorithm only requires two valid hours to 
