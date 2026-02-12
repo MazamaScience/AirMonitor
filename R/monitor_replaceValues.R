@@ -68,7 +68,7 @@ monitor_replaceValues <- function(
   # Create a data-only tibble by omitting the first 'datetime' column
   data <-
     monitor$data %>%
-    dplyr::select(-.data$datetime)
+    dplyr::select(-dplyr::all_of("datetime"))
 
   # Find places where condition is true
   dataMask <- eval(condition_call)

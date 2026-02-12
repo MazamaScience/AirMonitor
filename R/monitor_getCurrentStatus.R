@@ -160,7 +160,7 @@ monitor_getCurrentStatus <- function(
 
     # Ensure rows are arranged by datetime and then remove 'datetime'
     dplyr::arrange(.data$datetime) %>%
-    dplyr::select(-.data$datetime) %>%
+    dplyr::select(-dplyr::all_of("datetime")) %>%
 
     # Find last two non-NA indices
     apply(2, function(x) { rev(which(!is.na(x)))[1:2] })
@@ -324,7 +324,7 @@ monitor_getCurrentStatus <- function(
 
         # Pull out the daily means, omitting the 'datetime' column
         monitor_getData() %>%
-        dplyr::select(-c("datetime")) %>%
+        dplyr::select(-dplyr::all_of("datetime")) %>%
 
         # Convert single row dataframe to numeric
         dplyr::slice(1) %>%
@@ -342,7 +342,7 @@ monitor_getCurrentStatus <- function(
 
   currentStatus <-
     enhancedMeta %>%
-    dplyr::select(.data$deviceDeploymentID) %>%
+    dplyr::select(dplyr::all_of("deviceDeploymentID")) %>%
     dplyr::left_join(timezoneMeta, by = "deviceDeploymentID")
 
   # ----- Return ---------------------------------------------------------------

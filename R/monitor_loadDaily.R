@@ -113,7 +113,7 @@ monitor_loadDaily <- function(
       monitor$data %>%
       # Ensure rows are arranged by datetime and then remove 'datetime'
       dplyr::arrange(.data$datetime) %>%
-      dplyr::select(-.data$datetime) %>%
+      dplyr::select(-dplyr::all_of("datetime")) %>%
       # Find last non-NA index
       apply(2, function(x) { rev(which(!is.na(x)))[1] })
 

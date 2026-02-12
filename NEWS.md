@@ -1,3 +1,9 @@
+# AirMonitor 0.4.6
+
+* Fixed broken `monitor_aqi()`.
+* Added separate `nowcast_to_aqi()` utility function.
+* Various updates for compatibility with modern tidyverse usage.
+
 # AirMonitor 0.4.5
 
 * Added functions to load Clarity sensor data: `clarity_loadLatest()` and
