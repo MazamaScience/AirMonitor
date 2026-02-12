@@ -2,24 +2,25 @@
 
 library(AirMonitor)
 
-airnow <- airnow_loadLatest()
 
-monitor_leaflet(airnow)
+url = "https://airfire-data-exports.s3.us-west-2.amazonaws.com/sensors/v3/PM2.5/jons_test/data/clarity_PM2.5_latest_data_mini.csv"
+data <- readr::read_csv(url)
 
-View(airnow$meta)
+url = "https://airfire-data-exports.s3.us-west-2.amazonaws.com/sensors/v3/PM2.5/jons_test/data/clarity_PM2.5_latest_meta_mini.csv"
+meta <- readr::read_csv(url)
+meta$zip <- meta$postalCode
 
+# Create monitor object
+monitor <- list(meta = meta, data = data)
+monitor <- structure(monitor, class = c("mts_monitor", "mts", class(monitor)))
+MazamaTimeSeries::mts_check(monitor)
 
+monitor <-
+  monitor %>%
+  monitor_filter(countryCode %in% c("CA","US","MX"))
 
-chiloquin <- airnow %>% monitor_select("95a7dbdccaf0270b_840410352040")
+# Play
+monitor %>% monitor_timeseriesPlot()
 
-chiloquin %>% monitor_timeseriesPlot(shadedNight = TRUE)
-
-a <-
-  airnow %>%
-  monitor_filterByDistance(
-    chiloquin$meta$longitude,
-    chiloquin$meta$latitude,
-    radius = 10000
-  )
-
+monitor %>% monitor_leaflet()
 
