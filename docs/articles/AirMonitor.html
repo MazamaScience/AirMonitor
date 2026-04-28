@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.6</span>
       </span>
     </div>
 
@@ -96,7 +96,7 @@
 <script src="AirMonitor_files/htmlwidgets-1.6.4/htmlwidgets.js"></script><link href="AirMonitor_files/leaflet-1.3.1/leaflet.css" rel="stylesheet">
 <script src="AirMonitor_files/leaflet-1.3.1/leaflet.js"></script><link href="AirMonitor_files/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
 <script src="AirMonitor_files/proj4-2.6.2/proj4.min.js"></script><script src="AirMonitor_files/Proj4Leaflet-1.0.1/proj4leaflet.js"></script><link href="AirMonitor_files/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
-<script src="AirMonitor_files/leaflet-binding-2.2.3/leaflet.js"></script><script src="AirMonitor_files/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script><script src="AirMonitor_files/leaflet-providers-plugin-2.2.3/leaflet-providers-plugin.js"></script><div class="row">
+<script src="AirMonitor_files/leaflet-binding-2.2.2/leaflet.js"></script><script src="AirMonitor_files/leaflet-providers-2.0.0/leaflet-providers_2.0.0.js"></script><script src="AirMonitor_files/leaflet-providers-plugin-2.2.2/leaflet-providers-plugin.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to AirMonitor</h1>
@@ -215,7 +215,7 @@ publication-ready plot:</p>
 <span></span>
 <span><span class="co"># add the AQI legend</span></span>
 <span><span class="fu"><a href="../reference/addAQILegend.html">addAQILegend</a></span><span class="op">(</span>cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
-<p><img src="AirMonitor_files/figure-html/Sacramento_3-1.png" alt="Tmeseries plot of hourly PM2.5 concentration in Sacramento during the 2018 Camp Fire. Several days in mid-November had hours with VERY UNHEALTHY or HAZARDOUS air quality." width="672"></p>
+<p><img src="AirMonitor_files/figure-html/Sacramento_3-1.png" class="r-plt" alt="Tmeseries plot of hourly PM2.5 concentration in Sacramento during the 2018 Camp Fire. Several days in mid-November had hours with VERY UNHEALTHY or HAZARDOUS air quality." width="672"></p>
 <p>Next, we can use this specific location to create a
 <em>mts_monitor</em> object containing all monitors within 50 kilometers
 (31 miles) of Sacramento.</p>
@@ -247,7 +247,7 @@ the area at any given hour.</p>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="../reference/addAQILegend.html">addAQILegend</a></span><span class="op">(</span>lwd <span class="op">=</span> <span class="fl">1</span>, pch <span class="op">=</span> <span class="cn">NA</span>, bg <span class="op">=</span> <span class="st">"white"</span>, cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
-<p><img src="AirMonitor_files/figure-html/Sacramento_5-1.png" alt="Tmeseries plot of hourly PM2.5 concentration in the greater Sacramento area during the 2018 Camp Fire. Several days in mid-November had hours with VERY UNHEALTHY or HAZARDOUS air quality." width="672"></p>
+<p><img src="AirMonitor_files/figure-html/Sacramento_5-1.png" class="r-plt" alt="Tmeseries plot of hourly PM2.5 concentration in the greater Sacramento area during the 2018 Camp Fire. Several days in mid-November had hours with VERY UNHEALTHY or HAZARDOUS air quality." width="672"></p>
 <p>Now we can average together all the monitors and create a local-time,
 daily average for the Sacramento area.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -264,6 +264,21 @@ daily average for the Sacramento area.</p>
 <span>  </span>
 <span>  <span class="co"># 4) pull out the $data dataframe</span></span>
 <span>  <span class="fu"><a href="../reference/monitor_getDataFrame.html">monitor_getData</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning: There was 1 warning in `dplyr::summarize()`.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> In argument: `across(everything(), customFUN, ...)`.</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> In group 1: `timeUnit = 2018-11-08`.</span></span>
+<span><span class="co">## Caused by warning:</span></span>
+<span><span class="co">## <span style="color: #BBBB00;">!</span> The `...` argument of `across()` is deprecated as of dplyr 1.1.0.</span></span>
+<span><span class="co">## Supply arguments directly to `.fns` through an anonymous function instead.</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   # Previously</span></span>
+<span><span class="co">##   across(a:b, mean, na.rm = TRUE)</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">##   # Now</span></span>
+<span><span class="co">##   across(a:b, \(x) mean(x, na.rm = TRUE))</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">MazamaTimeSeries</span> package.</span></span>
+<span><span class="co">##   Please report the issue at</span></span>
+<span><span class="co">##   <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/MazamaScience/MazamaTimeSeries/issues&gt;</span>.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 15 × 2</span></span></span>
 <span><span class="co">##    datetime            `9qce5hqsq9_Sacramento_area`</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -283,7 +298,7 @@ daily average for the Sacramento area.</p>
 <span><span class="co">## <span style="color: #BCBCBC;">14</span> 2018-11-21 <span style="color: #949494;">00:00:00</span>                        32.9 </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">15</span> 2018-11-22 <span style="color: #949494;">00:00:00</span>                         5.01</span></span></code></pre>
 <p>Alternatively, we can plot the daily averages.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># 1) start with Sacramento_area</span></span>
 <span><span class="va">Sacramento_area</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  </span>
@@ -297,7 +312,7 @@ daily average for the Sacramento area.</p>
 <span></span>
 <span><span class="co"># add the AQI legend</span></span>
 <span><span class="fu"><a href="../reference/addAQILegend.html">addAQILegend</a></span><span class="op">(</span>pch <span class="op">=</span> <span class="fl">15</span>, bg <span class="op">=</span> <span class="st">"white"</span>, cex <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></code></pre></div>
-<p><img src="AirMonitor_files/figure-html/Sacramento_7-1.png" alt="Barplot of daily averaged PM2.5 concentration in the greater Sacramento area during the 2018 Camp Fire. Several days in mid-November had daily average values in the UNHEALTHY or VERY UNHEALTHY categories." width="672"></p>
+<p><img src="AirMonitor_files/figure-html/Sacramento_7-1.png" class="r-plt" alt="Barplot of daily averaged PM2.5 concentration in the greater Sacramento area during the 2018 Camp Fire. Several days in mid-November had daily average values in the UNHEALTHY or VERY UNHEALTHY categories." width="672"></p>
 <hr>
 <p>Best of luck analyzing your local air quality data!</p>
 </div>
@@ -318,7 +333,7 @@ daily average for the Sacramento area.</p>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
       </footer>
