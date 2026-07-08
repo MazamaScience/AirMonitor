@@ -4,9 +4,8 @@
 [![DOI](https://zenodo.org/badge/414793919.svg)](https://zenodo.org/badge/latestdoi/414793919)
 <!-- badges: end -->
 
-A dedicated Slack channel has been created for announcements, support and to help 
-build a community of practice around this open source package. You may request an 
-invitation to join from jonathan.callahan@dri.edu.
+Please visit [Discussions](https://github.com/MazamaScience/AirMonitor/discussions)
+for announcements, support and to help  build a community of practice around this open source package.
 
 # AirMonitor
 
