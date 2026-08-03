@@ -110,17 +110,3 @@ daily_avg %>%
 # https://gispub.epa.gov/airnow/?forecastcontours=forecasttoday&tab=archive&archivedates=07%2F16%2F2026&contours=none&monitors=pm25&showgreencontours=false&xmin=-8716911.389213374&xmax=-7256658.400853755&ymin=4633185.754410612&ymax=5656830.43720542
 #
 
-################################################################################
-# INCORRECT Daily AQI
-
-bad_daily_aqi <-
-  Pittsfield %>%
-  monitor_aqi(includeShortTerm = TRUE) %>%
-  monitor_dailyStatistic(FUN = mean, dayBoundary = "LST") %>%
-  monitor_getData() %>%
-  dplyr::mutate(datetime = as.Date(datetime)) %>%
-  dplyr::rename_with(~ c("date", "BAD daily AQI"))
-
-print(bad_daily_aqi)
-
-
