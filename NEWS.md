@@ -1,3 +1,8 @@
+# AirMonitor 0.4.7
+
+* fix broken `monitor_toCSV()`.
+* fix broken `monitor_move()`.
+
 # AirMonitor 0.4.6
 
 * Fixed broken `monitor_aqi()`.

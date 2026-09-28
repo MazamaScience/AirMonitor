@@ -1,6 +1,5 @@
 #' @export
 #' @importFrom rlang .data
-#' @importFrom dplyr across everything na_if
 #'
 #' @title Convert monitor data as CSV
 #'
@@ -85,7 +84,12 @@ monitor_toCSV <- function(
 
   # localTime determination
   timezones <- monitor$meta$timezone
-  timezone <- ifelse( length(unique(timezones)) == 1, unique(timezones), "UTC" )
+
+  timezone <- if ( length(unique(timezones)) == 1 ) {
+    unique(timezones)
+  } else {
+    "UTC"
+  }
 
   # datetime from a monitor object should always be UTC
   utcTime <- lubridate::with_tz(monitor$data$datetime, tzone = "UTC")
@@ -95,25 +99,25 @@ monitor_toCSV <- function(
   utcTimeString <- strftime(utcTime, "%Y-%m-%d %H:%M:%S %Z", tz = "UTC")
   localTimeString <- strftime(utcTime, "%Y-%m-%d %H:%M:%S %Z", tz = timezone)
 
-  dataMatrix <-
-    cbind(
-      utcTimeString,
-      localTimeString,
-      monitor$data[,-1]
+  dataTbl <-
+    dplyr::bind_cols(
+      "UTC Time" = utcTimeString,
+      "Local Time" = localTimeString,
+      monitor$data[, -1]
     )
 
-  # To avoid dplyr .name_repair issues
-  colnames(dataMatrix) <- make.names(1:ncol(dataMatrix))
-
-  dataTbl <-
-    dplyr::as_tibble(dataMatrix, .name_repair = "check_unique") %>%
-    # Convert "NaN" to NA
-    dplyr::mutate(across(everything(), ~ na_if(., "NaN")))
-
   if ( length(unique(timezones)) == 1 ) {
-    names(dataTbl) <- c("UTC Time", "Local Time", monitor$meta$deviceDeploymentID)
+    names(dataTbl) <- c(
+      "UTC Time",
+      "Local Time",
+      monitor$meta$deviceDeploymentID
+    )
   } else {
-    names(dataTbl) <- c("UTC Time", "UTC Time (no Local Time because > 1 monitor timezone)", monitor$meta$deviceDeploymentID)
+    names(dataTbl) <- c(
+      "UTC Time",
+      "UTC Time (no Local Time because > 1 monitor timezone)",
+      monitor$meta$deviceDeploymentID
+    )
   }
 
   # ---- Assemble desired output -----------------------------------------------

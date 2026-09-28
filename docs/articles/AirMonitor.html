@@ -32,7 +32,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">AirMonitor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.4.7</span>
       </span>
     </div>
 
@@ -264,21 +264,6 @@ daily average for the Sacramento area.</p>
 <span>  </span>
 <span>  <span class="co"># 4) pull out the $data dataframe</span></span>
 <span>  <span class="fu"><a href="../reference/monitor_getDataFrame.html">monitor_getData</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Warning: There was 1 warning in `dplyr::summarize()`.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> In argument: `across(everything(), customFUN, ...)`.</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> In group 1: `timeUnit = 2018-11-08`.</span></span>
-<span><span class="co">## Caused by warning:</span></span>
-<span><span class="co">## <span style="color: #BBBB00;">!</span> The `...` argument of `across()` is deprecated as of dplyr 1.1.0.</span></span>
-<span><span class="co">## Supply arguments directly to `.fns` through an anonymous function instead.</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##   # Previously</span></span>
-<span><span class="co">##   across(a:b, mean, na.rm = TRUE)</span></span>
-<span><span class="co">## </span></span>
-<span><span class="co">##   # Now</span></span>
-<span><span class="co">##   across(a:b, \(x) mean(x, na.rm = TRUE))</span></span>
-<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">MazamaTimeSeries</span> package.</span></span>
-<span><span class="co">##   Please report the issue at</span></span>
-<span><span class="co">##   <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/MazamaScience/MazamaTimeSeries/issues&gt;</span>.</span></span></code></pre>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 15 × 2</span></span></span>
 <span><span class="co">##    datetime            `9qce5hqsq9_Sacramento_area`</span></span>
 <span><span class="co">##    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                                     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -298,7 +283,7 @@ daily average for the Sacramento area.</p>
 <span><span class="co">## <span style="color: #BCBCBC;">14</span> 2018-11-21 <span style="color: #949494;">00:00:00</span>                        32.9 </span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">15</span> 2018-11-22 <span style="color: #949494;">00:00:00</span>                         5.01</span></span></code></pre>
 <p>Alternatively, we can plot the daily averages.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># 1) start with Sacramento_area</span></span>
 <span><span class="va">Sacramento_area</span> <span class="op"><a href="../reference/pipe.html">%&gt;%</a></span></span>
 <span>  </span>
